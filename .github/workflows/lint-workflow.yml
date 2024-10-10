@@ -1,0 +1,26 @@
+name: Lint Typescript/CSS Workflow
+
+on:
+  push:
+
+jobs:
+  frontend-run-lint:
+    name: Lint frontend code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up frontend dependencies
+        uses: ./.github/actions/setup-dependencies
+
+      - name: Check with prettier
+        run: |
+          npm run prettier
+
+      - name: Lint frontend code
+        run: |
+          npm run lint
+
+

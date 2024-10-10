@@ -1,0 +1,23 @@
+name: Set up dependencies
+description: 'Common steps for setting up dependencies'
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        cache: npm
+        cache-dependency-path: package-lock.json
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+
+
+    - name: Install dependencies
+      run: |
+        npm --version
+        npm install
+      shell: bash
