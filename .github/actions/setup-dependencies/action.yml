@@ -1,7 +1,7 @@
 name: Set up dependencies
 description: 'Common steps for setting up dependencies'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Set up Node
       uses: actions/setup-node@v4
@@ -14,7 +14,6 @@ runs:
       with:
         path: node_modules
         key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-
 
     - name: Install dependencies
       run: |
