@@ -4,8 +4,8 @@ on:
   push:
 
 jobs:
-  frontend-run-lint:
-    name: Lint frontend code
+  run-lint:
+    name: Lint code
     runs-on: ubuntu-latest
 
     steps:
