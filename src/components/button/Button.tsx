@@ -1,6 +1,6 @@
-import { Button as AntdButton } from 'antd'
+import { Button as AntdButton, ButtonProps } from 'antd'
 
-export type Props = {
+export type Props = ButtonProps & {
   /** Is this the principal call to action on the page? */
   type?: 'primary' | 'dashed' | 'link' | 'text' | 'default'
   /** How large should the button be? */
@@ -11,9 +11,9 @@ export type Props = {
   onClick?: () => void
 }
 
-const Button = ({ type, size, label, onClick }: Props) => {
+const Button = ({ type, size, label, onClick, ...props }: Props) => {
   return (
-    <AntdButton type={type} size={size} onClick={onClick}>
+    <AntdButton {...props} type={type} size={size} onClick={onClick}>
       {label}
     </AntdButton>
   )
