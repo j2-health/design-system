@@ -1,46 +1,60 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
 
 import { Button } from './Button'
 
 const meta = {
   title: 'Components/Button',
   component: Button,
-  parameters: {
-    layout: 'centered',
+  tags: ['autodocs'],
+  args: {
+    children: 'Button',
+    ghost: false,
+    danger: false,
+    type: 'default',
+    shape: 'default',
   },
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {},
-  args: { onClick: fn() },
+  argTypes: {
+    onClick: { action: 'clicked' },
+    type: {
+      control: 'radio',
+      options: ['default', 'primary', 'dashed', 'link', 'text'],
+    },
+    shape: {
+      control: 'radio',
+      options: ['default', 'round', 'circle'],
+    },
+  },
 } satisfies Meta<typeof Button>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
+export const Default: Story = {
+  args: {
+    type: 'default',
+  },
+}
+
 export const Primary: Story = {
   args: {
     type: 'primary',
-    label: 'Button',
   },
 }
 
-export const Secondary: Story = {
+export const Dashed: Story = {
   args: {
-    type: 'default',
-    label: 'Button',
+    type: 'dashed',
   },
 }
 
-export const Large: Story = {
+export const Link: Story = {
   args: {
-    size: 'large',
-    label: 'Button',
+    type: 'link',
   },
 }
 
-export const Small: Story = {
+export const Text: Story = {
   args: {
-    size: 'small',
-    label: 'Button',
+    type: 'text',
   },
 }
