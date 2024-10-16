@@ -5,10 +5,13 @@ export type Props = CardProps & {
   title?: string
   /** Card contents */
   children: React.ReactNode
+  /** Loading state */
+  loading?: boolean
 }
-const Card = ({ title, children, ...props }: Props) => {
+
+const Card = ({ title, children, loading, ...props }: Props) => {
   return (
-    <AntdCard {...props} title={title}>
+    <AntdCard {...props} title={title} loading={loading}>
       {children}
     </AntdCard>
   )
