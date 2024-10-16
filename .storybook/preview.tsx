@@ -6,6 +6,7 @@ import { ConfigProvider } from 'antd'
 const preview: Preview = {
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       theme,
       toc: true
