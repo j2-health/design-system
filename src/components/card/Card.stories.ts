@@ -20,3 +20,21 @@ export const Default: Story = {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt.',
   },
 }
+
+export const WithTabs: Story = {
+  args: {
+    title: 'Card Title',
+    children:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt.',
+    tabList: [
+      {
+        key: '1',
+        tab: 'Tab 1',
+      },
+      {
+        key: '2',
+        tab: 'Tab 2',
+      },
+    ],
+  },
+}
