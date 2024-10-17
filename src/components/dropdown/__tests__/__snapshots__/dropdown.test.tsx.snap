@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown should render correctly 1`] = `
+<div>
+  <div
+    class="ant-dropdown-trigger"
+  >
+    <button
+      class="ant-btn css-dev-only-do-not-override-ccdg5a ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+      type="button"
+    >
+      <span>
+        Test
+      </span>
+    </button>
+  </div>
+</div>
+`;
