@@ -4,7 +4,10 @@ import 'ag-grid-community/styles/ag-theme-quartz.css'
 import 'ag-grid-community/styles/ag-theme-material.css'
 
 import cx from 'classnames'
-import s from './Table.module.css'
+
+// import this file to enable AgGrid theme defined there
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+import _ from './Table.module.css'
 
 type MergedProps<T> = AgGridReactProps<T> & {
   bordered?: boolean
@@ -16,7 +19,7 @@ const Table = <T,>({ bordered = false, ...props }: Props<T>) => {
   return (
     <div
       className={cx(
-        s.table,
+        props.className,
         'ag-theme-quartz',
         bordered ? 'ag-custom-theme--bordered' : ''
       )}

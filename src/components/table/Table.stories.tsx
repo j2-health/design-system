@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Table } from './Table'
+import s from './TableStories.module.css'
 
 const meta = {
   title: 'Components/Table',
@@ -10,6 +11,7 @@ const meta = {
   },
   args: {
     bordered: false,
+    className: s.table,
   },
   argTypes: {
     bordered: {
