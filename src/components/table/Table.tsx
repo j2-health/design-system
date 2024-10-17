@@ -5,9 +5,7 @@ import 'ag-grid-community/styles/ag-theme-material.css'
 
 import cx from 'classnames'
 
-// import this file to enable AgGrid theme defined there
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-import _ from './Table.module.css'
+import './Table.css'
 
 type MergedProps<T> = AgGridReactProps<T> & {
   bordered?: boolean
