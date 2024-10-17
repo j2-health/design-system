@@ -23,6 +23,10 @@ const meta = {
       control: 'radio',
       options: ['default', 'round', 'circle'],
     },
+    size: {
+      control: 'radio',
+      options: ['small', 'medium', 'large'],
+    },
   },
 } satisfies Meta<typeof Button>
 
