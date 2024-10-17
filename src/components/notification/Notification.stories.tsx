@@ -63,7 +63,7 @@ const NotificationDemo = ({
       {contextHolder}
       <Space direction="vertical">
         <Button type="primary" onClick={openCustomNotification}>
-          Show Notification
+          Optimize Network
         </Button>
       </Space>
     </>
@@ -72,8 +72,9 @@ const NotificationDemo = ({
 
 export const Default: Story = {
   args: {
-    message: 'Default Notification Title',
-    description: 'This is the default content of the notification.',
+    message: 'Network Optimization Alert',
+    description:
+      'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
     placement: 'topRight',
     type: 'info',
   },
@@ -104,9 +105,9 @@ const NotificationDemoWithButtons = ({
       btn: (
         <Space>
           <Button type="primary" size="small">
-            Accept
+            Optimize Now
           </Button>
-          <Button size="small">Decline</Button>
+          <Button size="small">Remind Me Later</Button>
         </Space>
       ),
     })
@@ -117,7 +118,7 @@ const NotificationDemoWithButtons = ({
       {contextHolder}
       <Space direction="vertical">
         <Button type="primary" onClick={openCustomNotification}>
-          Show Notification with Buttons
+          Fix Network Gaps
         </Button>
       </Space>
     </>
@@ -126,8 +127,8 @@ const NotificationDemoWithButtons = ({
 
 export const WithButtons: Story = {
   args: {
-    message: 'Notification with Buttons Title',
-    description: 'This notification includes custom buttons.',
+    message: 'Heads Up: Network Gaps Detected',
+    description: 'Your provider network has gaps. Might want to fix those.',
     placement: 'bottomLeft',
     type: 'warning',
   },

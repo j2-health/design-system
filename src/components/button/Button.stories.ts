@@ -7,7 +7,7 @@ const meta = {
   component: Button,
   tags: ['autodocs'],
   args: {
-    children: 'Button',
+    children: 'Optimize Network',
     ghost: false,
     danger: false,
     type: 'default',
@@ -32,29 +32,34 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     type: 'default',
+    children: 'Optimize Network',
   },
 }
 
 export const Primary: Story = {
   args: {
     type: 'primary',
+    children: 'Optimize Network',
   },
 }
 
 export const Dashed: Story = {
   args: {
     type: 'dashed',
+    children: 'Optimize Network',
   },
 }
 
 export const Link: Story = {
   args: {
     type: 'link',
+    children: 'Optimize Network',
   },
 }
 
 export const Text: Story = {
   args: {
     type: 'text',
+    children: 'Optimize Network',
   },
 }

@@ -27,12 +27,12 @@ export const Default: Story = {
   args: {
     options: [
       {
-        value: '1',
-        label: 'Radio 1',
+        value: 'medical_group',
+        label: 'Medical Group',
       },
       {
-        value: '2',
-        label: 'Radio 2',
+        value: 'health_system',
+        label: 'Health System',
       },
     ],
   },
@@ -44,12 +44,12 @@ export const Button: Story = {
     buttonStyle: 'solid',
     options: [
       {
-        value: '1',
-        label: 'Radio 1',
+        value: 'medical_group',
+        label: 'Medical Group',
       },
       {
-        value: '2',
-        label: 'Radio 2',
+        value: 'health_system',
+        label: 'Health System',
       },
     ],
   },

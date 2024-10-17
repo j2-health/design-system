@@ -21,7 +21,8 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Some information goes here',
-    children: <span>Anchor - Hover over me</span>,
+    title:
+      'Did you know? CMS (Centers for Medicare & Medicaid Services) oversees the nation’s major healthcare programs. Pretty important, right?',
+    children: <span>Hover over me to learn about CMS</span>,
   },
 }
