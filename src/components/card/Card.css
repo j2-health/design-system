@@ -1,0 +1,7 @@
+.ant-card:not(.ant-card-bordered) {
+  box-shadow: none;
+
+  .ant-card-head {
+    border-bottom: none;
+  }
+}
