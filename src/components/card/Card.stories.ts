@@ -15,25 +15,25 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Card Title',
+    title: 'Network Performance Overview',
     children:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt.',
+      'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
   },
 }
 
 export const WithTabs: Story = {
   args: {
-    title: 'Card Title',
+    title: 'Network Performance Overview',
     children:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt. Nullam ac ante vel libero tincidunt, eget efficitur augue tincidunt.',
+      'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
     tabList: [
       {
-        key: '1',
-        tab: 'Tab 1',
+        key: 'optimization_tips',
+        tab: 'Optimization Tips',
       },
       {
-        key: '2',
-        tab: 'Tab 2',
+        key: 'performance_comparison',
+        tab: 'Performance Comparison',
       },
     ],
   },

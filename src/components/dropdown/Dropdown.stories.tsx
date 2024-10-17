@@ -21,36 +21,45 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    label: 'Dropdown',
+    label: 'Download Report',
     type: 'basic',
   },
   render: (args) => {
     return (
-      <Dropdown {...args} menu={{ items: [{ key: '1', label: 'Item 1' }] }} />
+      <Dropdown
+        {...args}
+        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
+      />
     )
   },
 }
 
 export const Twofold: Story = {
   args: {
-    label: 'Click me!',
+    label: 'Click to Download',
     type: 'twofold',
   },
   render: (args) => {
     return (
-      <Dropdown {...args} menu={{ items: [{ key: '1', label: 'Item 1' }] }} />
+      <Dropdown
+        {...args}
+        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
+      />
     )
   },
 }
 
 export const BasicInline: Story = {
   args: {
-    label: 'Dropdown',
+    label: 'Export Data',
     type: 'basic-inline',
   },
   render: (args) => {
     return (
-      <Dropdown {...args} menu={{ items: [{ key: '1', label: 'Item 1' }] }} />
+      <Dropdown
+        {...args}
+        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
+      />
     )
   },
 }

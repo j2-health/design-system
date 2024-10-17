@@ -27,8 +27,9 @@ type Story = StoryObj<typeof meta>
 export const Success: Story = {
   args: {
     type: 'success',
-    message: 'Success Alert',
-    description: 'This is a success alert with a description.',
+    message: 'Network Optimized – High Five!',
+    description:
+      'Your provider network is now optimized. Time to sit back and relax!',
     banner: false,
     closable: true,
     showIcon: true,
@@ -38,8 +39,8 @@ export const Success: Story = {
 export const Info: Story = {
   args: {
     type: 'info',
-    message: 'Info Alert',
-    description: 'This is an info alert with a description.',
+    message: 'Heads Up!',
+    description: 'Just a friendly reminder to review your network performance.',
     banner: false,
     closable: true,
     showIcon: true,
@@ -49,8 +50,9 @@ export const Info: Story = {
 export const Warning: Story = {
   args: {
     type: 'warning',
-    message: 'Warning Alert',
-    description: 'This is a warning alert with a description.',
+    message: 'Warning – Check Your Network',
+    description:
+      'Something might be off with your network. Better take a look.',
     banner: false,
     closable: true,
     showIcon: true,
@@ -60,8 +62,9 @@ export const Warning: Story = {
 export const Error: Story = {
   args: {
     type: 'error',
-    message: 'Error Alert',
-    description: 'This is an error alert with a description.',
+    message: 'Oops, Something Went Wrong',
+    description:
+      'Looks like there’s an issue. Let’s fix it and get back on track.',
     banner: false,
     closable: true,
     showIcon: true,
