@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio should render correctly 1`] = `
+<div>
+  <label
+    class="ant-radio-wrapper css-dev-only-do-not-override-ccdg5a"
+  >
+    <span
+      class="ant-radio ant-wave-target"
+    >
+      <input
+        class="ant-radio-input"
+        type="radio"
+        value="aetna"
+      />
+      <span
+        class="ant-radio-inner"
+      />
+    </span>
+  </label>
+</div>
+`;
+
+exports[`RadioGroup should render correctly 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-ccdg5a"
+  >
+    <label
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-ccdg5a"
+    >
+      <span
+        class="ant-radio-button"
+      >
+        <input
+          class="ant-radio-button-input"
+          type="radio"
+          value="aetna"
+        />
+        <span
+          class="ant-radio-button-inner"
+        />
+      </span>
+      <span>
+        aetna
+      </span>
+    </label>
+    <label
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-ccdg5a"
+    >
+      <span
+        class="ant-radio-button"
+      >
+        <input
+          class="ant-radio-button-input"
+          type="radio"
+          value="cigna"
+        />
+        <span
+          class="ant-radio-button-inner"
+        />
+      </span>
+      <span>
+        cigna
+      </span>
+    </label>
+  </div>
+</div>
+`;

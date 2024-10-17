@@ -7,8 +7,8 @@ export const useNotification = () => {
   const [api, contextHolder] = notification.useNotification()
 
   const openNotification = (
-    type: NotificationType,
-    config: NotificationArgsProps
+    type: Expand<NotificationType>,
+    config: Expand<NotificationArgsProps>
   ) => {
     api[type](config)
   }
