@@ -1,5 +1,9 @@
 import { Card as AntdCard, CardProps } from 'antd'
 
+// import this file to enable styling defined in there
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+import './Card.css'
+
 export type Props = CardProps & {
   /** Card title */
   title?: string

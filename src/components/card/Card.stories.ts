@@ -8,6 +8,13 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    bordered: {
+      control: {
+        type: 'boolean',
+      },
+    },
+  },
 } satisfies Meta<typeof Card>
 
 export default meta
@@ -23,9 +30,7 @@ export const Default: Story = {
 
 export const WithTabs: Story = {
   args: {
-    title: 'Network Performance Overview',
-    children:
-      'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
+    ...Default.args,
     tabList: [
       {
         key: 'optimization_tips',
@@ -36,5 +41,12 @@ export const WithTabs: Story = {
         tab: 'Performance Comparison',
       },
     ],
+  },
+}
+
+export const Borderless: Story = {
+  args: {
+    ...Default.args,
+    bordered: false,
   },
 }
