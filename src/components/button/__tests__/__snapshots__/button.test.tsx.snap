@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button should render correctly 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-ccdg5a ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+    type="button"
+  />
+</div>
+`;
