@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Popover should render correctly 1`] = `
+<div>
+  <span>
+    Aetna
+  </span>
+</div>
+`;
