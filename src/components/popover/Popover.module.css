@@ -1,0 +1,9 @@
+.j2Popover :global(.ant-popover-inner) {
+  padding: var(--j2-padding-lg);
+}
+
+.j2Popover :global(.ant-popover-title) {
+  font-size: var(--j2-font-size-heading-4);
+  font-weight: var(--j2-font-weight-strong);
+  line-height: var(--j2-line-height-heading-4);
+}
