@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Preview } from '@storybook/react'
 import theme from './theme'
-import { ConfigProvider } from 'antd'
+import { AppConfigProvider } from '../src/AppConfigProvider'
+import '../src/stylesheets/index.css'
 
 const preview: Preview = {
   tags: ['autodocs'],
@@ -9,7 +10,7 @@ const preview: Preview = {
     layout: 'centered',
     docs: {
       theme,
-      toc: true
+      toc: true,
     },
     controls: {
       matchers: {
@@ -20,13 +21,9 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <ConfigProvider theme={{
-        token: {
-          fontFamily: 'Rubik, sans-serif',
-        }
-      }}>
+      <AppConfigProvider>
         <Story />
-      </ConfigProvider>
+      </AppConfigProvider>
     ),
   ],
 }
