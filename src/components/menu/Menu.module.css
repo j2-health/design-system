@@ -1,0 +1,3 @@
+.j2Menu :global(.ant-menu-submenu-selected) :global(.ant-menu-submenu-title) {
+  color: inherit;
+}
