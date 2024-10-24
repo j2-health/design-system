@@ -72,7 +72,7 @@ exports[`Table should render correctly 1`] = `
                     <div
                       aria-colindex="1"
                       aria-sort="none"
-                      class="ag-header-cell ag-column-first ag-column-last ag-header-cell-sortable ag-focus-managed"
+                      class="ag-header-cell ag-column-first ag-column-last ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       col-id="carrier"
                       role="columnheader"
                       style="top: 0px; height: 48px; width: 200px; left: 0px;"
@@ -107,7 +107,7 @@ exports[`Table should render correctly 1`] = `
                           
                     
                           <input
-                            aria-label="Press Space to toggle all rows selection (unchecked)"
+                            aria-label="Column with Header Selection"
                             class="ag-input-field-input ag-checkbox-input"
                             data-ref="eInput"
                             id="ag-5-input"
