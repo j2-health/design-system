@@ -1,125 +1,116 @@
 import * as React from 'react'
-import { ResponsiveBar } from '@nivo/bar'
-import { Card } from '../card'
-import { Table } from 'antd'
+import {
+  BarDatum,
+  BarTooltipProps,
+  ComputedDatum,
+  ResponsiveBar,
+  ResponsiveBarSvgProps,
+} from '@nivo/bar'
+import { AxisProps, AxisLegendPosition } from '@nivo/axes'
+import { appTheme } from '../../appTheme'
+import { Margin } from '@nivo/core'
 
-const BarChart = () => {
-  const [hoveredBar, setHoveredBar] = React.useState<string | null>(null)
+export type Props<D> = ResponsiveBarSvgProps<D & BarDatum> & {
+  data: D[]
+  xKey: keyof D
+  yKey: keyof D
+  xLabel?: string
+  yLabel?: string
+  xAxisConfig?: Partial<AxisProps>
+  yAxisConfig?: Partial<AxisProps>
+  margin: Partial<Margin>
+  tooltip?: React.FunctionComponent<BarTooltipProps<D>>
+  onClick?: (node: ComputedDatum<D>) => void
+}
 
-  const data = [
-    {
-      plan: 'SCAN-HMO-01',
-      providerShare: 0.0789 * 100,
-      totalProviders: 10000,
+// https://nivo.rocks/bar/
+const BarChart = <D extends BarDatum>({
+  data,
+  xKey,
+  yKey,
+  yLabel,
+  xLabel,
+  xAxisConfig,
+  yAxisConfig,
+  ...props
+}: Props<D>) => {
+  const [hoverBar, setHoverBar] = React.useState<string | number | null>(null)
+
+  const axisBottom: AxisProps = React.useMemo(() => {
+    const base = {
+      tickSize: 0,
+      tickPadding: appTheme.token?.paddingSM,
+      tickRotation: 0,
+      legend: xLabel,
+      legendPosition: 'middle' as AxisLegendPosition,
+      legendOffset: appTheme.token?.marginXXL,
+      truncateTickAt: 0,
+    }
+
+    return { ...base, ...xAxisConfig }
+  }, [xAxisConfig, xLabel])
+
+  const axisLeft: AxisProps = React.useMemo(() => {
+    const base = {
+      legend: yLabel,
+      tickSize: 0,
+      tickPadding: appTheme.token?.paddingXXS,
+      tickRotation: 0,
+      legendPosition: 'middle' as AxisLegendPosition,
+      legendOffset: -60,
+      truncateTickAt: 0,
+    }
+
+    return { ...base, ...yAxisConfig }
+  }, [yAxisConfig, yLabel])
+
+  const colors = React.useCallback(
+    (node: ComputedDatum<D>) => {
+      if (hoverBar && hoverBar == node.data[xKey]) {
+        return appTheme.token?.colorPrimaryTextHover || ''
+      }
+
+      return appTheme.token?.colorPrimary || ''
     },
-    {
-      plan: 'SCAN-HMO-02',
-      providerShare: 0.1234 * 100,
-      totalProviders: 10000,
-    },
-    {
-      plan: 'UHC-HMO-05',
-      providerShare: 0.1588 * 100,
-      totalProviders: 10000,
-    },
-  ]
+    [hoverBar, xKey]
+  )
 
   return (
     <ResponsiveBar
       data={data}
-      minValue={0}
-      maxValue={100}
-      indexBy="plan"
-      keys={['providerShare']}
+      indexBy={xKey as string}
+      keys={[yKey as string]}
       enableLabel={false}
-      margin={{ top: 50, right: 60, bottom: 120, left: 72 }}
-      padding={0.3}
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
-      colors={(node) => {
-        if (node.data.plan === hoveredBar) {
-          return '#5670AA'
-        }
-
-        return '#253761'
-      }}
-      borderColor={{
-        from: 'color',
-        modifiers: [['darker', 1.6]],
-      }}
       axisTop={null}
       axisRight={null}
-      axisBottom={{
-        tickSize: 0,
-        tickPadding: 12,
-        tickRotation: -45,
-        legend: 'Network Plan',
-        legendPosition: 'middle',
-        legendOffset: 100,
-        truncateTickAt: 0,
-      }}
-      axisLeft={{
-        tickSize: 0,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'Total Providers',
-        legendPosition: 'middle',
-        legendOffset: -60,
-        truncateTickAt: 0,
-        format: (value) => `${value}%`,
-      }}
+      axisBottom={axisBottom}
+      axisLeft={axisLeft}
+      colors={colors}
       theme={{
         text: {
-          fontSize: 14,
-          fontFamily: 'Rubik',
+          fontSize: appTheme.token?.fontSize,
+          fontFamily: appTheme.token?.fontFamily,
         },
         axis: {
           ticks: {
             text: {
-              fontSize: 14,
+              fontSize: appTheme.token?.fontSize,
             },
           },
           legend: {
             text: {
-              fontSize: 14,
+              fontSize: appTheme.token?.fontSize,
             },
           },
         },
       }}
-      role="application"
-      ariaLabel="Nivo bar chart demo"
       onMouseEnter={(node) => {
-        setHoveredBar(node.data.plan)
+        setHoverBar(node.data[xKey])
       }}
-      onMouseLeave={() => {
-        setHoveredBar(null)
-      }}
-      tooltip={(node) => {
-        const columns = [
-          {
-            title: 'Plan',
-            dataIndex: 'plan',
-            key: 'plan',
-          },
-          {
-            title: 'Provider Breadth',
-            dataIndex: 'providerShare',
-            key: 'providerShare',
-          },
-        ]
-        const data = [
-          {
-            key: '1',
-            plan: node.data.plan,
-            providerShare: `${node.data.providerShare.toFixed(2)}%`,
-          },
-        ]
-        return (
-          <Card>
-            <Table columns={columns} dataSource={data} pagination={false} />
-          </Card>
-        )
-      }}
+      onMouseLeave={() => setHoverBar(null)}
+      {...props}
     />
   )
 }
