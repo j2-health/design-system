@@ -189,5 +189,8 @@ export const appTheme: ThemeConfig = {
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',
     },
+    Tooltip: {
+      colorBgSpotlight: 'var(--j2-color-primary-active)',
+    },
   },
 }
