@@ -1,8 +1,6 @@
 import { Collapse as AntdCollapse, CollapseProps } from 'antd'
 
 export type Props = CollapseProps & {
-  /** Active key */
-  activeKey?: string | string[]
   /** Default active key */
   defaultActiveKey?: string | string[]
   /** Expand icon position */
@@ -10,7 +8,6 @@ export type Props = CollapseProps & {
 }
 
 const Collapse = ({
-  activeKey,
   defaultActiveKey,
   expandIconPosition,
   ...props
@@ -18,7 +15,6 @@ const Collapse = ({
   return (
     <AntdCollapse
       {...props}
-      activeKey={activeKey}
       defaultActiveKey={defaultActiveKey}
       expandIconPosition={expandIconPosition}
     />
