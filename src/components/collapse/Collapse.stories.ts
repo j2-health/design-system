@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Collapse } from 'antd'
+import { Collapse } from './Collapse'
 import type { CollapseProps } from 'antd'
 
 const text = `

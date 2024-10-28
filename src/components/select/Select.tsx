@@ -26,9 +26,17 @@ export const Select = (props: SelectProps) => {
       {...props}
       suffixIcon={
         props.loading ? (
-          <Spin indicator={<LoadingOutlined spin />} size="small" data-testid="loading-spinner" />
+          <Spin
+            indicator={<LoadingOutlined spin />}
+            size="small"
+            data-testid="loading-spinner"
+          />
         ) : props.showSearch && isFocused ? (
-          <MagnifyingGlass size={14} data-testid="magnifying-glass" weight="duotone" />
+          <MagnifyingGlass
+            size={14}
+            data-testid="magnifying-glass"
+            weight="duotone"
+          />
         ) : (
           <CaretDown size={14} data-testid="caret-down" weight="duotone" />
         )
