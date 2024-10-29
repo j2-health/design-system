@@ -68,4 +68,19 @@ describe('Select', () => {
     fireEvent.change(input, { target: { value: 'UHC' } })
     expect(handleSearch).toHaveBeenCalledWith('UHC')
   })
+
+  it('should render with allowClear enabled', () => {
+    const { container } = render(
+      <Select
+        allowClear
+        options={[
+          { label: 'Bronze Plan', value: 'bronze' },
+          { label: 'Silver Plan', value: 'silver' },
+          { label: 'Gold Plan', value: 'gold' },
+          { label: 'Platinum Plan', value: 'platinum' },
+        ]}
+      />
+    )
+    expect(container).toMatchSnapshot()
+  })
 })
