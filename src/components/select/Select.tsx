@@ -41,9 +41,11 @@ export const Select = (props: SelectProps) => {
           <CaretDown size={14} data-testid="caret-down" weight="duotone" />
         )
       }
-      allowClear={{
-        clearIcon: <XCircle size={14} weight="duotone" />,
-      }}
+      allowClear={
+        props.allowClear
+          ? { clearIcon: <XCircle size={14} weight="duotone" /> }
+          : false
+      }
       showSearch={props.showSearch}
       onSearch={props.onSearch ? handleSearch : undefined}
       onFocus={() => {
