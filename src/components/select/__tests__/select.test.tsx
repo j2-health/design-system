@@ -83,4 +83,20 @@ describe('Select', () => {
     )
     expect(container).toMatchSnapshot()
   })
+
+  it('should not render clear icon when allowClear is disabled', () => {
+    const { container } = render(
+      <Select
+        options={[
+          { label: 'Bronze Plan', value: 'bronze' },
+          { label: 'Silver Plan', value: 'silver' },
+          { label: 'Gold Plan', value: 'gold' },
+          { label: 'Platinum Plan', value: 'platinum' },
+        ]}
+      />
+    )
+    fireEvent.mouseOver(container.firstChild as Element)
+    expect(container.querySelector('[data-testid="clear-icon"]')).toBeFalsy()
+    expect(container).toMatchSnapshot()
+  })
 })
