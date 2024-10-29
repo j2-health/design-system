@@ -1,7 +1,7 @@
 import { Select as AntDSelect, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import type { SelectProps as AntDSelectProps } from 'antd'
-import { CaretDown, MagnifyingGlass } from '@phosphor-icons/react'
+import { CaretDown, MagnifyingGlass, XCircle } from '@phosphor-icons/react'
 import { useState } from 'react'
 
 type SelectProps = Expand<AntDSelectProps> & {
@@ -41,6 +41,9 @@ export const Select = (props: SelectProps) => {
           <CaretDown size={14} data-testid="caret-down" weight="duotone" />
         )
       }
+      allowClear={{
+        clearIcon: <XCircle size={14} weight="duotone" />,
+      }}
       showSearch={props.showSearch}
       onSearch={props.onSearch ? handleSearch : undefined}
       onFocus={() => {

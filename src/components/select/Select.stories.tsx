@@ -13,6 +13,9 @@ const meta = {
       control: 'radio',
       options: { default: '', multiple: 'multiple' },
     },
+    allowClear: {
+      control: 'boolean',
+    },
     onChange: { action: 'changed' },
   },
   args: {
@@ -42,6 +45,7 @@ export const Search: Story = {
     showSearch: true,
     placeholder: 'Select a health care plan',
     optionFilterProp: 'label',
+    allowClear: true,
     onChange: { action: 'changed' },
     onSearch: { action: 'searched' },
     options: [
@@ -59,5 +63,6 @@ export const Multiple: Story = {
     mode: 'multiple',
     placeholder: 'Select health care plans',
     defaultValue: ['bronze', 'gold'],
+    allowClear: true,
   },
 }
