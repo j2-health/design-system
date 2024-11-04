@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { BarChart } from './BarChart'
+import { BarChart } from './BarChartDeprecated'
 import { Card } from '../card'
 
 const meta = {
