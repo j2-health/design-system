@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { BarChart } from './BarChartDeprecated'
-import { Card } from '../card'
+import { BarChart } from './BarChart'
 
 const meta = {
   title: 'Components/BarChart',
@@ -21,54 +20,68 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const plans = [
+  {
+    plan: 'SCAN-HMO-01',
+    providerShare: 0.0789,
+    totalProviders: 10000,
+  },
+  {
+    plan: 'SCAN-HMO-02',
+    providerShare: 0.1234,
+    totalProviders: 10000,
+  },
+  {
+    plan: 'UHC-HMO-05',
+    providerShare: 0.1588,
+    totalProviders: 10000,
+  },
+]
+
 export const Default: Story = {
   args: {
-    xKey: 'plan',
-    yKey: 'providerShare',
-    yLabel: 'Total Providers',
-    xLabel: 'Network Plan',
-    minValue: 0,
-    maxValue: 100,
-    margin: { top: 50, bottom: 120, left: 72 },
-    yAxisConfig: {
-      format: (value) => `${value}%`,
-    },
-    data: [
+    categories: plans.map((plan) => plan.plan),
+    series: [
       {
-        plan: 'SCAN-HMO-01',
-        providerShare: 0.0789 * 100,
-        totalProviders: 10000,
-      },
-      {
-        plan: 'SCAN-HMO-02',
-        providerShare: 0.1234 * 100,
-        totalProviders: 10000,
-      },
-      {
-        plan: 'UHC-HMO-05',
-        providerShare: 0.1588 * 100,
-        totalProviders: 10000,
+        name: 'series1',
+        data: plans.map((plan) => plan.providerShare),
       },
     ],
-    onClick: (node) => {
-      alert(`Clicked on ${node.data.plan}`)
-    },
-    tooltip: (node) => {
+    xAxisTitle: 'Plan',
+    yAxisTitle: 'Provider Share',
+    min: 0,
+    max: 1,
+    tickInterval: 0.1,
+    tickFormat: (value) => `${value * 100}%`,
+    tooltip: (category, value, seriesName) => {
+      const plan = plans.find((p) => p.plan === category)
+
+      if (!plan) return null
+
       return (
-        <Card>
+        <div className="flex flex-col gap-2">
           <div>
-            <p>
-              <strong>Plan:</strong> {node.data.plan}
-            </p>
-            <p>
-              <strong>Provider Share:</strong> {node.data.providerShare}%
-            </p>
-            <p>
-              <strong>Total Providers:</strong> {node.data.totalProviders}
-            </p>
+            <strong>{plan.plan}</strong>: {value}
           </div>
-        </Card>
+          <div>Total Providers: {plan.totalProviders}</div>
+          <span>Series: {seriesName}</span>
+        </div>
       )
     },
+  },
+}
+
+export const MultipleSeries: Story = {
+  args: {
+    ...Default.args,
+    series: [
+      ...Default.args.series,
+      {
+        name: 'series2',
+        data: plans.map((plan) => plan.providerShare * 2),
+        color: 'green',
+        hoverColor: 'pink',
+      },
+    ],
   },
 }
