@@ -18,3 +18,6 @@ export * from './src/components/tooltip'
 export * from './src/appTheme'
 export * from './src/AppConfigProvider'
 export * from './src/components/skeleton'
+
+import * as icons from './src/components/icons'
+export { icons }
