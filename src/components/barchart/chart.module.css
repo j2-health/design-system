@@ -1,0 +1,8 @@
+.tooltip {
+  padding: var(--j2-padding-sm);
+  border-radius: var(--j2-border-radius-lg);
+  box-shadow: 0px 9px 28px 8px #0000000d;
+  background-color: var(--j2-color-bg-elevated);
+  font-size: var(--j2-font-size);
+  font-family: var(--j2-font-family);
+}

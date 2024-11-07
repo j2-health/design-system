@@ -1,118 +1,121 @@
-import * as React from 'react'
-import {
-  BarDatum,
-  BarTooltipProps,
-  ComputedDatum,
-  ResponsiveBar,
-  ResponsiveBarSvgProps,
-} from '@nivo/bar'
-import { AxisProps, AxisLegendPosition } from '@nivo/axes'
-import { appTheme } from '../../appTheme'
-import { Margin } from '@nivo/core'
+import { theme } from 'antd'
+import * as Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
+import styles from './chart.module.css'
+import { renderToString } from 'react-dom/server'
 
-export type Props<D> = ResponsiveBarSvgProps<D & BarDatum> & {
-  data: D[]
-  xKey: keyof D
-  yKey: keyof D
-  xLabel?: string
-  yLabel?: string
-  xAxisConfig?: Partial<AxisProps>
-  yAxisConfig?: Partial<AxisProps>
-  margin: Partial<Margin>
-  tooltip?: React.FunctionComponent<BarTooltipProps<D>>
-  onClick?: (node: ComputedDatum<D>) => void
+type Series = {
+  name?: string
+  data: number[]
+  color?: string
+  hoverColor?: string
 }
 
-// https://nivo.rocks/bar/
-const BarChart = <D extends BarDatum>({
-  data,
-  xKey,
-  yKey,
-  yLabel,
-  xLabel,
-  xAxisConfig,
-  yAxisConfig,
-  ...props
-}: Props<D>) => {
-  const [hoverBar, setHoverBar] = React.useState<string | number | null>(null)
+type BarChartProps = {
+  categories: string[]
+  series: Series[]
+  min: number
+  max: number
+  tickInterval: number
+  tickFormat?: (value: number) => string
+  xAxisTitle?: string
+  yAxisTitle?: string
+  tooltip: (
+    category: string | number | undefined,
+    value: number | null | undefined,
+    seriesName: string | undefined
+  ) => React.ReactNode
+}
 
-  const axisBottom: AxisProps = React.useMemo(() => {
-    const base = {
-      tickSize: 0,
-      tickPadding: appTheme.token?.paddingSM,
-      tickRotation: 0,
-      legend: xLabel,
-      legendPosition: 'middle' as AxisLegendPosition,
-      legendOffset: appTheme.token?.marginXXL,
-      truncateTickAt: 0,
-    }
+const BarChart = ({
+  categories,
+  series,
+  min,
+  max,
+  tickInterval,
+  tickFormat,
+  xAxisTitle,
+  yAxisTitle,
+  tooltip,
+}: BarChartProps) => {
+  const { token } = theme.useToken()
 
-    return { ...base, ...xAxisConfig }
-  }, [xAxisConfig, xLabel])
+  const baseFont: Highcharts.CSSObject = {
+    fontSize: `${token.fontSize}px`,
+    fontFamily: token.fontFamily,
+    color: token.colorText,
+  }
 
-  const axisLeft: AxisProps = React.useMemo(() => {
-    const base = {
-      legend: yLabel,
-      tickSize: 0,
-      tickPadding: appTheme.token?.paddingXXS,
-      tickRotation: 0,
-      legendPosition: 'middle' as AxisLegendPosition,
-      legendOffset: -60,
-      truncateTickAt: 0,
-    }
-
-    return { ...base, ...yAxisConfig }
-  }, [yAxisConfig, yLabel])
-
-  const colors = React.useCallback(
-    (node: ComputedDatum<D>) => {
-      if (hoverBar && hoverBar == node.data[xKey]) {
-        return appTheme.token?.colorPrimaryTextHover || ''
-      }
-
-      return appTheme.token?.colorPrimary || ''
+  const options: Highcharts.Options = {
+    credits: {
+      enabled: false,
     },
-    [hoverBar, xKey]
-  )
+    chart: {
+      type: 'column',
+    },
+    title: {
+      text: '',
+    },
+    xAxis: {
+      categories: categories,
+      title: xAxisTitle
+        ? {
+            text: xAxisTitle,
+            style: { ...baseFont, color: token.colorTextDescription },
+          }
+        : undefined,
+      labels: {
+        y: 30,
+        style: baseFont,
+      },
+    },
+    yAxis: {
+      min: min,
+      max: max,
+      title: yAxisTitle
+        ? {
+            text: yAxisTitle,
+            style: { ...baseFont, color: token.colorTextDescription },
+          }
+        : undefined,
+      tickInterval: tickInterval,
+      labels: {
+        formatter: tickFormat
+          ? ({ value }) => tickFormat(value as number)
+          : undefined,
+        style: baseFont,
+      },
+    },
+    legend: {
+      enabled: false,
+    },
+    series: series.map((s) => ({
+      data: s.data,
+      name: s.name,
+      type: 'column',
+      color: s.color || 'var(--j2-color-primary)',
+      states: {
+        hover: {
+          color: s.hoverColor || token.colorPrimaryTextHover,
+        },
+      },
+    })),
+    tooltip: {
+      useHTML: true,
+      backgroundColor: 'transparent',
+      shadow: false,
+      padding: 0,
+      formatter: function (this) {
+        return renderToString(
+          <div className={styles.tooltip}>
+            {tooltip(this.x, this.y, this.series.name)}
+          </div>
+        )
+      },
+    },
+  }
 
-  return (
-    <ResponsiveBar
-      data={data}
-      indexBy={xKey as string}
-      keys={[yKey as string]}
-      enableLabel={false}
-      valueScale={{ type: 'linear' }}
-      indexScale={{ type: 'band', round: true }}
-      axisTop={null}
-      axisRight={null}
-      axisBottom={axisBottom}
-      axisLeft={axisLeft}
-      colors={colors}
-      theme={{
-        text: {
-          fontSize: appTheme.token?.fontSize,
-          fontFamily: appTheme.token?.fontFamily,
-        },
-        axis: {
-          ticks: {
-            text: {
-              fontSize: appTheme.token?.fontSize,
-            },
-          },
-          legend: {
-            text: {
-              fontSize: appTheme.token?.fontSize,
-            },
-          },
-        },
-      }}
-      onMouseEnter={(node) => {
-        setHoverBar(node.data[xKey])
-      }}
-      onMouseLeave={() => setHoverBar(null)}
-      {...props}
-    />
-  )
+  return <HighchartsReact highcharts={Highcharts} options={options} />
 }
 
 export { BarChart }

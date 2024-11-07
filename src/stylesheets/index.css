@@ -247,6 +247,8 @@
   --j2-control-padding-horizontal: 12px;
   --j2-control-padding-horizontal-sm: 8px;
 
+  --j2-color-bg-elevated: #ffffff;
+
   font-family: var(--j2-font-family);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
