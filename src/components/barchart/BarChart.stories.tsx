@@ -29,12 +29,12 @@ const plans = [
   {
     plan: 'SCAN-HMO-02',
     providerShare: 0.1234,
-    totalProviders: 10000,
+    totalProviders: 9000,
   },
   {
     plan: 'UHC-HMO-05',
     providerShare: 0.1588,
-    totalProviders: 10000,
+    totalProviders: 2000,
   },
 ]
 
@@ -83,5 +83,20 @@ export const MultipleSeries: Story = {
         hoverColor: 'pink',
       },
     ],
+  },
+}
+
+export const NoMax: Story = {
+  args: {
+    ...Default.args,
+    max: undefined,
+    series: [
+      {
+        name: 'series1',
+        data: plans.map((plan) => plan.totalProviders),
+      },
+    ],
+    tickFormat: (value) => `${value}`,
+    tickInterval: 1000,
   },
 }
