@@ -15,7 +15,7 @@ type BarChartProps = {
   categories: string[]
   series: Series[]
   min: number
-  max: number
+  max: number | undefined | null
   tickInterval: number
   tickFormat?: (value: number) => string
   xAxisTitle?: string
@@ -72,6 +72,7 @@ const BarChart = ({
     yAxis: {
       min: min,
       max: max,
+      endOnTick: true,
       title: yAxisTitle
         ? {
             text: yAxisTitle,
