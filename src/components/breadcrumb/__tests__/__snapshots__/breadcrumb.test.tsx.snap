@@ -3,7 +3,7 @@
 exports[`Breadcrumb should render correctly 1`] = `
 <div>
   <nav
-    class="ant-breadcrumb css-dev-only-do-not-override-ccdg5a"
+    class="ant-breadcrumb css-dev-only-do-not-override-tpassh"
   >
     <ol />
   </nav>

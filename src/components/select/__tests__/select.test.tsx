@@ -1,15 +1,26 @@
 import { render, fireEvent } from '@testing-library/react'
+import { Formik } from 'formik'
+import { Form } from 'formik-antd'
 import { Select } from '../Select'
+
+const renderWithForm = (selectElement: JSX.Element) => {
+  return render(
+    <Formik initialValues={{ test: '' }} onSubmit={() => {}}>
+      <Form>{selectElement}</Form>
+    </Formik>
+  )
+}
 
 describe('Select', () => {
   it('should render correctly', () => {
-    const { container } = render(<Select />)
+    const { container } = renderWithForm(<Select name="test" />)
     expect(container).toMatchSnapshot()
   })
 
   it('should render with options', () => {
-    const { container } = render(
+    const { container } = renderWithForm(
       <Select
+        name="test"
         options={[
           { label: 'Bronze Plan', value: 'bronze' },
           { label: 'Silver Plan', value: 'silver' },
@@ -22,8 +33,9 @@ describe('Select', () => {
   })
 
   it('should render with loading indicator', () => {
-    const { container } = render(
+    const { container } = renderWithForm(
       <Select
+        name="test"
         loading
         options={[
           { label: 'Bronze Plan', value: 'bronze' },
@@ -37,8 +49,9 @@ describe('Select', () => {
   })
 
   it('should render with search enabled', () => {
-    const { container } = render(
+    const { container } = renderWithForm(
       <Select
+        name="test"
         showSearch
         options={[
           { label: 'Bronze Plan', value: 'bronze' },
@@ -53,8 +66,9 @@ describe('Select', () => {
 
   it('should call onSearch when search input changes', () => {
     const handleSearch = jest.fn()
-    const { getByRole } = render(
+    const { getByRole } = renderWithForm(
       <Select
+        name="test"
         showSearch
         onSearch={handleSearch}
         options={[
@@ -70,8 +84,9 @@ describe('Select', () => {
   })
 
   it('should render with allowClear enabled', () => {
-    const { container } = render(
+    const { container } = renderWithForm(
       <Select
+        name="test"
         allowClear
         options={[
           { label: 'Bronze Plan', value: 'bronze' },
@@ -85,8 +100,9 @@ describe('Select', () => {
   })
 
   it('should not render clear icon when allowClear is disabled', () => {
-    const { container } = render(
+    const { container } = renderWithForm(
       <Select
+        name="test"
         options={[
           { label: 'Bronze Plan', value: 'bronze' },
           { label: 'Silver Plan', value: 'silver' },

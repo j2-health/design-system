@@ -1,15 +1,12 @@
-import { Select as AntDSelect, Spin } from 'antd'
+import { Select as AntDSelect } from 'formik-antd'
+import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import type { SelectProps as AntDSelectProps } from 'antd'
 import { CaretDown, MagnifyingGlass, XCircle } from '@phosphor-icons/react'
 import { useState } from 'react'
 
 type SelectProps = Expand<AntDSelectProps> & {
-  size?: 'large' | 'middle' | 'small'
-  mode?: '' | 'multiple'
-  onChange?: (value: string | string[]) => void
-  onSearch?: (value: string) => void
-  options?: { label: string; value: string }[]
+  name: string
 }
 
 export const Select = (props: SelectProps) => {
