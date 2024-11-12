@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Formik } from 'formik'
+import { Form } from 'formik-antd'
 import { Select } from './Select'
 
 const meta = {
@@ -16,9 +18,13 @@ const meta = {
     allowClear: {
       control: 'boolean',
     },
+    loading: {
+      control: 'boolean',
+    },
     onChange: { action: 'changed' },
   },
   args: {
+    name: 'plan_metal',
     size: 'middle',
     options: [
       { label: 'Bronze Plan', value: 'bronze' },
@@ -36,7 +42,15 @@ export const Basic: Story = {
   args: {
     size: 'middle',
     defaultValue: 'bronze',
+    loading: false,
   },
+  render: (args) => (
+    <Formik initialValues={{ plan_metal: 'bronze' }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} />
+      </Form>
+    </Formik>
+  ),
 }
 
 export const Search: Story = {
@@ -46,6 +60,7 @@ export const Search: Story = {
     placeholder: 'Select a health care plan',
     optionFilterProp: 'label',
     allowClear: true,
+    loading: false,
     onChange: { action: 'changed' },
     onSearch: { action: 'searched' },
     options: [
@@ -55,6 +70,13 @@ export const Search: Story = {
       { value: 'platinum', label: 'Platinum Plan' },
     ],
   },
+  render: (args) => (
+    <Formik initialValues={{ plan_metal: '' }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} />
+      </Form>
+    </Formik>
+  ),
 }
 
 export const Multiple: Story = {
@@ -64,5 +86,16 @@ export const Multiple: Story = {
     placeholder: 'Select health care plans',
     defaultValue: ['bronze', 'gold'],
     allowClear: true,
+    loading: false,
   },
+  render: (args) => (
+    <Formik
+      initialValues={{ plan_metal: ['bronze', 'gold'] }}
+      onSubmit={() => {}}
+    >
+      <Form>
+        <Select {...args} />
+      </Form>
+    </Formik>
+  ),
 }
