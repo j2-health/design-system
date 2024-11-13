@@ -16,7 +16,7 @@ type BarChartProps = {
   series: Series[]
   min: number
   max: number | undefined | null
-  tickInterval: number
+  tickInterval: number | undefined | null
   tickFormat?: (value: number) => string
   xAxisTitle?: string
   yAxisTitle?: string
