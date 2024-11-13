@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Formik } from 'formik'
 import { Form } from 'formik-antd'
@@ -98,4 +99,50 @@ export const Multiple: Story = {
       </Form>
     </Formik>
   ),
+}
+
+const TestComponent = () => {
+  const [someVar, setVar] = useState(false)
+  const timeoutRef = useRef<boolean>(false)
+
+
+  useEffect(() => {
+    console.log('var changed!')
+  }, [someVar])
+
+  if (!timeoutRef.current) {
+    setTimeout(() => {
+      setVar(true)
+      console.log('setting to true the first time')
+    }, 1000)
+    setTimeout(() => {
+      setVar(true)
+      console.log('setting to true again')
+    }, 3000)
+    setTimeout(() => {
+      setVar(false)
+      console.log('setting back to false just in case')
+    }, 5000)
+  }
+
+  timeoutRef.current = true
+
+  return <div>{someVar}</div>
+}
+
+export const UseEffectTest: Story = {
+  args: {
+    size: 'middle',
+    placeholder: 'Select a value',
+    allowClear: true,
+    options: [
+      { label: '5', value: 5 },
+      { label: 'string', value: 'some string' },
+      { label: 'string (second)', value: 'some string' },
+      { label: '5 (second)', value: 5 },
+    ],
+  },
+  render: () => {
+    return <TestComponent />
+  },
 }
