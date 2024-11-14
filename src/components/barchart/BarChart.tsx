@@ -3,6 +3,8 @@ import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import styles from './chart.module.css'
 import { renderToString } from 'react-dom/server'
+import exportingModule from 'highcharts/modules/exporting'
+import offlineExporting from 'highcharts/modules/offline-exporting'
 
 type Series = {
   name?: string
@@ -25,6 +27,8 @@ type BarChartProps = {
     value: number | null | undefined,
     seriesName: string | undefined
   ) => React.ReactNode
+  chartRef?: React.RefObject<HighchartsReact.RefObject>
+  exporting?: Highcharts.ExportingOptions
 }
 
 const BarChart = ({
@@ -37,7 +41,14 @@ const BarChart = ({
   xAxisTitle,
   yAxisTitle,
   tooltip,
+  exporting,
+  chartRef,
 }: BarChartProps) => {
+  if (exporting) {
+    exportingModule(Highcharts)
+    offlineExporting(Highcharts)
+  }
+
   const { token } = theme.useToken()
 
   const baseFont: Highcharts.CSSObject = {
@@ -52,6 +63,10 @@ const BarChart = ({
     },
     chart: {
       type: 'column',
+    },
+    exporting: {
+      ...exporting,
+      enabled: false, // Ensure Highcharts' default export menu is hidden
     },
     title: {
       text: '',
@@ -116,7 +131,9 @@ const BarChart = ({
     },
   }
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />
+  return (
+    <HighchartsReact ref={chartRef} highcharts={Highcharts} options={options} />
+  )
 }
 
 export { BarChart }
