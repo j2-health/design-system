@@ -25,6 +25,8 @@ type BarChartProps = {
     value: number | null | undefined,
     seriesName: string | undefined
   ) => React.ReactNode
+  chartRef?: React.RefObject<HighchartsReact.RefObject>
+  exporting?: Highcharts.ExportingOptions
 }
 
 const BarChart = ({
@@ -37,6 +39,8 @@ const BarChart = ({
   xAxisTitle,
   yAxisTitle,
   tooltip,
+  exporting,
+  chartRef,
 }: BarChartProps) => {
   const { token } = theme.useToken()
 
@@ -53,6 +57,7 @@ const BarChart = ({
     chart: {
       type: 'column',
     },
+    exporting: exporting,
     title: {
       text: '',
     },
@@ -116,7 +121,9 @@ const BarChart = ({
     },
   }
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />
+  return (
+    <HighchartsReact ref={chartRef} highcharts={Highcharts} options={options} />
+  )
 }
 
 export { BarChart }
