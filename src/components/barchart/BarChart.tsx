@@ -67,6 +67,12 @@ const BarChart = ({
     exporting: {
       ...exporting,
       enabled: false, // Ensure Highcharts' default export menu is hidden
+      chartOptions: {
+        series: series.map(() => ({
+          type: 'column',
+          color: '#253761', // --j2-blue-9
+        })),
+      },
     },
     title: {
       text: '',
