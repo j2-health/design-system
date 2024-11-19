@@ -68,6 +68,18 @@ const BarChart = ({
       ...exporting,
       enabled: false, // Ensure Highcharts' default export menu is hidden
       chartOptions: {
+        // We still allow the user to override the defaults if desired
+        ...exporting?.chartOptions,
+        title: {
+          align: 'left',
+          text: exporting?.chartOptions?.title?.text,
+          style: {
+            fontSize: `${token.fontSize}px`,
+            fontFamily: token.fontFamily,
+            color: token.colorText,
+            ...exporting?.chartOptions?.title?.style,
+          },
+        },
         series: series.map(() => ({
           type: 'column',
           color: '#253761', // --j2-blue-9
@@ -75,7 +87,7 @@ const BarChart = ({
       },
     },
     title: {
-      text: '',
+      text: '', // The title is usually defined outside of the chart options, so we essentially hide it
     },
     xAxis: {
       categories: categories,
