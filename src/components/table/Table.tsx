@@ -1,28 +1,11 @@
-import { AgGridReact, AgGridReactProps } from 'ag-grid-react'
-import 'ag-grid-community/styles/ag-grid.css'
-import 'ag-grid-community/styles/ag-theme-quartz.css'
-import 'ag-grid-community/styles/ag-theme-material.css'
+import { Table as AntdTable, TableProps } from 'antd'
 
-import cx from 'classnames'
+type Props = Expand<TableProps>
 
-import './Table.css'
-
-type MergedProps<T> = AgGridReactProps<T> & {
-  bordered?: boolean
-}
-
-type Props<T> = Expand<MergedProps<T>>
-
-const Table = <T,>({ bordered = false, ...props }: Props<T>) => {
+const Table = ({ ...props }: Props) => {
   return (
-    <div
-      className={cx(
-        props.className,
-        'ag-theme-quartz',
-        bordered ? 'ag-custom-theme--bordered' : ''
-      )}
-    >
-      <AgGridReact<T> {...props} />
+    <div className={props.className}>
+      <AntdTable {...props} />
     </div>
   )
 }
