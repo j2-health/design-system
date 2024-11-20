@@ -192,5 +192,9 @@ export const appTheme: ThemeConfig = {
     Tooltip: {
       colorBgSpotlight: 'var(--j2-color-primary-active)',
     },
+    Table: {
+      headerBg: 'var(--j2-color-bg-layout)',
+      rowHoverBg: 'var(--j2-color-bg-layout)',
+    },
   },
 }

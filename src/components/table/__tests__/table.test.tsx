@@ -5,8 +5,8 @@ describe('Table', () => {
   it('should render correctly', () => {
     const { container } = render(
       <Table
-        columnDefs={[{ field: 'carrier' }]}
-        rowData={[{ carrier: 'aetna' }]}
+        columns={[{ dataIndex: 'carrier', title: 'Carrier' }]}
+        dataSource={[{ carrier: 'aetna' }]}
       />
     )
     expect(container).toMatchSnapshot()

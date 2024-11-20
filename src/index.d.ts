@@ -5,5 +5,7 @@ declare module '*.svg?react' {
     React.SVGProps<SVGSVGElement>
   >
   const src: string
+
+  // eslint-disable-next-line import/no-default-export
   export default src
 }
