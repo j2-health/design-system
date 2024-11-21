@@ -1,10 +1,21 @@
 import { Table as AntdTable, TableProps } from 'antd'
+import cx from 'classnames'
 
-type Props = Expand<TableProps>
+import s from './Table.module.css'
 
-const Table = ({ ...props }: Props) => {
+type MergedProps = TableProps & {
+  verticalBorders?: boolean
+}
+
+type Props = Expand<MergedProps>
+
+const Table = ({ verticalBorders, ...props }: Props) => {
   return (
-    <div className={props.className}>
+    <div
+      className={cx(props.className, {
+        [s.bordered]: props.bordered && !verticalBorders,
+      })}
+    >
       <AntdTable {...props} />
     </div>
   )

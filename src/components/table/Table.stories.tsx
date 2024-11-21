@@ -88,3 +88,16 @@ export const Bordered: Story = {
     </div>
   ),
 }
+
+export const BorderedWithVertical: Story = {
+  args: {
+    ...Default.args,
+    bordered: true,
+    verticalBorders: true,
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
