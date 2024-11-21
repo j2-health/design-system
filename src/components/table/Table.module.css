@@ -1,0 +1,4 @@
+.bordered :global(.ant-table-cell) {
+  border-left: none !important;
+  border-right: none !important;
+}

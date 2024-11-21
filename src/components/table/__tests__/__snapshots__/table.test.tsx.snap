@@ -2,7 +2,9 @@
 
 exports[`Table should render correctly 1`] = `
 <div>
-  <div>
+  <div
+    class=""
+  >
     <div
       class="ant-table-wrapper css-dev-only-do-not-override-tpassh"
     >
