@@ -11,6 +11,7 @@ export type Props = CollapseProps & {
 const Collapse = ({
   defaultActiveKey,
   expandIconPosition,
+  bordered,
   ...props
 }: Props) => {
   return (
@@ -18,6 +19,7 @@ const Collapse = ({
       {...props}
       defaultActiveKey={defaultActiveKey}
       expandIconPosition={expandIconPosition}
+      bordered={bordered}
       expandIcon={({ isActive }) => (
         <CaretDown
           size={14}
