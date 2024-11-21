@@ -29,6 +29,9 @@ const meta = {
       control: 'radio',
       options: ['start', 'end'],
     },
+    bordered: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof Collapse>
 
@@ -40,5 +43,6 @@ export const Default: Story = {
     items: items,
     defaultActiveKey: ['value-based-care'],
     expandIconPosition: 'end',
+    bordered: true,
   },
 }
