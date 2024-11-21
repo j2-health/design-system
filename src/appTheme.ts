@@ -196,5 +196,8 @@ export const appTheme: ThemeConfig = {
       headerBg: 'var(--j2-color-bg-layout)',
       rowHoverBg: 'var(--j2-color-bg-layout)',
     },
+    Tag: {
+      defaultBg: 'var(--j2-color-fill-secondary)',
+    },
   },
 }
