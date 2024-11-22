@@ -29,19 +29,13 @@ export const Select = (props: SelectProps) => {
             data-testid="loading-spinner"
           />
         ) : props.showSearch && isFocused ? (
-          <MagnifyingGlass
-            size={14}
-            data-testid="magnifying-glass"
-            weight="duotone"
-          />
+          <MagnifyingGlass size={14} data-testid="magnifying-glass" />
         ) : (
-          <CaretDown size={14} data-testid="caret-down" weight="duotone" />
+          <CaretDown size={14} data-testid="caret-down" />
         )
       }
       allowClear={
-        props.allowClear
-          ? { clearIcon: <XCircle size={14} weight="duotone" /> }
-          : false
+        props.allowClear ? { clearIcon: <XCircle size={14} /> } : false
       }
       showSearch={props.showSearch}
       onSearch={props.onSearch ? handleSearch : undefined}
