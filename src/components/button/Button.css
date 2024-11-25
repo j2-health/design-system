@@ -1,0 +1,5 @@
+.ant-btn-default {
+  &:focus-visible {
+    border-color: var(--j2-color-primary-hover);
+  }
+}

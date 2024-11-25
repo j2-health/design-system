@@ -192,6 +192,12 @@ export const appTheme: ThemeConfig = {
       linkHoverColor: 'var(--j2-color-link-hover)',
       colorBgTextHover: 'var(--j2-color-primary-bg-hover)',
     },
+    Button: {
+      defaultColor: 'var(--j2-color-primary-text)',
+      defaultBorderColor: 'var(--j2-color-border)',
+      defaultHoverBorderColor: 'var(--j2-color-primary-active)',
+      defaultActiveBorderColor: 'var(--j2-color-primary-active)',
+    },
     Menu: {
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',
