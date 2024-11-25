@@ -1,5 +1,6 @@
 import { notification } from 'antd'
 import type { NotificationArgsProps } from 'antd'
+import './Notification.css'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 

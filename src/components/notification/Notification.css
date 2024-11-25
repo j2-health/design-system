@@ -1,0 +1,12 @@
+.ant-notification-notice-message {
+  font-size: var(--j2-font-size-lg);
+  font-weight: var(--j2-font-weight-strong);
+  line-height: var(--j2-line-height-lg);
+  color: var(--j2-color-text-heading);
+}
+
+.ant-notification-notice-description {
+  font-size: var(--j2-font-size);
+  line-height: var(--j2-line-height);
+  color: var(--j2-color-text);
+}
