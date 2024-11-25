@@ -8,3 +8,4 @@ const Menu = (props: Props) => {
 }
 
 export { Menu }
+export type { Props as MenuProps }

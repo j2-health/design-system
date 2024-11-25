@@ -24,4 +24,5 @@ const Table = ({ verticalBorders, ...props }: Props) => {
 Table.Column = AntdTable.Column
 Table.Summary = AntdTable.Summary
 
+export type { TableColumnType } from 'antd'
 export { Table }
