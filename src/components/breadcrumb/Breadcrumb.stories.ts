@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Anchor, ChefHat } from '@phosphor-icons/react'
 
 import { Breadcrumb } from './Breadcrumb'
 
@@ -16,8 +17,9 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     items: [
-      { title: 'Home', href: '#' },
+      { title: 'Home', href: '#', icon: Anchor },
       { title: 'Compare', href: '#' },
+      { title: 'Do something', href: '#', icon: ChefHat },
     ],
   },
 }
