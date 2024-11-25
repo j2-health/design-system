@@ -17,12 +17,12 @@ export const appTheme: ThemeConfig = {
     colorBgLayout: 'var(--j2-color-bg-layout)',
     colorBorder: 'var(--j2-color-border)',
     colorBorderSecondary: 'var(--j2-color-border-secondary)',
-    colorPrimary: 'var(--j2-color-primary)',
-    colorSuccess: 'var(--j2-color-success)',
-    colorWarning: 'var(--j2-color-warning)',
-    colorInfo: 'var(--j2-color-info)',
-    colorLink: 'var(--j2-color-link)',
-    colorError: '#bf6c6f',
+    colorPrimary: '#253761', // var(--j2-blue-9)
+    colorSuccess: '#57a45e', // var(--j2-green-9)
+    colorWarning: '#e2a600', // var(--j2-gold-9)
+    colorInfo: '#253761', // var(--j2-blue-9)
+    colorLink: '#253761', // var(--j2-blue-9)
+    colorError: '#bf6c6f', // var(--j2-red-9)
     colorErrorBg: 'var(--j2-color-error-bg)',
     colorErrorBgHover: 'var(--j2-color-error-bg-hover)',
     colorErrorBorder: 'var(--j2-color-error-border)',
