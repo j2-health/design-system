@@ -185,6 +185,13 @@ export const appTheme: ThemeConfig = {
     controlPaddingHorizontalSM: 8,
   },
   components: {
+    Breadcrumb: {
+      itemColor: 'var(--j2-color-text-label)',
+      lastItemColor: 'var(--j2-color-primary)',
+      linkColor: 'inherit',
+      linkHoverColor: 'var(--j2-color-link-hover)',
+      colorBgTextHover: 'var(--j2-color-primary-bg-hover)',
+    },
     Menu: {
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',
