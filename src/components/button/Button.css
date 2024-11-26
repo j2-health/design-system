@@ -26,3 +26,28 @@
     color: var(--j2-color-text-disabled) !important;
   }
 }
+
+.ant-btn-background-ghost {
+  &.ant-btn-primary {
+    background-color: var(--j2-color-primary);
+    border-color: #ffffff;
+    color: #ffffff;
+
+    &:hover,
+    &:focus-visible {
+      &:not(:disabled) {
+        background-color: var(--j2-color-primary-active) !important;
+        color: #ffffff !important;
+        border-color: #ffffff !important;
+      }
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    &:not(:disabled) {
+      border-color: var(--j2-color-primary-hover) !important;
+      background-color: var(--j2-gray-4) !important;
+    }
+  }
+}
