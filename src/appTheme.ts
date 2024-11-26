@@ -17,12 +17,12 @@ export const appTheme: ThemeConfig = {
     colorBgLayout: 'var(--j2-color-bg-layout)',
     colorBorder: 'var(--j2-color-border)',
     colorBorderSecondary: 'var(--j2-color-border-secondary)',
-    colorPrimary: 'var(--j2-color-primary)',
-    colorSuccess: 'var(--j2-color-success)',
-    colorWarning: 'var(--j2-color-warning)',
-    colorInfo: 'var(--j2-color-info)',
-    colorLink: 'var(--j2-color-link)',
-    colorError: '#bf6c6f',
+    colorPrimary: '#253761', // var(--j2-blue-9)
+    colorSuccess: '#57a45e', // var(--j2-green-9)
+    colorWarning: '#e2a600', // var(--j2-gold-9)
+    colorInfo: '#253761', // var(--j2-blue-9)
+    colorLink: '#253761', // var(--j2-blue-9)
+    colorError: '#bf6c6f', // var(--j2-red-9)
     colorErrorBg: 'var(--j2-color-error-bg)',
     colorErrorBgHover: 'var(--j2-color-error-bg-hover)',
     colorErrorBorder: 'var(--j2-color-error-border)',
@@ -185,6 +185,26 @@ export const appTheme: ThemeConfig = {
     controlPaddingHorizontalSM: 8,
   },
   components: {
+    Breadcrumb: {
+      itemColor: 'var(--j2-color-text-label)',
+      lastItemColor: 'var(--j2-color-primary)',
+      linkColor: 'inherit',
+      linkHoverColor: 'var(--j2-color-link-hover)',
+      colorBgTextHover: 'var(--j2-color-primary-bg-hover)',
+    },
+    Button: {
+      defaultColor: 'var(--j2-color-primary-text)',
+      defaultBorderColor: 'var(--j2-color-border)',
+      defaultHoverBorderColor: 'var(--j2-color-primary-active)',
+      defaultActiveBorderColor: 'var(--j2-color-primary-active)',
+      ghostBg: '#fff',
+      defaultGhostBorderColor: 'var(--j2-color-primary)',
+      defaultGhostColor: 'var(--j2-color-primary-text)',
+      textTextColor: 'var(--j2-color-primary-text)',
+      textHoverBg: 'var(--j2-gray-2)',
+      textTextHoverColor: 'var(--j2-color-primary-text-hover)',
+      textTextActiveColor: 'var(--j2-color-primary-text-active)',
+    },
     Menu: {
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',

@@ -1,0 +1,7 @@
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
+  color: var(--j2-color-primary-text);
+
+  &:hover {
+    color: var(--j2-color-primary-text-hover);
+  }
+}

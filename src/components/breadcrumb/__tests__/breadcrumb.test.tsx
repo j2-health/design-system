@@ -3,7 +3,7 @@ import { Breadcrumb } from '../Breadcrumb'
 
 describe('Breadcrumb', () => {
   it('should render correctly', () => {
-    const { container } = render(<Breadcrumb />)
+    const { container } = render(<Breadcrumb items={[]} />)
     expect(container).toMatchSnapshot()
   })
 })

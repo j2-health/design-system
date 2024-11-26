@@ -1,5 +1,7 @@
 import { Dropdown as AntdDropdown, DropdownProps, Typography } from 'antd'
 import { Button } from '../button'
+import { CaretDown } from '@phosphor-icons/react'
+import './Dropdown.css'
 
 const { Link } = Typography
 
@@ -10,12 +12,27 @@ type CombinedProps = DropdownProps & {
 
 export type Props = Expand<CombinedProps>
 
-const Target = ({ label, type }: Props) => {
+const Label = ({ label }: { label: string }) => (
+  <div className="flex items-center gap-2">
+    {label}
+    <CaretDown weight="regular" />
+  </div>
+)
+
+const Target = ({ label, type, disabled }: Props) => {
   if (type === 'basic-inline') {
-    return <Link>{label}</Link>
+    return (
+      <Link disabled={disabled}>
+        <Label label={label} />
+      </Link>
+    )
   }
 
-  return <Button type="primary">{label}</Button>
+  return (
+    <Button disabled={disabled}>
+      <Label label={label} />
+    </Button>
+  )
 }
 
 const Dropdown = ({ label, type, ...props }: Props) => {
@@ -26,7 +43,7 @@ const Dropdown = ({ label, type, ...props }: Props) => {
   return (
     <AntdDropdown {...props}>
       <div>
-        <Target label={label} type={type} />
+        <Target label={label} type={type} disabled={props.disabled} />
       </div>
     </AntdDropdown>
   )

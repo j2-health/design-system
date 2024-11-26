@@ -1,4 +1,5 @@
 import { Button as AntdButton, ButtonProps } from 'antd'
+import './Button.css'
 
 export type Props = Expand<ButtonProps>
 

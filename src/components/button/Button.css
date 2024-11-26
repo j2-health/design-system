@@ -1,0 +1,53 @@
+.ant-btn-default {
+  &:focus-visible {
+    border-color: var(--j2-color-primary-hover);
+  }
+}
+
+.ant-btn-text {
+  &:active {
+    background-color: var(--j2-gray-2) !important;
+  }
+}
+
+.ant-btn-dashed {
+  border: none !important;
+  background-color: var(--j2-gray-3);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--j2-gray-3) !important;
+    color: var(--j2-color-primary-text-hover) !important;
+  }
+
+  &:disabled {
+    background-color: var(--j2-gray-3) !important;
+    border: 1px solid var(--j2-color-border) !important;
+    color: var(--j2-color-text-disabled) !important;
+  }
+}
+
+.ant-btn-background-ghost {
+  &.ant-btn-primary {
+    background-color: var(--j2-color-primary);
+    border-color: #ffffff;
+    color: #ffffff;
+
+    &:hover,
+    &:focus-visible {
+      &:not(:disabled) {
+        background-color: var(--j2-color-primary-active) !important;
+        color: #ffffff !important;
+        border-color: #ffffff !important;
+      }
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    &:not(:disabled) {
+      border-color: var(--j2-color-primary-hover) !important;
+      background-color: var(--j2-gray-4) !important;
+    }
+  }
+}
