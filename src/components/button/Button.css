@@ -3,3 +3,14 @@
     border-color: var(--j2-color-primary-hover);
   }
 }
+
+.ant-btn-dashed {
+  border: none !important;
+  background-color: var(--j2-gray-3);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--j2-gray-3) !important;
+    color: var(--j2-color-primary-text-hover) !important;
+  }
+}
