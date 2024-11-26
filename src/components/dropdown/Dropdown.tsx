@@ -19,17 +19,17 @@ const Label = ({ label }: { label: string }) => (
   </div>
 )
 
-const Target = ({ label, type }: Props) => {
+const Target = ({ label, type, disabled }: Props) => {
   if (type === 'basic-inline') {
     return (
-      <Link>
+      <Link disabled={disabled}>
         <Label label={label} />
       </Link>
     )
   }
 
   return (
-    <Button>
+    <Button disabled={disabled}>
       <Label label={label} />
     </Button>
   )
@@ -43,7 +43,7 @@ const Dropdown = ({ label, type, ...props }: Props) => {
   return (
     <AntdDropdown {...props}>
       <div>
-        <Target label={label} type={type} />
+        <Target label={label} type={type} disabled={props.disabled} />
       </div>
     </AntdDropdown>
   )
