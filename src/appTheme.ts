@@ -197,6 +197,10 @@ export const appTheme: ThemeConfig = {
       defaultBorderColor: 'var(--j2-color-border)',
       defaultHoverBorderColor: 'var(--j2-color-primary-active)',
       defaultActiveBorderColor: 'var(--j2-color-primary-active)',
+      textTextColor: 'var(--j2-color-primary-text)',
+      textHoverBg: 'var(--j2-gray-2)',
+      textTextHoverColor: 'var(--j2-color-primary-text-hover)',
+      textTextActiveColor: 'var(--j2-color-primary-text-active)',
     },
     Menu: {
       itemSelectedBg: 'var(--j2-color-primary)',

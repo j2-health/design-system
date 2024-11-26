@@ -4,6 +4,12 @@
   }
 }
 
+.ant-btn-text {
+  &:active {
+    background-color: var(--j2-gray-2) !important;
+  }
+}
+
 .ant-btn-dashed {
   border: none !important;
   background-color: var(--j2-gray-3);
