@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './Button'
+import { ChefHat } from '@phosphor-icons/react'
+
+const chefHatIcon = <ChefHat />
 
 const meta = {
   title: 'Components/Button',
@@ -31,6 +34,7 @@ const meta = {
     danger: false,
     type: 'default',
     shape: 'default',
+    icon: chefHatIcon,
   },
   argTypes: {
     onClick: { action: 'clicked' },
@@ -45,6 +49,10 @@ const meta = {
     size: {
       control: 'radio',
       options: ['small', 'medium', 'large'],
+    },
+    icon: {
+      control: 'radio',
+      options: [undefined, chefHatIcon],
     },
   },
 } satisfies Meta<typeof Button>
