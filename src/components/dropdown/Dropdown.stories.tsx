@@ -48,14 +48,30 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    label: 'Download Report',
+    label: 'Export Reports',
     type: 'basic',
   },
   render: (args) => {
     return (
       <Dropdown
         {...args}
-        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
+        menu={{
+          items: [
+            {
+              key: 'Download',
+              label: 'Download',
+              type: 'group',
+              children: [
+                { key: 'csv', label: '.csv' },
+                { key: 'pdf', label: '.pdf' },
+                { key: 'excel', label: '.xlsx' },
+              ],
+            },
+            { type: 'divider' },
+            { key: 'print', label: 'Print' },
+            { key: 'email', label: 'Email' },
+          ],
+        }}
       />
     )
   },
