@@ -30,6 +30,7 @@ const meta = {
   tags: ['autodocs'],
   args: {
     children: 'Optimize Network',
+    disabled: false,
     ghost: false,
     danger: false,
     type: 'default',
