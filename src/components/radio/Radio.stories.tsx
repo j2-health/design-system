@@ -8,23 +8,11 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    optionType: {
-      control: 'radio',
-      options: ['default', 'button'],
-    },
-    buttonStyle: {
-      control: 'radio',
-      options: ['solid', 'outline'],
-    },
-  },
-} satisfies Meta<typeof RadioGroup>
-
-export default meta
-type Story = StoryObj<typeof meta>
-
-export const Default: Story = {
   args: {
+    disabled: false,
+    value: 'medical_group',
+    optionType: 'default',
+    size: 'middle',
     options: [
       {
         value: 'medical_group',
@@ -36,9 +24,35 @@ export const Default: Story = {
       },
     ],
   },
+  argTypes: {
+    optionType: {
+      control: 'radio',
+      options: ['default', 'button'],
+    },
+    buttonStyle: {
+      control: 'radio',
+      options: ['solid', 'outline'],
+    },
+    disabled: {
+      control: 'boolean',
+    },
+    size: {
+      control: 'radio',
+      options: ['small', 'middle', 'large'],
+    },
+  },
+} satisfies Meta<typeof RadioGroup>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  args: {
+    optionType: 'default',
+  },
 }
 
-export const Button: Story = {
+export const SolidButton: Story = {
   args: {
     optionType: 'button',
     buttonStyle: 'solid',
@@ -52,5 +66,12 @@ export const Button: Story = {
         label: 'Health System',
       },
     ],
+  },
+}
+
+export const OutlineButton: Story = {
+  args: {
+    buttonStyle: 'outline',
+    optionType: 'button',
   },
 }
