@@ -4,7 +4,26 @@ import { Button } from './Button'
 
 const meta = {
   title: 'Components/Button',
+  parameters: {
+    layout: 'fullscreen',
+  },
   component: Button,
+  decorators: [
+    (Story, context) => {
+      const backgroundColor = context.args.ghost
+        ? 'var(--j2-color-primary)'
+        : '#fff'
+
+      return (
+        <div
+          className="full-width full-height flex justify-center items-center p-10"
+          style={{ backgroundColor }}
+        >
+          <Story />
+        </div>
+      )
+    },
+  ],
   tags: ['autodocs'],
   args: {
     children: 'Optimize Network',
