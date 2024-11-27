@@ -209,6 +209,11 @@ export const appTheme: ThemeConfig = {
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',
     },
+    Select: {
+      multipleItemBg: 'var(--j2-gray-2)',
+      multipleItemBorderColor: 'var(--j2-gray-4)',
+      colorText: 'var(--j2-color-primary-text)',
+    },
     Tooltip: {
       colorBgSpotlight: 'var(--j2-color-primary-active)',
     },

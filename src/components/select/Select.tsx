@@ -34,6 +34,7 @@ export const Select = (props: SelectProps) => {
           <CaretDown size={14} data-testid="caret-down" />
         )
       }
+      removeIcon={<XCircle size={12} />}
       allowClear={
         props.allowClear ? { clearIcon: <XCircle size={14} /> } : false
       }
