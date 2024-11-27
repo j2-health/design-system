@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { Select as AntDSelect } from 'formik-antd'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -18,6 +19,26 @@ export const Select = (props: SelectProps) => {
     }
   }
 
+  const dropdownRender = React.useCallback(
+    (menu: React.ReactElement): React.ReactElement => {
+      if (props.loading) {
+        return (
+          <div className="flex items-center justify-between px-3 py-1">
+            <span>Loading...</span>
+            <Spin indicator={<LoadingOutlined spin />} size="small" />
+          </div>
+        )
+      }
+
+      if (!props.options || (props.options && props.options.length === 0)) {
+        return <div className="px-3 py-1">No options</div>
+      }
+
+      return menu
+    },
+    [props.loading, props.options?.length]
+  )
+
   return (
     <AntDSelect
       {...props}
@@ -34,6 +55,8 @@ export const Select = (props: SelectProps) => {
           <CaretDown size={14} data-testid="caret-down" />
         )
       }
+      dropdownRender={dropdownRender}
+      removeIcon={<XCircle size={12} />}
       allowClear={
         props.allowClear ? { clearIcon: <XCircle size={14} /> } : false
       }

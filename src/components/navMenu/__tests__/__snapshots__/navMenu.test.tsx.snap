@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavMenu should render correctly 1`] = `
+<div>
+  <div
+    class="h-screen w-64 bg-white flex flex-col"
+  >
+    <div
+      class="py-5 px-3"
+    >
+      <a
+        class="flex items-center gap-2"
+        href="/"
+      >
+        <test-file-stub />
+        <test-file-stub />
+      </a>
+    </div>
+    <div
+      class="flex flex-col justify-between flex-1"
+    >
+      <ul
+        class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+        data-menu-list="true"
+        role="menu"
+        tabindex="0"
+      >
+        <li
+          class="ant-menu-item ant-menu-item-only-child"
+          data-menu-id="rc-menu-uuid-test-dashboard"
+          role="menuitem"
+          style="padding-left: 24px;"
+          tabindex="-1"
+        >
+          <span
+            class="ant-menu-title-content"
+          >
+            Dashboard
+          </span>
+        </li>
+        <li
+          class="ant-menu-item ant-menu-item-only-child"
+          data-menu-id="rc-menu-uuid-test-settings"
+          role="menuitem"
+          style="padding-left: 24px;"
+          tabindex="-1"
+        >
+          <span
+            class="ant-menu-title-content"
+          >
+            Settings
+          </span>
+        </li>
+      </ul>
+      <div
+        aria-hidden="true"
+        style="display: none;"
+      />
+      <ul
+        class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+        data-menu-list="true"
+        role="menu"
+        tabindex="0"
+      >
+        <li
+          class="ant-menu-item ant-menu-item-only-child"
+          data-menu-id="rc-menu-uuid-test-logout"
+          role="menuitem"
+          style="padding-left: 24px;"
+          tabindex="-1"
+        >
+          <span
+            class="ant-menu-title-content"
+          >
+            Logout
+          </span>
+        </li>
+      </ul>
+      <div
+        aria-hidden="true"
+        style="display: none;"
+      />
+    </div>
+  </div>
+</div>
+`;
