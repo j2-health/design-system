@@ -114,3 +114,17 @@ export const Loading: Story = {
     </Formik>
   ),
 }
+
+export const NoOptions: Story = {
+  args: {
+    ...Basic.args,
+    options: [],
+  },
+  render: (args) => (
+    <Formik initialValues={{ plan_metal: '' }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} className="w-64" />
+      </Form>
+    </Formik>
+  ),
+}

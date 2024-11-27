@@ -30,9 +30,13 @@ export const Select = (props: SelectProps) => {
         )
       }
 
+      if (!props.options || (props.options && props.options.length === 0)) {
+        return <div className="px-3 py-1">No options</div>
+      }
+
       return menu
     },
-    [props.loading]
+    [props.loading, props.options?.length]
   )
 
   return (
