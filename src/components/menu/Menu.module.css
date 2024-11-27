@@ -1,3 +1,12 @@
 .j2Menu :global(.ant-menu-submenu-selected) :global(.ant-menu-submenu-title) {
   color: inherit;
 }
+
+.j2Menu :global(.ant-menu-item-divider) {
+  margin: 0 12px;
+}
+
+.j2Menu:global(.ant-menu-light.ant-menu-root.ant-menu-inline) {
+  border-inline-end: none;
+  border-right: none;
+}

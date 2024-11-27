@@ -206,8 +206,10 @@ export const appTheme: ThemeConfig = {
       textTextActiveColor: 'var(--j2-color-primary-text-active)',
     },
     Menu: {
+      itemColor: 'var(--j2-color-primary-text)',
       itemSelectedBg: 'var(--j2-color-primary)',
       itemSelectedColor: '#fff',
+      itemMarginInline: 12,
     },
     Select: {
       multipleItemBg: 'var(--j2-gray-2)',
