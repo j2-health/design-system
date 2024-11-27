@@ -23,22 +23,24 @@ export const NavMenu = ({
   footerItems,
 }: Props) => {
   return (
-    <div className={cx('h-screen', 'w-64', 'bg-white', 'flex', 'flex-col')}>
-      <div className={cx('py-5', 'px-3')}>
-        <a href={href} className={cx('flex', 'items-center', 'gap-2')}>
-          <Logo />
-          <Wordmark />
-        </a>
-        {headerSlot && <div className={cx('mt-5')}>{headerSlot}</div>}
-      </div>
-      <div className={cx('flex', 'flex-col', 'justify-between', 'flex-1')}>
-        <Menu
-          mode="inline"
-          items={items}
-          defaultOpenKeys={defaultOpenKeys}
-          defaultSelectedKeys={defaultSelectedKeys}
-        />
-        <Menu mode="inline" selectable={false} items={footerItems} />
+    <div className={cx('h-screen', 'w-64', 'bg-white')}>
+      <div className={cx('h-full', 'w-full', 'flex', 'flex-col')}>
+        <div className={cx('py-5', 'px-3')}>
+          <a href={href} className={cx('flex', 'items-center', 'gap-2')}>
+            <Logo />
+            <Wordmark />
+          </a>
+          {headerSlot && <div className={cx('mt-5')}>{headerSlot}</div>}
+        </div>
+        <div className={cx('flex', 'flex-col', 'justify-between', 'flex-1')}>
+          <Menu
+            mode="inline"
+            items={items}
+            defaultOpenKeys={defaultOpenKeys}
+            defaultSelectedKeys={defaultSelectedKeys}
+          />
+          <Menu mode="inline" selectable={false} items={footerItems} />
+        </div>
       </div>
     </div>
   )
