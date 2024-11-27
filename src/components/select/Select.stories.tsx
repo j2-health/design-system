@@ -99,3 +99,18 @@ export const Multiple: Story = {
     </Formik>
   ),
 }
+
+export const Loading: Story = {
+  args: {
+    ...Basic.args,
+    loading: true,
+    options: [],
+  },
+  render: (args) => (
+    <Formik initialValues={{ plan_metal: '' }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} className="w-64" />
+      </Form>
+    </Formik>
+  ),
+}
