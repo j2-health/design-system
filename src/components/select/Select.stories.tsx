@@ -47,7 +47,7 @@ export const Basic: Story = {
   render: (args) => (
     <Formik initialValues={{ plan_metal: 'bronze' }} onSubmit={() => {}}>
       <Form>
-        <Select {...args} />
+        <Select {...args} className="w-64" />
       </Form>
     </Formik>
   ),
@@ -73,7 +73,7 @@ export const Search: Story = {
   render: (args) => (
     <Formik initialValues={{ plan_metal: '' }} onSubmit={() => {}}>
       <Form>
-        <Select {...args} />
+        <Select {...args} className="w-64" />
       </Form>
     </Formik>
   ),
@@ -94,7 +94,7 @@ export const Multiple: Story = {
       onSubmit={() => {}}
     >
       <Form>
-        <Select {...args} />
+        <Select {...args} className="w-64" />
       </Form>
     </Formik>
   ),
