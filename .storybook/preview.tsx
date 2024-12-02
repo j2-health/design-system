@@ -19,10 +19,25 @@ const preview: Preview = {
       },
     },
     options: {
-      storySort: (a, b) =>
-        a.id === b.id
+      storySort: (a, b) => {
+        const sortKey = (id, name) => {
+          switch (name) {
+            case 'Docs':
+              return `0-${id}`
+            case 'Default':
+              return `1-${id}`
+            default:
+              return id
+          }
+        }
+
+        const compKeyA = sortKey(a.id, a.name)
+        const compKeyB = sortKey(b.id, b.name)
+
+        return compKeyA === compKeyB
           ? 0
-          : a.id.localeCompare(b.id, undefined, { numeric: true }),
+          : compKeyA.localeCompare(compKeyB, undefined, { numeric: true })
+      },
     },
   },
   decorators: [
