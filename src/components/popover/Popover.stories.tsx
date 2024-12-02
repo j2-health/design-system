@@ -8,6 +8,11 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  args: {
+    placement: 'top',
+    trigger: 'hover',
+    arrow: true,
+  },
   argTypes: {
     placement: {
       control: 'radio',
@@ -16,6 +21,9 @@ const meta = {
     trigger: {
       control: 'radio',
       options: ['hover', 'click'],
+    },
+    arrow: {
+      control: 'boolean',
     },
   },
 } satisfies Meta<typeof Popover>
