@@ -3,7 +3,7 @@
 exports[`Radio should render correctly 1`] = `
 <div>
   <label
-    class="ant-radio-wrapper css-dev-only-do-not-override-vryruh"
+    class="ant-radio-wrapper css-dev-only-do-not-override-tpassh"
   >
     <span
       class="ant-radio ant-wave-target"
@@ -24,10 +24,10 @@ exports[`Radio should render correctly 1`] = `
 exports[`RadioGroup should render correctly 1`] = `
 <div>
   <div
-    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-vryruh"
+    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-tpassh"
   >
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-vryruh"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-tpassh"
     >
       <span
         class="ant-radio-button"
@@ -46,7 +46,7 @@ exports[`RadioGroup should render correctly 1`] = `
       </span>
     </label>
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-vryruh"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-tpassh"
     >
       <span
         class="ant-radio-button"

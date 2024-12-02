@@ -3,7 +3,7 @@
 exports[`Button should render correctly 1`] = `
 <div>
   <button
-    class="ant-btn css-dev-only-do-not-override-vryruh ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+    class="ant-btn css-dev-only-do-not-override-tpassh ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
     type="button"
   />
 </div>
