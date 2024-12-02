@@ -4,27 +4,54 @@ import {
   CheckCircle,
   Info,
   WarningCircle,
+  X,
   XCircle,
 } from '@phosphor-icons/react'
-type Props = Expand<AlertProps>
+type Props = Expand<AlertProps> & {
+  description?: string
+  type: 'success' | 'info' | 'warning' | 'error'
+  closable?: boolean
+  showIcon?: boolean
+  banner?: boolean
+}
 
-const Alert = (props: Props) => {
+const Alert = ({
+  description,
+  type,
+  closable = true,
+  showIcon = true,
+  banner = true,
+  ...props
+}: Props) => {
   const icon = React.useMemo(() => {
-    switch (props.type) {
+    const size = description ? 24 : 16
+
+    switch (type) {
       case 'success':
-        return <CheckCircle fill="var(--j2-color-success-text)" />
+        return <CheckCircle fill="var(--j2-color-success-text)" size={size} />
       case 'error':
-        return <XCircle fill="var(--j2-color-error-text)" />
+        return <XCircle fill="var(--j2-color-error-text)" size={size} />
       case 'info':
-        return <Info fill="var(--j2-color-info-text)" />
+        return <Info fill="var(--j2-color-info-text)" size={size} />
       case 'warning':
-        return <WarningCircle fill="var(--j2-color-warning-text)" />
+        return <WarningCircle fill="var(--j2-color-warning-text)" size={size} />
       default:
         return null
     }
-  }, [props.type])
+  }, [type, description])
 
-  return <AntdAlert {...props} icon={icon} />
+  return (
+    <AntdAlert
+      icon={icon}
+      closable={closable}
+      showIcon={showIcon}
+      type={type}
+      banner={banner}
+      description={description}
+      closeIcon={<X size={14} weight="regular" />}
+      {...props}
+    />
+  )
 }
 
 export { Alert }
