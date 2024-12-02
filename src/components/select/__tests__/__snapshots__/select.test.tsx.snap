@@ -6,7 +6,7 @@ exports[`Select should not render clear icon when allowClear is disabled 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
     >
       <div
         class="ant-select-selector"
@@ -69,7 +69,7 @@ exports[`Select should render correctly 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
     >
       <div
         class="ant-select-selector"
@@ -132,7 +132,7 @@ exports[`Select should render with allowClear enabled 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-allow-clear ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-allow-clear ant-select-show-arrow"
     >
       <div
         class="ant-select-selector"
@@ -195,7 +195,7 @@ exports[`Select should render with loading indicator 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow ant-select-loading"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow ant-select-loading"
     >
       <div
         class="ant-select-selector"
@@ -272,7 +272,7 @@ exports[`Select should render with options 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow"
     >
       <div
         class="ant-select-selector"
@@ -335,7 +335,7 @@ exports[`Select should render with search enabled 1`] = `
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-tpassh"
   >
     <div
-      class="ant-select ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow ant-select-show-search"
+      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-tpassh ant-select-single ant-select-show-arrow ant-select-show-search"
     >
       <div
         class="ant-select-selector"

@@ -68,6 +68,7 @@ export const Select = (props: SelectProps) => {
       onBlur={() => {
         setIsFocused(false)
       }}
+      size={props.size || 'large'}
     />
   )
 }
