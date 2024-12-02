@@ -6,16 +6,16 @@ exports[`Table should render correctly 1`] = `
     class=""
   >
     <div
-      class="ant-table-wrapper css-dev-only-do-not-override-tpassh"
+      class="ant-table-wrapper css-dev-only-do-not-override-vryruh"
     >
       <div
-        class="ant-spin-nested-loading css-dev-only-do-not-override-tpassh"
+        class="ant-spin-nested-loading css-dev-only-do-not-override-vryruh"
       >
         <div
           class="ant-spin-container"
         >
           <div
-            class="ant-table css-dev-only-do-not-override-tpassh"
+            class="ant-table css-dev-only-do-not-override-vryruh"
           >
             <div
               class="ant-table-container"
@@ -57,7 +57,7 @@ exports[`Table should render correctly 1`] = `
             </div>
           </div>
           <ul
-            class="ant-pagination ant-table-pagination ant-table-pagination-right css-dev-only-do-not-override-tpassh"
+            class="ant-pagination ant-table-pagination ant-table-pagination-right css-dev-only-do-not-override-vryruh"
           >
             <li
               aria-disabled="true"
