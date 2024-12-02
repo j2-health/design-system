@@ -8,10 +8,17 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  args: {
+    placement: 'top',
+    arrow: true,
+  },
   argTypes: {
     placement: {
       control: 'radio',
       options: ['top', 'right', 'bottom', 'left'],
+    },
+    arrow: {
+      control: 'boolean',
     },
   },
 } satisfies Meta<typeof Tooltip>
