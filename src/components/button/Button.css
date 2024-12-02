@@ -14,10 +14,21 @@
   border: none !important;
   background-color: var(--j2-gray-3);
 
+  &.ant-btn-color-dangerous {
+    background-color: var(--j2-color-error-bg) !important;
+    border: 1px solid var(--j2-color-error-border) !important;
+  }
+
   &:hover,
   &:focus-visible {
     background-color: var(--j2-gray-3) !important;
     color: var(--j2-color-primary-text-hover) !important;
+
+    &.ant-btn-color-dangerous {
+      background-color: var(--j2-color-error-bg-hover) !important;
+      color: var(--j2-color-error-hover) !important;
+      border: 1px solid var(--j2-color-error-border-hover) !important;
+    }
   }
 
   &:disabled {

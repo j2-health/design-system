@@ -97,3 +97,10 @@ export const Text: Story = {
     children: 'Optimize Network',
   },
 }
+
+export const Danger: Story = {
+  args: {
+    danger: true,
+    children: 'Danger Zone!',
+  },
+}
