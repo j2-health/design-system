@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Dropdown } from './Dropdown'
+import { ItemType } from 'antd/es/menu/interface'
 
 const meta = {
   title: 'Components/Dropdown',
@@ -46,6 +47,22 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const items: ItemType[] = [
+  {
+    key: 'Download',
+    label: 'Download',
+    type: 'group',
+    children: [
+      { key: 'csv', label: '.csv' },
+      { key: 'pdf', label: '.pdf' },
+      { key: 'excel', label: '.xlsx' },
+    ],
+  },
+  { type: 'divider' },
+  { key: 'print', label: 'Print' },
+  { key: 'email', label: 'Email' },
+]
+
 export const Default: Story = {
   args: {
     label: 'Export Reports',
@@ -56,21 +73,7 @@ export const Default: Story = {
       <Dropdown
         {...args}
         menu={{
-          items: [
-            {
-              key: 'Download',
-              label: 'Download',
-              type: 'group',
-              children: [
-                { key: 'csv', label: '.csv' },
-                { key: 'pdf', label: '.pdf' },
-                { key: 'excel', label: '.xlsx' },
-              ],
-            },
-            { type: 'divider' },
-            { key: 'print', label: 'Print' },
-            { key: 'email', label: 'Email' },
-          ],
+          items: items,
         }}
       />
     )
@@ -83,12 +86,7 @@ export const Twofold: Story = {
     type: 'twofold',
   },
   render: (args) => {
-    return (
-      <Dropdown
-        {...args}
-        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
-      />
-    )
+    return <Dropdown {...args} menu={{ items: items }} />
   },
 }
 
@@ -98,11 +96,6 @@ export const BasicInline: Story = {
     type: 'basic-inline',
   },
   render: (args) => {
-    return (
-      <Dropdown
-        {...args}
-        menu={{ items: [{ key: 'csv', label: 'CSV Report' }] }}
-      />
-    )
+    return <Dropdown {...args} menu={{ items: items }} />
   },
 }

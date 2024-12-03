@@ -7,6 +7,11 @@ const meta: Meta<typeof Alert> = {
   parameters: {
     layout: 'centered',
   },
+  args: {
+    closable: true,
+    showIcon: true,
+    banner: true,
+  },
   argTypes: {
     type: {
       control: 'select',
@@ -31,8 +36,6 @@ export const Success: Story = {
     description:
       'Your provider network is now optimized. Time to sit back and relax!',
     banner: false,
-    closable: true,
-    showIcon: true,
   },
 }
 
@@ -42,8 +45,6 @@ export const Info: Story = {
     message: 'Heads Up!',
     description: 'Just a friendly reminder to review your network performance.',
     banner: false,
-    closable: true,
-    showIcon: true,
   },
 }
 
@@ -54,8 +55,6 @@ export const Warning: Story = {
     description:
       'Something might be off with your network. Better take a look.',
     banner: false,
-    closable: true,
-    showIcon: true,
   },
 }
 
@@ -66,7 +65,12 @@ export const Error: Story = {
     description:
       'Looks like there’s an issue. Let’s fix it and get back on track.',
     banner: false,
-    closable: true,
-    showIcon: true,
+  },
+}
+
+export const MessageOnly: Story = {
+  args: {
+    ...Success.args,
+    description: undefined,
   },
 }

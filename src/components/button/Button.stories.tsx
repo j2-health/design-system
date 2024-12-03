@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from './Button'
 import { ChefHat } from '@phosphor-icons/react'
 
-const chefHatIcon = <ChefHat />
-
 const meta = {
   title: 'Components/Button',
   parameters: {
@@ -35,7 +33,7 @@ const meta = {
     danger: false,
     type: 'default',
     shape: 'default',
-    icon: chefHatIcon,
+    icon: 'With Icon',
   },
   argTypes: {
     onClick: { action: 'clicked' },
@@ -53,7 +51,11 @@ const meta = {
     },
     icon: {
       control: 'radio',
-      options: [undefined, chefHatIcon],
+      options: ['With Icon', 'No Icon'],
+      mapping: {
+        'With Icon': <ChefHat />,
+        'No Icon': undefined,
+      },
     },
   },
 } satisfies Meta<typeof Button>
@@ -93,5 +95,12 @@ export const Text: Story = {
   args: {
     type: 'text',
     children: 'Optimize Network',
+  },
+}
+
+export const Danger: Story = {
+  args: {
+    danger: true,
+    children: 'Danger Zone!',
   },
 }
