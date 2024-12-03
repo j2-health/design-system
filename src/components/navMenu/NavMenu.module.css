@@ -1,0 +1,26 @@
+.navMenuContainer {
+  height: 100vh;
+  display: inline-block;
+
+  &.collapsed {
+    .headerContainer {
+      .logo {
+        display: block;
+      }
+
+      :global(.toggle-button) {
+        display: none;
+      }
+
+      &:hover {
+        .logo {
+          display: none;
+        }
+
+        :global(.toggle-button) {
+          display: block;
+        }
+      }
+    }
+  }
+}
