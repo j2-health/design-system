@@ -33,6 +33,12 @@ export const NavMenu = ({
   const [selectedKey, setSelectedKey] = React.useState<string>(
     defaultSelectedKeys?.[0] || ''
   )
+  const [isToggleTooltipOpen, setToggleTooltipOpen] = React.useState(false)
+
+  const toggleCollapse = React.useCallback(() => {
+    setIsCollapsed(!isCollapsed)
+    setToggleTooltipOpen(false)
+  }, [isCollapsed])
 
   return (
     <div
@@ -64,12 +70,15 @@ export const NavMenu = ({
               title={isCollapsed ? 'Expand Menu' : 'Collapse Menu'}
               placement="right"
               arrow={false}
-              onOpenChange={(x) => console.log(x)}
+              onOpenChange={(shouldBeOpen) => {
+                setToggleTooltipOpen(shouldBeOpen)
+              }}
+              open={isToggleTooltipOpen}
             >
               <Button
                 type="text"
                 icon={isCollapsed ? <ExpandIcon /> : <CollapseIcon />}
-                onClick={() => setIsCollapsed(!isCollapsed)}
+                onClick={toggleCollapse}
                 className={cx('toggle-button')}
               />
             </Tooltip>
