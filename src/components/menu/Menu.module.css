@@ -6,7 +6,15 @@
   margin: 0 12px;
 }
 
-.j2Menu:global(.ant-menu-light.ant-menu-root.ant-menu-inline) {
+.j2Menu:global(.ant-menu-light.ant-menu-root.ant-menu-inline),
+.j2Menu:global(.ant-menu-light.ant-menu-root.ant-menu-vertical) {
   border-inline-end: none;
   border-right: none;
+}
+
+.j2Menu.compact {
+  :global(.ant-menu-submenu-selected) :global(.ant-menu-submenu-title) {
+    color: #ffffff;
+    background-color: var(--j2-color-primary-active);
+  }
 }

@@ -15,14 +15,16 @@ const meta: Meta<typeof Menu> = {
   parameters: {
     layout: 'centered',
   },
+  args: {
+    compact: false,
+  },
   argTypes: {
     mode: {
       control: 'radio',
       options: ['vertical', 'horizontal', 'inline'],
     },
-    theme: {
-      control: 'radio',
-      options: ['light', 'dark'],
+    compact: {
+      control: 'boolean',
     },
   },
 }
@@ -34,7 +36,6 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     mode: 'vertical',
-    theme: 'light',
     items: [
       { label: 'J2GPT', key: 'j2gpt', icon: <SmileOutlined /> },
       { label: 'Insights Hub', key: 'insights-hub', icon: <HomeOutlined /> },
@@ -61,7 +62,6 @@ export const Default: Story = {
 export const CollapsedInlineWithChildren: Story = {
   args: {
     mode: 'inline',
-    theme: 'light',
     items: [
       {
         key: 'network-management',
@@ -97,5 +97,12 @@ export const CollapsedInlineWithChildren: Story = {
       },
     ],
     defaultOpenKeys: ['network-management'],
+  },
+}
+
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    compact: true,
   },
 }
