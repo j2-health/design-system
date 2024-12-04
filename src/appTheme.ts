@@ -230,5 +230,8 @@ export const appTheme: ThemeConfig = {
     Tag: {
       defaultBg: 'var(--j2-color-fill-secondary)',
     },
+    Form: {
+      labelHeight: '100%',
+    },
   },
 }
