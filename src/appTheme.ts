@@ -19,7 +19,7 @@ export const appTheme: ThemeConfig = {
     colorBorderSecondary: 'var(--j2-color-border-secondary)',
     colorPrimary: '#253761', // var(--j2-blue-9)
     colorSuccess: '#57a45e', // var(--j2-green-9)
-    colorWarning: '#e2a600', // var(--j2-gold-9)
+    colorWarning: '#9e6e00', // var(--j2-gold-11)
     colorInfo: '#253761', // var(--j2-blue-9)
     colorLink: '#253761', // var(--j2-blue-9)
     colorError: '#bf6c6f', // var(--j2-red-9)
