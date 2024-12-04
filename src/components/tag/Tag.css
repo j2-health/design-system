@@ -1,0 +1,8 @@
+.j2-tag-icon {
+  display: inherit;
+  margin-right: var(--j2-margin-xxs);
+}
+
+.j2-tag > * {
+  vertical-align: middle;
+}

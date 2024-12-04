@@ -1,11 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Tag } from './Tag'
+import { ChefHat } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Tag',
   component: Tag,
   parameters: {
     layout: 'centered',
+  },
+  args: {
+    status: 'default',
+    showIcon: true,
+  },
+  argTypes: {
+    status: {
+      control: 'radio',
+      options: ['default', 'error', 'success', 'warning', 'processing'],
+    },
+    showIcon: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof Tag>
 
@@ -15,19 +29,24 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     children: 'Tag',
+    status: 'default',
+    showIcon: true,
   },
 }
 
-export const Closable: Story = {
+export const NoIcon: Story = {
   args: {
     children: 'Tag',
-    closable: true,
+    status: 'default',
+    showIcon: false,
   },
 }
 
-export const Green: Story = {
+export const CustomIcon: Story = {
   args: {
-    children: 'Tag',
-    color: 'green',
+    children: 'Look at me, I have a hat!',
+    status: 'default',
+    showIcon: true,
+    icon: ChefHat,
   },
 }

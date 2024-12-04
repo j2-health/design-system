@@ -8,7 +8,7 @@ const meta: Meta<typeof Alert> = {
     layout: 'centered',
   },
   args: {
-    closable: true,
+    closable: false,
     showIcon: true,
     banner: true,
   },
