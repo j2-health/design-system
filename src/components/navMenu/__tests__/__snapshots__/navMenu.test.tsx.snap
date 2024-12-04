@@ -3,83 +3,101 @@
 exports[`NavMenu should render correctly 1`] = `
 <div>
   <div
-    class="h-screen w-64 bg-white flex flex-col"
+    class="navMenuContainer bg-white"
   >
     <div
-      class="py-5 px-3"
+      class="flex flex-col h-full"
     >
-      <a
-        class="flex items-center gap-2"
-        href="/"
-      >
-        <test-file-stub />
-        <test-file-stub />
-      </a>
-    </div>
-    <div
-      class="flex flex-col justify-between flex-1"
-    >
-      <ul
-        class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
-        data-menu-list="true"
-        role="menu"
-        tabindex="0"
-      >
-        <li
-          class="ant-menu-item ant-menu-item-only-child"
-          data-menu-id="rc-menu-uuid-test-dashboard"
-          role="menuitem"
-          style="padding-left: 24px;"
-          tabindex="-1"
-        >
-          <span
-            class="ant-menu-title-content"
-          >
-            Dashboard
-          </span>
-        </li>
-        <li
-          class="ant-menu-item ant-menu-item-only-child"
-          data-menu-id="rc-menu-uuid-test-settings"
-          role="menuitem"
-          style="padding-left: 24px;"
-          tabindex="-1"
-        >
-          <span
-            class="ant-menu-title-content"
-          >
-            Settings
-          </span>
-        </li>
-      </ul>
       <div
-        aria-hidden="true"
-        style="display: none;"
-      />
-      <ul
-        class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
-        data-menu-list="true"
-        role="menu"
-        tabindex="0"
+        class="py-5 px-3"
       >
-        <li
-          class="ant-menu-item ant-menu-item-only-child"
-          data-menu-id="rc-menu-uuid-test-logout"
-          role="menuitem"
-          style="padding-left: 24px;"
-          tabindex="-1"
+        <div
+          class="flex items-center justify-between headerContainer min-h-9"
         >
-          <span
-            class="ant-menu-title-content"
+          <a
+            class="flex items-center gap-2 logo"
+            href="/"
           >
-            Logout
-          </span>
-        </li>
-      </ul>
+            <test-file-stub />
+            <test-file-stub />
+          </a>
+          <button
+            class="ant-btn css-dev-only-do-not-override-tpassh ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <test-file-stub />
+            </span>
+          </button>
+        </div>
+      </div>
       <div
-        aria-hidden="true"
-        style="display: none;"
-      />
+        class="flex flex-col justify-between flex-1"
+      >
+        <ul
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+          data-menu-list="true"
+          role="menu"
+          tabindex="0"
+        >
+          <li
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-dashboard"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Dashboard
+            </span>
+          </li>
+          <li
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-settings"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Settings
+            </span>
+          </li>
+        </ul>
+        <div
+          aria-hidden="true"
+          style="display: none;"
+        />
+        <ul
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+          data-menu-list="true"
+          role="menu"
+          tabindex="0"
+        >
+          <li
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-logout"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Logout
+            </span>
+          </li>
+        </ul>
+        <div
+          aria-hidden="true"
+          style="display: none;"
+        />
+      </div>
     </div>
   </div>
 </div>
