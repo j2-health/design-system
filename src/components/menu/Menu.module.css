@@ -17,4 +17,12 @@
     color: #ffffff;
     background-color: var(--j2-color-primary-active);
   }
+
+  :global(.ant-menu-item-icon) {
+    margin-left: -2px !important;
+  }
+}
+
+:global(.ant-menu-item-icon) {
+  vertical-align: middle !important;
 }

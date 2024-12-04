@@ -21,44 +21,44 @@ const items = [
   {
     key: 'network-management',
     label: 'Network Management',
-    icon: <ChefHat />,
+    icon: <ChefHat size={20} />,
     children: [
       {
         key: 'insights-hub',
         label: 'Insights Hub',
-        icon: <HouseSimple />,
+        icon: <HouseSimple size={20} />,
       },
       {
         key: 'network-optimizer',
         label: 'Network Optimizer',
-        icon: <Brain />,
+        icon: <Brain size={20} />,
       },
       {
         key: 'quality-metrics',
         label: 'Quality Metrics',
-        icon: <ChartPolar />,
+        icon: <ChartPolar size={20} />,
       },
       {
         key: 'provider-optimization',
         label: 'Provider Optimization',
-        icon: <FastForward />,
+        icon: <FastForward size={20} />,
       },
     ],
   },
   {
     key: 'data-management',
     label: 'Data Management',
-    icon: <Database />,
+    icon: <Database size={20} />,
     children: [
       {
         key: 'admin-portal',
         label: 'Admin Portal',
-        icon: <Detective />,
+        icon: <Detective size={20} />,
       },
       {
         key: 'dashboards',
         label: 'Dashboards',
-        icon: <ChartLine />,
+        icon: <ChartLine size={20} />,
       },
     ],
   },
@@ -68,7 +68,7 @@ const footerItems: ItemType[] = [
   {
     key: 'settings',
     label: 'Settings',
-    icon: <Gear />,
+    icon: <Gear size={20} />,
     onClick: () => {
       alert('Settings')
     },
@@ -79,7 +79,7 @@ const footerItems: ItemType[] = [
   {
     key: 'logout',
     label: <a>Logout</a>,
-    icon: <SignOut />,
+    icon: <SignOut size={20} />,
   },
 ]
 
