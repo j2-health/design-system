@@ -18,7 +18,7 @@ type Props = Expand<AlertProps> & {
 const Alert = ({
   description,
   type,
-  closable = true,
+  closable = false,
   showIcon = true,
   banner = true,
   ...props
