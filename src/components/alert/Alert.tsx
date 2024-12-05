@@ -20,7 +20,7 @@ const Alert = ({
   type,
   closable = false,
   showIcon = true,
-  banner = true,
+  banner = false,
   ...props
 }: Props) => {
   const icon = React.useMemo(() => {

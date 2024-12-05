@@ -10,7 +10,7 @@ const meta: Meta<typeof Alert> = {
   args: {
     closable: false,
     showIcon: true,
-    banner: true,
+    banner: false,
   },
   argTypes: {
     type: {
@@ -28,6 +28,14 @@ const meta: Meta<typeof Alert> = {
 export default meta
 
 type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  args: {
+    message: 'Important information',
+    description:
+      'Some additional information that helps to clarify the message.',
+  },
+}
 
 export const Success: Story = {
   args: {
