@@ -19,6 +19,7 @@ type Props = {
   defaultOpenKeys?: string[]
   defaultSelectedKeys?: string[]
   footerItems: ItemType[]
+  className?: string
 }
 
 export const NavMenu = ({
@@ -28,6 +29,7 @@ export const NavMenu = ({
   defaultOpenKeys,
   defaultSelectedKeys,
   footerItems,
+  className,
 }: Props) => {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [selectedKey, setSelectedKey] = React.useState<string>(
@@ -45,7 +47,8 @@ export const NavMenu = ({
       className={cx(
         styles.navMenuContainer,
         isCollapsed && styles.collapsed,
-        'bg-white'
+        'bg-white',
+        className
       )}
     >
       <div className={cx('flex', 'flex-col', 'h-full')}>
