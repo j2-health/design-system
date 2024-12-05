@@ -11,11 +11,12 @@ const meta: Meta<typeof Alert> = {
     closable: false,
     showIcon: true,
     banner: false,
+    type: 'info',
   },
   argTypes: {
     type: {
-      control: 'select',
-      options: ['success', 'info', 'warning', 'error'],
+      control: 'radio',
+      options: ['info', 'success', 'warning', 'error'],
     },
     message: { control: 'text' },
     description: { control: 'text' },
@@ -34,6 +35,7 @@ export const Default: Story = {
     message: 'Important information',
     description:
       'Some additional information that helps to clarify the message.',
+    type: 'info',
   },
 }
 
