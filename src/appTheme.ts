@@ -205,6 +205,10 @@ export const appTheme: ThemeConfig = {
       textTextHoverColor: 'var(--j2-color-primary-text-hover)',
       textTextActiveColor: 'var(--j2-color-primary-text-active)',
     },
+    Form: {
+      itemMarginBottom: 0,
+      labelHeight: '100%',
+    },
     Menu: {
       itemColor: 'var(--j2-color-primary-text)',
       itemSelectedBg: 'var(--j2-color-primary)',
@@ -229,9 +233,6 @@ export const appTheme: ThemeConfig = {
     },
     Tag: {
       defaultBg: 'var(--j2-color-fill-secondary)',
-    },
-    Form: {
-      labelHeight: '100%',
     },
   },
 }

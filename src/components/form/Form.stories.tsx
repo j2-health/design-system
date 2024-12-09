@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Formik } from 'formik'
-import { Form } from 'formik-antd'
+import { Form } from './Form'
 import { Select } from '../select'
 import { Button } from '../button/Button'
 import { action } from '@storybook/addon-actions'
