@@ -1,1 +1,1 @@
-export { Form } from 'formik-antd'
+export { Form } from './Form'
