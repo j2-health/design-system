@@ -1,0 +1,8 @@
+.ant-form-item .ant-form-item-label > label {
+  align-items: start;
+  padding-top: 8px;
+
+  &::before {
+    margin-top: 6px;
+  }
+}
