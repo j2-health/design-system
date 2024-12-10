@@ -3,6 +3,8 @@
   display: inline-block;
 
   &.collapsed {
+    width: 80px;
+
     .headerContainer {
       .logo {
         display: block;
