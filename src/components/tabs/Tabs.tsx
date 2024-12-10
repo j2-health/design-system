@@ -1,7 +1,7 @@
-import { Tabs as AntdTabs, TabsProps} from 'antd'
+import { Tabs as AntdTabs, TabsProps } from 'antd'
 
 export type Props = Expand<TabsProps>
 
 export const Tabs = (props: Props) => {
-	return <AntdTabs {...props} />
+  return <AntdTabs {...props} />
 }
