@@ -1,50 +1,34 @@
-# React + TypeScript + Vite
+# Design System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Contributing
 
-Currently, two official plugins are available:
+### Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Make sure to install our pre-commit hooks. They are also verified by CI, but
+if you want to be notified early of linting or type errors, you have to
+install `pre-commit` and run its install step. To do this, run the following:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+$ PIP_REQUIRE_VIRTUALENV=false pip install pre-commit
+$ pre-commit install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+#### Storybook
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+In order to run the storybook, make sure to install node modules with `npm
+install`, and run the following command:
+
+```bash
+$ npm start
 ```
+
+#### In-app
+
+To use the design system in the context of an actual react application, you have
+to include this repo as a git submodule, and then add the build and package
+dependencies to your own application. It is unfortunately highly dependent on
+the infrstaructure of your application, so there is no one "right" way to use
+this repo, at least until we bite the bullet and build and publish this on a
+real npm package registry.

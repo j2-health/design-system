@@ -13,7 +13,8 @@
     "start": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",

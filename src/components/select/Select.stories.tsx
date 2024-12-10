@@ -13,7 +13,10 @@ const meta = {
     },
     mode: {
       control: 'radio',
-      options: { default: '', multiple: 'multiple' },
+      options: ['multiple'],
+      table: {
+        defaultValue: { summary: '' },
+      },
     },
     allowClear: {
       control: 'boolean',
@@ -61,8 +64,6 @@ export const Search: Story = {
     optionFilterProp: 'label',
     allowClear: true,
     loading: false,
-    onChange: { action: 'changed' },
-    onSearch: { action: 'searched' },
     options: [
       { value: 'bronze', label: 'Bronze Plan' },
       { value: 'silver', label: 'Silver Plan' },
