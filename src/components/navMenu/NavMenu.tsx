@@ -32,9 +32,6 @@ export const NavMenu = ({
   className,
 }: Props) => {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
-  const [selectedKey, setSelectedKey] = React.useState<string>(
-    defaultSelectedKeys?.[0] || ''
-  )
   const [isToggleTooltipOpen, setToggleTooltipOpen] = React.useState(false)
 
   const toggleCollapse = React.useCallback(() => {
@@ -94,9 +91,8 @@ export const NavMenu = ({
             mode={'inline'}
             compact={isCollapsed}
             items={items}
-            selectedKeys={[selectedKey]}
             defaultOpenKeys={isCollapsed ? undefined : defaultOpenKeys}
-            onSelect={(info) => setSelectedKey(info.key)}
+            defaultSelectedKeys={defaultSelectedKeys}
           />
           <Menu
             key={`nav-menu-footer-${isCollapsed}`}
