@@ -22,6 +22,7 @@ export * from './src/appTheme'
 export * from './src/AppConfigProvider'
 export * from './src/components/skeleton'
 export * from './src/components/form'
+export * from './src/components/rate'
 
 import * as icons from './src/components/icons'
 export { icons }
