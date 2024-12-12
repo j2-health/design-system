@@ -215,6 +215,9 @@ export const appTheme: ThemeConfig = {
       itemSelectedColor: '#fff',
       itemMarginInline: 12,
     },
+    Rate: {
+      marginXS: 0,
+    },
     Select: {
       multipleItemBg: 'var(--j2-gray-2)',
       multipleItemBorderColor: 'var(--j2-gray-4)',
