@@ -2,3 +2,7 @@
   border-left: none !important;
   border-right: none !important;
 }
+
+:global(.ant-table-cell) {
+  vertical-align: top;
+}
