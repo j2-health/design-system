@@ -6,3 +6,23 @@
 :global(.ant-table-cell) {
   vertical-align: top;
 }
+
+:global(.ant-table-bordered .ant-table-container) {
+  border-right: 1px solid var(--j2-color-border-secondary);
+  border-bottom: 1px solid var(--j2-color-border-secondary);
+  border-radius: var(--j2-border-radius);
+  overflow: hidden;
+
+  tr:last-of-type:global(.ant-table-row) :global(.ant-table-cell) {
+    border-bottom: none;
+  }
+}
+
+:global(.ant-table-wrapper .ant-table-container)
+  table
+  > thead
+  > tr:first-child
+  > *:last-child {
+  border-start-end-radius: var(--j2-border-radius);
+  border-right: none !important;
+}
