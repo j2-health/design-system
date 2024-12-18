@@ -23,6 +23,14 @@ const meta = {
         type: { summary: 'boolean' },
       },
     },
+    verticalBorders: {
+      control: {
+        type: 'boolean',
+      },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
   },
 } satisfies Meta<typeof Table>
 

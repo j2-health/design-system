@@ -13,6 +13,12 @@
   border-radius: var(--j2-border-radius);
   overflow: hidden;
 
+  tr {
+    td:last-of-type {
+      border-inline-end: none !important;
+    }
+  }
+
   tr:last-of-type:global(.ant-table-row) :global(.ant-table-cell) {
     border-bottom: none;
   }
