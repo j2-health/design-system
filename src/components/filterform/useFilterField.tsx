@@ -13,7 +13,7 @@ type UseFilterFieldOutputs = {
   formKey: string
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
-  valueOptions: { label: string; value: string }[] | undefined
+  valueInputConfig: ValueInputConfig | undefined
   handleFieldChange: (value: string) => void
   handleOperatorChange: (value: string) => void
 }
@@ -25,29 +25,64 @@ const TypeToOperatorOptions = {
     { label: 'has no value', value: 'blank' },
     { label: 'has any value', value: 'notBlank' },
   ],
+  number: [
+    { label: 'is', value: 'equals' },
+    { label: 'is not', value: 'notEqual' },
+    { label: 'is greater than', value: 'greaterThan' },
+    { label: 'is greater than or equal to', value: 'greaterThanOrEqual' },
+    { label: 'is less than', value: 'lessThan' },
+    { label: 'is less than or equal to', value: 'lessThanOrEqual' },
+    { label: 'has no value', value: 'blank' },
+    { label: 'has any value', value: 'notBlank' },
+    { label: 'is between', value: 'between' },
+  ],
 }
+
+type SelectValueInputConfig = {
+  type: 'select'
+  valueOptions: { label: string; value: string }[]
+}
+
+type NumberValueInputConfig = {
+  type: 'number'
+  inputCount: number
+}
+
+type ValueInputConfig = SelectValueInputConfig | NumberValueInputConfig
 
 type FilterFieldState = {
   filterConfigs: FilterConfig[]
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
-  valueOptions: { label: string; value: string }[] | undefined
+  valueInputConfig: ValueInputConfig | undefined
 }
 
 type Action = {
-  type: 'setField' | 'setOperator'
+  type: 'setField' | 'setOperator' | 'initialize'
   payload: string | undefined
 }
 
-const buildValueOptions = (config: FilterConfig, operator: string) => {
-  if (
-    config.type === 'select' &&
-    (operator === 'blank' || operator === 'notBlank')
-  ) {
-    return
+const buildValueInputConfig = (
+  config: FilterConfig,
+  operator: string
+): ValueInputConfig | undefined => {
+  if (config.type === 'select') {
+    if (operator === 'blank' || operator === 'notBlank') return
+
+    return {
+      type: 'select',
+      valueOptions: config.options || [],
+    }
   }
 
-  return config.options
+  if (config.type === 'number') {
+    if (operator === 'blank' || operator === 'notBlank') return
+
+    return {
+      type: 'number',
+      inputCount: operator === 'between' ? 2 : 1,
+    }
+  }
 }
 
 const filterFieldReducer = (state: FilterFieldState, action: Action) => {
@@ -57,11 +92,16 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
         state.filterConfigs.find((config) => config.field === action.payload) ||
         state.filterConfigs[0]
 
+      const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
+
       return {
         ...state,
         config,
-        operatorOptions: config ? TypeToOperatorOptions[config.type] : [],
-        valueOptions: config?.options,
+        operatorOptions,
+        valueInputConfig:
+          operatorOptions.length > 0
+            ? buildValueInputConfig(config, operatorOptions[0].value)
+            : undefined,
       }
     }
     case 'setOperator': {
@@ -70,7 +110,24 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
 
       return {
         ...state,
-        valueOptions: buildValueOptions(state.config, action.payload),
+        valueInputConfig: buildValueInputConfig(state.config, action.payload),
+      }
+    }
+    case 'initialize': {
+      const config =
+        state.filterConfigs.find((config) => config.field === action.payload) ||
+        state.filterConfigs[0]
+
+      const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
+
+      return {
+        ...state,
+        config,
+        operatorOptions,
+        valueInputConfig:
+          operatorOptions.length > 0
+            ? buildValueInputConfig(config, operatorOptions[0].value)
+            : undefined,
       }
     }
     default:
@@ -85,18 +142,18 @@ export const useFilterField = ({
 }: UseFilterFieldInputs): UseFilterFieldOutputs => {
   const formKey = `filters.${index}`
   const { setFieldValue, values } = useFormikContext<FilterForm>()
-  const [{ config, operatorOptions, valueOptions }, dispatch] =
+  const [{ config, operatorOptions, valueInputConfig }, dispatch] =
     React.useReducer(
       filterFieldReducer,
       {
         filterConfigs,
         config: undefined,
         operatorOptions: [],
-        valueOptions: [],
+        valueInputConfig: undefined,
       },
       (state) => {
         return filterFieldReducer(state, {
-          type: 'setField',
+          type: 'initialize',
           payload: filter.field,
         })
       }
@@ -108,6 +165,7 @@ export const useFilterField = ({
       payload: value,
     })
     setFieldValue(`${formKey}.values`, undefined)
+    setFieldValue(`${formKey}.operator`, undefined)
   }
 
   const handleOperatorChange = (value: string) => {
@@ -115,15 +173,19 @@ export const useFilterField = ({
       type: 'setOperator',
       payload: value,
     })
-    setFieldValue(`${formKey}.values`, undefined)
   }
 
   React.useEffect(() => {
     const currentValue = values.filters[index]
 
+    setFieldValue(`${formKey}.type`, config?.type)
+
     if (!currentValue.field) {
       setFieldValue(`${formKey}.field`, config?.field)
-      setFieldValue(`${formKey}.type`, config?.type)
+      setFieldValue(`${formKey}.values`, undefined)
+    }
+
+    if (!currentValue.operator) {
       setFieldValue(
         `${formKey}.operator`,
         operatorOptions.length > 0 ? operatorOptions[0].value : undefined
@@ -133,9 +195,9 @@ export const useFilterField = ({
 
   return {
     formKey,
-    config: config,
-    operatorOptions: operatorOptions,
-    valueOptions: valueOptions,
+    config,
+    operatorOptions,
+    valueInputConfig,
     handleFieldChange,
     handleOperatorChange,
   }

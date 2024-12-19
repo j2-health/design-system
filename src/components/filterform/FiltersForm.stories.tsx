@@ -45,6 +45,11 @@ export const Default: Story = {
           { label: 'Celery', value: 'celery' },
         ],
       },
+      {
+        label: 'Weight',
+        field: 'weight',
+        type: 'number',
+      },
     ],
   },
 }

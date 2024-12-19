@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { Select } from '../select'
 import { useFilterField } from './useFilterField'
+import { InputNumber } from 'antd'
+import { Field, FieldProps } from 'formik'
 
-type FilterType = 'select'
+type FilterType = 'select' | 'number'
 
 export type FilterConfig = {
   label: string
@@ -18,6 +20,22 @@ type SelectFilter = {
   values: string[]
 }
 
+type NumberFilter = {
+  field: string
+  type: 'number'
+  operator:
+    | 'equals'
+    | 'notEqual'
+    | 'blank'
+    | 'notBlank'
+    | 'greaterThan'
+    | 'greaterThanOrEqual'
+    | 'lessThan'
+    | 'lessThanOrEqual'
+    | 'between'
+  values: number[]
+}
+
 type EmptyFilter = {
   field: undefined
   type: undefined
@@ -25,7 +43,7 @@ type EmptyFilter = {
   values: undefined
 }
 
-export type Filter = SelectFilter | EmptyFilter
+export type Filter = SelectFilter | NumberFilter | EmptyFilter
 
 type FilterFieldProps = {
   filterConfigs: FilterConfig[]
@@ -41,7 +59,7 @@ export const FilterField = ({
   const {
     formKey,
     operatorOptions,
-    valueOptions,
+    valueInputConfig,
     handleFieldChange,
     handleOperatorChange,
   } = useFilterField({ filterConfigs, filter, index })
@@ -67,14 +85,36 @@ export const FilterField = ({
         className="w-full"
         onChange={handleOperatorChange}
       />
-      {valueOptions && (
+      {valueInputConfig?.type === 'select' && (
         <Select
-          options={valueOptions}
+          options={valueInputConfig.valueOptions}
           name={`${formKey}.values`}
           className="w-full"
           mode="multiple"
           allowClear
         />
+      )}
+      {valueInputConfig?.type === 'number' && (
+        <div className="flex gap-2">
+          {Array.from({ length: valueInputConfig.inputCount }).map(
+            (_, index) => (
+              <React.Fragment key={`${formKey}.values.${index}`}>
+                {index !== 0 && <span>and</span>}
+                <Field name={`${formKey}.values.${index}`}>
+                  {({ field, form }: FieldProps) => (
+                    <InputNumber
+                      {...field}
+                      onChange={(value) =>
+                        form.setFieldValue(field.name, value)
+                      }
+                      className="w-full"
+                    />
+                  )}
+                </Field>
+              </React.Fragment>
+            )
+          )}
+        </div>
       )}
     </div>
   )
