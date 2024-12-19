@@ -36,6 +36,14 @@ const TypeToOperatorOptions = {
     { label: 'has any value', value: 'notBlank' },
     { label: 'is between', value: 'between' },
   ],
+  text: [
+    { label: 'contains', value: 'contains' },
+    { label: 'does not contain', value: 'notContains' },
+    { label: 'starts with', value: 'startsWith' },
+    { label: 'ends with', value: 'endsWith' },
+    { label: 'has no value', value: 'blank' },
+    { label: 'has any value', value: 'notBlank' },
+  ],
 }
 
 type SelectValueInputConfig = {
@@ -48,7 +56,14 @@ type NumberValueInputConfig = {
   inputCount: number
 }
 
-type ValueInputConfig = SelectValueInputConfig | NumberValueInputConfig
+type TextValueInputConfig = {
+  type: 'text'
+}
+
+type ValueInputConfig =
+  | SelectValueInputConfig
+  | NumberValueInputConfig
+  | TextValueInputConfig
 
 type FilterFieldState = {
   filterConfigs: FilterConfig[]
@@ -81,6 +96,14 @@ const buildValueInputConfig = (
     return {
       type: 'number',
       inputCount: operator === 'between' ? 2 : 1,
+    }
+  }
+
+  if (config.type === 'text') {
+    if (operator === 'blank' || operator === 'notBlank') return
+
+    return {
+      type: 'text',
     }
   }
 }

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Select } from '../select'
 import { useFilterField } from './useFilterField'
-import { InputNumber } from 'antd'
+import { Input, InputNumber } from 'antd'
 import { Field, FieldProps } from 'formik'
 
-type FilterType = 'select' | 'number'
+type FilterType = 'select' | 'number' | 'text'
 
 export type FilterConfig = {
   label: string
@@ -36,6 +36,19 @@ type NumberFilter = {
   values: number[]
 }
 
+type TextFilter = {
+  field: string
+  type: 'text'
+  operator:
+    | 'contains'
+    | 'notContains'
+    | 'startsWith'
+    | 'endsWith'
+    | 'blank'
+    | 'notBlank'
+  values: string[]
+}
+
 type EmptyFilter = {
   field: undefined
   type: undefined
@@ -43,7 +56,7 @@ type EmptyFilter = {
   values: undefined
 }
 
-export type Filter = SelectFilter | NumberFilter | EmptyFilter
+export type Filter = SelectFilter | NumberFilter | TextFilter | EmptyFilter
 
 type FilterFieldProps = {
   filterConfigs: FilterConfig[]
@@ -115,6 +128,17 @@ export const FilterField = ({
             )
           )}
         </div>
+      )}
+      {valueInputConfig?.type === 'text' && (
+        <Field name={`${formKey}.values.0`}>
+          {({ field, form }: FieldProps) => (
+            <Input
+              {...field}
+              onChange={(e) => form.setFieldValue(field.name, e.target.value)}
+              className="w-full"
+            />
+          )}
+        </Field>
       )}
     </div>
   )

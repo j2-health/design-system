@@ -50,6 +50,11 @@ export const Default: Story = {
         field: 'weight',
         type: 'number',
       },
+      {
+        label: 'Color',
+        field: 'color',
+        type: 'text',
+      },
     ],
   },
 }
