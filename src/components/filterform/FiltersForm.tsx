@@ -2,7 +2,6 @@ import { FieldArray, Formik, useFormikContext } from 'formik'
 import { Form } from '../form/Form'
 import { Filter, FilterConfig, FilterField } from './FilterField'
 import { Button } from '../button'
-import React from 'react'
 import { PlusCircle } from '@phosphor-icons/react'
 import cx from 'classnames'
 
@@ -43,14 +42,6 @@ type FilterFormFieldsProps = {
 const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
   const { values } = useFormikContext<FilterForm>()
 
-  const isInProgress = React.useMemo(() => {
-    const lastFilter = values.filters[values.filters.length - 1]
-
-    if (!lastFilter) return true
-
-    return !(lastFilter.values && lastFilter.values.length > 0)
-  }, [values.filters])
-
   return (
     <div>
       <FieldArray
@@ -65,23 +56,21 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                 index={index}
               />
             ))}
-            {!isInProgress && (
-              <div>
-                <Button
-                  icon={<PlusCircle />}
-                  onClick={() =>
-                    arrayHelpers.push({
-                      field: filterConfigs[0].field,
-                      type: filterConfigs[0].type,
-                      operator: undefined,
-                      values: undefined,
-                    })
-                  }
-                >
-                  Add Rule
-                </Button>
-              </div>
-            )}
+            <div>
+              <Button
+                icon={<PlusCircle />}
+                onClick={() =>
+                  arrayHelpers.push({
+                    field: filterConfigs[0].field,
+                    type: filterConfigs[0].type,
+                    operator: undefined,
+                    values: undefined,
+                  })
+                }
+              >
+                Add Rule
+              </Button>
+            </div>
           </div>
         )}
       />

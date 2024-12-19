@@ -41,22 +41,50 @@ type FilterFieldState = {
   config: FilterConfig | undefined
   filterConfigs: FilterConfig[]
   operatorOptions: { label: string; value: string }[]
-  valueOptions?: { label: string; value: string }[]
+  valueOptions: { label: string; value: string }[] | undefined
 }
 
-const filterFieldReducer = (
-  state: FilterFieldState,
-  fieldValue: string | undefined
-) => {
-  const config =
-    state.filterConfigs.find((config) => config.field === fieldValue) ||
-    state.filterConfigs[0]
+type Action = {
+  type: 'setField' | 'setOperator'
+  payload: string | undefined
+}
 
-  return {
-    ...state,
-    config,
-    operatorOptions: config ? TypeToOperatorOptions[config.type] : [],
-    valueOptions: config?.options ?? [],
+const buildValueOptions = (config: FilterConfig, operator: string) => {
+  if (
+    config.type === 'select' &&
+    (operator === 'blank' || operator === 'notBlank')
+  ) {
+    return
+  }
+
+  return config.options
+}
+
+const filterFieldReducer = (state: FilterFieldState, action: Action) => {
+  switch (action.type) {
+    case 'setField': {
+      const config =
+        state.filterConfigs.find((config) => config.field === action.payload) ||
+        state.filterConfigs[0]
+
+      return {
+        ...state,
+        config,
+        operatorOptions: config ? TypeToOperatorOptions[config.type] : [],
+        valueOptions: config?.options,
+      }
+    }
+    case 'setOperator': {
+      if (!state.config) return state
+      if (!action.payload) return state
+
+      return {
+        ...state,
+        valueOptions: buildValueOptions(state.config, action.payload),
+      }
+    }
+    default:
+      return state
   }
 }
 
@@ -82,16 +110,29 @@ export const FilterField = ({
         valueOptions: [],
       },
       (state) => {
-        return filterFieldReducer(state, filter.field)
+        return filterFieldReducer(state, {
+          type: 'setField',
+          payload: filter.field,
+        })
       }
     )
 
   const formKey = `filters.${index}`
 
   const handleFieldChange = (value: string) => {
-    dispatch(value)
-
+    dispatch({
+      type: 'setField',
+      payload: value,
+    })
     setFieldValue(`${formKey}.values`, [])
+  }
+
+  const handleOperatorChange = (value: string) => {
+    dispatch({
+      type: 'setOperator',
+      payload: value,
+    })
+    setFieldValue(`${formKey}.values`, undefined)
   }
 
   const fieldOptions = React.useMemo(() => {
@@ -126,14 +167,17 @@ export const FilterField = ({
         options={operatorOptions}
         name={`${formKey}.operator`}
         className="w-full"
+        onChange={handleOperatorChange}
       />
-      <Select
-        options={valueOptions}
-        name={`${formKey}.values`}
-        className="w-full"
-        mode="multiple"
-        allowClear
-      />
+      {valueOptions && (
+        <Select
+          options={valueOptions}
+          name={`${formKey}.values`}
+          className="w-full"
+          mode="multiple"
+          allowClear
+        />
+      )}
     </div>
   )
 }
