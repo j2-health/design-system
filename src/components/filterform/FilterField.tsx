@@ -37,6 +37,29 @@ const TypeToOperatorOptions = {
   ],
 }
 
+type FilterFieldState = {
+  config: FilterConfig | undefined
+  filterConfigs: FilterConfig[]
+  operatorOptions: { label: string; value: string }[]
+  valueOptions?: { label: string; value: string }[]
+}
+
+const filterFieldReducer = (
+  state: FilterFieldState,
+  fieldValue: string | undefined
+) => {
+  const config =
+    state.filterConfigs.find((config) => config.field === fieldValue) ||
+    state.filterConfigs[0]
+
+  return {
+    ...state,
+    config,
+    operatorOptions: config ? TypeToOperatorOptions[config.type] : [],
+    valueOptions: config?.options ?? [],
+  }
+}
+
 type FilterFieldProps = {
   filterConfigs: FilterConfig[]
   index: number
@@ -49,18 +72,24 @@ export const FilterField = ({
   filter,
 }: FilterFieldProps) => {
   const { values, setFieldValue } = useFormikContext<FilterForm>()
-  const [selectedConfig, setSelectedConfig] = React.useState<
-    FilterConfig | undefined
-  >(
-    filter.field
-      ? filterConfigs.find((config) => config.field === filter.field)
-      : filterConfigs[0]
-  )
+  const [{ config, operatorOptions, valueOptions }, dispatch] =
+    React.useReducer(
+      filterFieldReducer,
+      {
+        filterConfigs,
+        config: undefined,
+        operatorOptions: [],
+        valueOptions: [],
+      },
+      (state) => {
+        return filterFieldReducer(state, filter.field)
+      }
+    )
 
   const formKey = `filters.${index}`
 
   const handleFieldChange = (value: string) => {
-    setSelectedConfig(filterConfigs.find((config) => config.field === value))
+    dispatch(value)
 
     setFieldValue(`${formKey}.values`, [])
   }
@@ -72,24 +101,18 @@ export const FilterField = ({
     }))
   }, [filterConfigs])
 
-  const operatorOptions = selectedConfig
-    ? TypeToOperatorOptions[selectedConfig.type]
-    : []
-
-  const valueOptions = selectedConfig?.options ?? []
-
   React.useEffect(() => {
     const currentValue = values.filters[index]
 
     if (!currentValue.field) {
-      setFieldValue(`${formKey}.field`, selectedConfig?.field)
-      setFieldValue(`${formKey}.type`, selectedConfig?.type)
+      setFieldValue(`${formKey}.field`, config?.field)
+      setFieldValue(`${formKey}.type`, config?.type)
     }
 
-    if (!currentValue.operator) {
+    if (!currentValue.operator && operatorOptions.length > 0) {
       setFieldValue(`${formKey}.operator`, operatorOptions[0].value)
     }
-  }, [selectedConfig])
+  }, [config])
 
   return (
     <div className="grid grid-cols-3 gap-2">
