@@ -3,6 +3,7 @@ import { Select } from '../select'
 import { useFilterField } from './useFilterField'
 import { Input } from '../input'
 import { InputNumber } from '../inputnumber'
+import cx from 'classnames'
 
 type FilterType = 'select' | 'number' | 'text'
 
@@ -62,12 +63,14 @@ type FilterFieldProps = {
   filterConfigs: FilterConfig[]
   index: number
   filter: Filter
+  className?: string
 }
 
 export const FilterField = ({
   filterConfigs,
   index,
   filter,
+  className,
 }: FilterFieldProps) => {
   const {
     formKey,
@@ -85,7 +88,7 @@ export const FilterField = ({
   }, [filterConfigs])
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className={cx('grid grid-cols-3 gap-2', className)}>
       <Select
         options={fieldOptions}
         name={`${formKey}.field`}

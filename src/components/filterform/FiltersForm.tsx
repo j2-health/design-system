@@ -2,7 +2,7 @@ import { FieldArray, Formik, useFormikContext } from 'formik'
 import { Form } from '../form/Form'
 import { Filter, FilterConfig, FilterField } from './FilterField'
 import { Button } from '../button'
-import { PlusCircle } from '@phosphor-icons/react'
+import { PlusCircle, Trash } from '@phosphor-icons/react'
 import cx from 'classnames'
 
 export type FilterForm = {
@@ -49,12 +49,33 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
         render={(arrayHelpers) => (
           <div className={cx('flex flex-col gap-4')}>
             {values.filters.map((filter, index) => (
-              <FilterField
-                key={`filters-${index}`}
-                filterConfigs={filterConfigs}
-                filter={filter}
-                index={index}
-              />
+              <div
+                key={`filter-field-${index}-${filter.field}-${filter.operator}`}
+                className="flex items-center justify-between"
+              >
+                <FilterField
+                  filterConfigs={filterConfigs}
+                  filter={filter}
+                  index={index}
+                  className="flex-1"
+                />
+                <Button
+                  icon={<Trash />}
+                  onClick={() => {
+                    if (values.filters.length === 1) {
+                      arrayHelpers.replace(index, {
+                        field: filterConfigs[0].field,
+                        type: filterConfigs[0].type,
+                        operator: undefined,
+                        values: undefined,
+                      })
+                    } else {
+                      arrayHelpers.remove(index)
+                    }
+                  }}
+                  type="text"
+                />
+              </div>
             ))}
             <div>
               <Button
