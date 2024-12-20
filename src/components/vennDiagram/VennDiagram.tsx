@@ -29,6 +29,9 @@ export const VennDiagram = ({ data, title, tooltip, onClick }: Props) => {
       text: title,
     },
     tooltip,
+    chart: {
+      spacing: [36, 36, 36, 36],
+    },
     series: [
       {
         type: 'venn',
