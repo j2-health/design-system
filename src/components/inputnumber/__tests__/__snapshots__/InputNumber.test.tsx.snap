@@ -51,11 +51,14 @@ exports[`InputNumber should render correctly 1`] = `
       class="ant-input-number-input-wrap"
     >
       <input
+        aria-valuenow="1"
         autocomplete="off"
         class="ant-input-number-input"
+        id="test"
+        name="test"
         role="spinbutton"
         step="1"
-        value=""
+        value="1"
       />
     </div>
   </div>
