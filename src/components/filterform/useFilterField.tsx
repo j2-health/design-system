@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { FilterConfig, Filter } from './FilterField'
+import { FilterConfig } from './FilterField'
 import { FilterForm } from './FiltersForm'
 import { useFormikContext } from 'formik'
 
-type UseFilterFieldInputs = {
+export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
-  filter: Filter
   index: number
 }
 
@@ -160,11 +159,11 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
 
 export const useFilterField = ({
   filterConfigs,
-  filter,
   index,
 }: UseFilterFieldInputs): UseFilterFieldOutputs => {
   const formKey = `filters.${index}`
   const { setFieldValue, values } = useFormikContext<FilterForm>()
+  const filter = values.filters[index]
   const [{ config, operatorOptions, valueInputConfig }, dispatch] =
     React.useReducer(
       filterFieldReducer,

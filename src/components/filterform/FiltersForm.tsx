@@ -19,8 +19,8 @@ export const FiltersForm = ({
       initialValues={{
         filters: [
           {
-            field: undefined,
-            type: undefined,
+            field: filterConfigs[0].field,
+            type: filterConfigs[0].type,
             operator: undefined,
             values: undefined,
           },
@@ -55,7 +55,6 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
               >
                 <FilterField
                   filterConfigs={filterConfigs}
-                  filter={filter}
                   index={index}
                   className="flex-1"
                 />

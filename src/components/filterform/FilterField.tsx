@@ -51,8 +51,8 @@ type TextFilter = {
 }
 
 type EmptyFilter = {
-  field: undefined
-  type: undefined
+  field: string
+  type: FilterType
   operator: undefined
   values: undefined
 }
@@ -62,14 +62,12 @@ export type Filter = SelectFilter | NumberFilter | TextFilter | EmptyFilter
 type FilterFieldProps = {
   filterConfigs: FilterConfig[]
   index: number
-  filter: Filter
   className?: string
 }
 
 export const FilterField = ({
   filterConfigs,
   index,
-  filter,
   className,
 }: FilterFieldProps) => {
   const {
@@ -78,7 +76,7 @@ export const FilterField = ({
     valueInputConfig,
     handleFieldChange,
     handleOperatorChange,
-  } = useFilterField({ filterConfigs, filter, index })
+  } = useFilterField({ filterConfigs, index })
 
   const fieldOptions = React.useMemo(() => {
     return filterConfigs.map((filter) => ({
