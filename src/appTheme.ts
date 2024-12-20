@@ -209,6 +209,12 @@ export const appTheme: ThemeConfig = {
       itemMarginBottom: 0,
       labelHeight: '100%',
     },
+    InputNumber: {
+      handleVisible: true,
+      handleHoverColor: 'var(--j2-color-primary-text)',
+      handleBorderColor: 'var(--j2-color-border)',
+      handleBg: 'var(--j2-color-bg-container-disabled)',
+    },
     Menu: {
       itemColor: 'var(--j2-color-primary-text)',
       itemSelectedBg: 'var(--j2-color-primary)',
