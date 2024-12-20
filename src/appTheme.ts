@@ -209,6 +209,9 @@ export const appTheme: ThemeConfig = {
       itemMarginBottom: 0,
       labelHeight: '100%',
     },
+    Input: {
+      activeBorderColor: 'var(--j2-color-primary-active)',
+    },
     InputNumber: {
       handleVisible: true,
       handleHoverColor: 'var(--j2-color-primary-text)',

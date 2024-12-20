@@ -113,7 +113,7 @@ export const FilterField = ({
           {Array.from({ length: valueInputConfig.inputCount }).map(
             (_, index) => (
               <React.Fragment key={`${formKey}.values.${index}`}>
-                {index !== 0 && <span>and</span>}
+                {index !== 0 && <span className="my-auto">and</span>}
                 <InputNumber name={`${formKey}.values.${index}`} />
               </React.Fragment>
             )

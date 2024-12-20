@@ -1,0 +1,22 @@
+.j2-input-number {
+  &.ant-input-number {
+    .ant-input-number-handler-wrap {
+      width: auto;
+
+      .ant-input-number-handler {
+        height: 50%;
+        padding: 0 12px;
+        color: var(--j2-color-primary);
+      }
+
+      .ant-input-number-handler-up {
+        align-items: flex-end;
+      }
+
+      .ant-input-number-handler-down {
+        border-block-start: none;
+        align-items: flex-start;
+      }
+    }
+  }
+}
