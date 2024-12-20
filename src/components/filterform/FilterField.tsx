@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Select } from '../select'
 import { useFilterField } from './useFilterField'
-import { Input } from 'antd'
+import { Input } from '../input'
 import { InputNumber } from '../inputnumber'
-import { Field, FieldProps } from 'formik'
 
 type FilterType = 'select' | 'number' | 'text'
 
@@ -121,15 +120,7 @@ export const FilterField = ({
         </div>
       )}
       {valueInputConfig?.type === 'text' && (
-        <Field name={`${formKey}.values.0`}>
-          {({ field, form }: FieldProps) => (
-            <Input
-              {...field}
-              onChange={(e) => form.setFieldValue(field.name, e.target.value)}
-              className="w-full"
-            />
-          )}
-        </Field>
+        <Input name={`${formKey}.values.0`} />
       )}
     </div>
   )
