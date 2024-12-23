@@ -15,6 +15,7 @@ type UseFilterFieldOutputs = {
   valueInputConfig: ValueInputConfig | undefined
   handleFieldChange: (value: string) => void
   handleOperatorChange: (value: string) => void
+  filterFormValues: FilterForm
 }
 
 const TypeToOperatorOptions = {
@@ -200,13 +201,6 @@ export const useFilterField = ({
   React.useEffect(() => {
     const currentValue = values.filters[index]
 
-    setFieldValue(`${formKey}.type`, config?.type)
-
-    if (!currentValue.field) {
-      setFieldValue(`${formKey}.field`, config?.field)
-      setFieldValue(`${formKey}.values`, undefined)
-    }
-
     if (!currentValue.operator) {
       setFieldValue(
         `${formKey}.operator`,
@@ -222,5 +216,6 @@ export const useFilterField = ({
     valueInputConfig,
     handleFieldChange,
     handleOperatorChange,
+    filterFormValues: values,
   }
 }
