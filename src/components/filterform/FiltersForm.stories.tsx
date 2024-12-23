@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { FiltersForm } from '.'
+import { useState } from 'react'
+import { FilterForm } from './FiltersForm'
 
 const meta: Meta<typeof FiltersForm> = {
   title: 'Components/FiltersForm',
@@ -9,13 +11,24 @@ const meta: Meta<typeof FiltersForm> = {
   },
   argTypes: {},
   decorators: [
-    (Story) => (
-      <div
-        style={{ backgroundColor: 'var(--j2-color-bg-layout)', padding: 20 }}
-      >
-        <Story />
-      </div>
-    ),
+    (Story) => {
+      const [submittedFormValues, setSubmittedFormValues] = useState<
+        FilterForm | undefined
+      >(undefined)
+
+      return (
+        <div style={{ backgroundColor: '#fff', padding: 50 }}>
+          <Story
+            onSubmit={(values: FilterForm) => {
+              setSubmittedFormValues(values)
+            }}
+          />
+          <div>
+            <pre>{JSON.stringify(submittedFormValues, null, 2)}</pre>
+          </div>
+        </div>
+      )
+    },
   ],
 }
 
@@ -56,5 +69,9 @@ export const Default: Story = {
         type: 'text',
       },
     ],
+    onSubmit: (values: FilterForm) => {
+      console.log({ values })
+    },
+    title: 'Find some produce',
   },
 }

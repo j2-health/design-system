@@ -3,17 +3,20 @@ import { Form } from '../form/Form'
 import { Filter, FilterConfig, FilterField } from './FilterField'
 import { Button } from '../button'
 import { PlusCircle, Trash } from '@phosphor-icons/react'
+import './FiltersForm.css'
 import cx from 'classnames'
 
 export type FilterForm = {
   filters: Filter[]
 }
 
-export const FiltersForm = ({
-  filterConfigs,
-}: {
+type Props = {
   filterConfigs: FilterConfig[]
-}) => {
+  title?: string
+  onSubmit: (values: FilterForm) => void
+}
+
+export const FiltersForm = ({ filterConfigs, title, onSubmit }: Props) => {
   return (
     <Formik<FilterForm>
       initialValues={{
@@ -26,10 +29,18 @@ export const FiltersForm = ({
           },
         ],
       }}
-      onSubmit={() => {}}
+      onSubmit={onSubmit}
     >
-      <Form>
-        <FilterFormFields filterConfigs={filterConfigs} />
+      <Form className="j2-filter-form">
+        <div className="flex flex-col gap-4 filter-form-fields-container p-4 mb-6">
+          {title && <span className="filter-form-title">{title}</span>}
+          <FilterFormFields filterConfigs={filterConfigs} />
+        </div>
+        <div className="flex justify-end">
+          <Button type="primary" htmlType="submit">
+            Apply Filters
+          </Button>
+        </div>
       </Form>
     </Formik>
   )
