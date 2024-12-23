@@ -5,7 +5,7 @@ import { Input } from '../input'
 import { InputNumber } from '../inputnumber'
 import cx from 'classnames'
 
-type FilterType = 'select' | 'number' | 'text'
+export type FilterType = 'select' | 'number' | 'text'
 
 export type FilterConfig = {
   label: string
