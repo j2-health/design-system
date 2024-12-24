@@ -212,6 +212,8 @@ export const useFilterField = ({
         operatorOptions.length > 0 ? operatorOptions[0].value : undefined
       )
     }
+
+    setFieldValue(`${formKey}.type`, config?.type)
   }, [config])
 
   return {
