@@ -4,6 +4,7 @@ import { useFilterField } from './useFilterField'
 import { Input } from '../input'
 import { InputNumber } from '../inputnumber'
 import cx from 'classnames'
+import { SizeType } from 'antd/es/config-provider/SizeContext'
 
 export type FilterType = 'select' | 'number' | 'text'
 
@@ -63,12 +64,14 @@ type FilterFieldProps = {
   filterConfigs: FilterConfig[]
   index: number
   className?: string
+  size?: SizeType
 }
 
 export const FilterField = ({
   filterConfigs,
   index,
   className,
+  size = 'middle',
 }: FilterFieldProps) => {
   const {
     formKey,
@@ -92,12 +95,14 @@ export const FilterField = ({
         name={`${formKey}.field`}
         className="w-full"
         onChange={handleFieldChange}
+        size={size}
       />
       <Select
         options={operatorOptions}
         name={`${formKey}.operator`}
         className="w-full"
         onChange={handleOperatorChange}
+        size={size}
       />
       {valueInputConfig?.type === 'select' && (
         <Select
@@ -106,6 +111,7 @@ export const FilterField = ({
           className="w-full"
           mode="multiple"
           allowClear
+          size={size}
         />
       )}
       {valueInputConfig?.type === 'number' && (
@@ -114,14 +120,14 @@ export const FilterField = ({
             (_, index) => (
               <React.Fragment key={`${formKey}.values.${index}`}>
                 {index !== 0 && <span className="my-auto">and</span>}
-                <InputNumber name={`${formKey}.values.${index}`} />
+                <InputNumber name={`${formKey}.values.${index}`} size={size} />
               </React.Fragment>
             )
           )}
         </div>
       )}
       {valueInputConfig?.type === 'text' && (
-        <Input name={`${formKey}.values.0`} />
+        <Input name={`${formKey}.values.0`} size={size} />
       )}
     </div>
   )
