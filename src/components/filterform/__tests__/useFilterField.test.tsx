@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import { useFilterField, UseFilterFieldInputs } from '../useFilterField'
 import { act, renderHook } from '@testing-library/react'
-import { Filter, FilterConfig } from '../FilterField'
+import { Filter, FilterConfig } from '../types'
 
 describe('useFilterField', () => {
   const filterConfigs: FilterConfig[] = [

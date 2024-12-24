@@ -1,8 +1,6 @@
 import * as React from 'react'
-import { Filter, FilterConfig } from './FilterField'
-import { FilterForm } from './FiltersForm'
 import { useFormikContext } from 'formik'
-
+import { Filter, FilterConfig, FilterForm } from './types'
 export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
   index: number

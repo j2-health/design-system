@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { FiltersForm } from '.'
+import { FiltersForm, FilterForm } from '.'
 import { useState } from 'react'
-import { FilterForm } from './FiltersForm'
 
 const meta: Meta<typeof FiltersForm> = {
   title: 'Components/FiltersForm',

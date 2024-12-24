@@ -1,14 +1,11 @@
 import { FieldArray, Formik, useFormikContext } from 'formik'
 import { Form } from '../form/Form'
-import { Filter, FilterConfig, FilterField } from './FilterField'
+import { FilterField } from './FilterField'
 import { Button } from '../button'
 import { PlusCircle, Trash } from '@phosphor-icons/react'
 import './FiltersForm.css'
 import cx from 'classnames'
-
-export type FilterForm = {
-  filters: Filter[]
-}
+import { FilterForm, FilterConfig } from '.'
 
 type Props = {
   filterConfigs: FilterConfig[]
