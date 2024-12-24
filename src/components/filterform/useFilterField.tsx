@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FilterConfig } from './FilterField'
+import { Filter, FilterConfig } from './FilterField'
 import { FilterForm } from './FiltersForm'
 import { useFormikContext } from 'formik'
 
@@ -75,6 +75,7 @@ type FilterFieldState = {
 type Action = {
   type: 'setField' | 'setOperator' | 'initialize'
   payload: string | undefined
+  currentFieldFilter?: Filter
 }
 
 const buildValueInputConfig = (
@@ -143,13 +144,18 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
 
       const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
 
+      const currentFieldFilter = action.currentFieldFilter?.operator
+
       return {
         ...state,
         config,
         operatorOptions,
         valueInputConfig:
           operatorOptions.length > 0
-            ? buildValueInputConfig(config, operatorOptions[0].value)
+            ? buildValueInputConfig(
+                config,
+                currentFieldFilter || operatorOptions[0].value
+              )
             : undefined,
       }
     }
@@ -178,6 +184,7 @@ export const useFilterField = ({
         return filterFieldReducer(state, {
           type: 'initialize',
           payload: filter.field,
+          currentFieldFilter: filter,
         })
       }
     )

@@ -45,6 +45,58 @@ describe('useFilterField', () => {
     )
   }
 
+  describe('initialization', () => {
+    it('should initialize with the first filter config when filter does not have an operator selected', async () => {
+      const { result } = await renderWithFormik(
+        {
+          filterConfigs: filterConfigs,
+          index: 0,
+        },
+        [
+          {
+            field: filterConfigs[0].field,
+            type: filterConfigs[0].type,
+            operator: undefined,
+            values: undefined,
+          },
+        ]
+      )
+
+      expect(result.current.config).toEqual(filterConfigs[0])
+      expect(result.current.filterFormValues.filters[0]).toEqual({
+        field: filterConfigs[0].field,
+        type: filterConfigs[0].type,
+        operator: 'equals',
+        values: undefined,
+      })
+    })
+
+    it('should initialize with the selected operator when filter has an operator selected', async () => {
+      const { result } = await renderWithFormik(
+        {
+          filterConfigs: filterConfigs,
+          index: 0,
+        },
+        [
+          {
+            field: 'number_field',
+            type: 'number',
+            operator: 'blank',
+            values: [],
+          },
+        ]
+      )
+
+      expect(result.current.valueInputConfig).toBeUndefined()
+      expect(result.current.filterFormValues.filters[0]).toEqual({
+        field: 'number_field',
+        type: 'number',
+        operator: 'blank',
+        values: [],
+      })
+    })
+  })
+
   describe('number fields', () => {
     const NUMBER_FIELD_CONFIG_INDEX = 0
     it('initializes filter form configurations based on type', async () => {
@@ -144,7 +196,6 @@ describe('useFilterField', () => {
       expect(result.current.valueInputConfig).toBeUndefined()
     })
   })
-
   describe('text field', () => {
     const TEXT_FIELD_CONFIG_INDEX = 1
 
