@@ -42,9 +42,9 @@ export const Default: Story = {
         field: 'fruit',
         type: 'select',
         options: [
-          { label: 'Apple', value: 'apple' },
-          { label: 'Banana', value: 'banana' },
-          { label: 'Orange', value: 'orange' },
+          { label: 'Apple', value: '7' },
+          { label: 'Banana', value: '8' },
+          { label: 'Orange', value: '9' },
         ],
       },
       {

@@ -59,6 +59,7 @@ export const FilterField = ({
           mode="multiple"
           allowClear
           size={size}
+          optionFilterProp="label"
         />
       )}
       {valueInputConfig?.type === 'number' && (
