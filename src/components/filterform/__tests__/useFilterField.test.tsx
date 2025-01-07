@@ -127,7 +127,7 @@ describe('useFilterField', () => {
         'lessThanOrEqual',
         'blank',
         'notBlank',
-        'between',
+        'inRange',
       ])
       expect(result.current.valueInputConfig).toEqual({
         type: 'number',
@@ -158,7 +158,7 @@ describe('useFilterField', () => {
       )
 
       act(() => {
-        result.current.handleOperatorChange('between')
+        result.current.handleOperatorChange('inRange')
       })
 
       expect(result.current.valueInputConfig).toEqual({

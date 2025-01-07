@@ -30,7 +30,7 @@ type NumberFilter = {
     | 'greaterThanOrEqual'
     | 'lessThan'
     | 'lessThanOrEqual'
-    | 'between'
+    | 'inRange'
   values: number[]
 }
 

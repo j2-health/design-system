@@ -32,7 +32,7 @@ const TypeToOperatorOptions = {
     { label: 'is less than or equal to', value: 'lessThanOrEqual' },
     { label: 'has no value', value: 'blank' },
     { label: 'has any value', value: 'notBlank' },
-    { label: 'is between', value: 'between' },
+    { label: 'is between', value: 'inRange' },
   ],
   text: [
     { label: 'contains', value: 'contains' },
@@ -94,7 +94,7 @@ const buildValueInputConfig = (
 
     return {
       type: 'number',
-      inputCount: operator === 'between' ? 2 : 1,
+      inputCount: operator === 'inRange' ? 2 : 1,
     }
   }
 
