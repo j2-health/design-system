@@ -1,0 +1,11 @@
+.j2FilterForm {
+  .filterFormTitle {
+    font-size: var(--j2-font-size-lg);
+    line-height: var(--j2-line-height-heading-4);
+  }
+
+  .filterFormFieldsContainer {
+    background-color: var(--j2-gray-2);
+    border-radius: var(--j2-border-radius);
+  }
+}

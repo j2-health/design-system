@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputNumber should render correctly 1`] = `
+<div>
+  <div
+    class="ant-input-number ant-input-number-lg css-dev-only-do-not-override-tpassh ant-input-number-outlined j2InputNumber"
+  >
+    <div
+      class="ant-input-number-handler-wrap"
+    >
+      <span
+        aria-disabled="false"
+        aria-label="Increase Value"
+        class="ant-input-number-handler ant-input-number-handler-up"
+        role="button"
+        unselectable="on"
+      >
+        <svg
+          fill="currentColor"
+          height="12"
+          viewBox="0 0 256 256"
+          width="12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M216.49,168.49a12,12,0,0,1-17,0L128,97,56.49,168.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0l80,80A12,12,0,0,1,216.49,168.49Z"
+          />
+        </svg>
+      </span>
+      <span
+        aria-disabled="false"
+        aria-label="Decrease Value"
+        class="ant-input-number-handler ant-input-number-handler-down"
+        role="button"
+        unselectable="on"
+      >
+        <svg
+          fill="currentColor"
+          height="12"
+          viewBox="0 0 256 256"
+          width="12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      class="ant-input-number-input-wrap"
+    >
+      <input
+        aria-valuenow="1"
+        autocomplete="off"
+        class="ant-input-number-input"
+        id="test"
+        name="test"
+        role="spinbutton"
+        step="1"
+        value="1"
+      />
+    </div>
+  </div>
+</div>
+`;
