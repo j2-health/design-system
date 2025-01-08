@@ -1,10 +1,10 @@
-.j2-filter-form {
-  .filter-form-title {
+.j2FilterForm {
+  .filterFormTitle {
     font-size: var(--j2-font-size-lg);
     line-height: var(--j2-line-height-heading-4);
   }
 
-  .filter-form-fields-container {
+  .filterFormFieldsContainer {
     background-color: var(--j2-gray-2);
     border-radius: var(--j2-border-radius);
   }

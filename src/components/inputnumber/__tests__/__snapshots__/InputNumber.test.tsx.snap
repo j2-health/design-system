@@ -3,7 +3,7 @@
 exports[`InputNumber should render correctly 1`] = `
 <div>
   <div
-    class="ant-input-number ant-input-number-lg css-dev-only-do-not-override-tpassh ant-input-number-outlined j2-input-number"
+    class="ant-input-number ant-input-number-lg css-dev-only-do-not-override-tpassh ant-input-number-outlined j2InputNumber"
   >
     <div
       class="ant-input-number-handler-wrap"

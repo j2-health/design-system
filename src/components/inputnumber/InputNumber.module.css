@@ -1,0 +1,28 @@
+.j2InputNumber:global(.ant-input-number) {
+  &:hover {
+    :global(.ant-input-number-handler-wrap) {
+      max-width: 100%;
+      width: auto;
+    }
+  }
+
+  :global(.ant-input-number-handler-wrap) {
+    max-width: 0;
+    transition: max-width 0.2s;
+
+    :global(.ant-input-number-handler) {
+      height: 50%;
+      padding: 0 12px;
+      color: var(--j2-color-primary);
+    }
+
+    :global(.ant-input-number-handler-up) {
+      align-items: flex-end;
+    }
+
+    :global(.ant-input-number-handler-down) {
+      border-block-start: none;
+      align-items: flex-start;
+    }
+  }
+}
