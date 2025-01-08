@@ -12,21 +12,29 @@ type Props = {
   filterConfigs: FilterConfig[]
   title?: string
   onSubmit: (values: FilterForm) => void
+  initialValues?: FilterForm
 }
 
-export const FiltersForm = ({ filterConfigs, title, onSubmit }: Props) => {
+export const FiltersForm = ({
+  filterConfigs,
+  title,
+  onSubmit,
+  initialValues,
+}: Props) => {
   return (
     <Formik<FilterForm>
-      initialValues={{
-        filters: [
-          {
-            field: filterConfigs[0].field,
-            type: filterConfigs[0].type,
-            operator: undefined,
-            values: undefined,
-          },
-        ],
-      }}
+      initialValues={
+        initialValues ?? {
+          filters: [
+            {
+              field: filterConfigs[0].field,
+              type: filterConfigs[0].type,
+              operator: undefined,
+              values: undefined,
+            },
+          ],
+        }
+      }
       validate={(values) => {
         return values.filters
           .map((filter) => validateFilterField(filter))
