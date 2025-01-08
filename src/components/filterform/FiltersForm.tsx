@@ -6,6 +6,7 @@ import { PlusCircle, Trash } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
 import { FilterForm, FilterConfig } from '.'
+import { validateFilterField } from './validateFilterField'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -26,24 +27,31 @@ export const FiltersForm = ({ filterConfigs, title, onSubmit }: Props) => {
           },
         ],
       }}
+      validate={(values) => {
+        return values.filters
+          .map((filter) => validateFilterField(filter))
+          .flat()
+      }}
       onSubmit={onSubmit}
     >
-      <Form className={s.j2FilterForm}>
-        <div
-          className={cx(
-            s.filterFormFieldsContainer,
-            'flex flex-col gap-4  p-4 mb-6'
-          )}
-        >
-          {title && <span className={s.filterFormTitle}>{title}</span>}
-          <FilterFormFields filterConfigs={filterConfigs} />
-        </div>
-        <div className="flex justify-end">
-          <Button type="primary" htmlType="submit">
-            Apply Filters
-          </Button>
-        </div>
-      </Form>
+      {({ isValid }) => (
+        <Form className={s.j2FilterForm}>
+          <div
+            className={cx(
+              s.filterFormFieldsContainer,
+              'flex flex-col gap-4  p-4 mb-6'
+            )}
+          >
+            {title && <span className={s.filterFormTitle}>{title}</span>}
+            <FilterFormFields filterConfigs={filterConfigs} />
+          </div>
+          <div className="flex justify-end">
+            <Button type="primary" htmlType="submit" disabled={!isValid}>
+              Apply Filters
+            </Button>
+          </div>
+        </Form>
+      )}
     </Formik>
   )
 }
@@ -53,7 +61,7 @@ type FilterFormFieldsProps = {
 }
 
 const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
-  const { values } = useFormikContext<FilterForm>()
+  const { values, isValid } = useFormikContext<FilterForm>()
 
   return (
     <div>
@@ -100,6 +108,7 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                     values: undefined,
                   })
                 }
+                disabled={!isValid}
               >
                 Add Rule
               </Button>
