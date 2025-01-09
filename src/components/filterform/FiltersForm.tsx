@@ -6,7 +6,11 @@ import { PlusCircle, Trash } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
 import { FilterForm, FilterConfig } from '.'
-import { validateFilterField } from './validateFilterField'
+import {
+  isEmptyFilter,
+  isValidFilter,
+  validateFilterField,
+} from './filterHelpers'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -21,6 +25,13 @@ export const FiltersForm = ({
   onSubmit,
   initialValues,
 }: Props) => {
+  const handleSubmit = (values: FilterForm) => {
+    const nonEmptyFilters = values.filters.filter(
+      (filter) => !isEmptyFilter(filter)
+    )
+    onSubmit({ filters: nonEmptyFilters })
+  }
+
   return (
     <Formik<FilterForm>
       initialValues={
@@ -35,12 +46,26 @@ export const FiltersForm = ({
           ],
         }
       }
+      onReset={(_, formikHelpers) => {
+        formikHelpers.setFieldValue('filters', [
+          {
+            field: filterConfigs[0].field,
+            type: filterConfigs[0].type,
+            operator: undefined,
+            values: undefined,
+          },
+        ])
+      }}
       validate={(values) => {
+        if (values.filters.every((filter) => isEmptyFilter(filter))) {
+          return
+        }
+
         return values.filters
           .map((filter) => validateFilterField(filter))
           .flat()
       }}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
       {({ isValid }) => (
         <Form className={s.j2FilterForm}>
@@ -69,7 +94,7 @@ type FilterFormFieldsProps = {
 }
 
 const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
-  const { values, isValid } = useFormikContext<FilterForm>()
+  const { values, resetForm } = useFormikContext<FilterForm>()
 
   return (
     <div>
@@ -87,25 +112,18 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                   index={index}
                   className="flex-1"
                 />
-                <Button
-                  icon={<Trash />}
-                  onClick={() => {
-                    if (values.filters.length === 1) {
-                      arrayHelpers.replace(index, {
-                        field: filterConfigs[0].field,
-                        type: filterConfigs[0].type,
-                        operator: undefined,
-                        values: undefined,
-                      })
-                    } else {
-                      arrayHelpers.remove(index)
-                    }
-                  }}
-                  type="text"
-                />
+                {index === 0 && values.filters.length === 1 ? (
+                  <div className="w-8" />
+                ) : (
+                  <Button
+                    icon={<Trash />}
+                    onClick={() => arrayHelpers.remove(index)}
+                    type="text"
+                  />
+                )}
               </div>
             ))}
-            <div>
+            <div className="flex items-center">
               <Button
                 icon={<PlusCircle />}
                 onClick={() =>
@@ -116,10 +134,17 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                     values: undefined,
                   })
                 }
-                disabled={!isValid}
+                disabled={
+                  !values.filters.every((filter) => isValidFilter(filter))
+                }
               >
                 Add Rule
               </Button>
+              {!values.filters.every((filter) => isEmptyFilter(filter)) && (
+                <Button type="text" onClick={() => resetForm()}>
+                  Clear All Rules
+                </Button>
+              )}
             </div>
           </div>
         )}
