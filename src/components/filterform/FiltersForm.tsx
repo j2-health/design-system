@@ -11,6 +11,8 @@ import {
   isValidFilter,
   validateFilterField,
 } from './filterHelpers'
+import { debounce } from 'lodash'
+import { useEffect } from 'react'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -56,6 +58,7 @@ export const FiltersForm = ({
           },
         ])
       }}
+      validateOnChange={false}
       validate={(values) => {
         if (values.filters.every((filter) => isEmptyFilter(filter))) {
           return
@@ -94,7 +97,13 @@ type FilterFormFieldsProps = {
 }
 
 const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
-  const { values, resetForm } = useFormikContext<FilterForm>()
+  const { values, resetForm, validateForm } = useFormikContext<FilterForm>()
+
+  const debouncedValidateForm = debounce(validateForm, 500)
+
+  useEffect(() => {
+    debouncedValidateForm()
+  }, [values])
 
   return (
     <div>
