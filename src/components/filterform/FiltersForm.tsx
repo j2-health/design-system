@@ -48,16 +48,6 @@ export const FiltersForm = ({
           ],
         }
       }
-      onReset={(_, formikHelpers) => {
-        formikHelpers.setFieldValue('filters', [
-          {
-            field: filterConfigs[0].field,
-            type: filterConfigs[0].type,
-            operator: undefined,
-            values: undefined,
-          },
-        ])
-      }}
       validateOnChange={false}
       validate={(values) => {
         if (values.filters.every((filter) => isEmptyFilter(filter))) {
@@ -97,7 +87,7 @@ type FilterFormFieldsProps = {
 }
 
 const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
-  const { values, resetForm, validateForm } = useFormikContext<FilterForm>()
+  const { values, setValues, validateForm } = useFormikContext<FilterForm>()
 
   const debouncedValidateForm = debounce(validateForm, 500)
 
@@ -150,7 +140,21 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                 Add Rule
               </Button>
               {!values.filters.every((filter) => isEmptyFilter(filter)) && (
-                <Button type="text" onClick={() => resetForm()}>
+                <Button
+                  type="text"
+                  onClick={() =>
+                    setValues({
+                      filters: [
+                        {
+                          field: filterConfigs[0].field,
+                          type: filterConfigs[0].type,
+                          operator: undefined,
+                          values: undefined,
+                        },
+                      ],
+                    })
+                  }
+                >
                   Clear All Rules
                 </Button>
               )}
