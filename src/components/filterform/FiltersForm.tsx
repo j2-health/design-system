@@ -12,13 +12,14 @@ import {
   validateFilterField,
 } from './filterHelpers'
 import { debounce } from 'lodash'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 type Props = {
   filterConfigs: FilterConfig[]
   title?: string
   onSubmit: (values: FilterForm) => void
   initialValues?: FilterForm
+  maxFiltersPerField?: number
 }
 
 export const FiltersForm = ({
@@ -26,6 +27,7 @@ export const FiltersForm = ({
   title,
   onSubmit,
   initialValues,
+  maxFiltersPerField = 5,
 }: Props) => {
   const handleSubmit = (values: FilterForm) => {
     const nonEmptyFilters = values.filters.filter(
@@ -69,7 +71,10 @@ export const FiltersForm = ({
             )}
           >
             {title && <span className={s.filterFormTitle}>{title}</span>}
-            <FilterFormFields filterConfigs={filterConfigs} />
+            <FilterFormFields
+              filterConfigs={filterConfigs}
+              maxFiltersPerField={maxFiltersPerField}
+            />
           </div>
           <div className="flex justify-end">
             <Button type="primary" htmlType="submit" disabled={!isValid}>
@@ -84,12 +89,38 @@ export const FiltersForm = ({
 
 type FilterFormFieldsProps = {
   filterConfigs: FilterConfig[]
+  maxFiltersPerField: number
 }
 
-const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
+const FilterFormFields = ({
+  filterConfigs,
+  maxFiltersPerField,
+}: FilterFormFieldsProps) => {
   const { values, setValues, validateForm } = useFormikContext<FilterForm>()
 
   const debouncedValidateForm = debounce(validateForm, 500)
+
+  const filledFilters = values.filters.filter((f) => !isEmptyFilter(f))
+
+  const availableFilterConfigs = useMemo(() => {
+    const filterFieldCounts = filledFilters.reduce(
+      (acc, filter) => {
+        acc[filter.field] = (acc[filter.field] || 0) + 1
+        return acc
+      },
+      {} as Record<string, number>
+    )
+
+    return filterConfigs.filter(
+      (config) =>
+        !filterFieldCounts[config.field] ||
+        filterFieldCounts[config.field] < maxFiltersPerField
+    )
+  }, [
+    filterConfigs,
+    filledFilters.map((f) => f.field).join(','),
+    maxFiltersPerField,
+  ])
 
   useEffect(() => {
     debouncedValidateForm()
@@ -107,7 +138,7 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                 className="flex items-center justify-between"
               >
                 <FilterField
-                  filterConfigs={filterConfigs}
+                  filterConfigs={availableFilterConfigs}
                   index={index}
                   className="flex-1"
                 />
@@ -127,8 +158,8 @@ const FilterFormFields = ({ filterConfigs }: FilterFormFieldsProps) => {
                 icon={<PlusCircle />}
                 onClick={() =>
                   arrayHelpers.push({
-                    field: filterConfigs[0].field,
-                    type: filterConfigs[0].type,
+                    field: availableFilterConfigs[0].field,
+                    type: availableFilterConfigs[0].type,
                     operator: undefined,
                     values: undefined,
                   })
