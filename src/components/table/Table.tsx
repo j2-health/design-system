@@ -3,20 +3,21 @@ import cx from 'classnames'
 
 import s from './Table.module.css'
 
-type MergedProps = TableProps & {
+type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
 }
 
-type Props = Expand<MergedProps>
+type Props<T> = Expand<MergedProps<T>>
 
-const Table = ({ verticalBorders, ...props }: Props) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Table = <T = any,>({ verticalBorders, ...props }: Props<T>) => {
   return (
     <div
       className={cx(props.className, {
         [s.bordered]: props.bordered && !verticalBorders,
       })}
     >
-      <AntdTable {...props} />
+      <AntdTable<T> {...props} />
     </div>
   )
 }

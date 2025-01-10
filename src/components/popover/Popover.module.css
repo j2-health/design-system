@@ -7,3 +7,10 @@
   font-weight: var(--j2-font-weight-strong);
   line-height: var(--j2-line-height-heading-4);
 }
+
+.popoverHeader {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+  border-radius: var(--j2-border-radius) var(--j2-border-radius) 0 0;
+
+  font-weight: bold;
+}
