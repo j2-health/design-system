@@ -5,14 +5,15 @@ import { Button } from '../button'
 import { PlusCircle, Trash } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
-import { FilterForm, FilterConfig } from '.'
+import { FilterForm, FilterConfig, FilterGroup, Filter } from '.'
 import {
   isEmptyFilter,
   isValidFilter,
   validateFilterField,
 } from './filterHelpers'
 import { debounce } from 'lodash'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useReducer } from 'react'
+import { FilterInput } from './FilterInput'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -45,7 +46,7 @@ export const DeprecatedFiltersForm = ({
               field: filterConfigs[0].field,
               type: filterConfigs[0].type,
               operator: undefined,
-              values: undefined,
+              values: [],
             },
           ],
         }
@@ -180,7 +181,7 @@ const FilterFormFields = ({
                           field: filterConfigs[0].field,
                           type: filterConfigs[0].type,
                           operator: undefined,
-                          values: undefined,
+                          values: [],
                         },
                       ],
                     })
@@ -193,6 +194,112 @@ const FilterFormFields = ({
           </div>
         )}
       />
+    </div>
+  )
+}
+
+type FilterFormState = {
+  filterGroups: FilterGroup[]
+}
+
+type AddFilterAction = {
+  type: 'addFilter'
+  payload: Filter
+}
+
+type ChangeFilterAction = {
+  type: 'changeFilter'
+  payload: {
+    groupIndex: number
+    filterIndex: number
+    filter: Filter
+  }
+}
+
+type Action = AddFilterAction | ChangeFilterAction
+
+const filterFormReducer = (state: FilterFormState, action: Action) => {
+  const addFilter = (filter: Filter) => {
+    const filterGroupIndex = state.filterGroups.findIndex(
+      (filterGroup) => filterGroup.field === filter.field
+    )
+
+    if (filterGroupIndex !== -1) {
+      state.filterGroups[filterGroupIndex].filters.push(filter)
+    } else {
+      state.filterGroups.push({ field: filter.field, filters: [filter] })
+    }
+  }
+
+  switch (action.type) {
+    case 'addFilter': {
+      addFilter(action.payload)
+
+      return {
+        ...state,
+        filterGroups: [...state.filterGroups],
+      }
+    }
+    case 'changeFilter': {
+      const { groupIndex, filterIndex, filter } = action.payload
+      const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
+      if (prevFilter.field === filter.field) {
+        state.filterGroups[groupIndex].filters[filterIndex] = filter
+      } else {
+        addFilter(filter)
+        state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
+      }
+
+      return {
+        ...state,
+        filterGroups: [...state.filterGroups],
+      }
+    }
+    default:
+      return state
+  }
+}
+
+export const FiltersForm = ({ filterConfigs }: Props) => {
+  const [{ filterGroups }, dispatch] = useReducer(filterFormReducer, {
+    filterGroups: [],
+  })
+
+  const handleSubmit = () => {
+    console.log('submitting', filterGroups)
+  }
+
+  return (
+    <div>
+      {filterGroups.map((filterGroup, groupIndex) => (
+        <div key={filterGroup.field}>
+          {filterGroup.filters.map((filter, filterIndex) => (
+            <FilterInput
+              key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
+              value={filter}
+              filterConfigs={filterConfigs}
+              onChange={(filter) =>
+                dispatch({
+                  type: 'changeFilter',
+                  payload: {
+                    groupIndex,
+                    filterIndex,
+                    filter,
+                  },
+                })
+              }
+            />
+          ))}
+        </div>
+      ))}
+      <FilterInput
+        key={JSON.stringify(filterGroups)}
+        filterConfigs={filterConfigs}
+        onChange={(filter) => {
+          dispatch({ type: 'addFilter', payload: filter })
+        }}
+      />
+      <Button onClick={handleSubmit}>Submit</Button>
     </div>
   )
 }

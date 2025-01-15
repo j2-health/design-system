@@ -1,2 +1,8 @@
-export { DeprecatedFiltersForm } from './FiltersForm'
-export type { FilterForm, FilterConfig, FilterType, Filter } from './types'
+export { DeprecatedFiltersForm, FiltersForm } from './FiltersForm'
+export type {
+  FilterForm,
+  FilterConfig,
+  FilterType,
+  Filter,
+  FilterGroup,
+} from './types'

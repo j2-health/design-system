@@ -1,22 +1,26 @@
 import * as React from 'react'
-import { useFormikContext } from 'formik'
-import { Filter, FilterConfig, FilterForm } from './types'
+import { Filter, FilterConfig, FilterType, Operator } from './types'
+import { isValidFilter } from './filterHelpers'
 export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
-  index: number
+  filter?: Filter
 }
 
 type UseFilterFieldOutputs = {
-  formKey: string
+  filter: Filter | undefined
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
   valueInputConfig: ValueInputConfig | undefined
   handleFieldChange: (value: string) => void
   handleOperatorChange: (value: string) => void
-  filterFormValues: FilterForm
+  handleValuesChange: (value: (string | number | undefined | null)[]) => void
+  isValid: boolean
 }
 
-export const TypeToOperatorOptions = {
+export const TypeToOperatorOptions: Record<
+  FilterType,
+  { label: string; value: Operator }[]
+> = {
   select: [
     { label: 'is any of', value: 'equals' },
     { label: 'is not any of', value: 'notEqual' },
@@ -58,22 +62,27 @@ type TextValueInputConfig = {
   type: 'text'
 }
 
-type ValueInputConfig =
+export type ValueInputConfig =
   | SelectValueInputConfig
   | NumberValueInputConfig
   | TextValueInputConfig
 
 type FilterFieldState = {
+  filter: Filter | undefined
   filterConfigs: FilterConfig[]
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
   valueInputConfig: ValueInputConfig | undefined
+  isValid: boolean
 }
 
 type Action = {
   type: 'setField' | 'setOperator' | 'initialize'
   payload: string | undefined
-  currentFieldFilter?: Filter
+}
+type SetValuesAction = {
+  type: 'setValues'
+  payload: (string | number | undefined | null)[]
 }
 
 const buildValueInputConfig = (
@@ -107,7 +116,10 @@ const buildValueInputConfig = (
   }
 }
 
-const filterFieldReducer = (state: FilterFieldState, action: Action) => {
+const filterFieldReducer = (
+  state: FilterFieldState,
+  action: Action | SetValuesAction
+) => {
   switch (action.type) {
     case 'setField': {
       const config =
@@ -116,8 +128,16 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
 
       const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
 
+      const newFilter = {
+        ...state.filter,
+        field: action.payload,
+        operator: operatorOptions[0].value,
+        values: [],
+      } as Filter
+
       return {
         ...state,
+        filter: newFilter,
         config,
         operatorOptions,
         valueInputConfig:
@@ -130,30 +150,59 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
       if (!state.config) return state
       if (!action.payload) return state
 
+      const newFilter = {
+        ...state.filter,
+        operator: action.payload,
+      } as Filter
+
       return {
         ...state,
+        filter: newFilter,
         valueInputConfig: buildValueInputConfig(state.config, action.payload),
+        isValid: newFilter ? isValidFilter(newFilter) : false,
+      }
+    }
+    case 'setValues': {
+      const filter = state.filter
+        ? ({
+            ...state.filter,
+            values: action.payload,
+          } as Filter)
+        : undefined
+
+      return {
+        ...state,
+        filter,
+        isValid: filter ? isValidFilter(filter) : false,
       }
     }
     case 'initialize': {
+      const field = state.filter?.field || state.filterConfigs[0].field
       const config =
-        state.filterConfigs.find((config) => config.field === action.payload) ||
+        state.filterConfigs.find((config) => config.field === field) ||
         state.filterConfigs[0]
 
       const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
 
-      const currentFieldFilter = action.currentFieldFilter?.operator
+      const operator = state.filter?.operator || operatorOptions[0].value
+
+      const filter =
+        state.filter ??
+        ({
+          field,
+          type: config.type,
+          operator,
+          values: [],
+        } as Filter)
 
       return {
         ...state,
         config,
+        filter,
         operatorOptions,
         valueInputConfig:
           operatorOptions.length > 0
-            ? buildValueInputConfig(
-                config,
-                currentFieldFilter || operatorOptions[0].value
-              )
+            ? buildValueInputConfig(config, operator)
             : undefined,
       }
     }
@@ -164,36 +213,34 @@ const filterFieldReducer = (state: FilterFieldState, action: Action) => {
 
 export const useFilterField = ({
   filterConfigs,
-  index,
+  filter: initialFilter,
 }: UseFilterFieldInputs): UseFilterFieldOutputs => {
-  const formKey = `filters.${index}`
-  const { setFieldValue, values } = useFormikContext<FilterForm>()
-  const filter = values.filters[index]
-  const [{ config, operatorOptions, valueInputConfig }, dispatch] =
-    React.useReducer(
-      filterFieldReducer,
-      {
-        filterConfigs,
-        config: undefined,
-        operatorOptions: [],
-        valueInputConfig: undefined,
-      },
-      (state) => {
-        return filterFieldReducer(state, {
-          type: 'initialize',
-          payload: filter.field,
-          currentFieldFilter: filter,
-        })
-      }
-    )
+  const [
+    { filter, config, operatorOptions, valueInputConfig, isValid },
+    dispatch,
+  ] = React.useReducer(
+    filterFieldReducer,
+    {
+      filter: initialFilter,
+      filterConfigs,
+      config: undefined,
+      operatorOptions: [],
+      valueInputConfig: undefined,
+      isValid: false,
+    },
+    (state) => {
+      return filterFieldReducer(state, {
+        type: 'initialize',
+        payload: undefined,
+      })
+    }
+  )
 
   const handleFieldChange = (value: string) => {
     dispatch({
       type: 'setField',
       payload: value,
     })
-    setFieldValue(`${formKey}.values`, [])
-    setFieldValue(`${formKey}.operator`, undefined)
   }
 
   const handleOperatorChange = (value: string) => {
@@ -203,26 +250,23 @@ export const useFilterField = ({
     })
   }
 
-  React.useEffect(() => {
-    const currentValue = values.filters[index]
-
-    if (!currentValue.operator) {
-      setFieldValue(
-        `${formKey}.operator`,
-        operatorOptions.length > 0 ? operatorOptions[0].value : undefined
-      )
-    }
-
-    setFieldValue(`${formKey}.type`, config?.type)
-  }, [config])
+  const handleValuesChange = (
+    value: (string | number | undefined | null)[]
+  ) => {
+    dispatch({
+      type: 'setValues',
+      payload: value,
+    })
+  }
 
   return {
-    formKey,
+    filter,
     config,
     operatorOptions,
     valueInputConfig,
     handleFieldChange,
     handleOperatorChange,
-    filterFormValues: values,
+    handleValuesChange,
+    isValid,
   }
 }
