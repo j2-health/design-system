@@ -44,39 +44,45 @@ export const FilterField = ({
         onChange={handleFieldChange}
         size={size}
       />
-      <Select
-        options={operatorOptions}
-        name={`${formKey}.operator`}
-        className="w-full"
-        onChange={handleOperatorChange}
-        size={size}
-      />
-      {valueInputConfig?.type === 'select' && (
+      <div className="col-span-2 flex gap-2">
         <Select
-          options={valueInputConfig.valueOptions}
-          name={`${formKey}.values`}
-          className="w-full"
-          mode="multiple"
-          allowClear
+          options={operatorOptions}
+          name={`${formKey}.operator`}
+          onChange={handleOperatorChange}
           size={size}
-          optionFilterProp="label"
+          popupMatchSelectWidth={false}
         />
-      )}
-      {valueInputConfig?.type === 'number' && (
-        <div className="flex gap-2">
-          {Array.from({ length: valueInputConfig.inputCount }).map(
-            (_, index) => (
-              <React.Fragment key={`${formKey}.values.${index}`}>
-                {index !== 0 && <span className="my-auto">and</span>}
-                <InputNumber name={`${formKey}.values.${index}`} size={size} />
-              </React.Fragment>
-            )
-          )}
-        </div>
-      )}
-      {valueInputConfig?.type === 'text' && (
-        <Input name={`${formKey}.values.0`} size={size} />
-      )}
+        {valueInputConfig?.type === 'select' && (
+          <Select
+            options={valueInputConfig.valueOptions}
+            name={`${formKey}.values`}
+            className="w-full"
+            mode="multiple"
+            allowClear
+            size={size}
+            optionFilterProp="label"
+          />
+        )}
+        {valueInputConfig?.type === 'number' && (
+          <div className={cx('flex gap-2', 'grow')}>
+            {Array.from({ length: valueInputConfig.inputCount }).map(
+              (_, index) => (
+                <React.Fragment key={`${formKey}.values.${index}`}>
+                  {index !== 0 && <span className="my-auto">and</span>}
+                  <InputNumber
+                    name={`${formKey}.values.${index}`}
+                    size={size}
+                    className="basis-1/2"
+                  />
+                </React.Fragment>
+              )
+            )}
+          </div>
+        )}
+        {valueInputConfig?.type === 'text' && (
+          <Input name={`${formKey}.values.0`} size={size} />
+        )}
+      </div>
     </div>
   )
 }
