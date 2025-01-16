@@ -1,5 +1,8 @@
 import { Formik } from 'formik'
-import { useFilterField, UseFilterFieldInputs } from '../useFilterField'
+import {
+  useFilterField,
+  UseFilterFieldInputs,
+} from '../useFilterFieldDeprecated'
 import { act, renderHook } from '@testing-library/react'
 import { Filter, FilterConfig } from '../types'
 
@@ -57,7 +60,7 @@ describe('useFilterField', () => {
             field: filterConfigs[0].field,
             type: filterConfigs[0].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -67,7 +70,7 @@ describe('useFilterField', () => {
         field: filterConfigs[0].field,
         type: filterConfigs[0].type,
         operator: 'equals',
-        values: undefined,
+        values: [],
       })
     })
 
@@ -110,7 +113,7 @@ describe('useFilterField', () => {
             field: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -137,7 +140,7 @@ describe('useFilterField', () => {
         field: 'number_field',
         type: 'number',
         operator: 'equals',
-        values: undefined,
+        values: [],
       })
     })
 
@@ -152,7 +155,7 @@ describe('useFilterField', () => {
             field: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -178,7 +181,7 @@ describe('useFilterField', () => {
             field: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[NUMBER_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -210,7 +213,7 @@ describe('useFilterField', () => {
             field: filterConfigs[TEXT_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[TEXT_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -230,7 +233,7 @@ describe('useFilterField', () => {
         field: 'text_field',
         type: 'text',
         operator: 'contains',
-        values: undefined,
+        values: [],
       })
     })
 
@@ -245,7 +248,7 @@ describe('useFilterField', () => {
             field: filterConfigs[TEXT_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[TEXT_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -276,7 +279,7 @@ describe('useFilterField', () => {
             field: filterConfigs[SELECT_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[SELECT_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )
@@ -295,7 +298,7 @@ describe('useFilterField', () => {
         field: 'select_field',
         type: 'select',
         operator: 'equals',
-        values: undefined,
+        values: [],
       })
     })
 
@@ -310,7 +313,7 @@ describe('useFilterField', () => {
             field: filterConfigs[SELECT_FIELD_CONFIG_INDEX].field,
             type: filterConfigs[SELECT_FIELD_CONFIG_INDEX].type,
             operator: undefined,
-            values: undefined,
+            values: [],
           },
         ]
       )

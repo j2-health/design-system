@@ -7,7 +7,7 @@ describe('validateFilterField', () => {
       field: 'test',
       type: 'text',
       operator: undefined,
-      values: undefined,
+      values: [],
     }
 
     const errors = validateFilterField(filter)
@@ -86,7 +86,7 @@ describe('isEmptyFilter', () => {
       field: 'test',
       type: 'text',
       operator: undefined,
-      values: undefined,
+      values: [],
     }
 
     expect(isEmptyFilter(filter)).toBe(true)

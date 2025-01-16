@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { FiltersForm, FilterForm } from '.'
+import { DeprecatedFiltersForm, FilterForm } from '.'
 import { useState } from 'react'
 
-const meta: Meta<typeof FiltersForm> = {
-  title: 'Components/FiltersForm',
-  component: FiltersForm,
+const meta: Meta<typeof DeprecatedFiltersForm> = {
+  title: 'Components/DeprecatedFiltersForm',
+  component: DeprecatedFiltersForm,
   parameters: {
     layout: 'fullscreen',
   },

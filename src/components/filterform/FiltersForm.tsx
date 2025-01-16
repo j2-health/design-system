@@ -22,7 +22,7 @@ type Props = {
   maxFiltersPerField?: number
 }
 
-export const FiltersForm = ({
+export const DeprecatedFiltersForm = ({
   filterConfigs,
   title,
   onSubmit,

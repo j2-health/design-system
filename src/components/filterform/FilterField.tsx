@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Select } from '../select'
-import { useFilterField } from './useFilterField'
+import { useFilterField } from './useFilterFieldDeprecated'
 import { Input } from '../input'
 import { InputNumber } from '../inputnumber'
 import cx from 'classnames'

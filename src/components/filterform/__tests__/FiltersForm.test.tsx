@@ -1,6 +1,6 @@
 import { userEvent } from '@testing-library/user-event'
 import { render, screen, waitFor } from '@testing-library/react'
-import { FiltersForm } from '../FiltersForm'
+import { DeprecatedFiltersForm } from '../FiltersForm'
 import { FilterConfig, FilterForm } from '../types'
 import '@testing-library/jest-dom'
 describe('FiltersForm', () => {
@@ -13,14 +13,19 @@ describe('FiltersForm', () => {
     const onSubmit = (values: FilterForm) => {
       submittedValues = values
     }
-    render(<FiltersForm onSubmit={onSubmit} filterConfigs={filterConfigs} />)
+    render(
+      <DeprecatedFiltersForm
+        onSubmit={onSubmit}
+        filterConfigs={filterConfigs}
+      />
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Apply Filters' }))
     expect(submittedValues).toEqual({ filters: [] })
   })
 
   it('should disable the submit button when rules are not valid and the form is not empty', async () => {
     render(
-      <FiltersForm
+      <DeprecatedFiltersForm
         onSubmit={jest.fn()}
         filterConfigs={filterConfigs}
         initialValues={{
@@ -48,12 +53,22 @@ describe('FiltersForm', () => {
   })
 
   it('should disable the add rule button when rules are not valid', async () => {
-    render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+    render(
+      <DeprecatedFiltersForm
+        onSubmit={jest.fn()}
+        filterConfigs={filterConfigs}
+      />
+    )
     expect(screen.getByRole('button', { name: 'Add Rule' })).toBeDisabled()
   })
 
   it('should enable the add rule button when rules are valid', async () => {
-    render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+    render(
+      <DeprecatedFiltersForm
+        onSubmit={jest.fn()}
+        filterConfigs={filterConfigs}
+      />
+    )
 
     await userEvent.type(screen.getByRole('textbox'), 'test')
 

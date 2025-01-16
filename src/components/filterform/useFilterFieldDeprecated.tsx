@@ -192,7 +192,7 @@ export const useFilterField = ({
       type: 'setField',
       payload: value,
     })
-    setFieldValue(`${formKey}.values`, undefined)
+    setFieldValue(`${formKey}.values`, [])
     setFieldValue(`${formKey}.operator`, undefined)
   }
 
