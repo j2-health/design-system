@@ -12,7 +12,7 @@ import {
   validateFilterField,
 } from './filterHelpers'
 import { debounce } from 'lodash'
-import { useEffect, useMemo, useReducer } from 'react'
+import { useEffect, useMemo, useReducer, useState } from 'react'
 import { FilterInput } from './FilterInput'
 
 type Props = {
@@ -261,6 +261,7 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
 }
 
 export const FiltersForm = ({ filterConfigs }: Props) => {
+  const [isNewFilterInputOpen, setIsNewFilterInputOpen] = useState(true)
   const [{ filterGroups }, dispatch] = useReducer(filterFormReducer, {
     filterGroups: [],
   })
@@ -270,35 +271,55 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
   }
 
   return (
-    <div>
-      {filterGroups.map((filterGroup, groupIndex) => (
-        <div key={filterGroup.field}>
-          {filterGroup.filters.map((filter, filterIndex) => (
-            <FilterInput
-              key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
-              value={filter}
-              filterConfigs={filterConfigs}
-              onChange={(filter) =>
-                dispatch({
-                  type: 'changeFilter',
-                  payload: {
-                    groupIndex,
-                    filterIndex,
-                    filter,
-                  },
-                })
-              }
-            />
-          ))}
+    <div className={cx(s.j2FilterForm)}>
+      <div
+        className={cx(
+          s.filterFormFieldsContainer,
+          'flex flex-col gap-4 p-4 mb-6'
+        )}
+      >
+        {filterGroups.map((filterGroup, groupIndex) => (
+          <div key={filterGroup.field}>
+            {filterGroup.filters.map((filter, filterIndex) => (
+              <FilterInput
+                key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
+                value={filter}
+                filterConfigs={filterConfigs}
+                onChange={(filter) =>
+                  dispatch({
+                    type: 'changeFilter',
+                    payload: {
+                      groupIndex,
+                      filterIndex,
+                      filter,
+                    },
+                  })
+                }
+              />
+            ))}
+          </div>
+        ))}
+        {isNewFilterInputOpen && (
+          <FilterInput
+            key={JSON.stringify(filterGroups)}
+            filterConfigs={filterConfigs}
+            onChange={(filter) => {
+              dispatch({ type: 'addFilter', payload: filter })
+              setIsNewFilterInputOpen(false)
+            }}
+          />
+        )}
+
+        <div className="flex items-center">
+          <Button
+            icon={<PlusCircle />}
+            onClick={() => setIsNewFilterInputOpen(true)}
+            disabled={isNewFilterInputOpen}
+          >
+            Add Rule
+          </Button>
         </div>
-      ))}
-      <FilterInput
-        key={JSON.stringify(filterGroups)}
-        filterConfigs={filterConfigs}
-        onChange={(filter) => {
-          dispatch({ type: 'addFilter', payload: filter })
-        }}
-      />
+      </div>
       <Button onClick={handleSubmit}>Submit</Button>
     </div>
   )
