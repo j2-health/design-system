@@ -200,6 +200,7 @@ const FilterFormFields = ({
 
 type FilterFormState = {
   filterGroups: FilterGroup[]
+  newFilter: Filter | undefined
 }
 
 type AddFilterAction = {
@@ -220,7 +221,16 @@ type ChangeFilterAction = {
   }
 }
 
-type Action = AddFilterAction | ChangeFilterAction | ClearAllFiltersAction
+type SetNewFilterAction = {
+  type: 'setNewFilter'
+  payload: Filter
+}
+
+type Action =
+  | AddFilterAction
+  | ChangeFilterAction
+  | ClearAllFiltersAction
+  | SetNewFilterAction
 
 const filterFormReducer = (state: FilterFormState, action: Action) => {
   const addFilter = (filter: Filter) => {
@@ -242,6 +252,7 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       return {
         ...state,
         filterGroups: [...state.filterGroups],
+        newFilter: undefined,
       }
     }
     case 'changeFilter': {
@@ -265,6 +276,12 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         filterGroups: [],
       }
     }
+    case 'setNewFilter': {
+      return {
+        ...state,
+        newFilter: action.payload,
+      }
+    }
     default:
       return state
   }
@@ -274,6 +291,7 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
   const [isNewFilterInputOpen, setIsNewFilterInputOpen] = useState(true)
   const [{ filterGroups }, dispatch] = useReducer(filterFormReducer, {
     filterGroups: [],
+    newFilter: undefined,
   })
 
   const handleSubmit = () => {
@@ -285,17 +303,18 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
       <div
         className={cx(
           s.filterFormFieldsContainer,
-          'flex flex-col gap-4 p-4 mb-6'
+          'flex flex-col gap-4',
+          'p-4 mb-6'
         )}
       >
         {filterGroups.map((filterGroup, groupIndex) => (
-          <div key={filterGroup.field}>
+          <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
             {filterGroup.filters.map((filter, filterIndex) => (
               <FilterInput
                 key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
                 value={filter}
                 filterConfigs={filterConfigs}
-                onChange={(filter) =>
+                onBlur={(filter) => {
                   dispatch({
                     type: 'changeFilter',
                     payload: {
@@ -304,7 +323,7 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
                       filter,
                     },
                   })
-                }
+                }}
               />
             ))}
           </div>
@@ -314,6 +333,9 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
             key={JSON.stringify(filterGroups)}
             filterConfigs={filterConfigs}
             onChange={(filter) => {
+              dispatch({ type: 'setNewFilter', payload: filter })
+            }}
+            onBlur={(filter) => {
               dispatch({ type: 'addFilter', payload: filter })
               setIsNewFilterInputOpen(false)
             }}
@@ -329,11 +351,12 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
           </Button>
           <Button
             type="text"
-            onClick={() =>
+            onClick={() => {
               dispatch({
                 type: 'clearAllFilters',
               })
-            }
+              setIsNewFilterInputOpen(true)
+            }}
           >
             Clear All Rules
           </Button>

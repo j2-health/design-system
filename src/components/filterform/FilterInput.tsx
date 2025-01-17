@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Filter, FilterConfig } from '.'
 import { useFilterField } from './useFilterField'
 import { Input, InputNumber, Select } from 'antd'
+import { debounce } from 'lodash'
 
 type SelectValueInputConfig = {
   type: 'select'
@@ -25,13 +26,15 @@ type ValueInputConfig =
 type FilterInputProps = {
   value?: Filter
   filterConfigs: FilterConfig[]
-  onChange: (value: Filter) => void
+  onChange?: (value: Filter) => void
+  onBlur?: (value: Filter) => void
 }
 
 export const FilterInput = ({
   value,
   filterConfigs,
   onChange,
+  onBlur,
 }: FilterInputProps) => {
   const {
     filter,
@@ -52,17 +55,21 @@ export const FilterInput = ({
   }))
 
   const handleBlur = () => {
-    if (isValid && filter) {
-      console.log('blurring...', filter)
-      onChange(filter)
+    if (filter && isValid) {
+      onBlur?.(filter)
     }
   }
 
-  React.useEffect(() => {
-    if (isValid && filter) {
-      console.log('changing...', filter)
-      // onChange(filter)
+  const handleChange = (isValid: boolean, filter: Filter | undefined) => {
+    if (filter && isValid) {
+      onChange?.(filter)
     }
+  }
+
+  const debouncedHandleChange = debounce(handleChange, 500)
+
+  React.useEffect(() => {
+    debouncedHandleChange(isValid, filter)
   }, [isValid, filter])
 
   return (
