@@ -207,6 +207,10 @@ type AddFilterAction = {
   payload: Filter
 }
 
+type ClearAllFiltersAction = {
+  type: 'clearAllFilters'
+}
+
 type ChangeFilterAction = {
   type: 'changeFilter'
   payload: {
@@ -216,7 +220,7 @@ type ChangeFilterAction = {
   }
 }
 
-type Action = AddFilterAction | ChangeFilterAction
+type Action = AddFilterAction | ChangeFilterAction | ClearAllFiltersAction
 
 const filterFormReducer = (state: FilterFormState, action: Action) => {
   const addFilter = (filter: Filter) => {
@@ -253,6 +257,12 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       return {
         ...state,
         filterGroups: [...state.filterGroups],
+      }
+    }
+    case 'clearAllFilters': {
+      return {
+        ...state,
+        filterGroups: [],
       }
     }
     default:
@@ -309,7 +319,6 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
             }}
           />
         )}
-
         <div className="flex items-center">
           <Button
             icon={<PlusCircle />}
@@ -317,6 +326,16 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
             disabled={isNewFilterInputOpen}
           >
             Add Rule
+          </Button>
+          <Button
+            type="text"
+            onClick={() =>
+              dispatch({
+                type: 'clearAllFilters',
+              })
+            }
+          >
+            Clear All Rules
           </Button>
         </div>
       </div>
