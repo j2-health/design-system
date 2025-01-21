@@ -205,13 +205,31 @@ type FilterFormState = {
   isNewFilterInputOpen: boolean
 }
 
-type AddFilterAction = {
-  type: 'addFilter'
+type OpenNewFilterInputAction = {
+  type: 'openNewFilterInput'
+}
+
+type AddNewFilterAction = {
+  type: 'addNewFilter'
+  payload: FormFilter
+}
+
+type ChangeNewFilterAction = {
+  type: 'changeNewFilter'
   payload: FormFilter
 }
 
 type ClearAllFiltersAction = {
   type: 'clearAllFilters'
+}
+
+type UpdateFilterAction = {
+  type: 'updateFilter'
+  payload: {
+    groupIndex: number
+    filterIndex: number
+    filter: FormFilter
+  }
 }
 
 type ChangeFilterAction = {
@@ -223,31 +241,13 @@ type ChangeFilterAction = {
   }
 }
 
-type EditFilterAction = {
-  type: 'editFilter'
-  payload: {
-    groupIndex: number
-    filterIndex: number
-    filter: FormFilter
-  }
-}
-
-type SetNewFilterAction = {
-  type: 'setNewFilter'
-  payload: FormFilter
-}
-
-type AddNewFilterAction = {
-  type: 'addNewFilter'
-}
-
 type Action =
-  | AddFilterAction
-  | ChangeFilterAction
-  | ClearAllFiltersAction
-  | SetNewFilterAction
   | AddNewFilterAction
-  | EditFilterAction
+  | UpdateFilterAction
+  | ClearAllFiltersAction
+  | ChangeNewFilterAction
+  | OpenNewFilterInputAction
+  | ChangeFilterAction
 
 const filterFormReducer = (state: FilterFormState, action: Action) => {
   const addFilter = (filter: FormFilter) => {
@@ -263,13 +263,13 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
   }
 
   switch (action.type) {
-    case 'addNewFilter': {
+    case 'openNewFilterInput': {
       return {
         ...state,
         isNewFilterInputOpen: true,
       }
     }
-    case 'addFilter': {
+    case 'addNewFilter': {
       if (action.payload.errors && action.payload.errors.length > 0) {
         return state
       }
@@ -283,7 +283,13 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         isNewFilterInputOpen: false,
       }
     }
-    case 'changeFilter': {
+    case 'changeNewFilter': {
+      return {
+        ...state,
+        newFilter: action.payload,
+      }
+    }
+    case 'updateFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
       const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
       if (prevFilter.field === filter.field) {
@@ -298,7 +304,7 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         filterGroups: [...state.filterGroups],
       }
     }
-    case 'editFilter': {
+    case 'changeFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
       state.filterGroups[groupIndex].filters[filterIndex] = filter
       return {
@@ -310,12 +316,6 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       return {
         ...state,
         filterGroups: [],
-      }
-    }
-    case 'setNewFilter': {
-      return {
-        ...state,
-        newFilter: action.payload,
       }
     }
     default:
@@ -359,12 +359,12 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
           <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
             {filterGroup.filters.map((filter, filterIndex) => (
               <FilterInput
-                key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
+                key={`${groupIndex}:${filterIndex}-${JSON.stringify(filter)}`}
                 value={filter}
                 filterConfigs={filterConfigs}
                 onChange={(filter) => {
                   dispatch({
-                    type: 'editFilter',
+                    type: 'changeFilter',
                     payload: {
                       groupIndex,
                       filterIndex,
@@ -374,7 +374,7 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
                 }}
                 onBlur={(filter) => {
                   dispatch({
-                    type: 'changeFilter',
+                    type: 'updateFilter',
                     payload: {
                       groupIndex,
                       filterIndex,
@@ -391,18 +391,17 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
             key={JSON.stringify(filterGroups)}
             filterConfigs={filterConfigs}
             onChange={(filter) => {
-              console.log({ filter })
-              dispatch({ type: 'setNewFilter', payload: filter })
+              dispatch({ type: 'changeNewFilter', payload: filter })
             }}
             onBlur={(filter) => {
-              dispatch({ type: 'addFilter', payload: filter })
+              dispatch({ type: 'addNewFilter', payload: filter })
             }}
           />
         )}
         <div className="flex items-center">
           <Button
             icon={<PlusCircle />}
-            onClick={() => dispatch({ type: 'addNewFilter' })}
+            onClick={() => dispatch({ type: 'openNewFilterInput' })}
             disabled={errors}
           >
             Add Rule
