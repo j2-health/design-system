@@ -16,6 +16,7 @@ import { debounce } from 'lodash'
 import { useEffect, useMemo } from 'react'
 import { FilterInput } from './FilterInput'
 import { useFiltersForm } from './useFiltersForm'
+import { FilterGroup } from './FilterGroup'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -230,60 +231,44 @@ export const FiltersForm = ({
         )}
       >
         {title && <span className={s.filterFormTitle}>{title}</span>}
-        {filterGroups.map((filterGroup, groupIndex) =>
-          filterGroup.filters.length > 0 ? (
-            <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
-              {filterGroup.filters.map((filter, filterIndex) => (
-                <div
-                  key={`${groupIndex}:${filterIndex}-input-container`}
-                  className="flex items-center justify-between"
-                >
-                  {groupIndex > 0 || filterIndex > 0 ? (
-                    <span className={cx(s.filterFormConjunction, 'mr-3')}>
-                      and
-                    </span>
-                  ) : null}
-                  <FilterInput
-                    key={`${groupIndex}:${filterIndex}`}
-                    value={filter}
-                    filterConfigs={filterConfigs}
-                    className="flex-1"
-                    onChange={(filter) => {
-                      dispatch({
-                        type: 'changeFilter',
-                        payload: {
-                          groupIndex,
-                          filterIndex,
-                          filter,
-                        },
-                      })
-                    }}
-                    onBlur={(filter) => {
-                      dispatch({
-                        type: 'updateFilter',
-                        payload: {
-                          groupIndex,
-                          filterIndex,
-                          filter,
-                        },
-                      })
-                    }}
-                  />
-                  <Button
-                    type="text"
-                    icon={<Trash />}
-                    onClick={() =>
-                      dispatch({
-                        type: 'removeFilter',
-                        payload: { groupIndex, filterIndex },
-                      })
-                    }
-                  />
-                </div>
-              ))}
-            </div>
-          ) : null
-        )}
+        {filterGroups.map((filterGroup, groupIndex) => (
+          <div key={`filter-group-${groupIndex}`} className="flex gap-3">
+            {groupIndex > 0 ? (
+              <span
+                className={cx(
+                  s.filterFormConjunction,
+                  filterGroup.filters.length > 1 && 'pt-3'
+                )}
+              >
+                and
+              </span>
+            ) : null}
+            <FilterGroup
+              filterGroup={filterGroup}
+              groupIndex={groupIndex}
+              filterConfigs={filterConfigs}
+              className="grow"
+              onChange={(filter, filterIndex) => {
+                dispatch({
+                  type: 'changeFilter',
+                  payload: { groupIndex, filterIndex, filter },
+                })
+              }}
+              onDone={(filter, filterIndex) => {
+                dispatch({
+                  type: 'updateFilter',
+                  payload: { groupIndex, filterIndex, filter },
+                })
+              }}
+              onRemove={(filterIndex) => {
+                dispatch({
+                  type: 'removeFilter',
+                  payload: { groupIndex, filterIndex },
+                })
+              }}
+            />
+          </div>
+        ))}
         {isNewFilterInputOpen && (
           <div className="flex items-center justify-between">
             <FilterInput

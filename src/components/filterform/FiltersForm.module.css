@@ -11,4 +11,9 @@
     background-color: var(--j2-gray-2);
     border-radius: var(--j2-border-radius);
   }
+
+  .filterFormGroupContainer {
+    background-color: #fff;
+    border-radius: var(--j2-border-radius);
+  }
 }

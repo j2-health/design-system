@@ -89,6 +89,7 @@ export const FilterInput = ({
           onChange={handleOperatorChange}
           onBlur={handleBlur}
           size={size}
+          popupMatchSelectWidth={false}
         />
         {valueInputConfig && (
           <ValueInput
