@@ -201,6 +201,7 @@ const FilterFormFields = ({
 }
 
 export const FiltersForm = ({
+  title,
   filterConfigs,
   onSubmit,
   initialValues,
@@ -228,6 +229,7 @@ export const FiltersForm = ({
           'p-4 mb-6'
         )}
       >
+        {title && <span className={s.filterFormTitle}>{title}</span>}
         {filterGroups.map((filterGroup, groupIndex) =>
           filterGroup.filters.length > 0 ? (
             <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>

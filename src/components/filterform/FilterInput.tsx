@@ -4,6 +4,7 @@ import { useFilterField } from './useFilterField'
 import { Input, InputNumber, Select } from 'antd'
 import { FormFilter } from './types'
 import cx from 'classnames'
+import { SizeType } from 'antd/es/config-provider/SizeContext'
 type SelectValueInputConfig = {
   type: 'select'
   valueOptions: { label: string; value: string }[]
@@ -29,6 +30,7 @@ type FilterInputProps = {
   onChange?: (value: FormFilter) => void
   onBlur?: (value: FormFilter) => void
   className?: string
+  size?: SizeType
 }
 
 export const FilterInput = ({
@@ -37,6 +39,7 @@ export const FilterInput = ({
   onChange,
   onBlur,
   className,
+  size = 'middle',
 }: FilterInputProps) => {
   const {
     filter,
@@ -77,21 +80,26 @@ export const FilterInput = ({
         options={fieldOptions}
         value={filter?.field}
         onChange={handleFieldChange}
+        size={size}
       />
-      <Select
-        options={operatorOptions}
-        value={filter?.operator}
-        onChange={handleOperatorChange}
-        onBlur={handleBlur}
-      />
-      {valueInputConfig && (
-        <ValueInput
-          valueInputConfig={valueInputConfig}
-          values={filter?.values}
-          onChange={handleValuesChange}
+      <div className="col-span-2 flex gap-2">
+        <Select
+          options={operatorOptions}
+          value={filter?.operator}
+          onChange={handleOperatorChange}
           onBlur={handleBlur}
+          size={size}
         />
-      )}
+        {valueInputConfig && (
+          <ValueInput
+            valueInputConfig={valueInputConfig}
+            values={filter?.values}
+            onChange={handleValuesChange}
+            onBlur={handleBlur}
+            size={size}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -101,6 +109,7 @@ type ValueInputProps = {
   values?: (string | number | undefined | null)[]
   onChange: (value: (string | number | undefined | null)[]) => void
   onBlur: () => void
+  size: SizeType
 }
 
 const ValueInput = ({
@@ -108,6 +117,7 @@ const ValueInput = ({
   values,
   onChange,
   onBlur,
+  size,
 }: ValueInputProps) => {
   const handleChange = (value: string | number | null) => {
     if (value === null) {
@@ -136,11 +146,13 @@ const ValueInput = ({
           mode="multiple"
           onBlur={onBlur}
           value={values}
+          className="w-full"
+          size={size}
         />
       )
     case 'number':
       return (
-        <div className="flex gap-2">
+        <div className="flex gap-2 grow">
           {Array.from({ length: valueInputConfig.inputCount }).map(
             (_, index) => (
               <React.Fragment key={`number-input-${index}`}>
@@ -149,6 +161,8 @@ const ValueInput = ({
                   onChange={(value) => handleNumberChange(value, index)}
                   onBlur={onBlur}
                   value={values?.[index]}
+                  className="basis-1/2"
+                  size={size}
                 />
               </React.Fragment>
             )
@@ -161,6 +175,8 @@ const ValueInput = ({
           onBlur={onBlur}
           value={values?.[0] ?? undefined}
           onChange={(e) => handleChange(e.target.value)}
+          className="w-full"
+          size={size}
         />
       )
     default:
