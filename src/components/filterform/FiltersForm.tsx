@@ -291,7 +291,7 @@ export const FiltersForm = ({
           <Button
             icon={<PlusCircle />}
             onClick={() => dispatch({ type: 'openNewFilterInput' })}
-            disabled={errors}
+            disabled={isNewFilterInputOpen || !isValid}
           >
             Add Rule
           </Button>
