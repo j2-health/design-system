@@ -3,7 +3,7 @@ import { FilterConfig } from '.'
 import { useFilterField } from './useFilterField'
 import { Input, InputNumber, Select } from 'antd'
 import { FormFilter } from './types'
-
+import cx from 'classnames'
 type SelectValueInputConfig = {
   type: 'select'
   valueOptions: { label: string; value: string }[]
@@ -28,6 +28,7 @@ type FilterInputProps = {
   filterConfigs: FilterConfig[]
   onChange?: (value: FormFilter) => void
   onBlur?: (value: FormFilter) => void
+  className?: string
 }
 
 export const FilterInput = ({
@@ -35,6 +36,7 @@ export const FilterInput = ({
   filterConfigs,
   onChange,
   onBlur,
+  className,
 }: FilterInputProps) => {
   const {
     filter,
@@ -70,7 +72,7 @@ export const FilterInput = ({
   }, [filter])
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className={cx('grid grid-cols-3 gap-2', className)}>
       <Select
         options={fieldOptions}
         value={filter?.field}

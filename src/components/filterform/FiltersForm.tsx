@@ -241,6 +241,14 @@ type ChangeFilterAction = {
   }
 }
 
+type RemoveFilterAction = {
+  type: 'removeFilter'
+  payload: {
+    groupIndex: number
+    filterIndex: number
+  }
+}
+
 type Action =
   | AddNewFilterAction
   | UpdateFilterAction
@@ -248,6 +256,7 @@ type Action =
   | ChangeNewFilterAction
   | OpenNewFilterInputAction
   | ChangeFilterAction
+  | RemoveFilterAction
 
 const filterFormReducer = (state: FilterFormState, action: Action) => {
   const addFilter = (filter: FormFilter) => {
@@ -312,6 +321,26 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         filterGroups: [...state.filterGroups],
       }
     }
+    case 'removeFilter': {
+      const { groupIndex, filterIndex } = action.payload
+      state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
+
+      const allFiltersRemoved = state.filterGroups.every(
+        (group) => group.filters.length === 0
+      )
+
+      if (allFiltersRemoved) {
+        return {
+          ...state,
+          isNewFilterInputOpen: allFiltersRemoved,
+        }
+      }
+
+      return {
+        ...state,
+        filterGroups: [...state.filterGroups],
+      }
+    }
     case 'clearAllFilters': {
       return {
         ...state,
@@ -355,48 +384,70 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
           'p-4 mb-6'
         )}
       >
-        {filterGroups.map((filterGroup, groupIndex) => (
-          <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
-            {filterGroup.filters.map((filter, filterIndex) => (
-              <FilterInput
-                key={`${groupIndex}:${filterIndex}`}
-                value={filter}
-                filterConfigs={filterConfigs}
-                onChange={(filter) => {
-                  dispatch({
-                    type: 'changeFilter',
-                    payload: {
-                      groupIndex,
-                      filterIndex,
-                      filter,
-                    },
-                  })
-                }}
-                onBlur={(filter) => {
-                  dispatch({
-                    type: 'updateFilter',
-                    payload: {
-                      groupIndex,
-                      filterIndex,
-                      filter,
-                    },
-                  })
-                }}
-              />
-            ))}
-          </div>
-        ))}
+        {filterGroups.map((filterGroup, groupIndex) =>
+          filterGroup.filters.length > 0 ? (
+            <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
+              {filterGroup.filters.map((filter, filterIndex) => (
+                <div
+                  key={`${groupIndex}:${filterIndex}-input-container`}
+                  className="flex items-center justify-between"
+                >
+                  <FilterInput
+                    key={`${groupIndex}:${filterIndex}`}
+                    value={filter}
+                    filterConfigs={filterConfigs}
+                    className="flex-1"
+                    onChange={(filter) => {
+                      dispatch({
+                        type: 'changeFilter',
+                        payload: {
+                          groupIndex,
+                          filterIndex,
+                          filter,
+                        },
+                      })
+                    }}
+                    onBlur={(filter) => {
+                      dispatch({
+                        type: 'updateFilter',
+                        payload: {
+                          groupIndex,
+                          filterIndex,
+                          filter,
+                        },
+                      })
+                    }}
+                  />
+                  <Button
+                    type="text"
+                    icon={<Trash />}
+                    onClick={() =>
+                      dispatch({
+                        type: 'removeFilter',
+                        payload: { groupIndex, filterIndex },
+                      })
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null
+        )}
         {isNewFilterInputOpen && (
-          <FilterInput
-            key={JSON.stringify(filterGroups)}
-            filterConfigs={filterConfigs}
-            onChange={(filter) => {
-              dispatch({ type: 'changeNewFilter', payload: filter })
-            }}
-            onBlur={(filter) => {
-              dispatch({ type: 'addNewFilter', payload: filter })
-            }}
-          />
+          <div className="flex items-center justify-between">
+            <FilterInput
+              key={JSON.stringify(filterGroups)}
+              filterConfigs={filterConfigs}
+              className="flex-1"
+              onChange={(filter) => {
+                dispatch({ type: 'changeNewFilter', payload: filter })
+              }}
+              onBlur={(filter) => {
+                dispatch({ type: 'addNewFilter', payload: filter })
+              }}
+            />
+            <div className="w-8" />
+          </div>
         )}
         <div className="flex items-center">
           <Button
