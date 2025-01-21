@@ -12,10 +12,9 @@ import {
   validateFilterField,
 } from './filterHelpers'
 import { debounce } from 'lodash'
-import { useEffect, useMemo, useReducer, useState } from 'react'
+import { useEffect, useMemo, useReducer } from 'react'
 import { FilterInput } from './FilterInput'
 import { FormFilter } from './types'
-import { isParameterPropertyDeclaration } from 'typescript'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -224,6 +223,15 @@ type ChangeFilterAction = {
   }
 }
 
+type EditFilterAction = {
+  type: 'editFilter'
+  payload: {
+    groupIndex: number
+    filterIndex: number
+    filter: FormFilter
+  }
+}
+
 type SetNewFilterAction = {
   type: 'setNewFilter'
   payload: FormFilter
@@ -239,6 +247,8 @@ type Action =
   | ClearAllFiltersAction
   | SetNewFilterAction
   | AddNewFilterAction
+  | EditFilterAction
+
 const filterFormReducer = (state: FilterFormState, action: Action) => {
   const addFilter = (filter: FormFilter) => {
     const filterGroupIndex = state.filterGroups.findIndex(
@@ -274,13 +284,6 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       }
     }
     case 'changeFilter': {
-      if (
-        action.payload.filter.errors &&
-        action.payload.filter.errors.length > 0
-      ) {
-        return state
-      }
-
       const { groupIndex, filterIndex, filter } = action.payload
       const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
       if (prevFilter.field === filter.field) {
@@ -290,6 +293,14 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
       }
 
+      return {
+        ...state,
+        filterGroups: [...state.filterGroups],
+      }
+    }
+    case 'editFilter': {
+      const { groupIndex, filterIndex, filter } = action.payload
+      state.filterGroups[groupIndex].filters[filterIndex] = filter
       return {
         ...state,
         filterGroups: [...state.filterGroups],
@@ -320,6 +331,17 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
       isNewFilterInputOpen: true,
     })
 
+  const errors = useMemo(() => {
+    return (
+      filterGroups.some((group) =>
+        group.filters.some(
+          (filter) => filter.errors && filter.errors.length > 0
+        )
+      ) ||
+      (newFilter && newFilter.errors && newFilter.errors.length > 0)
+    )
+  }, [filterGroups, newFilter])
+
   const handleSubmit = () => {
     console.log('submitting', filterGroups)
   }
@@ -340,6 +362,16 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
                 key={`${filter.field}-${filter.operator}-${filter.values.join('-')}`}
                 value={filter}
                 filterConfigs={filterConfigs}
+                onChange={(filter) => {
+                  dispatch({
+                    type: 'editFilter',
+                    payload: {
+                      groupIndex,
+                      filterIndex,
+                      filter,
+                    },
+                  })
+                }}
                 onBlur={(filter) => {
                   dispatch({
                     type: 'changeFilter',
@@ -371,12 +403,7 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
           <Button
             icon={<PlusCircle />}
             onClick={() => dispatch({ type: 'addNewFilter' })}
-            disabled={
-              isNewFilterInputOpen &&
-              newFilter &&
-              newFilter.errors &&
-              newFilter.errors.length > 0
-            }
+            disabled={errors}
           >
             Add Rule
           </Button>
@@ -387,12 +414,15 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
                 type: 'clearAllFilters',
               })
             }}
+            disabled={errors}
           >
             Clear All Rules
           </Button>
         </div>
       </div>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit} disabled={errors}>
+        Submit
+      </Button>
     </div>
   )
 }
