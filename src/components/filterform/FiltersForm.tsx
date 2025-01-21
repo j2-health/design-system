@@ -238,6 +238,11 @@ export const FiltersForm = ({
                   key={`${groupIndex}:${filterIndex}-input-container`}
                   className="flex items-center justify-between"
                 >
+                  {groupIndex > 0 || filterIndex > 0 ? (
+                    <span className={cx(s.filterFormConjunction, 'mr-3')}>
+                      and
+                    </span>
+                  ) : null}
                   <FilterInput
                     key={`${groupIndex}:${filterIndex}`}
                     value={filter}
