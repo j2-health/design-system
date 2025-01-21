@@ -5,7 +5,7 @@ import { Button } from '../button'
 import { PlusCircle, Trash } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
-import { FilterForm, FilterConfig, FilterGroup, Filter } from '.'
+import { FilterForm, FilterConfig, FilterGroup } from '.'
 import {
   isEmptyFilter,
   isValidFilter,
@@ -14,6 +14,8 @@ import {
 import { debounce } from 'lodash'
 import { useEffect, useMemo, useReducer, useState } from 'react'
 import { FilterInput } from './FilterInput'
+import { FormFilter } from './types'
+import { isParameterPropertyDeclaration } from 'typescript'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -200,12 +202,13 @@ const FilterFormFields = ({
 
 type FilterFormState = {
   filterGroups: FilterGroup[]
-  newFilter: Filter | undefined
+  newFilter: FormFilter | undefined
+  isNewFilterInputOpen: boolean
 }
 
 type AddFilterAction = {
   type: 'addFilter'
-  payload: Filter
+  payload: FormFilter
 }
 
 type ClearAllFiltersAction = {
@@ -217,13 +220,17 @@ type ChangeFilterAction = {
   payload: {
     groupIndex: number
     filterIndex: number
-    filter: Filter
+    filter: FormFilter
   }
 }
 
 type SetNewFilterAction = {
   type: 'setNewFilter'
-  payload: Filter
+  payload: FormFilter
+}
+
+type AddNewFilterAction = {
+  type: 'addNewFilter'
 }
 
 type Action =
@@ -231,9 +238,9 @@ type Action =
   | ChangeFilterAction
   | ClearAllFiltersAction
   | SetNewFilterAction
-
+  | AddNewFilterAction
 const filterFormReducer = (state: FilterFormState, action: Action) => {
-  const addFilter = (filter: Filter) => {
+  const addFilter = (filter: FormFilter) => {
     const filterGroupIndex = state.filterGroups.findIndex(
       (filterGroup) => filterGroup.field === filter.field
     )
@@ -246,16 +253,34 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
   }
 
   switch (action.type) {
+    case 'addNewFilter': {
+      return {
+        ...state,
+        isNewFilterInputOpen: true,
+      }
+    }
     case 'addFilter': {
+      if (action.payload.errors && action.payload.errors.length > 0) {
+        return state
+      }
+
       addFilter(action.payload)
 
       return {
         ...state,
         filterGroups: [...state.filterGroups],
         newFilter: undefined,
+        isNewFilterInputOpen: false,
       }
     }
     case 'changeFilter': {
+      if (
+        action.payload.filter.errors &&
+        action.payload.filter.errors.length > 0
+      ) {
+        return state
+      }
+
       const { groupIndex, filterIndex, filter } = action.payload
       const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
       if (prevFilter.field === filter.field) {
@@ -288,11 +313,12 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
 }
 
 export const FiltersForm = ({ filterConfigs }: Props) => {
-  const [isNewFilterInputOpen, setIsNewFilterInputOpen] = useState(true)
-  const [{ filterGroups }, dispatch] = useReducer(filterFormReducer, {
-    filterGroups: [],
-    newFilter: undefined,
-  })
+  const [{ filterGroups, newFilter, isNewFilterInputOpen }, dispatch] =
+    useReducer(filterFormReducer, {
+      filterGroups: [],
+      newFilter: undefined,
+      isNewFilterInputOpen: true,
+    })
 
   const handleSubmit = () => {
     console.log('submitting', filterGroups)
@@ -333,19 +359,24 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
             key={JSON.stringify(filterGroups)}
             filterConfigs={filterConfigs}
             onChange={(filter) => {
+              console.log({ filter })
               dispatch({ type: 'setNewFilter', payload: filter })
             }}
             onBlur={(filter) => {
               dispatch({ type: 'addFilter', payload: filter })
-              setIsNewFilterInputOpen(false)
             }}
           />
         )}
         <div className="flex items-center">
           <Button
             icon={<PlusCircle />}
-            onClick={() => setIsNewFilterInputOpen(true)}
-            disabled={isNewFilterInputOpen}
+            onClick={() => dispatch({ type: 'addNewFilter' })}
+            disabled={
+              isNewFilterInputOpen &&
+              newFilter &&
+              newFilter.errors &&
+              newFilter.errors.length > 0
+            }
           >
             Add Rule
           </Button>
@@ -355,7 +386,6 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
               dispatch({
                 type: 'clearAllFilters',
               })
-              setIsNewFilterInputOpen(true)
             }}
           >
             Clear All Rules

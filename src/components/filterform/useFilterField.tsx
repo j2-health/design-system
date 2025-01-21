@@ -1,20 +1,19 @@
 import * as React from 'react'
-import { Filter, FilterConfig, FilterType, Operator } from './types'
-import { isValidFilter } from './filterHelpers'
+import { FilterConfig, FilterType, FormFilter, Operator } from './types'
+import { validateFormFilter } from './filterHelpers'
 export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
-  filter?: Filter
+  filter?: FormFilter
 }
 
 type UseFilterFieldOutputs = {
-  filter: Filter | undefined
+  filter: FormFilter | undefined
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
   valueInputConfig: ValueInputConfig | undefined
   handleFieldChange: (value: string) => void
   handleOperatorChange: (value: string) => void
   handleValuesChange: (value: (string | number | undefined | null)[]) => void
-  isValid: boolean
 }
 
 export const TypeToOperatorOptions: Record<
@@ -68,12 +67,11 @@ export type ValueInputConfig =
   | TextValueInputConfig
 
 type FilterFieldState = {
-  filter: Filter | undefined
+  filter: FormFilter | undefined
   filterConfigs: FilterConfig[]
   config: FilterConfig | undefined
   operatorOptions: { label: string; value: string }[]
   valueInputConfig: ValueInputConfig | undefined
-  isValid: boolean
 }
 
 type Action = {
@@ -120,6 +118,7 @@ const filterFieldReducer = (
   state: FilterFieldState,
   action: Action | SetValuesAction
 ) => {
+  console.log('filterFieldReducer', action)
   switch (action.type) {
     case 'setField': {
       const config =
@@ -133,7 +132,8 @@ const filterFieldReducer = (
         field: action.payload,
         operator: operatorOptions[0].value,
         values: [],
-      } as Filter
+        errors: [],
+      } as FormFilter
 
       return {
         ...state,
@@ -150,30 +150,54 @@ const filterFieldReducer = (
       if (!state.config) return state
       if (!action.payload) return state
 
-      const newFilter = {
+      const pendingFilter = {
         ...state.filter,
         operator: action.payload,
-      } as Filter
+        values: [],
+      } as FormFilter
 
       return {
         ...state,
-        filter: newFilter,
+        filter: {
+          ...pendingFilter,
+          errors: validateFormFilter(pendingFilter),
+        },
         valueInputConfig: buildValueInputConfig(state.config, action.payload),
-        isValid: newFilter ? isValidFilter(newFilter) : false,
       }
     }
     case 'setValues': {
-      const filter = state.filter
-        ? ({
-            ...state.filter,
-            values: action.payload,
-          } as Filter)
-        : undefined
+      if (!state.filter) return state
+
+      let values
+
+      if (state.filter.type === 'number') {
+        values = action.payload.map((value) => Number(value))
+      } else {
+        values = action.payload.filter(
+          (value) => value !== null && value !== undefined
+        ) as string[]
+      }
+
+      const pendingFilter = {
+        field: state.filter.field,
+        type: state.filter.type,
+        operator: state.filter.operator,
+        values: values,
+      }
+
+      const errors = validateFormFilter(pendingFilter)
+
+      const formFilter: FormFilter = {
+        field: state.filter.field,
+        type: state.filter.type,
+        operator: state.filter.operator,
+        values: values,
+        errors: errors,
+      }
 
       return {
         ...state,
-        filter,
-        isValid: filter ? isValidFilter(filter) : false,
+        filter: formFilter,
       }
     }
     case 'initialize': {
@@ -193,7 +217,10 @@ const filterFieldReducer = (
           type: config.type,
           operator,
           values: [],
-        } as Filter)
+        } as FormFilter)
+
+      const errors = validateFormFilter(filter)
+      filter.errors = errors
 
       return {
         ...state,
@@ -215,26 +242,23 @@ export const useFilterField = ({
   filterConfigs,
   filter: initialFilter,
 }: UseFilterFieldInputs): UseFilterFieldOutputs => {
-  const [
-    { filter, config, operatorOptions, valueInputConfig, isValid },
-    dispatch,
-  ] = React.useReducer(
-    filterFieldReducer,
-    {
-      filter: initialFilter,
-      filterConfigs,
-      config: undefined,
-      operatorOptions: [],
-      valueInputConfig: undefined,
-      isValid: false,
-    },
-    (state) => {
-      return filterFieldReducer(state, {
-        type: 'initialize',
-        payload: undefined,
-      })
-    }
-  )
+  const [{ filter, config, operatorOptions, valueInputConfig }, dispatch] =
+    React.useReducer(
+      filterFieldReducer,
+      {
+        filter: initialFilter,
+        filterConfigs,
+        config: undefined,
+        operatorOptions: [],
+        valueInputConfig: undefined,
+      },
+      (state) => {
+        return filterFieldReducer(state, {
+          type: 'initialize',
+          payload: undefined,
+        })
+      }
+    )
 
   const handleFieldChange = (value: string) => {
     dispatch({
@@ -267,6 +291,5 @@ export const useFilterField = ({
     handleFieldChange,
     handleOperatorChange,
     handleValuesChange,
-    isValid,
   }
 }

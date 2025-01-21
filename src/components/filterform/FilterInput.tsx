@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Filter, FilterConfig } from '.'
+import { FilterConfig } from '.'
 import { useFilterField } from './useFilterField'
 import { Input, InputNumber, Select } from 'antd'
-import { debounce } from 'lodash'
+import { FormFilter } from './types'
 
 type SelectValueInputConfig = {
   type: 'select'
@@ -24,10 +24,10 @@ type ValueInputConfig =
   | TextValueInputConfig
 
 type FilterInputProps = {
-  value?: Filter
+  value?: FormFilter
   filterConfigs: FilterConfig[]
-  onChange?: (value: Filter) => void
-  onBlur?: (value: Filter) => void
+  onChange?: (value: FormFilter) => void
+  onBlur?: (value: FormFilter) => void
 }
 
 export const FilterInput = ({
@@ -43,7 +43,6 @@ export const FilterInput = ({
     handleFieldChange,
     handleOperatorChange,
     handleValuesChange,
-    isValid,
   } = useFilterField({
     filterConfigs,
     filter: value,
@@ -55,22 +54,22 @@ export const FilterInput = ({
   }))
 
   const handleBlur = () => {
-    if (filter && isValid) {
+    if (filter) {
+      console.log('Blur', filter)
       onBlur?.(filter)
     }
   }
 
-  const handleChange = (isValid: boolean, filter: Filter | undefined) => {
-    if (filter && isValid) {
+  const handleChange = (filter: FormFilter | undefined) => {
+    if (filter) {
+      console.log('Change', filter)
       onChange?.(filter)
     }
   }
 
-  const debouncedHandleChange = debounce(handleChange, 500)
-
   React.useEffect(() => {
-    debouncedHandleChange(isValid, filter)
-  }, [isValid, filter])
+    handleChange(filter)
+  }, [filter])
 
   return (
     <div className="grid grid-cols-3 gap-2">
@@ -99,7 +98,7 @@ export const FilterInput = ({
 
 type ValueInputProps = {
   valueInputConfig: ValueInputConfig
-  values: (string | number)[] | undefined | null
+  values?: (string | number | undefined | null)[]
   onChange: (value: (string | number | undefined | null)[]) => void
   onBlur: () => void
 }
@@ -161,7 +160,7 @@ const ValueInput = ({
         <Input
           onChange={(e) => handleChange(e.target.value)}
           onBlur={onBlur}
-          value={values?.[0]}
+          value={values?.[0] ?? undefined}
         />
       )
     default:

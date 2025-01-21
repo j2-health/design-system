@@ -2,9 +2,17 @@ export type FilterForm = {
   filters: Filter[]
 }
 
+export type FormFilter = {
+  field: string
+  type: FilterType
+  operator: Operator | undefined
+  values: (number | string | null | undefined)[]
+  errors?: string[]
+}
+
 export type FilterGroup = {
   field: string
-  filters: Filter[]
+  filters: FormFilter[]
 }
 
 export type FilterType = 'select' | 'number' | 'text'
