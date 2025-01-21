@@ -55,14 +55,12 @@ export const FilterInput = ({
 
   const handleBlur = () => {
     if (filter) {
-      console.log('Blur', filter)
       onBlur?.(filter)
     }
   }
 
   const handleChange = (filter: FormFilter | undefined) => {
     if (filter) {
-      console.log('Change', filter)
       onChange?.(filter)
     }
   }
@@ -158,9 +156,9 @@ const ValueInput = ({
     case 'text':
       return (
         <Input
-          onChange={(e) => handleChange(e.target.value)}
           onBlur={onBlur}
           value={values?.[0] ?? undefined}
+          onChange={(e) => handleChange(e.target.value)}
         />
       )
     default:

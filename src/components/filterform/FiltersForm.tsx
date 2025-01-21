@@ -359,7 +359,7 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
           <div key={filterGroup.field} className={cx('flex flex-col gap-4')}>
             {filterGroup.filters.map((filter, filterIndex) => (
               <FilterInput
-                key={`${groupIndex}:${filterIndex}-${JSON.stringify(filter)}`}
+                key={`${groupIndex}:${filterIndex}`}
                 value={filter}
                 filterConfigs={filterConfigs}
                 onChange={(filter) => {

@@ -118,7 +118,6 @@ const filterFieldReducer = (
   state: FilterFieldState,
   action: Action | SetValuesAction
 ) => {
-  console.log('filterFieldReducer', action)
   switch (action.type) {
     case 'setField': {
       const config =
