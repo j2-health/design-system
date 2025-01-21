@@ -307,9 +307,11 @@ export const FiltersForm = ({
           </Button>
         </div>
       </div>
-      <Button onClick={handleSubmit} disabled={errors}>
-        Submit
-      </Button>
+      <div className="flex justify-end">
+        <Button onClick={handleSubmit} type="primary" disabled={!isValid}>
+          Apply Filters
+        </Button>
+      </div>
     </div>
   )
 }
