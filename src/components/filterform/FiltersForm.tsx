@@ -5,16 +5,16 @@ import { Button } from '../button'
 import { PlusCircle, Trash } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
-import { FilterForm, FilterConfig, FilterGroup } from '.'
+import { FilterForm, FilterConfig } from '.'
 import {
   isEmptyFilter,
   isValidFilter,
   validateFilterField,
 } from './filterHelpers'
 import { debounce } from 'lodash'
-import { useEffect, useMemo, useReducer } from 'react'
+import { useEffect, useMemo } from 'react'
 import { FilterInput } from './FilterInput'
-import { FormFilter } from './types'
+import { useFiltersForm } from './useFiltersForm'
 
 type Props = {
   filterConfigs: FilterConfig[]
@@ -199,177 +199,15 @@ const FilterFormFields = ({
   )
 }
 
-type FilterFormState = {
-  filterGroups: FilterGroup[]
-  newFilter: FormFilter | undefined
-  isNewFilterInputOpen: boolean
-}
-
-type OpenNewFilterInputAction = {
-  type: 'openNewFilterInput'
-}
-
-type AddNewFilterAction = {
-  type: 'addNewFilter'
-  payload: FormFilter
-}
-
-type ChangeNewFilterAction = {
-  type: 'changeNewFilter'
-  payload: FormFilter
-}
-
-type ClearAllFiltersAction = {
-  type: 'clearAllFilters'
-}
-
-type UpdateFilterAction = {
-  type: 'updateFilter'
-  payload: {
-    groupIndex: number
-    filterIndex: number
-    filter: FormFilter
-  }
-}
-
-type ChangeFilterAction = {
-  type: 'changeFilter'
-  payload: {
-    groupIndex: number
-    filterIndex: number
-    filter: FormFilter
-  }
-}
-
-type RemoveFilterAction = {
-  type: 'removeFilter'
-  payload: {
-    groupIndex: number
-    filterIndex: number
-  }
-}
-
-type Action =
-  | AddNewFilterAction
-  | UpdateFilterAction
-  | ClearAllFiltersAction
-  | ChangeNewFilterAction
-  | OpenNewFilterInputAction
-  | ChangeFilterAction
-  | RemoveFilterAction
-
-const filterFormReducer = (state: FilterFormState, action: Action) => {
-  const addFilter = (filter: FormFilter) => {
-    const filterGroupIndex = state.filterGroups.findIndex(
-      (filterGroup) => filterGroup.field === filter.field
-    )
-
-    if (filterGroupIndex !== -1) {
-      state.filterGroups[filterGroupIndex].filters.push(filter)
-    } else {
-      state.filterGroups.push({ field: filter.field, filters: [filter] })
-    }
-  }
-
-  switch (action.type) {
-    case 'openNewFilterInput': {
-      return {
-        ...state,
-        isNewFilterInputOpen: true,
-      }
-    }
-    case 'addNewFilter': {
-      if (action.payload.errors && action.payload.errors.length > 0) {
-        return state
-      }
-
-      addFilter(action.payload)
-
-      return {
-        ...state,
-        filterGroups: [...state.filterGroups],
-        newFilter: undefined,
-        isNewFilterInputOpen: false,
-      }
-    }
-    case 'changeNewFilter': {
-      return {
-        ...state,
-        newFilter: action.payload,
-      }
-    }
-    case 'updateFilter': {
-      const { groupIndex, filterIndex, filter } = action.payload
-      const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
-      if (prevFilter.field === filter.field) {
-        state.filterGroups[groupIndex].filters[filterIndex] = filter
-      } else {
-        addFilter(filter)
-        state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
-      }
-
-      return {
-        ...state,
-        filterGroups: [...state.filterGroups],
-      }
-    }
-    case 'changeFilter': {
-      const { groupIndex, filterIndex, filter } = action.payload
-      state.filterGroups[groupIndex].filters[filterIndex] = filter
-      return {
-        ...state,
-        filterGroups: [...state.filterGroups],
-      }
-    }
-    case 'removeFilter': {
-      const { groupIndex, filterIndex } = action.payload
-      state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
-
-      const allFiltersRemoved = state.filterGroups.every(
-        (group) => group.filters.length === 0
-      )
-
-      if (allFiltersRemoved) {
-        return {
-          ...state,
-          isNewFilterInputOpen: allFiltersRemoved,
-        }
-      }
-
-      return {
-        ...state,
-        filterGroups: [...state.filterGroups],
-      }
-    }
-    case 'clearAllFilters': {
-      return {
-        ...state,
-        filterGroups: [],
-      }
-    }
-    default:
-      return state
-  }
-}
-
-export const FiltersForm = ({ filterConfigs }: Props) => {
-  const [{ filterGroups, newFilter, isNewFilterInputOpen }, dispatch] =
-    useReducer(filterFormReducer, {
-      filterGroups: [],
-      newFilter: undefined,
-      isNewFilterInputOpen: true,
+export const FiltersForm = ({
+  filterConfigs,
+  onSubmit,
+  initialValues,
+}: Props) => {
+  const { dispatch, filterGroups, isNewFilterInputOpen, isValid } =
+    useFiltersForm({
+      initialValues,
     })
-
-  const errors = useMemo(() => {
-    return (
-      filterGroups.some((group) =>
-        group.filters.some(
-          (filter) => filter.errors && filter.errors.length > 0
-        )
-      ) ||
-      (newFilter && newFilter.errors && newFilter.errors.length > 0)
-    )
-  }, [filterGroups, newFilter])
 
   const handleSubmit = () => {
     console.log('submitting', filterGroups)
@@ -464,7 +302,6 @@ export const FiltersForm = ({ filterConfigs }: Props) => {
                 type: 'clearAllFilters',
               })
             }}
-            disabled={errors}
           >
             Clear All Rules
           </Button>
