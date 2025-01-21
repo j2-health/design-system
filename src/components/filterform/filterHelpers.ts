@@ -89,3 +89,11 @@ export const validateFormFilter = (filter: FormFilter): string[] => {
 
   return errors
 }
+
+export const isFilter = (filter: FormFilter): filter is Filter => {
+  return (
+    filter.operator !== undefined &&
+    filter.field !== undefined &&
+    filter.type !== undefined
+  )
+}

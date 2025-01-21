@@ -1,5 +1,5 @@
-import { Filter } from '../types'
-import { isEmptyFilter, validateFilterField } from '../filterHelpers'
+import { Filter, FormFilter } from '../types'
+import { isEmptyFilter, isFilter, validateFilterField } from '../filterHelpers'
 
 describe('validateFilterField', () => {
   it('should return operator required error when operator is undefined', () => {
@@ -110,5 +110,29 @@ describe('isEmptyFilter', () => {
       values: ['test'],
     }
     expect(isEmptyFilter(filter)).toBe(false)
+  })
+})
+
+describe('isFilter', () => {
+  it('should return true when all fields are defined', () => {
+    const filter: FormFilter = {
+      field: 'test',
+      type: 'text',
+      operator: 'contains',
+      values: [],
+      errors: [],
+    }
+    expect(isFilter(filter)).toBe(true)
+  })
+
+  it('should return false when any non value field is undefined', () => {
+    const filter: FormFilter = {
+      field: 'test',
+      type: 'text',
+      operator: undefined,
+      values: [],
+      errors: [],
+    }
+    expect(isFilter(filter)).toBe(false)
   })
 })

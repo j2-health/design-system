@@ -8,6 +8,7 @@ import cx from 'classnames'
 import { FilterForm, FilterConfig } from '.'
 import {
   isEmptyFilter,
+  isFilter,
   isValidFilter,
   validateFilterField,
 } from './filterHelpers'
@@ -210,7 +211,12 @@ export const FiltersForm = ({
     })
 
   const handleSubmit = () => {
-    console.log('submitting', filterGroups)
+    onSubmit({
+      filters: filterGroups
+        .flatMap((group) => group.filters)
+        .filter((filter) => isFilter(filter))
+        .filter((filter) => !isEmptyFilter(filter)),
+    })
   }
 
   return (
