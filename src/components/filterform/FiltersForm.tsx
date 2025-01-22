@@ -309,7 +309,17 @@ export const FiltersForm = ({
                   dispatch({ type: 'addNewFilter', payload: filter })
                 }}
               />
-              <div className="w-8 mr-3" />
+              <div className="mr-3">
+                {filterGroups.length > 0 ? (
+                  <Button
+                    type="text"
+                    icon={<Trash />}
+                    onClick={() => dispatch({ type: 'removeNewFilter' })}
+                  />
+                ) : (
+                  <div className="w-8" />
+                )}
+              </div>
             </div>
           </div>
         )}
