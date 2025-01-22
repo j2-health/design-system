@@ -131,12 +131,16 @@ const filterFieldReducer = (
         field: action.payload,
         operator: operatorOptions[0].value,
         values: [],
-        errors: [],
       } as FormFilter
+
+      const pendingFilter = {
+        ...newFilter,
+        errors: validateFormFilter(newFilter),
+      }
 
       return {
         ...state,
-        filter: newFilter,
+        filter: pendingFilter,
         config,
         operatorOptions,
         valueInputConfig:
@@ -167,36 +171,23 @@ const filterFieldReducer = (
     case 'setValues': {
       if (!state.filter) return state
 
-      let values
-
-      if (state.filter.type === 'number') {
-        values = action.payload.map((value) => Number(value))
-      } else {
-        values = action.payload.filter(
-          (value) => value !== null && value !== undefined
-        ) as string[]
-      }
+      const values =
+        state.filter.type === 'number'
+          ? action.payload.map((value) => Number(value))
+          : (action.payload.filter(
+              (value) => value !== null && value !== undefined
+            ) as string[])
 
       const pendingFilter = {
-        field: state.filter.field,
-        type: state.filter.type,
-        operator: state.filter.operator,
+        ...state.filter,
         values: values,
       }
 
-      const errors = validateFormFilter(pendingFilter)
-
-      const formFilter: FormFilter = {
-        field: state.filter.field,
-        type: state.filter.type,
-        operator: state.filter.operator,
-        values: values,
-        errors: errors,
-      }
+      pendingFilter.errors = validateFormFilter(pendingFilter)
 
       return {
         ...state,
-        filter: formFilter,
+        filter: pendingFilter,
       }
     }
     case 'initialize': {
