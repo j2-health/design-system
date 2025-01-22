@@ -32,3 +32,8 @@
   border-start-end-radius: var(--j2-border-radius);
   border-right: none !important;
 }
+
+:global(.ant-spin-container.ant-spin-blur) th {
+  min-width: 160px;
+  width: 160px;
+}
