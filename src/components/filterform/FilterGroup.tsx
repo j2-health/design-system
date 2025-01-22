@@ -28,7 +28,7 @@ export const FilterGroup = ({
   onChange,
   onDone,
 }: FilterGroupProps) => {
-  return filterGroup.filters.length > 0 ? (
+  return (
     <div
       key={filterGroup.field}
       className={cx(
@@ -63,5 +63,5 @@ export const FilterGroup = ({
         </div>
       ))}
     </div>
-  ) : null
+  )
 }

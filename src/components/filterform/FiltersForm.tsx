@@ -221,6 +221,10 @@ export const FiltersForm = ({
     })
   }
 
+  const filterGroupsWithFilters = useMemo(() => {
+    return filterGroups.filter((group) => group.filters.length > 0)
+  }, [filterGroups])
+
   return (
     <div className={cx(s.j2FilterForm)}>
       <div
@@ -231,8 +235,11 @@ export const FiltersForm = ({
         )}
       >
         {title && <span className={s.filterFormTitle}>{title}</span>}
-        {filterGroups.map((filterGroup, groupIndex) => (
-          <div key={`filter-group-${groupIndex}`} className="flex gap-3">
+        {filterGroupsWithFilters.map((filterGroup, groupIndex) => (
+          <div
+            key={`filter-group-${filterGroup.field}-${filterGroup.filters.length}`}
+            className="flex gap-3"
+          >
             {groupIndex > 0 ? (
               <span
                 className={cx(
@@ -270,19 +277,24 @@ export const FiltersForm = ({
           </div>
         ))}
         {isNewFilterInputOpen && (
-          <div className="flex items-center justify-between">
-            <FilterInput
-              key={JSON.stringify(filterGroups)}
-              filterConfigs={filterConfigs}
-              className="flex-1"
-              onChange={(filter) => {
-                dispatch({ type: 'changeNewFilter', payload: filter })
-              }}
-              onBlur={(filter) => {
-                dispatch({ type: 'addNewFilter', payload: filter })
-              }}
-            />
-            <div className="w-8" />
+          <div className="flex gap-3">
+            {filterGroupsWithFilters.length > 0 ? (
+              <span className={cx(s.filterFormConjunction)}>and</span>
+            ) : null}
+            <div className={cx('flex items-center justify-between', 'grow')}>
+              <FilterInput
+                key={JSON.stringify(filterGroups)}
+                filterConfigs={filterConfigs}
+                className="flex-1"
+                onChange={(filter) => {
+                  dispatch({ type: 'changeNewFilter', payload: filter })
+                }}
+                onBlur={(filter) => {
+                  dispatch({ type: 'addNewFilter', payload: filter })
+                }}
+              />
+              <div className="w-8 mr-3" />
+            </div>
           </div>
         )}
         <div className="flex items-center">
