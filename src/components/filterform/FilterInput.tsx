@@ -149,6 +149,7 @@ const ValueInput = ({
           value={values}
           className="w-full"
           size={size}
+          optionFilterProp="label"
         />
       )
     case 'number':
