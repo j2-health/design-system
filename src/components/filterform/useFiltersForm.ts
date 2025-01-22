@@ -82,28 +82,42 @@ type Action =
   | RemoveFilterAction
   | InitializeAction
   | RemoveNewFilterAction
+
+const copyFilterGroups = (filterGroups: FilterGroup[]): FilterGroup[] => {
+  return filterGroups.map((group) => ({ ...group }))
+}
+
 const filterFormReducer = (state: FilterFormState, action: Action) => {
-  const addFilter = (filter: FormFilter) => {
-    const filterGroupIndex = state.filterGroups.findIndex(
+  const addFilter = (
+    filter: FormFilter,
+    filterGroups: FilterGroup[]
+  ): FilterGroup[] => {
+    const copy = copyFilterGroups(filterGroups)
+    const filterGroupIndex = copy.findIndex(
       (filterGroup) => filterGroup.field === filter.field
     )
 
-    if (filterGroupIndex !== -1) {
-      state.filterGroups[filterGroupIndex].filters.push(filter)
+    if (filterGroupIndex === -1) {
+      copy.push({ field: filter.field, filters: [filter] })
     } else {
-      state.filterGroups.push({ field: filter.field, filters: [filter] })
+      copy[filterGroupIndex].filters.push(filter)
     }
+
+    return copy
   }
 
   switch (action.type) {
     case 'initialize': {
-      action.payload?.filters.forEach((filter) => {
-        addFilter(filter)
-      })
+      const filterGroups = action.payload?.filters.reduce(
+        (acc, filter) => {
+          return addFilter(filter, acc)
+        },
+        [...state.filterGroups]
+      )
 
       return {
         ...state,
-        filterGroups: [...state.filterGroups],
+        filterGroups: filterGroups ?? [],
         isNewFilterInputOpen: true,
       }
     }
@@ -118,11 +132,11 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
         return state
       }
 
-      addFilter(action.payload)
+      const filterGroups = addFilter(action.payload, state.filterGroups)
 
       return {
         ...state,
-        filterGroups: [...state.filterGroups],
+        filterGroups,
         newFilter: undefined,
         isNewFilterInputOpen: false,
       }
@@ -145,45 +159,59 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
     }
     case 'updateFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
-      const prevFilter = state.filterGroups[groupIndex].filters[filterIndex]
+      let filterGroups = copyFilterGroups(state.filterGroups)
+      const prevFilter = {
+        ...filterGroups[groupIndex].filters[filterIndex],
+      }
       if (prevFilter.field === filter.field) {
-        state.filterGroups[groupIndex].filters[filterIndex] = filter
+        filterGroups[groupIndex].filters[filterIndex] = filter
       } else {
-        addFilter(filter)
-        state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
+        filterGroups = addFilter(filter, filterGroups)
+        filterGroups[groupIndex].filters.splice(filterIndex, 1)
       }
 
       return {
         ...state,
-        filterGroups: [...state.filterGroups],
+        filterGroups,
       }
     }
     case 'changeFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
-      state.filterGroups[groupIndex].filters[filterIndex] = filter
+      const filterGroups = copyFilterGroups(state.filterGroups)
+      filterGroups[groupIndex].filters[filterIndex] = filter
+
       return {
         ...state,
-        filterGroups: [...state.filterGroups],
+        filterGroups,
       }
     }
     case 'removeFilter': {
       const { groupIndex, filterIndex } = action.payload
-      state.filterGroups[groupIndex].filters.splice(filterIndex, 1)
 
-      const allFiltersRemoved = state.filterGroups.every(
+      const group = { ...state.filterGroups[groupIndex] }
+      group.filters.splice(filterIndex, 1)
+
+      const newFilterGroups = [
+        ...state.filterGroups.slice(0, groupIndex),
+        group,
+        ...state.filterGroups.slice(groupIndex + 1),
+      ]
+
+      const allFiltersRemoved = newFilterGroups.every(
         (group) => group.filters.length === 0
       )
 
       if (allFiltersRemoved) {
         return {
           ...state,
-          isNewFilterInputOpen: allFiltersRemoved,
+          filterGroups: newFilterGroups,
+          isNewFilterInputOpen: true,
         }
       }
 
       return {
         ...state,
-        filterGroups: [...state.filterGroups],
+        filterGroups: newFilterGroups,
       }
     }
     case 'clearAllFilters': {
