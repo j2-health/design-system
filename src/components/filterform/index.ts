@@ -1,4 +1,4 @@
-export { DeprecatedFiltersForm, FiltersForm } from './FiltersForm'
+export { FiltersForm } from './FiltersForm'
 export type {
   FilterForm,
   FilterConfig,
