@@ -56,6 +56,7 @@ export const FilterInput = ({
   const fieldOptions = filterConfigs.map((config) => ({
     label: config.label,
     value: config.field,
+    disabled: config.disabled,
   }))
 
   const handleBlur = () => {

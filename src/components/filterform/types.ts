@@ -21,6 +21,7 @@ export type FilterConfig = {
   label: string
   field: string
   type: FilterType
+  disabled?: boolean
   options?: { label: string; value: string }[]
 }
 

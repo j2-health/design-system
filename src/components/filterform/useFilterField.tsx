@@ -120,9 +120,11 @@ const filterFieldReducer = (
 ) => {
   switch (action.type) {
     case 'setField': {
-      const config =
-        state.filterConfigs.find((config) => config.field === action.payload) ||
-        state.filterConfigs[0]
+      const config = state.filterConfigs.find(
+        (config) => config.field === action.payload
+      )
+
+      if (!config) return state
 
       const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
 
@@ -191,10 +193,14 @@ const filterFieldReducer = (
       }
     }
     case 'initialize': {
-      const field = state.filter?.field || state.filterConfigs[0].field
-      const config =
-        state.filterConfigs.find((config) => config.field === field) ||
-        state.filterConfigs[0]
+      const field =
+        state.filter?.field ||
+        state.filterConfigs.find((config) => !config.disabled)?.field
+      const config = state.filterConfigs.find(
+        (config) => config.field === field
+      )
+
+      if (!config) return state
 
       const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
 

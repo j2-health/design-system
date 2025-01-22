@@ -206,6 +206,7 @@ export const FiltersForm = ({
   filterConfigs,
   onSubmit,
   initialValues,
+  maxFiltersPerField = 5,
 }: Props) => {
   const { dispatch, filterGroups, isNewFilterInputOpen, isValid } =
     useFiltersForm({
@@ -221,9 +222,24 @@ export const FiltersForm = ({
     })
   }
 
-  const filterGroupsWithFilters = useMemo(() => {
-    return filterGroups.filter((group) => group.filters.length > 0)
-  }, [filterGroups])
+  const availableFilterConfigs = useMemo(() => {
+    const filterFieldCounts = filterGroups.reduce(
+      (acc, filterGroup) => {
+        acc[filterGroup.field] = filterGroup.filters.length
+        return acc
+      },
+      {} as Record<string, number>
+    )
+
+    return filterConfigs.map((config) => ({
+      ...config,
+      disabled: (filterFieldCounts[config.field] || 0) >= maxFiltersPerField,
+    }))
+  }, [
+    filterConfigs,
+    filterGroups.map((g) => `${g.field}-${g.filters.length}`).join(','),
+    maxFiltersPerField,
+  ])
 
   return (
     <div className={cx(s.j2FilterForm)}>
@@ -235,7 +251,7 @@ export const FiltersForm = ({
         )}
       >
         {title && <span className={s.filterFormTitle}>{title}</span>}
-        {filterGroupsWithFilters.map((filterGroup, groupIndex) => (
+        {filterGroups.map((filterGroup, groupIndex) => (
           <div
             key={`filter-group-${filterGroup.field}-${filterGroup.filters.length}`}
             className="flex gap-3"
@@ -253,7 +269,7 @@ export const FiltersForm = ({
             <FilterGroup
               filterGroup={filterGroup}
               groupIndex={groupIndex}
-              filterConfigs={filterConfigs}
+              filterConfigs={availableFilterConfigs}
               className="grow"
               onChange={(filter, filterIndex) => {
                 dispatch({
@@ -278,13 +294,13 @@ export const FiltersForm = ({
         ))}
         {isNewFilterInputOpen && (
           <div className="flex gap-3">
-            {filterGroupsWithFilters.length > 0 ? (
+            {filterGroups.length > 0 ? (
               <span className={cx(s.filterFormConjunction)}>and</span>
             ) : null}
             <div className={cx('flex items-center justify-between', 'grow')}>
               <FilterInput
                 key={JSON.stringify(filterGroups)}
-                filterConfigs={filterConfigs}
+                filterConfigs={availableFilterConfigs}
                 className="flex-1"
                 onChange={(filter) => {
                   dispatch({ type: 'changeNewFilter', payload: filter })
