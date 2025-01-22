@@ -70,13 +70,17 @@ describe('useFiltersForm', () => {
 
       act(() => {
         result.current.dispatch({
+          type: 'changeNewFilter',
+          payload: invalidFilter,
+        })
+        result.current.dispatch({
           type: 'addNewFilter',
           payload: invalidFilter,
         })
       })
 
       expect(result.current.filterGroups).toEqual([])
-      expect(result.current.newFilter).toBeUndefined()
+      expect(result.current.newFilter).toEqual(invalidFilter)
       expect(result.current.isNewFilterInputOpen).toBe(true)
     })
 
@@ -150,6 +154,14 @@ describe('useFiltersForm', () => {
       }
 
       act(() => {
+        result.current.dispatch({
+          type: 'changeFilter',
+          payload: {
+            groupIndex: 0,
+            filterIndex: 0,
+            filter: updatedFilter,
+          },
+        })
         result.current.dispatch({
           type: 'updateFilter',
           payload: {

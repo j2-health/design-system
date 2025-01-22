@@ -87,25 +87,25 @@ const copyFilterGroups = (filterGroups: FilterGroup[]): FilterGroup[] => {
   return filterGroups.map((group) => ({ ...group }))
 }
 
-const filterFormReducer = (state: FilterFormState, action: Action) => {
-  const addFilter = (
-    filter: FormFilter,
-    filterGroups: FilterGroup[]
-  ): FilterGroup[] => {
-    const copy = copyFilterGroups(filterGroups)
-    const filterGroupIndex = copy.findIndex(
-      (filterGroup) => filterGroup.field === filter.field
-    )
+const addFilter = (
+  filter: FormFilter,
+  filterGroups: FilterGroup[]
+): FilterGroup[] => {
+  const copy = copyFilterGroups(filterGroups)
+  const filterGroupIndex = copy.findIndex(
+    (filterGroup) => filterGroup.field === filter.field
+  )
 
-    if (filterGroupIndex === -1) {
-      copy.push({ field: filter.field, filters: [filter] })
-    } else {
-      copy[filterGroupIndex].filters.push(filter)
-    }
-
-    return copy
+  if (filterGroupIndex === -1) {
+    copy.push({ field: filter.field, filters: [filter] })
+  } else {
+    copy[filterGroupIndex].filters.push(filter)
   }
 
+  return copy
+}
+
+const filterFormReducer = (state: FilterFormState, action: Action) => {
   switch (action.type) {
     case 'initialize': {
       const filterGroups = action.payload?.filters.reduce(
@@ -160,10 +160,9 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
     case 'updateFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
       let filterGroups = copyFilterGroups(state.filterGroups)
-      const prevFilter = {
-        ...filterGroups[groupIndex].filters[filterIndex],
-      }
-      if (prevFilter.field === filter.field) {
+      const groupField = filterGroups[groupIndex].field
+
+      if (groupField === filter.field) {
         filterGroups[groupIndex].filters[filterIndex] = filter
       } else {
         filterGroups = addFilter(filter, filterGroups)
