@@ -118,7 +118,7 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       return {
         ...state,
         filterGroups: filterGroups ?? [],
-        isNewFilterInputOpen: true,
+        isNewFilterInputOpen: !filterGroups?.length,
       }
     }
     case 'openNewFilterInput': {

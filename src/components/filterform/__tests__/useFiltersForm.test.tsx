@@ -46,6 +46,7 @@ describe('useFiltersForm', () => {
           filters: [ageFilter],
         },
       ])
+      expect(result.current.isNewFilterInputOpen).toBe(false)
     })
   })
 
