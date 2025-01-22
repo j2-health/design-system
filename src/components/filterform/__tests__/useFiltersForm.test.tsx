@@ -181,13 +181,15 @@ describe('useFiltersForm', () => {
       const nameFilterGroup = result.current.filterGroups.find(
         (group) => group.field === 'name'
       )
-      expect(nameFilterGroup?.filters).toEqual([])
+      expect(nameFilterGroup).toBeUndefined()
     })
   })
 
   describe('removeFilter', () => {
-    it('should remove filter', () => {
-      const { result } = renderHook(() => useFiltersForm({ initialValues }))
+    it('should remove filter and clean up empty filter groups', () => {
+      const { result } = renderHook(() =>
+        useFiltersForm({ initialValues: { filters: [nameFilter, ageFilter] } })
+      )
 
       act(() => {
         result.current.dispatch({
@@ -199,7 +201,9 @@ describe('useFiltersForm', () => {
         })
       })
 
-      expect(result.current.filterGroups[0].filters).toEqual([])
+      expect(result.current.filterGroups).toEqual([
+        { field: 'age', filters: [ageFilter] },
+      ])
     })
 
     it('should open new filter input when all filters have been removed', () => {
@@ -214,7 +218,7 @@ describe('useFiltersForm', () => {
         })
       })
 
-      expect(result.current.filterGroups[0].filters).toEqual([])
+      expect(result.current.filterGroups).toEqual([])
       expect(result.current.isNewFilterInputOpen).toBe(true)
     })
   })

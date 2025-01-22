@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import { FilterForm, FilterGroup, FormFilter } from './types'
+import { cloneDeep } from 'lodash'
 
 type UseFiltersFormInput = {
   initialValues?: FilterForm
@@ -84,7 +85,7 @@ type Action =
   | RemoveNewFilterAction
 
 const copyFilterGroups = (filterGroups: FilterGroup[]): FilterGroup[] => {
-  return filterGroups.map((group) => ({ ...group }))
+  return cloneDeep(filterGroups)
 }
 
 const addFilter = (
@@ -103,6 +104,17 @@ const addFilter = (
   }
 
   return copy
+}
+
+const removeFilter = (
+  groupIndex: number,
+  filterIndex: number,
+  filterGroups: FilterGroup[]
+): FilterGroup[] => {
+  const copy = copyFilterGroups(filterGroups)
+  copy[groupIndex].filters.splice(filterIndex, 1)
+
+  return copy.filter((group) => group.filters.length > 0)
 }
 
 const filterFormReducer = (state: FilterFormState, action: Action) => {
@@ -165,8 +177,8 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
       if (groupField === filter.field) {
         filterGroups[groupIndex].filters[filterIndex] = filter
       } else {
+        filterGroups = removeFilter(groupIndex, filterIndex, filterGroups)
         filterGroups = addFilter(filter, filterGroups)
-        filterGroups[groupIndex].filters.splice(filterIndex, 1)
       }
 
       return {
@@ -187,30 +199,17 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
     case 'removeFilter': {
       const { groupIndex, filterIndex } = action.payload
 
-      const group = { ...state.filterGroups[groupIndex] }
-      group.filters.splice(filterIndex, 1)
-
-      const newFilterGroups = [
-        ...state.filterGroups.slice(0, groupIndex),
-        group,
-        ...state.filterGroups.slice(groupIndex + 1),
-      ]
-
-      const allFiltersRemoved = newFilterGroups.every(
-        (group) => group.filters.length === 0
+      const filterGroups = removeFilter(
+        groupIndex,
+        filterIndex,
+        state.filterGroups
       )
-
-      if (allFiltersRemoved) {
-        return {
-          ...state,
-          filterGroups: newFilterGroups,
-          isNewFilterInputOpen: true,
-        }
-      }
 
       return {
         ...state,
-        filterGroups: newFilterGroups,
+        filterGroups,
+        isNewFilterInputOpen:
+          state.isNewFilterInputOpen || filterGroups.length === 0,
       }
     }
     case 'clearAllFilters': {
