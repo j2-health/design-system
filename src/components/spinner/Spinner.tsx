@@ -5,6 +5,7 @@ import ProgressCircle from '../../svgs/ProgressCircle.svg?react'
 
 type SpinnerProps = {
   size?: number
+  className?: string
 }
 
 const SpinIcon = ({ height, width }: { height?: number; width?: number }) => {
@@ -13,6 +14,11 @@ const SpinIcon = ({ height, width }: { height?: number; width?: number }) => {
   )
 }
 
-export const Spinner = ({ size = 80 }: SpinnerProps) => {
-  return <Spin indicator={<SpinIcon height={size} width={size} />} />
+export const Spinner = ({ size = 80, className }: SpinnerProps) => {
+  return (
+    <Spin
+      className={className}
+      indicator={<SpinIcon height={size} width={size} />}
+    />
+  )
 }

@@ -3,6 +3,7 @@ import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import styles from './chart.module.css'
 import { renderToString } from 'react-dom/server'
+import accessibilityModule from 'highcharts/modules/accessibility'
 import exportingModule from 'highcharts/modules/exporting'
 import offlineExporting from 'highcharts/modules/offline-exporting'
 
@@ -48,6 +49,7 @@ const BarChart = ({
     exportingModule(Highcharts)
     offlineExporting(Highcharts)
   }
+  accessibilityModule(Highcharts)
 
   const { token } = theme.useToken()
 
@@ -66,9 +68,8 @@ const BarChart = ({
     },
     exporting: {
       ...exporting,
-      enabled: false, // Ensure Highcharts' default export menu is hidden
+      enabled: false,
       chartOptions: {
-        // We still allow the user to override the defaults if desired
         ...exporting?.chartOptions,
         title: {
           align: 'left',
@@ -87,7 +88,7 @@ const BarChart = ({
       },
     },
     title: {
-      text: '', // The title is usually defined outside of the chart options, so we essentially hide it
+      text: '',
     },
     xAxis: {
       categories: categories,

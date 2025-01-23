@@ -27,7 +27,9 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
-      'import/no-default-export': 'error', // Enforce named exports
+      'import/no-default-export': 'error',
+      'react/prop-types': 'off',
+      'react/display-name': 'off',
     },
   },
 ]
