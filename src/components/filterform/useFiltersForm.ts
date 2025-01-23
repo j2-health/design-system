@@ -243,13 +243,16 @@ export const useFiltersForm = ({
       }
     )
 
+  console.log({ filterGroups, newFilter, isNewFilterInputOpen })
+
   const isValid =
-    filterGroups.length === 0 ||
-    filterGroups.every((group) =>
-      group.filters.every(
-        (filter) => filter.errors && filter.errors.length === 0
-      )
-    )
+    (filterGroups.length === 0 ||
+      filterGroups.every((group) =>
+        group.filters.every(
+          (filter) => filter.errors && filter.errors.length === 0
+        )
+      )) &&
+    (newFilter?.errors ? newFilter.errors.length === 0 : true)
 
   return {
     dispatch,

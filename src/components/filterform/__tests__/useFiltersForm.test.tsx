@@ -273,5 +273,21 @@ describe('useFiltersForm', () => {
       const { result } = renderHook(() => useFiltersForm({}))
       expect(result.current.isValid).toBe(true)
     })
+
+    it('should be invalid if there are no filters and new filter input is invalid', () => {
+      const { result } = renderHook(() => useFiltersForm({}))
+      const invalidFilter = { ...nameFilter, errors: ['Invalid filter'] }
+      expect(result.current.isValid).toBe(true)
+
+      act(() => {
+        result.current.dispatch({ type: 'openNewFilterInput' })
+        result.current.dispatch({
+          type: 'changeNewFilter',
+          payload: invalidFilter,
+        })
+      })
+
+      expect(result.current.isValid).toBe(false)
+    })
   })
 })
