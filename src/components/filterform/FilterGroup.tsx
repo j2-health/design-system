@@ -46,7 +46,7 @@ export const FilterGroup = ({
           key={`${groupIndex}:${filterIndex}-input-container`}
           className="flex items-center justify-between"
         >
-          {filterGroup.filters.length > 1 && filterIndex > 0 && (
+          {filterIndex >= 1 && (
             <span className={cx(s.filterFormConjunction, 'mr-3')}>and</span>
           )}
           <FilterInput
