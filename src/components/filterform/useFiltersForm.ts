@@ -243,8 +243,6 @@ export const useFiltersForm = ({
       }
     )
 
-  console.log({ filterGroups, newFilter, isNewFilterInputOpen })
-
   const isValid =
     (filterGroups.length === 0 ||
       filterGroups.every((group) =>
