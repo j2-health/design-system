@@ -33,9 +33,11 @@ export const FilterGroup = ({
       key={filterGroup.field}
       className={cx(
         'flex flex-col gap-4',
-        filterGroup.filters.length > 1 && s.filterFormGroupContainer,
-        filterGroup.filters.length > 1 && 'p-3',
-        filterGroup.filters.length === 1 && 'pr-3',
+        {
+          [s.filterFormGroupContainer]: filterGroup.filters.length > 1,
+          'p-3': filterGroup.filters.length > 1,
+          'pr-3': filterGroup.filters.length === 1,
+        },
         className
       )}
     >
