@@ -1,6 +1,7 @@
 import { useReducer } from 'react'
 import { FilterForm, FilterGroup, FormFilter } from './types'
 import { cloneDeep } from 'lodash'
+import { isEmptyFormFilter } from './filterHelpers'
 
 type UseFiltersFormInput = {
   initialValues?: FilterForm
@@ -12,6 +13,7 @@ type UseFiltersFormOutput = {
   newFilter: FormFilter | undefined
   isNewFilterInputOpen: boolean
   isValid: boolean
+  isEmpty: boolean
 }
 
 type FilterFormState = {
@@ -252,11 +254,16 @@ export const useFiltersForm = ({
       )) &&
     (newFilter?.errors ? newFilter.errors.length === 0 : true)
 
+  const isEmpty =
+    filterGroups.length === 0 &&
+    (newFilter ? isEmptyFormFilter(newFilter) : true)
+
   return {
     dispatch,
     filterGroups,
     newFilter,
     isNewFilterInputOpen,
     isValid,
+    isEmpty,
   }
 }

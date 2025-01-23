@@ -33,82 +33,102 @@ describe('FiltersForm', () => {
       ],
       isNewFilterInputOpen: false,
       isValid: true,
+      isEmpty: false,
       ...output,
     }))
   }
 
-  it('should enable submit button when form is empty and return empty filters on submit', async () => {
-    mockHook({
-      filterGroups: [
-        {
-          field: 'name',
-          filters: [
-            {
-              field: 'name',
-              operator: 'contains',
-              type: 'text',
-              values: [],
-              errors: [],
-            },
-          ],
-        },
-      ],
-    })
-    let submittedValues: FilterForm | undefined
-    const onSubmit = (values: FilterForm) => {
-      submittedValues = values
-    }
-
-    render(<FiltersForm onSubmit={onSubmit} filterConfigs={filterConfigs} />)
-    await userEvent.click(screen.getByRole('button', { name: 'Apply Filters' }))
-    expect(submittedValues).toEqual({ filters: [] })
-  })
-
-  it('should disable the submit button when rules are not valid', async () => {
-    mockHook({
-      isValid: false,
-    })
-
-    act(() => {
-      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
-    })
-
-    expect(screen.getByRole('button', { name: 'Apply Filters' })).toBeDisabled()
-  })
-
-  it('should disable the add rule button when rules are not valid', async () => {
-    mockHook({
-      isNewFilterInputOpen: false,
-      isValid: false,
-    })
-    render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
-    expect(screen.getByRole('button', { name: 'Add Rule' })).toBeDisabled()
-  })
-
-  it('should enable the add rule button when rules are valid', async () => {
-    mockHook({
-      isNewFilterInputOpen: false,
-      isValid: true,
-    })
-    act(() => {
-      render(
-        <FiltersForm
-          onSubmit={jest.fn()}
-          filterConfigs={filterConfigs}
-          initialValues={{
+  describe('submit button', () => {
+    it('should enable submit button when form is empty and return empty filters on submit', async () => {
+      mockHook({
+        filterGroups: [
+          {
+            field: 'name',
             filters: [
               {
                 field: 'name',
                 operator: 'contains',
                 type: 'text',
-                values: ['test'],
+                values: [],
+                errors: [],
               },
             ],
-          }}
-        />
+          },
+        ],
+        isEmpty: true,
+      })
+      let submittedValues: FilterForm | undefined
+      const onSubmit = (values: FilterForm) => {
+        submittedValues = values
+      }
+
+      render(<FiltersForm onSubmit={onSubmit} filterConfigs={filterConfigs} />)
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Apply Filters' })
       )
+      expect(submittedValues).toEqual({ filters: [] })
     })
 
-    expect(screen.getByRole('button', { name: 'Add Rule' })).toBeEnabled()
+    it('should enable the submit button when the form is empty', async () => {
+      mockHook({
+        isEmpty: true,
+      })
+
+      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      expect(
+        screen.getByRole('button', { name: 'Apply Filters' })
+      ).toBeEnabled()
+    })
+
+    it('should disable the submit button when the form is not empty and rules are not valid', async () => {
+      mockHook({
+        isValid: false,
+        isEmpty: false,
+      })
+
+      act(() => {
+        render(
+          <FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />
+        )
+      })
+
+      expect(
+        screen.getByRole('button', { name: 'Apply Filters' })
+      ).toBeDisabled()
+    })
+
+    it('should enable the submit button when the form is not empty and rules are valid', async () => {
+      mockHook({
+        isValid: true,
+        isEmpty: false,
+      })
+      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      expect(
+        screen.getByRole('button', { name: 'Apply Filters' })
+      ).toBeEnabled()
+    })
+  })
+
+  describe('add rule button', () => {
+    it('should disable the add rule button when rules are not valid', async () => {
+      mockHook({
+        isValid: false,
+      })
+      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      expect(screen.getByRole('button', { name: 'Add Rule' })).toBeDisabled()
+    })
+
+    it('should enable the add rule button when rules are valid', async () => {
+      mockHook({
+        isValid: true,
+      })
+      act(() => {
+        render(
+          <FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />
+        )
+      })
+
+      expect(screen.getByRole('button', { name: 'Add Rule' })).toBeEnabled()
+    })
   })
 })

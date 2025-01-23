@@ -290,4 +290,33 @@ describe('useFiltersForm', () => {
       expect(result.current.isValid).toBe(false)
     })
   })
+
+  describe('isEmpty', () => {
+    it('should be true if there are no filters and new filter input is empty', () => {
+      const { result } = renderHook(() => useFiltersForm({}))
+
+      act(() => {
+        result.current.dispatch({ type: 'openNewFilterInput' })
+        result.current.dispatch({
+          type: 'changeNewFilter',
+          payload: {
+            field: 'name',
+            type: 'text',
+            operator: 'contains',
+            values: [],
+          },
+        })
+      })
+
+      expect(result.current.isEmpty).toBe(true)
+    })
+
+    it('should be false if there are existing filters', () => {
+      const { result } = renderHook(() => useFiltersForm({}))
+      act(() => {
+        result.current.dispatch({ type: 'addNewFilter', payload: nameFilter })
+      })
+      expect(result.current.isEmpty).toBe(false)
+    })
+  })
 })

@@ -24,7 +24,7 @@ export const FiltersForm = ({
   initialValues,
   maxFiltersPerField = 5,
 }: Props) => {
-  const { dispatch, filterGroups, isNewFilterInputOpen, isValid } =
+  const { dispatch, filterGroups, isNewFilterInputOpen, isValid, isEmpty } =
     useFiltersForm({
       initialValues,
     })
@@ -160,7 +160,11 @@ export const FiltersForm = ({
         </div>
       </div>
       <div className="flex justify-end">
-        <Button onClick={handleSubmit} type="primary" disabled={!isValid}>
+        <Button
+          onClick={handleSubmit}
+          type="primary"
+          disabled={isEmpty ? false : !isValid}
+        >
           Apply Filters
         </Button>
       </div>
