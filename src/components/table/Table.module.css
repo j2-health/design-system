@@ -33,7 +33,6 @@
   border-right: none !important;
 }
 
-:global(.ant-spin-container.ant-spin-blur) th {
-  min-width: 160px;
-  width: 160px;
+:global(.ant-spin-container.ant-spin-blur) th :global(.ant-table-column-title) {
+  visibility: hidden;
 }

@@ -7,6 +7,7 @@ describe('Table', () => {
       <Table
         columns={[{ dataIndex: 'carrier', title: 'Carrier' }]}
         dataSource={[{ carrier: 'aetna' }]}
+        rowKey="carrier"
       />
     )
     expect(container).toMatchSnapshot()

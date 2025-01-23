@@ -14,7 +14,11 @@ type MergedProps<T> = TableProps<T> & {
 
 type Props<T> = Expand<MergedProps<T>>
 
-export const defaultSortIcon = ({ sortOrder }: { sortOrder: 'ascend' | 'descend' | null }) => {
+export const defaultSortIcon = ({
+  sortOrder,
+}: {
+  sortOrder: 'ascend' | 'descend' | null
+}) => {
   if (sortOrder == 'ascend') {
     return <CaretUp />
   } else if (sortOrder == 'descend') {
@@ -73,9 +77,11 @@ const Table = <T = any,>({ verticalBorders, ...props }: Props<T>) => {
   )
 }
 
-type ColumnProps<T extends AnyObject> = Expand<ComponentProps<typeof AntdTable.Column<T>>>
+type ColumnProps<T extends AnyObject> = Expand<
+  ComponentProps<typeof AntdTable.Column<T>>
+>
 
-Table.Column = <T extends AnyObject,>(props: ColumnProps<T>) => {
+Table.Column = <T extends AnyObject>(props: ColumnProps<T>) => {
   return <AntdTable.Column<T> {...props} sortIcon={defaultSortIcon} />
 }
 Table.Summary = AntdTable.Summary
