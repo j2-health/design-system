@@ -70,14 +70,15 @@ export const FiltersForm = ({
         {filterGroups.map((filterGroup, groupIndex) => (
           <div
             key={`filter-group-${filterGroup.field}-${filterGroup.filters.length}`}
-            className="flex gap-3"
+            className={cx('flex gap-3', {
+              'items-center': filterGroup.filters.length === 1,
+            })}
           >
             {groupIndex > 0 ? (
               <span
-                className={cx(
-                  s.filterFormConjunction,
-                  filterGroup.filters.length > 1 && 'pt-3'
-                )}
+                className={cx(s.filterFormConjunction, {
+                  'pt-4': filterGroup.filters.length > 1,
+                })}
               >
                 and
               </span>
@@ -109,7 +110,7 @@ export const FiltersForm = ({
           </div>
         ))}
         {isNewFilterInputOpen && (
-          <div className="flex gap-3">
+          <div className={cx('flex gap-3 items-center')}>
             {filterGroups.length > 0 ? (
               <span className={cx(s.filterFormConjunction)}>and</span>
             ) : null}
