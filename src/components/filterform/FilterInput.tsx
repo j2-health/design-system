@@ -13,7 +13,11 @@ type SelectValueInputConfig = {
 type NumberValueInputConfig = {
   type: 'number'
   inputCount: number
+<<<<<<< HEAD
   numberOptions?: { max: number; min: number; step: number }
+=======
+  numberOptions: { max: number; min: number; step: number }
+>>>>>>> 7c318ab (updates for min/max/step values for filter form numeric fields)
 }
 
 type TextValueInputConfig = {
