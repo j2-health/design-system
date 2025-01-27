@@ -16,13 +16,15 @@ export type FilterGroup = {
 }
 
 export type FilterType = 'select' | 'number' | 'text'
+export type SelectOptionsType = { label: string; value: string }[]
+export type NumberOptionsType = { max: number; min: number; step: number }
 
 export type FilterConfig = {
   label: string
   field: string
   type: FilterType
   disabled?: boolean
-  options?: { label: string; value: string }[]
+  options?: SelectOptionsType | NumberOptionsType
 }
 
 export type Operator =

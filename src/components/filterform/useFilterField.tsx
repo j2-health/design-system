@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { FilterConfig, FilterType, FormFilter, Operator } from './types'
+import {
+  FilterConfig,
+  FilterType,
+  FormFilter,
+  NumberOptionsType,
+  Operator,
+  SelectOptionsType,
+} from './types'
 import { validateFormFilter } from './filterHelpers'
 export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
@@ -55,6 +62,7 @@ type SelectValueInputConfig = {
 type NumberValueInputConfig = {
   type: 'number'
   inputCount: number
+  numberOptions?: { max: number; min: number; step: number }
 }
 
 type TextValueInputConfig = {
@@ -92,7 +100,7 @@ const buildValueInputConfig = (
 
     return {
       type: 'select',
-      valueOptions: config.options || [],
+      valueOptions: (config.options as SelectOptionsType) || [],
     }
   }
 
@@ -102,6 +110,7 @@ const buildValueInputConfig = (
     return {
       type: 'number',
       inputCount: operator === 'inRange' ? 2 : 1,
+      numberOptions: config.options as NumberOptionsType,
     }
   }
 
