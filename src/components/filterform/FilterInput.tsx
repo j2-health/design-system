@@ -13,7 +13,7 @@ type SelectValueInputConfig = {
 type NumberValueInputConfig = {
   type: 'number'
   inputCount: number
-  numberOptions: { max: number; min: number; step: number }
+  numberOptions?: { max: number; min: number; step: number }
 }
 
 type TextValueInputConfig = {
@@ -167,7 +167,7 @@ const ValueInput = ({
                   value={values?.[index]}
                   className="basis-1/2"
                   size={size}
-                  {...valueInputConfig.numberOptions}
+                  {...(valueInputConfig.numberOptions ?? {})}
                 />
               </React.Fragment>
             )

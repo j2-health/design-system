@@ -62,7 +62,7 @@ type SelectValueInputConfig = {
 type NumberValueInputConfig = {
   type: 'number'
   inputCount: number
-  numberOptions: { max: number; min: number; step: number }
+  numberOptions?: { max: number; min: number; step: number }
 }
 
 type TextValueInputConfig = {
