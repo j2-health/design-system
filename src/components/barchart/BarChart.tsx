@@ -76,7 +76,7 @@ const BarChart = ({
           text: exporting?.chartOptions?.title?.text,
           style: {
             fontSize: `${token.fontSize}px`,
-            fontFamily: token.fontFamily,
+            fontFamily: 'sans-serif',
             color: token.colorText,
             ...exporting?.chartOptions?.title?.style,
           },
