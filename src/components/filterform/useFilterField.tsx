@@ -139,6 +139,7 @@ const filterFieldReducer = (
 
       const newFilter = {
         ...state.filter,
+        type: config.type,
         field: action.payload,
         operator: operatorOptions[0].value,
         values: [],
