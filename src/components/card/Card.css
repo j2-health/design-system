@@ -5,3 +5,7 @@
     border-bottom: none;
   }
 }
+
+.ant-card-type-inner {
+  background-color: var(--j2-color-bg-layout);
+}

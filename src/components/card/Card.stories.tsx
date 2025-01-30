@@ -50,3 +50,19 @@ export const Borderless: Story = {
     bordered: false,
   },
 }
+
+export const Inner: Story = {
+  args: {
+    ...Default.args,
+    type: 'inner',
+    title: 'Innie',
+    children: <p>I'm an innie</p>,
+  },
+  render: (args) => {
+    return (
+      <Card title="Outie">
+        <Card {...args} />
+      </Card>
+    )
+  },
+}
