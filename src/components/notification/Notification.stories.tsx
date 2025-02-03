@@ -144,3 +144,11 @@ export const WithButtons: Story = {
     },
   },
 }
+
+export const MessageOnly: Story = {
+  args: {
+    message: 'This is a message only notification',
+    type: 'info',
+  },
+  render: (args) => <NotificationDemo {...(args as NotificationDemoProps)} />,
+}

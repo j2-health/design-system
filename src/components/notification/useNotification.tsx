@@ -1,6 +1,6 @@
 import { notification } from 'antd'
 import type { NotificationArgsProps } from 'antd'
-import './Notification.css'
+import s from './Notification.module.css'
 import {
   CheckCircle,
   Info,
@@ -8,6 +8,7 @@ import {
   X,
   XCircle,
 } from '@phosphor-icons/react'
+import cx from 'classnames'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
@@ -53,7 +54,10 @@ export const useNotification = () => {
     api[type]({
       icon: getIcon(type),
       ...config,
-      closeIcon: <X color="var(--j2-color-icon)" size={22} />,
+      closeIcon: <X color="var(--j2-color-icon)" size={22} weight="regular" />,
+      className: cx({
+        [s.messageOnly]: config.message && !config.description,
+      }),
     })
   }
 
