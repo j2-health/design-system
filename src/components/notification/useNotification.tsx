@@ -9,6 +9,7 @@ import {
   XCircle,
 } from '@phosphor-icons/react'
 import cx from 'classnames'
+import React from 'react'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
@@ -61,5 +62,9 @@ export const useNotification = () => {
     })
   }
 
-  return { openNotification, contextHolder }
+  const closeNotification = (key?: React.Key) => {
+    api.destroy(key)
+  }
+
+  return { openNotification, closeNotification, contextHolder }
 }
