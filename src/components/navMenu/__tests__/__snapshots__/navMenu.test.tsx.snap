@@ -21,16 +21,18 @@ exports[`NavMenu should render correctly 1`] = `
             <test-file-stub />
             <test-file-stub />
           </a>
-          <button
-            class="ant-btn css-dev-only-do-not-override-tpassh ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
-            type="button"
-          >
-            <span
-              class="ant-btn-icon"
+          <div>
+            <button
+              class="ant-btn css-dev-only-do-not-override-tpassh ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
+              type="button"
             >
-              <test-file-stub />
-            </span>
-          </button>
+              <span
+                class="ant-btn-icon"
+              >
+                <test-file-stub />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
       <div

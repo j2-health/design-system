@@ -2,8 +2,8 @@
 
 exports[`Popover should render correctly 1`] = `
 <div>
-  <span>
+  <div>
     Aetna
-  </span>
+  </div>
 </div>
 `;
