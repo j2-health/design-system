@@ -5,7 +5,7 @@ export type Props = Expand<TooltipProps>
 const Tooltip = ({ children, placement = 'top', ...props }: Props) => {
   return (
     <AntdTooltip {...props} placement={placement}>
-      {children}
+      <div>{children}</div>
     </AntdTooltip>
   )
 }

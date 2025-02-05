@@ -32,7 +32,7 @@ const Popover = ({
         return typeof content == 'function' ? content() : content
       }}
     >
-      {children}
+      <div>{children}</div>
     </AntdPopover>
   )
 }
