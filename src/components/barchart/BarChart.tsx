@@ -81,10 +81,11 @@ const BarChart = ({
             ...exporting?.chartOptions?.title?.style,
           },
         },
-        series: series.map(() => ({
+        series: series.map((s) => ({
           type: 'column',
-          color: '#253761', // --j2-blue-9
+          color: s.color ? s.color : '#253761', // --j2-blue-9
         })),
+        legend: exporting?.chartOptions?.legend || { enabled: false },
       },
     },
     title: {
