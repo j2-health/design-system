@@ -40,4 +40,5 @@
 
 :global(.ant-table-thead) > tr > th {
   white-space: nowrap;
+  color: var(--j2-color-primary) !important;
 }
