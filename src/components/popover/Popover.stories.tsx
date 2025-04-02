@@ -13,6 +13,7 @@ const meta = {
     placement: 'top',
     trigger: 'hover',
     arrow: true,
+    scrollable: false,
   },
   argTypes: {
     placement: {
@@ -24,6 +25,9 @@ const meta = {
       options: ['hover', 'click'],
     },
     arrow: {
+      control: 'boolean',
+    },
+    scrollable: {
       control: 'boolean',
     },
   },
