@@ -1,16 +1,40 @@
-.j2Popover :global(.ant-popover-inner) {
-  padding: var(--j2-padding-lg);
-}
+.j2Popover {
+  :global(.ant-popover-inner) {
+    padding: var(--j2-padding-lg);
+  }
 
-.j2Popover :global(.ant-popover-title) {
-  font-size: var(--j2-font-size-heading-4);
-  font-weight: var(--j2-font-weight-strong);
-  line-height: var(--j2-line-height-heading-4);
+  :global(.ant-popover-title) {
+    font-size: var(--j2-font-size-heading-4);
+    font-weight: var(--j2-font-weight-strong);
+    line-height: var(--j2-line-height-heading-4);
+  }
 }
 
 .popoverHeader {
   box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
   border-radius: var(--j2-border-radius) var(--j2-border-radius) 0 0;
-
   font-weight: bold;
+}
+
+.scrollable {
+  :global(.ant-popover-inner) {
+    padding: 0;
+    overflow: auto;
+    max-height: 300px;
+  }
+
+  :global(.ant-popover-title) {
+    top: 0;
+    z-index: 10;
+    position: sticky;
+    margin-bottom: 0;
+    background: white;
+    padding: var(--j2-padding-sm);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+  }
+
+  :global(.ant-popover-inner-content) {
+    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-lg)
+      var(--j2-padding-sm);
+  }
 }
