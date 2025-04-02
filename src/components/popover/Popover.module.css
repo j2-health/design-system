@@ -34,6 +34,7 @@
   }
 
   :global(.ant-popover-inner-content) {
-    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-lg) var(--j2-padding-sm);
+    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-lg)
+      var(--j2-padding-sm);
   }
 }
