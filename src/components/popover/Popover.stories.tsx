@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { Checkbox } from '../checkbox/Checkbox'
 import { Popover, PopoverHeader } from './Popover'
 
 const meta = {
@@ -68,7 +69,7 @@ export const Closeable: Story = {
   args: {
     content: (
       <div className="-m-6">
-        <PopoverHeader title="Did you know?" onClose={() => {}} />
+        <PopoverHeader title="Did you know?" />
         <p>
           <strong>CMS (Centers for Medicare & Medicaid Services)</strong>{' '}
           oversees the nation’s major healthcare programs.
@@ -78,5 +79,33 @@ export const Closeable: Story = {
     ),
     trigger: 'hover',
     children: <span>Trigger to learn about CMS</span>,
+  },
+}
+
+export const Scrollable: Story = {
+  args: {
+    scrollable: true,
+    title: <h5>I'm a scrollable popover of fruits</h5>,
+    content: (
+      <Checkbox.Group
+        className="flex flex-col gap-2"
+        options={[
+          'Apple',
+          'Pear',
+          'Orange',
+          'Grape',
+          'Banana',
+          'Mango',
+          'Pineapple',
+          'Blueberry',
+          'Strawberry',
+          'Kiwi',
+          'Peach',
+          'Plum',
+        ]}
+      />
+    ),
+    trigger: 'hover',
+    children: <span>Trigger to scroll through fruits</span>,
   },
 }

@@ -297,7 +297,7 @@ body {
     font-size: var(--j2-font-size-heading-4);
     font-weight: var(--j2-font-weight-strong);
     line-height: var(--j2-line-height-heading-4);
-    color: var(--j2-color-text);
+    color: var(--j2-color-primary);
     margin: 0;
   }
 
@@ -306,7 +306,7 @@ body {
     font-size: var(--j2-font-size-heading-5);
     font-weight: 500;
     line-height: var(--j2-line-height-heading-5);
-    color: var(--j2-color-text);
+    color: var(--j2-color-primary);
     margin: 0;
   }
 }
