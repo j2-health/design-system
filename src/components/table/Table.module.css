@@ -34,7 +34,8 @@
 }
 
 :global(.ant-spin-container.ant-spin-blur) th :global(.ant-table-column-title),
-:global(.ant-spin-container.ant-spin-blur) th svg {
+:global(.ant-spin-container.ant-spin-blur) th svg,
+:global(.ant-spin-container.ant-spin-blur) th span {
   visibility: hidden;
 }
 
