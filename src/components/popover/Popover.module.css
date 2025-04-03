@@ -19,8 +19,7 @@
 .scrollable {
   :global(.ant-popover-inner) {
     padding: 0;
-    overflow: auto;
-    max-height: 300px;
+    border-radius: var(--j2-border-radius);
   }
 
   :global(.ant-popover-title) {
@@ -31,10 +30,13 @@
     background: white;
     padding: var(--j2-padding-sm);
     box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+    border-radius: var(--j2-border-radius) var(--j2-border-radius) 0 0;
   }
 
   :global(.ant-popover-inner-content) {
-    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-lg)
+    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-sm)
       var(--j2-padding-sm);
+    overflow: auto;
+    max-height: 295px;
   }
 }
