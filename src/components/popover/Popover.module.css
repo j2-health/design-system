@@ -19,7 +19,6 @@
 .scrollable {
   :global(.ant-popover-inner) {
     padding: 0;
-    border-radius: var(--j2-border-radius);
   }
 
   :global(.ant-popover-title) {
