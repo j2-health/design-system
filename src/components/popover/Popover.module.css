@@ -29,11 +29,12 @@
     background: white;
     padding: var(--j2-padding-sm);
     box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+    font-size: var(--j2-font-size);
     border-radius: var(--j2-border-radius) var(--j2-border-radius) 0 0;
   }
 
   :global(.ant-popover-inner-content) {
-    padding: var(--j2-padding-sm) var(--j2-padding-lg) var(--j2-padding-sm)
+    padding: var(--j2-padding-sm) var(--j2-padding-sm) var(--j2-padding-sm)
       var(--j2-padding-sm);
     overflow: auto;
     max-height: 295px;
