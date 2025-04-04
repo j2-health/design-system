@@ -5,19 +5,18 @@ import { CopySimple } from '@phosphor-icons/react'
 import { Tooltip } from '../tooltip'
 import { OpenMessageFunc } from '../message/useMessage'
 
-type Props = {
+type _ContentProps = {
   items: string[]
   openMessage: OpenMessageFunc
 }
 
-const PopoverContent = ({
-  items,
-  openMessage,
-}: Pick<Props, 'items' | 'openMessage'>) => {
+type PopoverContentProps = Expand<_ContentProps>
+
+const PopoverContent = ({ items, openMessage }: PopoverContentProps) => {
   return (
     <div className={cx('max-w-[400px] max-h-[198px]')}>
       {items.map((item) => (
-        <div className={cx('flex items-center')}>
+        <div key={item} className={cx('flex items-center')}>
           <p className={cx('overflow-hidden text-nowrap text-ellipsis')}>
             {item}
           </p>
@@ -41,17 +40,21 @@ const PopoverContent = ({
   )
 }
 
+type _Props = {
+  items: Array<string>
+  column: string
+  openMessage: OpenMessageFunc
+  children: React.ReactNode
+}
+
+export type ListPopoverProps = Expand<_Props>
+
 const ListPopover = ({
   children,
   items,
   column,
   openMessage,
-}: {
-  items: Array<string>
-  column: string
-  openMessage: OpenMessageFunc
-  children: React.ReactNode
-}) => {
+}: ListPopoverProps) => {
   return (
     <Popover
       title={`${column} (${items.length})`}

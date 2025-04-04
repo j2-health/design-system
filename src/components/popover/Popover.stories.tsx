@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Checkbox } from '../checkbox/Checkbox'
-import { Popover, PopoverHeader } from './Popover'
+import { Popover } from './Popover'
 
 const meta = {
   title: 'Components/Popover',
@@ -52,28 +52,11 @@ export const Default: Story = {
   },
 }
 
-export const WithHeader: Story = {
-  args: {
-    content: (
-      <div className="-m-6">
-        <PopoverHeader title="Did you know?" />
-        <p>
-          <strong>CMS (Centers for Medicare & Medicaid Services)</strong>{' '}
-          oversees the nation’s major healthcare programs.
-        </p>
-        <p> Pretty important, right?'</p>
-      </div>
-    ),
-    trigger: 'hover',
-    children: <span>Trigger to learn about CMS</span>,
-  },
-}
-
 export const Closeable: Story = {
   args: {
+    title: 'Did you know?',
     content: (
-      <div className="-m-6">
-        <PopoverHeader title="Did you know?" />
+      <div>
         <p>
           <strong>CMS (Centers for Medicare & Medicaid Services)</strong>{' '}
           oversees the nation’s major healthcare programs.
