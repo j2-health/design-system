@@ -24,11 +24,7 @@ const Popover = ({
       placement={placement}
       content={() => {
         if (!contentPadding) {
-          return (
-            <div className="-m-6">
-              {typeof content == 'function' ? content() : content}
-            </div>
-          )
+          return <div>{typeof content == 'function' ? content() : content}</div>
         }
 
         return typeof content == 'function' ? content() : content
@@ -39,17 +35,4 @@ const Popover = ({
   )
 }
 
-const PopoverHeader = ({ title }: { title: string }) => {
-  return (
-    <div
-      className={cx(
-        'py-2 px-3 items-center flex justify-between',
-        styles.popoverHeader
-      )}
-    >
-      {title}
-    </div>
-  )
-}
-
-export { Popover, PopoverHeader }
+export { Popover }
