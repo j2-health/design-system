@@ -43,3 +43,25 @@ export const Default: Story = {
     )
   },
 }
+
+export const WithCategories: Story = {
+  args: {
+    children: '5 Phone Numbers',
+    items: [
+      { categoryName: 'Inigo Montoya', items: ['555-1234', '555-5678'] },
+      { categoryName: 'Vizzini', items: ['555-8765', '555-4321'] },
+      { categoryName: 'Fezzik', items: ['555-0000'] },
+    ],
+    column: 'Phone Numbers',
+  },
+  render: (args) => {
+    const { openMessage, contextHolder } = useMessage()
+
+    return (
+      <>
+        {contextHolder}
+        <ListPopover {...args} openMessage={openMessage} />
+      </>
+    )
+  },
+}
