@@ -50,7 +50,7 @@ const Table = <T = any,>({ verticalBorders, ...props }: Props<T>) => {
 
   const columns = props.columns?.map((column) => ({
     ...column,
-    sortIcon: defaultSortIcon,
+    sortIcon: column.sortIcon ?? defaultSortIcon,
   }))
 
   return (
