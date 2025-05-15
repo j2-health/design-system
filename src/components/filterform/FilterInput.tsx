@@ -5,6 +5,7 @@ import { Input, InputNumber, Select } from 'antd'
 import { FormFilter } from './types'
 import cx from 'classnames'
 import { SizeType } from 'antd/es/config-provider/SizeContext'
+
 type SelectValueInputConfig = {
   type: 'select'
   valueOptions: { label: string; value: string }[]
@@ -149,7 +150,7 @@ const ValueInput = ({
           mode="multiple"
           onBlur={onBlur}
           value={values}
-          className="w-full"
+          className="w-full truncate"
           size={size}
           optionFilterProp="label"
         />
