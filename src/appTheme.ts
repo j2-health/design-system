@@ -238,7 +238,7 @@ export const appTheme: ThemeConfig = {
     Table: {
       headerBg: 'var(--j2-color-bg-layout)',
       rowHoverBg: 'var(--j2-color-bg-layout)',
-      bodySortBg: 'var(--j2-gray-3)',
+      bodySortBg: 'var(--j2-gray-2)',
       headerSortHoverBg: 'var(--j2-gray-3)',
       headerSortActiveBg: 'var(--j2-gray-3)',
       fixedHeaderSortActiveBg: 'var(--j2-gray-3)',
