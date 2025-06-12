@@ -5,6 +5,7 @@ import styles from './Popover.module.css'
 type _Props = AntdPopoverProps & {
   contentPadding?: boolean
   scrollable?: boolean
+  smallPadding?: boolean
 }
 
 export type PopoverProps = Expand<_Props>
@@ -15,11 +16,16 @@ const Popover = ({
   scrollable = false,
   contentPadding = true,
   content,
+  smallPadding = false,
   ...props
 }: PopoverProps) => {
   return (
     <AntdPopover
-      overlayClassName={cx(styles.j2Popover, scrollable && styles.scrollable)}
+      overlayClassName={cx(
+        styles.j2Popover,
+        scrollable && styles.scrollable,
+        smallPadding && styles.smallPadding
+      )}
       {...props}
       placement={placement}
       content={() => {
