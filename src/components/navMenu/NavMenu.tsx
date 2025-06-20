@@ -20,6 +20,7 @@ type Props = {
   defaultSelectedKeys?: string[]
   footerItems: ItemType[]
   className?: string
+  onCollapse?: (isCollapsed: boolean) => void
 }
 
 export const NavMenu = ({
@@ -30,6 +31,7 @@ export const NavMenu = ({
   defaultSelectedKeys,
   footerItems,
   className,
+  onCollapse,
 }: Props) => {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [isToggleTooltipOpen, setToggleTooltipOpen] = React.useState(false)
@@ -37,6 +39,7 @@ export const NavMenu = ({
   const toggleCollapse = React.useCallback(() => {
     setIsCollapsed(!isCollapsed)
     setToggleTooltipOpen(false)
+    onCollapse?.(!isCollapsed)
   }, [isCollapsed])
 
   return (
