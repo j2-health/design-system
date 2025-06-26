@@ -21,9 +21,11 @@ exports[`NavMenu should render correctly 1`] = `
             <test-file-stub />
             <test-file-stub />
           </a>
-          <div>
+          <div
+            aria-describedby="test-id"
+          >
             <button
-              class="ant-btn css-dev-only-do-not-override-tpassh ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
+              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
               type="button"
             >
               <span
@@ -39,12 +41,13 @@ exports[`NavMenu should render correctly 1`] = `
         class="flex flex-col justify-between flex-1"
       >
         <ul
-          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-os2fvf"
           data-menu-list="true"
           role="menu"
           tabindex="0"
         >
           <li
+            aria-describedby="test-id"
             class="ant-menu-item ant-menu-item-only-child"
             data-menu-id="rc-menu-uuid-test-dashboard"
             role="menuitem"
@@ -58,6 +61,7 @@ exports[`NavMenu should render correctly 1`] = `
             </span>
           </li>
           <li
+            aria-describedby="test-id"
             class="ant-menu-item ant-menu-item-only-child"
             data-menu-id="rc-menu-uuid-test-settings"
             role="menuitem"
@@ -76,12 +80,13 @@ exports[`NavMenu should render correctly 1`] = `
           style="display: none;"
         />
         <ul
-          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-tpassh"
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-os2fvf"
           data-menu-list="true"
           role="menu"
           tabindex="0"
         >
           <li
+            aria-describedby="test-id"
             class="ant-menu-item ant-menu-item-only-child"
             data-menu-id="rc-menu-uuid-test-logout"
             role="menuitem"

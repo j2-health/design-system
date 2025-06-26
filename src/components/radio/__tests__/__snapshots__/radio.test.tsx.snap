@@ -3,7 +3,7 @@
 exports[`Radio should render correctly 1`] = `
 <div>
   <label
-    class="ant-radio-wrapper css-dev-only-do-not-override-tpassh"
+    class="ant-radio-wrapper css-dev-only-do-not-override-os2fvf"
   >
     <span
       class="ant-radio ant-wave-target"
@@ -24,16 +24,17 @@ exports[`Radio should render correctly 1`] = `
 exports[`RadioGroup should render correctly 1`] = `
 <div>
   <div
-    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-tpassh"
+    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-os2fvf"
   >
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-tpassh"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-os2fvf"
     >
       <span
         class="ant-radio-button"
       >
         <input
           class="ant-radio-button-input"
+          name="test-id"
           type="radio"
           value="aetna"
         />
@@ -41,18 +42,21 @@ exports[`RadioGroup should render correctly 1`] = `
           class="ant-radio-button-inner"
         />
       </span>
-      <span>
+      <span
+        class="ant-radio-button-label"
+      >
         aetna
       </span>
     </label>
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-tpassh"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-os2fvf"
     >
       <span
         class="ant-radio-button"
       >
         <input
           class="ant-radio-button-input"
+          name="test-id"
           type="radio"
           value="cigna"
         />
@@ -60,7 +64,9 @@ exports[`RadioGroup should render correctly 1`] = `
           class="ant-radio-button-inner"
         />
       </span>
-      <span>
+      <span
+        class="ant-radio-button-label"
+      >
         cigna
       </span>
     </label>
