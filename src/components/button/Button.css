@@ -10,6 +10,11 @@
   }
 }
 
+.ant-btn-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
 .ant-btn-dashed {
   border: none !important;
   background-color: var(--j2-gray-3);
