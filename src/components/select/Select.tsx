@@ -55,7 +55,7 @@ export const Select = (props: SelectProps) => {
           <CaretDown size={14} data-testid="caret-down" />
         )
       }
-      dropdownRender={dropdownRender}
+      popupRender={dropdownRender}
       removeIcon={<XCircle size={12} />}
       allowClear={
         props.allowClear ? { clearIcon: <XCircle size={14} /> } : false
