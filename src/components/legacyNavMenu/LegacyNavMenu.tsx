@@ -24,6 +24,7 @@ export interface LegacyNavMenuProps {
   sections?: NavSection[]
   user?: UserProfile
   onItemClick?: (itemId: string) => void
+  logoUrl?: string
 }
 
 const defaultSections: NavSection[] = [
@@ -74,6 +75,7 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
   sections = defaultSections,
   user = defaultUser,
   onItemClick,
+  logoUrl = '/',
 }) => {
   const handleItemClick = (itemId: string) => {
     onItemClick?.(itemId)
@@ -84,8 +86,10 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
       {/* Logo Section */}
       <div className={styles.logoSection}>
         <div className={styles.logoContainer}>
-          {/* @ts-expect-error - SVG component props */}
-          <J2Logo className={styles.logo} />
+          <a href={logoUrl} className={styles.logoLink}>
+            {/* @ts-expect-error - SVG component props */}
+            <J2Logo className={styles.logo} />
+          </a>
         </div>
       </div>
 

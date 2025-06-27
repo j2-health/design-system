@@ -122,6 +122,22 @@ export const DifferentUser: Story = {
   ),
 }
 
+// Story with clickable logo
+export const ClickableLogo: Story = {
+  args: {
+    logoUrl: 'https://example.com',
+  },
+  render: (args) => (
+    <div style={{ height: '100vh', display: 'flex' }}>
+      <LegacyNavMenu {...args} />
+      <div style={{ flex: 1, padding: '20px', backgroundColor: '#f5f5f5' }}>
+        <h1>Clickable Logo</h1>
+        <p>The J2 logo is now clickable and links to example.com</p>
+      </div>
+    </div>
+  ),
+}
+
 // Story with custom sections
 export const CustomSections: Story = {
   args: {
