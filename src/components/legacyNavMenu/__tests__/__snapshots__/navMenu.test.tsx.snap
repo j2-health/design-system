@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavMenu should render correctly 1`] = `
+<div>
+  <div
+    class="navMenuContainer bg-white"
+  >
+    <div
+      class="flex flex-col h-full"
+    >
+      <div
+        class="py-5 px-3"
+      >
+        <div
+          class="flex items-center justify-between headerContainer min-h-9"
+        >
+          <a
+            class="flex items-center gap-2 logo"
+            href="/"
+          >
+            <test-file-stub />
+            <test-file-stub />
+          </a>
+          <div
+            aria-describedby="test-id"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only toggle-button"
+              type="button"
+            >
+              <span
+                class="ant-btn-icon"
+              >
+                <test-file-stub />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col justify-between flex-1"
+      >
+        <ul
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-os2fvf"
+          data-menu-list="true"
+          role="menu"
+          tabindex="0"
+        >
+          <li
+            aria-describedby="test-id"
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-dashboard"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Dashboard
+            </span>
+          </li>
+          <li
+            aria-describedby="test-id"
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-settings"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Settings
+            </span>
+          </li>
+        </ul>
+        <div
+          aria-hidden="true"
+          style="display: none;"
+        />
+        <ul
+          class="ant-menu ant-menu-root ant-menu-inline ant-menu-light j2Menu css-dev-only-do-not-override-os2fvf"
+          data-menu-list="true"
+          role="menu"
+          tabindex="0"
+        >
+          <li
+            aria-describedby="test-id"
+            class="ant-menu-item ant-menu-item-only-child"
+            data-menu-id="rc-menu-uuid-test-logout"
+            role="menuitem"
+            style="padding-left: 24px;"
+            tabindex="-1"
+          >
+            <span
+              class="ant-menu-title-content"
+            >
+              Logout
+            </span>
+          </li>
+        </ul>
+        <div
+          aria-hidden="true"
+          style="display: none;"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

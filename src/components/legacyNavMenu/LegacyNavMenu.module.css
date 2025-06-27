@@ -1,0 +1,178 @@
+/* Main container */
+.navContainer {
+  width: 186px;
+  height: 100vh;
+  background-color: #efefef;
+  border-right: 1px solid #e1e1e1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Logo section */
+.logoSection {
+  padding: 16px 0;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+}
+
+/* Navigation content */
+.navContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.navSection {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.sectionDivider {
+  height: 1px;
+  background-color: #e1e1e1;
+}
+
+.sectionHeader {
+  padding: 8px 0;
+}
+
+.sectionTitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0 16px;
+  text-transform: uppercase;
+}
+
+.sectionItems {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation items */
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  min-height: 40px;
+}
+
+.navItem:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.navItem.active {
+  background-color: #dfe5ed;
+}
+
+.navItemIcon {
+  width: 32px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 0;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.navItemIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.navItemLabel {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.15px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* User section */
+.userSection {
+  padding: 12px 0;
+  border-top: none;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  background-color: #ab47bc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.userName {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.15px;
+  line-height: 1.5;
+  width: 96px;
+}
+
+/* Legacy collapsed state support */
+.navMenuContainer {
+  height: 100vh;
+  display: inline-block;
+
+  &.collapsed {
+    width: 80px;
+
+    .headerContainer {
+      .logo {
+        display: block;
+      }
+
+      :global(.toggle-button) {
+        display: none;
+      }
+
+      &:hover {
+        .logo {
+          display: none;
+        }
+
+        :global(.toggle-button) {
+          display: block;
+        }
+      }
+    }
+  }
+}
