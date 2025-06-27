@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { LegacyNavMenu } from './LegacyNavMenu'
 import type { NavSection } from './LegacyNavMenu'
+import {
+  ChartPie,
+  FileText,
+  Network,
+  Question,
+  ChartBar,
+  Gear,
+} from '@phosphor-icons/react'
 
 const meta: Meta<typeof LegacyNavMenu> = {
   title: 'Components/LegacyNavMenu',
@@ -53,44 +61,12 @@ export const DifferentActiveItem: Story = {
             id: 'scorecard',
             label: 'Scorecard',
             isActive: true, // Make Scorecard active instead
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="12 12L8 8"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            ),
+            icon: <ChartPie size={24} />,
           },
           {
             id: 'reports',
             label: 'Reports',
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <polyline
-                  points="14,2 14,8 20,8"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            ),
+            icon: <FileText size={24} />,
           },
         ],
       },
@@ -100,16 +76,7 @@ export const DifferentActiveItem: Story = {
           {
             id: 'networks',
             label: 'Networks',
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="3 3h18v18H3zM9 9h6v6H9z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            ),
+            icon: <Network size={24} />,
           },
         ],
       },
@@ -119,32 +86,7 @@ export const DifferentActiveItem: Story = {
           {
             id: 'user-guide',
             label: 'User Guide',
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <line
-                  x1="12"
-                  y1="17"
-                  x2="12.01"
-                  y2="17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-            ),
+            icon: <Question size={24} />,
           },
         ],
       },
@@ -191,37 +133,7 @@ export const CustomSections: Story = {
             id: 'overview',
             label: 'Overview',
             isActive: true,
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect
-                  x="3"
-                  y="3"
-                  width="18"
-                  height="18"
-                  rx="2"
-                  ry="2"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <line
-                  x1="9"
-                  y1="9"
-                  x2="15"
-                  y2="9"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <line
-                  x1="9"
-                  y1="15"
-                  x2="15"
-                  y2="15"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-            ),
+            icon: <ChartBar size={24} />,
           },
         ],
       },
@@ -231,24 +143,7 @@ export const CustomSections: Story = {
           {
             id: 'preferences',
             label: 'Preferences',
-            icon: (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            ),
+            icon: <Gear size={24} />,
           },
         ],
       },
