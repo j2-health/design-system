@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './LegacyNavMenu.module.css'
 import { ChartPie, FileText, Network, Question } from '../icons'
 import J2Logo from '../../svgs/j2-logo.svg?react'
+import { UserProfile } from './UserProfile'
 
 export interface NavItem {
   id: string
@@ -25,6 +26,8 @@ export interface LegacyNavMenuProps {
   user?: UserProfile
   onItemClick?: (itemId: string) => void
   logoUrl?: string
+  onLogOut?: () => void
+  onChangeClient?: () => void
 }
 
 const defaultSections: NavSection[] = [
@@ -76,6 +79,8 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
   user = defaultUser,
   onItemClick,
   logoUrl = '/',
+  onLogOut,
+  onChangeClient,
 }) => {
   const handleItemClick = (itemId: string) => {
     onItemClick?.(itemId)
@@ -125,12 +130,12 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
       </div>
 
       {/* User Profile Section */}
-      <div className={styles.userSection}>
-        <div className={styles.userProfile}>
-          <div className={styles.userAvatar}>{user.avatar}</div>
-          <span className={styles.userName}>{user.name}</span>
-        </div>
-      </div>
+      <UserProfile
+        name={user.name}
+        avatar={user.avatar}
+        onLogOut={onLogOut}
+        onChangeClient={onChangeClient}
+      />
     </div>
   )
 }

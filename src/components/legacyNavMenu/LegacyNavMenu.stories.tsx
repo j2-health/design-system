@@ -138,6 +138,26 @@ export const ClickableLogo: Story = {
   ),
 }
 
+// Story with user profile popover
+export const UserProfilePopover: Story = {
+  args: {
+    onLogOut: () => alert('Logging out...'),
+    onChangeClient: () => alert('Changing client...'),
+  },
+  render: (args) => (
+    <div style={{ height: '100vh', display: 'flex' }}>
+      <LegacyNavMenu {...args} />
+      <div style={{ flex: 1, padding: '20px', backgroundColor: '#f5f5f5' }}>
+        <h1>User Profile Popover</h1>
+        <p>
+          Click on the user profile at the bottom of the navigation to see the
+          popover with logout and change client options.
+        </p>
+      </div>
+    </div>
+  ),
+}
+
 // Story with custom sections
 export const CustomSections: Story = {
   args: {
