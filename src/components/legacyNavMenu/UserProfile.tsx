@@ -79,15 +79,17 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             >
               LOG OUT
             </button>
-            <button
-              className={styles.changeClientButton}
-              onClick={() => {
-                onChangeClient?.()
-                setIsPopoverOpen(false)
-              }}
-            >
-              CHANGE CLIENT
-            </button>
+            {onChangeClient && (
+              <button
+                className={styles.changeClientButton}
+                onClick={() => {
+                  onChangeClient?.()
+                  setIsPopoverOpen(false)
+                }}
+              >
+                CHANGE CLIENT
+              </button>
+            )}
           </div>
         </div>
       )}
