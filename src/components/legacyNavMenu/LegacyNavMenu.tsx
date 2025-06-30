@@ -100,10 +100,8 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
 
       {/* Navigation Sections */}
       <div className={styles.navContent}>
-        {sections.map((section, sectionIndex) => (
+        {sections.map((section) => (
           <div key={section.title} className={styles.navSection}>
-            {/* Section Divider */}
-            {sectionIndex > 0 && <div className={styles.sectionDivider} />}
 
             {/* Section Header */}
             <div className={styles.sectionHeader}>

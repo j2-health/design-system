@@ -51,11 +51,7 @@
 
 .navSection {
   border-bottom: 1px solid #e1e1e1;
-}
-
-.sectionDivider {
-  height: 1px;
-  background-color: #e1e1e1;
+  padding: 8px 0;
 }
 
 .sectionHeader {
@@ -122,6 +118,7 @@
   letter-spacing: 0.15px;
   line-height: 1.5;
   flex: 1;
+  padding: 4px 0;
 }
 
 /* Legacy collapsed state support */
