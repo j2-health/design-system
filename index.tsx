@@ -29,6 +29,7 @@ export * from './src/components/tabs'
 export * from './src/components/tag'
 export * from './src/components/tooltip'
 export * from './src/components/vennDiagram'
+export * from './src/components/legacyNavMenu'
 
 import * as icons from './src/components/icons'
 export { icons }
