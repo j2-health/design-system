@@ -1,19 +1,9 @@
 import { act, render } from '@testing-library/react'
-import { NavMenu } from '../LegacyNavMenu'
+import { LegacyNavMenu } from '../LegacyNavMenu'
 
-describe('NavMenu', () => {
+describe('LegacyNavMenu', () => {
   it('should render correctly', async () => {
-    const { container } = await act(async () =>
-      render(
-        <NavMenu
-          items={[
-            { label: 'Dashboard', key: 'dashboard' },
-            { label: 'Settings', key: 'settings' },
-          ]}
-          footerItems={[{ label: 'Logout', key: 'logout' }]}
-        />
-      )
-    )
+    const { container } = await act(async () => render(<LegacyNavMenu />))
 
     expect(container).toMatchSnapshot()
   })

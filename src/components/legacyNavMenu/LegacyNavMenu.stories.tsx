@@ -107,8 +107,8 @@ export const DifferentActiveItem: Story = {
 export const DifferentUser: Story = {
   args: {
     user: {
-      name: 'John Smith',
-      avatar: 'J',
+      firstName: 'John',
+      lastName: 'Smith',
     },
   },
   render: (args) => (
