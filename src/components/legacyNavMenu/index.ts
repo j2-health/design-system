@@ -4,6 +4,6 @@ export type {
   LegacyNavMenuProps,
   NavItem,
   NavSection,
-  UserProfile as UserProfileType,
+  LegacyNavMenuUser,
 } from './LegacyNavMenu'
 export type { UserProfileProps } from './UserProfile'

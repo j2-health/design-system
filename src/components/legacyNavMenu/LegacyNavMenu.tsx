@@ -16,14 +16,15 @@ export interface NavSection {
   items: NavItem[]
 }
 
-export interface UserProfile {
-  name: string
-  avatar: string
+export interface LegacyNavMenuUser {
+  firstName: string
+  lastName?: string
+  avatarUrl?: string
 }
 
 export interface LegacyNavMenuProps {
   sections?: NavSection[]
-  user?: UserProfile
+  user?: LegacyNavMenuUser
   onItemClick?: (itemId: string) => void
   logoUrl?: string
   onLogOut?: () => void
@@ -69,9 +70,9 @@ const defaultSections: NavSection[] = [
   },
 ]
 
-const defaultUser: UserProfile = {
-  name: 'Rachel Foley',
-  avatar: 'R',
+const defaultUser: LegacyNavMenuUser = {
+  firstName: 'Rachel',
+  lastName: 'Foley',
 }
 
 export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
@@ -129,8 +130,9 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
 
       {/* User Profile Section */}
       <UserProfile
-        name={user.name}
-        avatar={user.avatar}
+        firstName={user.firstName}
+        lastName={user.lastName}
+        avatarUrl={user.avatarUrl}
         onLogOut={onLogOut}
         onChangeClient={onChangeClient}
       />

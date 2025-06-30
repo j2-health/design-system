@@ -2,21 +2,31 @@ import React, { useState, useRef, useEffect } from 'react'
 import styles from './UserProfile.module.css'
 
 export interface UserProfileProps {
-  name: string
-  avatar: string
+  firstName: string
+  lastName?: string
+  avatarUrl?: string
   onLogOut?: () => void
   onChangeClient?: () => void
 }
 
 export const UserProfile: React.FC<UserProfileProps> = ({
-  name,
-  avatar,
+  firstName,
+  lastName,
+  avatarUrl,
   onLogOut,
   onChangeClient,
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+
+  // Create display name and avatar
+  const displayName = lastName ? `${firstName} ${lastName}` : firstName
+  const avatarDisplay = avatarUrl ? (
+    <img src={avatarUrl} alt={displayName} className={styles.avatarImage} />
+  ) : (
+    firstName.charAt(0).toUpperCase()
+  )
 
   const togglePopover = () => {
     setIsPopoverOpen(!isPopoverOpen)
@@ -48,15 +58,15 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         className={styles.userProfile}
         onClick={togglePopover}
       >
-        <div className={styles.userAvatar}>{avatar}</div>
-        <span className={styles.userName}>{name}</span>
+        <div className={styles.userAvatar}>{avatarDisplay}</div>
+        <span className={styles.userName}>{displayName}</span>
       </button>
 
       {isPopoverOpen && (
         <div ref={popoverRef} className={styles.popover}>
           <div className={styles.popoverUserInfo}>
-            <div className={styles.popoverAvatar}>{avatar}</div>
-            <span className={styles.popoverUserName}>{name}</span>
+            <div className={styles.popoverAvatar}>{avatarDisplay}</div>
+            <span className={styles.popoverUserName}>{displayName}</span>
           </div>
 
           <div className={styles.popoverActions}>
