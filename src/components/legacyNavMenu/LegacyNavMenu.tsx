@@ -103,7 +103,6 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
       <div className={styles.navContent}>
         {sections.map((section) => (
           <div key={section.title} className={styles.navSection}>
-
             {/* Section Header */}
             <div className={styles.sectionHeader}>
               <span className={styles.sectionTitle}>{section.title}</span>
