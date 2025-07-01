@@ -1,0 +1,154 @@
+/* Main container */
+.navContainer {
+  width: 186px;
+  height: 100vh;
+  background-color: #efefef;
+  border-right: 1px solid #e1e1e1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Logo section */
+.logoSection {
+  padding: 24px 0;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logo {
+  height: var(--logo-size, 64px);
+  width: auto; /* Maintains aspect ratio */
+  max-width: 100%;
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+  .logo {
+    width: 60px;
+  }
+}
+
+/* Navigation content */
+.navContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.navSection {
+  border-bottom: 1px solid #e1e1e1;
+  padding: 8px 0;
+}
+
+.sectionHeader {
+  padding: 8px 0;
+}
+
+.sectionTitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0 16px;
+  text-transform: uppercase;
+}
+
+.sectionItems {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation items */
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  min-height: 40px;
+}
+
+.navItem:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.navItem.active {
+  background-color: #dfe5ed;
+}
+
+.navItemIcon {
+  width: 32px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 0;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.navItemIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.navItemLabel {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.15px;
+  line-height: 1.5;
+  flex: 1;
+  padding: 4px 0;
+}
+
+/* Legacy collapsed state support */
+.navMenuContainer {
+  height: 100vh;
+  display: inline-block;
+
+  &.collapsed {
+    width: 80px;
+
+    .headerContainer {
+      .logo {
+        display: block;
+      }
+
+      :global(.toggle-button) {
+        display: none;
+      }
+
+      &:hover {
+        .logo {
+          display: none;
+        }
+
+        :global(.toggle-button) {
+          display: block;
+        }
+      }
+    }
+  }
+}
