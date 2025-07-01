@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './LegacyNavMenu.module.css'
-import { ChartPie, FileText, Network, Question } from '../icons'
 import J2Logo from '../../svgs/j2-logo.svg?react'
 import { UserProfile } from './UserProfile'
 
@@ -23,61 +22,17 @@ export interface LegacyNavMenuUser {
 }
 
 export interface LegacyNavMenuProps {
-  sections?: NavSection[]
-  user?: LegacyNavMenuUser
+  sections: NavSection[]
+  user: LegacyNavMenuUser
   onItemClick?: (itemId: string) => void
   logoUrl?: string
   onLogOut?: () => void
   onChangeClient?: () => void
 }
 
-const defaultSections: NavSection[] = [
-  {
-    title: 'ANALYZE',
-    items: [
-      {
-        id: 'scorecard',
-        label: 'Scorecard',
-        icon: <ChartPie size={24} />,
-      },
-      {
-        id: 'reports',
-        label: 'Reports',
-        icon: <FileText size={24} />,
-      },
-    ],
-  },
-  {
-    title: 'MANAGE',
-    items: [
-      {
-        id: 'networks',
-        label: 'Networks',
-        isActive: true,
-        icon: <Network size={24} />,
-      },
-    ],
-  },
-  {
-    title: 'ACCOUNT',
-    items: [
-      {
-        id: 'user-guide',
-        label: 'User Guide',
-        icon: <Question size={24} />,
-      },
-    ],
-  },
-]
-
-const defaultUser: LegacyNavMenuUser = {
-  firstName: 'Rachel',
-  lastName: 'Foley',
-}
-
 export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
-  sections = defaultSections,
-  user = defaultUser,
+  sections,
+  user,
   onItemClick,
   logoUrl = '/',
   onLogOut,

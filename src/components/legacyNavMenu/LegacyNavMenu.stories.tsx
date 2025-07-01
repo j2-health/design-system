@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { LegacyNavMenu } from './LegacyNavMenu'
-import type { NavSection } from './LegacyNavMenu'
+import type { NavSection, LegacyNavMenuUser } from './LegacyNavMenu'
 import {
   ChartPie,
   FileText,
@@ -9,6 +9,51 @@ import {
   ChartBar,
   Gear,
 } from '@phosphor-icons/react'
+
+// Default data moved from component
+const defaultSections: NavSection[] = [
+  {
+    title: 'ANALYZE',
+    items: [
+      {
+        id: 'scorecard',
+        label: 'Scorecard',
+        icon: <ChartPie size={24} />,
+      },
+      {
+        id: 'reports',
+        label: 'Reports',
+        icon: <FileText size={24} />,
+      },
+    ],
+  },
+  {
+    title: 'MANAGE',
+    items: [
+      {
+        id: 'networks',
+        label: 'Networks',
+        isActive: true,
+        icon: <Network size={24} />,
+      },
+    ],
+  },
+  {
+    title: 'ACCOUNT',
+    items: [
+      {
+        id: 'user-guide',
+        label: 'User Guide',
+        icon: <Question size={24} />,
+      },
+    ],
+  },
+]
+
+const defaultUser: LegacyNavMenuUser = {
+  firstName: 'Rachel',
+  lastName: 'Foley',
+}
 
 const meta: Meta<typeof LegacyNavMenu> = {
   title: 'Components/LegacyNavMenu',
@@ -36,6 +81,10 @@ type Story = StoryObj<typeof meta>
 
 // Default story with the standard navigation
 export const Default: Story = {
+  args: {
+    sections: defaultSections,
+    user: defaultUser,
+  },
   render: (args) => (
     <div style={{ height: '100vh', display: 'flex' }}>
       <LegacyNavMenu {...args} />
@@ -91,6 +140,7 @@ export const DifferentActiveItem: Story = {
         ],
       },
     ],
+    user: defaultUser,
   },
   render: (args) => (
     <div style={{ height: '100vh', display: 'flex' }}>
@@ -106,6 +156,7 @@ export const DifferentActiveItem: Story = {
 // Story with different user
 export const DifferentUser: Story = {
   args: {
+    sections: defaultSections,
     user: {
       firstName: 'John',
       lastName: 'Smith',
@@ -125,6 +176,8 @@ export const DifferentUser: Story = {
 // Story with clickable logo
 export const ClickableLogo: Story = {
   args: {
+    sections: defaultSections,
+    user: defaultUser,
     logoUrl: 'https://example.com',
   },
   render: (args) => (
@@ -141,6 +194,8 @@ export const ClickableLogo: Story = {
 // Story with user profile popover
 export const UserProfilePopover: Story = {
   args: {
+    sections: defaultSections,
+    user: defaultUser,
     onLogOut: () => alert('Logging out...'),
     onChangeClient: () => alert('Changing client...'),
   },
@@ -184,6 +239,7 @@ export const CustomSections: Story = {
         ],
       },
     ] as NavSection[],
+    user: defaultUser,
   },
   render: (args) => (
     <div style={{ height: '100vh', display: 'flex' }}>

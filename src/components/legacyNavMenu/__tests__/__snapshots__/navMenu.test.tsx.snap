@@ -128,23 +128,6 @@ exports[`LegacyNavMenu should render correctly 1`] = `
               Networks
             </span>
           </button>
-        </div>
-      </div>
-      <div
-        class="navSection"
-      >
-        <div
-          class="sectionHeader"
-        >
-          <span
-            class="sectionTitle"
-          >
-            ACCOUNT
-          </span>
-        </div>
-        <div
-          class="sectionItems"
-        >
           <button
             class="navItem "
           >
@@ -181,12 +164,12 @@ exports[`LegacyNavMenu should render correctly 1`] = `
         <div
           class="userAvatar"
         >
-          R
+          B
         </div>
         <span
           class="userName"
         >
-          Rachel Foley
+          Bob Smith
         </span>
       </button>
     </div>
