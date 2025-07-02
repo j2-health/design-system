@@ -15,11 +15,10 @@ type ModalType = 'default' | 'success' | 'info' | 'warning' | 'error'
 
 export type Props = {
   isOpen: boolean
-  onClose: () => void
+  onClose?: () => void
+  onCancel?: () => void
   children: React.ReactNode
   title?: string
-  showCancel?: boolean
-  showOk?: boolean
   cancelText?: string
   okText?: string
   onOk?: () => void
@@ -61,33 +60,24 @@ const Modal = ({
   onClose,
   children,
   title = 'Modal title',
-  showCancel = true,
-  showOk = true,
+  onCancel,
   cancelText = 'Cancel',
   okText = 'Ok',
   onOk,
   type = 'default',
   ...props
 }: Props) => {
-  const handleCancel = () => {
-    onClose()
-  }
-
-  const handleOk = () => {
-    if (onOk) {
-      onOk()
-    } else {
-      onClose()
-    }
-  }
-
   const icon = useMemo(() => getIcon(type), [type])
 
   return (
     <AntdModal
       {...props}
       open={isOpen}
-      onCancel={handleCancel}
+      onCancel={onCancel}
+      closable={!!onClose}
+      afterClose={() => {
+        onClose?.()
+      }}
       title={
         icon ? (
           <div className="modal-title-with-icon">
@@ -101,19 +91,19 @@ const Modal = ({
         )
       }
       footer={
-        showCancel || showOk ? (
+        onCancel || onOk ? (
           <div
             className={cx('modal-footer', {
               'modal-footer-with-icon': icon,
             })}
           >
-            {showCancel && (
-              <Button type="default" onClick={handleCancel}>
+            {onCancel && (
+              <Button type="default" onClick={onCancel}>
                 {cancelText}
               </Button>
             )}
-            {showOk && (
-              <Button type="primary" onClick={handleOk}>
+            {onOk && (
+              <Button type="primary" onClick={onOk}>
                 {okText}
               </Button>
             )}
@@ -123,7 +113,7 @@ const Modal = ({
       className={cx('j2-modal', { 'j2-modal-with-icon': icon })}
       maskClosable={true}
       centered
-      closeIcon={<XIcon size={22} weight="regular" />}
+      closeIcon={onClose ? <XIcon size={22} weight="regular" /> : null}
     >
       <div
         className={cx('modal-content', {
