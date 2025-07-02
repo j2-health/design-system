@@ -1,28 +1,60 @@
 import { Modal as AntdModal, ModalProps } from 'antd'
-import { XIcon } from '@phosphor-icons/react'
+import {
+  XIcon,
+  CheckCircleIcon,
+  InfoIcon,
+  WarningCircleIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react'
 import { Button } from '../button'
 import './Modal.css'
+import { useMemo } from 'react'
+import cx from 'classnames'
+
+type ModalType = 'default' | 'success' | 'info' | 'warning' | 'error'
 
 export type Props = {
-  /** Controls whether the modal is visible */
   isOpen: boolean
-  /** Callback function called when the modal needs to be closed */
   onClose: () => void
-  /** Modal content */
   children: React.ReactNode
-  /** Modal title */
   title?: string
-  /** Show cancel button in footer */
   showCancel?: boolean
-  /** Show OK button in footer */
   showOk?: boolean
-  /** Cancel button text */
   cancelText?: string
-  /** OK button text */
   okText?: string
-  /** Callback for OK button click */
   onOk?: () => void
+  type?: ModalType
 } & Omit<ModalProps, 'open' | 'onCancel' | 'children'>
+
+const getIcon = (type: ModalType) => {
+  switch (type) {
+    case 'error':
+      return (
+        <XCircleIcon color="var(--j2-color-error)" weight="fill" size={24} />
+      )
+    case 'success':
+      return (
+        <CheckCircleIcon
+          color="var(--j2-color-success)"
+          weight="fill"
+          size={24}
+        />
+      )
+    case 'info':
+      return <InfoIcon color="var(--j2-color-info)" weight="fill" size={24} />
+    case 'warning':
+      return (
+        <WarningCircleIcon
+          color="var(--j2-color-warning)"
+          weight="fill"
+          size={24}
+        />
+      )
+    case 'default':
+    default:
+      return null
+  }
+}
 
 const Modal = ({
   isOpen,
@@ -34,6 +66,7 @@ const Modal = ({
   cancelText = 'Cancel',
   okText = 'Ok',
   onOk,
+  type = 'default',
   ...props
 }: Props) => {
   const handleCancel = () => {
@@ -48,15 +81,32 @@ const Modal = ({
     }
   }
 
+  const icon = useMemo(() => getIcon(type), [type])
+
   return (
     <AntdModal
       {...props}
       open={isOpen}
       onCancel={handleCancel}
-      title={title}
+      title={
+        icon ? (
+          <div className="modal-title-with-icon">
+            <div className="modal-icon">{icon}</div>
+            <div className="modal-title-content">
+              <div className="modal-title-text">{title}</div>
+            </div>
+          </div>
+        ) : (
+          title
+        )
+      }
       footer={
         showCancel || showOk ? (
-          <div className="modal-footer">
+          <div
+            className={cx('modal-footer', {
+              'modal-footer-with-icon': icon,
+            })}
+          >
             {showCancel && (
               <Button type="default" onClick={handleCancel}>
                 {cancelText}
@@ -70,12 +120,18 @@ const Modal = ({
           </div>
         ) : null
       }
-      className="j2-modal"
+      className={cx('j2-modal', { 'j2-modal-with-icon': icon })}
       maskClosable={true}
       centered
       closeIcon={<XIcon size={22} weight="regular" />}
     >
-      {children}
+      <div
+        className={cx('modal-content', {
+          'modal-content-with-icon': icon,
+        })}
+      >
+        {children}
+      </div>
     </AntdModal>
   )
 }

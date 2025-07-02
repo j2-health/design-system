@@ -43,6 +43,11 @@ const meta: Meta<typeof Modal> = {
       control: 'text',
       description: 'OK button text',
     },
+    type: {
+      control: 'select',
+      options: ['default', 'success', 'info', 'warning', 'error'],
+      description: 'Modal type - determines icon and styling',
+    },
   },
 }
 
@@ -67,10 +72,12 @@ const ModalWithState = (args: any) => {
           setIsOpen(false)
         }}
       >
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit interdum
-          hendrerit ex vitae sodales.
-        </p>
+        {args.children || (
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit interdum
+            hendrerit ex vitae sodales.
+          </p>
+        )}
       </Modal>
     </>
   )
@@ -80,6 +87,7 @@ export const Default: Story = {
   render: (args) => <ModalWithState {...args} />,
   args: {
     title: 'Modal title',
+    type: 'default',
     showCancel: true,
     showOk: true,
     cancelText: 'Cancel',
@@ -89,7 +97,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'The default modal with Phosphor close icon (X) in the top right corner.',
+          'The default modal with no icon, featuring a clean layout with just the title and content.',
       },
     },
   },
@@ -146,6 +154,76 @@ export const NoFooter: Story = {
           <Button type="primary">Another Action</Button>
         </div>
       </div>
+    ),
+  },
+}
+
+export const WithInfoIcon: Story = {
+  render: (args) => <ModalWithState {...args} />,
+  args: {
+    title: 'Information',
+    type: 'info',
+    showCancel: true,
+    showOk: true,
+    cancelText: 'Cancel',
+    okText: 'OK',
+    children: (
+      <p>
+        Interactively monetize corporate alignments and fully tested niche
+        markets.
+      </p>
+    ),
+  },
+}
+
+export const WithSuccessIcon: Story = {
+  render: (args) => <ModalWithState {...args} />,
+  args: {
+    title: 'Success!',
+    type: 'success',
+    showCancel: false,
+    showOk: true,
+    okText: 'Great!',
+    children: (
+      <p>
+        Your changes have been saved successfully. All data has been updated in
+        the system.
+      </p>
+    ),
+  },
+}
+
+export const WithWarningIcon: Story = {
+  render: (args) => <ModalWithState {...args} />,
+  args: {
+    title: 'Warning',
+    type: 'warning',
+    showCancel: true,
+    showOk: true,
+    cancelText: 'Cancel',
+    okText: 'Continue',
+    children: (
+      <p>
+        This action may have unintended consequences. Please review your
+        settings before proceeding.
+      </p>
+    ),
+  },
+}
+
+export const WithErrorIcon: Story = {
+  render: (args) => <ModalWithState {...args} />,
+  args: {
+    title: 'Error Occurred',
+    type: 'error',
+    showCancel: false,
+    showOk: true,
+    okText: 'Try Again',
+    children: (
+      <p>
+        Something went wrong while processing your request. Please check your
+        connection and try again.
+      </p>
     ),
   },
 }

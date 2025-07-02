@@ -2,10 +2,6 @@
 .j2-modal .ant-modal-content {
   background: var(--j2-color-bg-elevated);
   border-radius: var(--j2-border-radius-lg);
-  box-shadow:
-    0px 6px 16px 0px rgba(0, 0, 0, 0.08),
-    0px 3px 6px -4px rgba(0, 0, 0, 0.12),
-    0px 9px 28px 8px rgba(0, 0, 0, 0.05);
   padding: 0;
   overflow: hidden;
 }
@@ -20,6 +16,41 @@
 }
 
 .j2-modal .ant-modal-title {
+  font-family: var(--j2-font-family);
+  font-weight: var(--j2-font-weight-strong);
+  font-size: var(--j2-font-size-lg);
+  line-height: var(--j2-line-height-lg);
+  color: var(--j2-color-text-heading);
+  margin: 0;
+}
+
+/* Icon modal specific header styling */
+.j2-modal-with-icon .ant-modal-header {
+  padding: var(--j2-padding-md) var(--j2-padding-content-horizontal-lg) 0
+    var(--j2-padding-content-horizontal-lg);
+}
+
+.modal-title-with-icon {
+  display: flex;
+  gap: var(--j2-padding-sm);
+  align-items: flex-start;
+}
+
+.modal-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-title-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-title-text {
   font-family: var(--j2-font-family);
   font-weight: var(--j2-font-weight-strong);
   font-size: var(--j2-font-size-lg);
@@ -58,6 +89,16 @@
   color: var(--j2-color-text);
 }
 
+/* Icon modal specific body styling */
+.j2-modal-with-icon .ant-modal-body {
+  padding: var(--j2-padding-xs) var(--j2-padding-content-horizontal-lg)
+    var(--j2-padding-sm) var(--j2-padding-content-horizontal-lg);
+}
+
+.modal-content-with-icon {
+  margin-left: calc(24px + var(--j2-padding-sm));
+}
+
 /* Footer styling */
 .j2-modal .ant-modal-footer {
   background: transparent;
@@ -75,31 +116,11 @@
   align-items: center;
 }
 
+.modal-footer-with-icon {
+  margin-left: calc(24px + var(--j2-padding-sm));
+}
+
 /* Backdrop/mask styling */
 .j2-modal .ant-modal-mask {
   background: var(--j2-color-bg-mask);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .j2-modal .ant-modal-content {
-    margin: var(--j2-margin-md);
-  }
-
-  .j2-modal .ant-modal-header {
-    padding: var(--j2-padding) var(--j2-padding-md) var(--j2-padding-xs)
-      var(--j2-padding-md);
-  }
-
-  .j2-modal .ant-modal-body {
-    padding: 0 var(--j2-padding-md) var(--j2-padding-sm) var(--j2-padding-md);
-  }
-
-  .j2-modal .ant-modal-footer {
-    padding: 0 var(--j2-padding-md) var(--j2-padding) var(--j2-padding-md);
-  }
-
-  .j2-modal .ant-modal-close {
-    right: var(--j2-padding);
-  }
 }
