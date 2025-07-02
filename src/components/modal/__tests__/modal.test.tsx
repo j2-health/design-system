@@ -2,10 +2,10 @@ import { render } from '@testing-library/react'
 import { Modal } from '../Modal'
 
 describe('Modal', () => {
-  it('should render correctly with onClose', () => {
+  it('should render correctly', () => {
     const { container } = render(
       <Modal
-        isOpen={true}
+        open={true}
         onClose={jest.fn()}
         onCancel={jest.fn()}
         onOk={jest.fn()}

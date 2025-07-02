@@ -11,7 +11,7 @@ const meta: Meta<typeof Modal> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    isOpen: {
+    open: {
       control: 'boolean',
       description: 'Controls whether the modal is visible',
     },
@@ -63,7 +63,7 @@ const ModalWithState = (args: any) => {
       </Button>
       <Modal
         {...args}
-        isOpen={isOpen}
+        open={isOpen}
         onClose={() => setIsOpen(false)}
         onCancel={() => {
           console.log('Cancel clicked')
@@ -142,7 +142,7 @@ export const NoFooter: Story = {
         <Button type="primary" onClick={() => setIsOpen(true)}>
           Open Modal
         </Button>
-        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal {...args} open={isOpen} onClose={() => setIsOpen(false)}>
           {args.children}
         </Modal>
       </>
@@ -194,7 +194,7 @@ export const WithSuccessIcon: Story = {
         </Button>
         <Modal
           {...args}
-          isOpen={isOpen}
+          open={isOpen}
           onClose={() => setIsOpen(false)}
           onOk={() => {
             console.log('OK clicked')
@@ -246,7 +246,7 @@ export const WithErrorIcon: Story = {
         </Button>
         <Modal
           {...args}
-          isOpen={isOpen}
+          open={isOpen}
           onClose={() => setIsOpen(false)}
           onOk={() => {
             console.log('OK clicked')
@@ -282,7 +282,7 @@ export const NotClosable: Story = {
         </Button>
         <Modal
           {...args}
-          isOpen={isOpen}
+          open={isOpen}
           onClose={undefined}
           onCancel={undefined}
           onOk={() => {

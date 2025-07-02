@@ -14,16 +14,13 @@ import cx from 'classnames'
 type ModalType = 'default' | 'success' | 'info' | 'warning' | 'error'
 
 export type Props = {
-  isOpen: boolean
   onClose?: () => void
-  onCancel?: () => void
-  children: React.ReactNode
   title?: string
   cancelText?: string
   okText?: string
   onOk?: () => void
   type?: ModalType
-} & Omit<ModalProps, 'open' | 'onCancel' | 'children'>
+} & Expand<ModalProps>
 
 const getIcon = (type: ModalType) => {
   switch (type) {
@@ -56,7 +53,7 @@ const getIcon = (type: ModalType) => {
 }
 
 const Modal = ({
-  isOpen,
+  open,
   onClose,
   children,
   title = 'Modal title',
@@ -72,7 +69,7 @@ const Modal = ({
   return (
     <AntdModal
       {...props}
-      open={isOpen}
+      open={open}
       onCancel={onCancel}
       closable={!!onClose}
       afterClose={() => {
