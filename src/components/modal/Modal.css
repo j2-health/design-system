@@ -1,0 +1,126 @@
+/* Modal Component Styling */
+.j2-modal .ant-modal-content {
+  background: var(--j2-color-bg-elevated);
+  border-radius: var(--j2-border-radius-lg);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Header styling */
+.j2-modal .ant-modal-header {
+  background: transparent;
+  border-bottom: none;
+  padding: var(--j2-padding-md) var(--j2-padding-content-horizontal-lg)
+    var(--j2-padding-xs) var(--j2-padding-content-horizontal-lg);
+  margin: 0;
+}
+
+.j2-modal .ant-modal-title {
+  font-family: var(--j2-font-family);
+  font-weight: var(--j2-font-weight-strong);
+  font-size: var(--j2-font-size-lg);
+  line-height: var(--j2-line-height-lg);
+  color: var(--j2-color-text-heading);
+  margin: 0;
+}
+
+/* Icon modal specific header styling */
+.j2-modal-with-icon .ant-modal-header {
+  padding: var(--j2-padding-md) var(--j2-padding-content-horizontal-lg) 0
+    var(--j2-padding-content-horizontal-lg);
+}
+
+.modal-title-with-icon {
+  display: flex;
+  gap: var(--j2-padding-sm);
+  align-items: flex-start;
+}
+
+.modal-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-title-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-title-text {
+  font-family: var(--j2-font-family);
+  font-weight: var(--j2-font-weight-strong);
+  font-size: var(--j2-font-size-lg);
+  line-height: var(--j2-line-height-lg);
+  color: var(--j2-color-text-heading);
+  margin: 0;
+}
+
+/* Close button styling */
+.j2-modal .ant-modal-close {
+  top: var(--j2-padding);
+  right: var(--j2-padding-md);
+  width: 22px;
+  height: 22px;
+  color: var(--j2-color-icon);
+}
+
+.j2-modal .ant-modal-close-x {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  color: var(--j2-color-icon);
+}
+
+/* Body styling */
+.j2-modal .ant-modal-body {
+  padding: 0 var(--j2-padding-content-horizontal-lg) var(--j2-padding-sm)
+    var(--j2-padding-content-horizontal-lg);
+  font-family: var(--j2-font-family);
+  font-weight: var(--j2-font-weight-normal);
+  font-size: var(--j2-font-size);
+  line-height: var(--j2-line-height);
+  color: var(--j2-color-text);
+}
+
+/* Icon modal specific body styling */
+.j2-modal-with-icon .ant-modal-body {
+  padding: var(--j2-padding-xs) var(--j2-padding-content-horizontal-lg)
+    var(--j2-padding-sm) var(--j2-padding-content-horizontal-lg);
+}
+
+.modal-content-with-icon {
+  margin-left: calc(24px + var(--j2-padding-sm));
+}
+
+/* Footer styling */
+.j2-modal .ant-modal-footer {
+  background: transparent;
+  border-top: none;
+  padding: 0 var(--j2-padding-content-horizontal-lg) var(--j2-padding-md)
+    var(--j2-padding-content-horizontal-lg);
+  margin: 0;
+  text-align: right;
+}
+
+.modal-footer {
+  display: flex;
+  gap: var(--j2-margin-xs);
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-footer-with-icon {
+  margin-left: calc(24px + var(--j2-padding-sm));
+}
+
+/* Backdrop/mask styling */
+.j2-modal .ant-modal-mask {
+  background: var(--j2-color-bg-mask);
+}

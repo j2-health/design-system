@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal should render correctly 1`] = `
+<div
+  aria-labelledby="test-id"
+  aria-modal="true"
+  class="ant-modal css-dev-only-do-not-override-os2fvf j2-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+  role="dialog"
+  style="width: 520px;"
+>
+  <div
+    style="outline: none;"
+    tabindex="0"
+  >
+    <div
+      class="ant-modal-content"
+    >
+      <button
+        aria-label="Close"
+        class="ant-modal-close"
+        type="button"
+      >
+        <span
+          aria-label="Close"
+          class="ant-modal-close-x"
+        >
+          <svg
+            fill="currentColor"
+            height="22"
+            viewBox="0 0 256 256"
+            width="22"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        class="ant-modal-header"
+      >
+        <div
+          class="ant-modal-title"
+          id="test-id"
+        >
+          Test Modal
+        </div>
+      </div>
+      <div
+        class="ant-modal-body"
+      >
+        <div
+          class="modal-content"
+        >
+          Test content
+        </div>
+      </div>
+      <div
+        class="ant-modal-footer"
+      >
+        <div
+          class="modal-footer"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+            type="button"
+          >
+            <span>
+              Cancel
+            </span>
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+            type="button"
+          >
+            <span>
+              Ok
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+    tabindex="0"
+  />
+</div>
+`;
