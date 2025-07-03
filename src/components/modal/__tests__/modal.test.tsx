@@ -4,13 +4,7 @@ import { Modal } from '../Modal'
 describe('Modal', () => {
   it('should render correctly', () => {
     render(
-      <Modal
-        open={true}
-        onClose={jest.fn()}
-        onCancel={jest.fn()}
-        onOk={jest.fn()}
-        title="Test Modal"
-      >
+      <Modal open={true} title="Test Modal">
         Test content
       </Modal>
     )
