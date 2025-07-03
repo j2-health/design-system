@@ -15,19 +15,15 @@ const meta: Meta<typeof Modal> = {
       control: 'boolean',
       description: 'Controls whether the modal is visible',
     },
-    onClose: {
-      action: 'closed',
-      description:
-        'Optional callback function called when the modal needs to be closed. If not provided, modal will not be closable.',
-    },
     onCancel: {
       action: 'cancel clicked',
       description:
-        'Optional callback for Cancel button click. If provided, Cancel button will be shown.',
+        'Optional callback for Cancel button click. If provided, Cancel button and close (X) button will be shown.',
     },
     onOk: {
       action: 'ok clicked',
-      description: 'Callback for OK button click',
+      description:
+        'Optional callback for OK button click. If provided, OK button will be shown.',
     },
     title: {
       control: 'text',
@@ -56,24 +52,26 @@ type Story = StoryObj<typeof meta>
 const ModalWithState = (args: any) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  const handleCancel = (e: any) => {
+    if (args.onCancel) {
+      args.onCancel(e)
+    }
+    setIsOpen(false)
+  }
+
+  const handleOk = (e: any) => {
+    if (args.onOk) {
+      args.onOk(e)
+    }
+    setIsOpen(false)
+  }
+
   return (
     <>
       <Button type="primary" onClick={() => setIsOpen(true)}>
         Open Modal
       </Button>
-      <Modal
-        {...args}
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        onCancel={() => {
-          console.log('Cancel clicked')
-          setIsOpen(false)
-        }}
-        onOk={() => {
-          console.log('OK clicked')
-          setIsOpen(false)
-        }}
-      >
+      <Modal {...args} open={isOpen} onCancel={handleCancel} onOk={handleOk}>
         {args.children || (
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit interdum
@@ -91,7 +89,7 @@ export const Default: Story = {
     title: 'Modal title',
     type: 'default',
     cancelText: 'Cancel',
-    okText: 'Ok',
+    okText: 'OK',
   },
   parameters: {
     docs: {
@@ -142,7 +140,7 @@ export const NoFooter: Story = {
         <Button type="primary" onClick={() => setIsOpen(true)}>
           Open Modal
         </Button>
-        <Modal {...args} open={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal {...args} open={isOpen} onCancel={() => setIsOpen(false)}>
           {args.children}
         </Modal>
       </>
@@ -150,6 +148,7 @@ export const NoFooter: Story = {
   },
   args: {
     title: 'Custom Footer',
+    footer: null,
     children: (
       <div>
         <p>
@@ -195,7 +194,7 @@ export const WithSuccessIcon: Story = {
         <Modal
           {...args}
           open={isOpen}
-          onClose={() => setIsOpen(false)}
+          onCancel={() => setIsOpen(false)}
           onOk={() => {
             console.log('OK clicked')
             setIsOpen(false)
@@ -247,7 +246,7 @@ export const WithErrorIcon: Story = {
         <Modal
           {...args}
           open={isOpen}
-          onClose={() => setIsOpen(false)}
+          onCancel={() => setIsOpen(false)}
           onOk={() => {
             console.log('OK clicked')
             setIsOpen(false)
@@ -283,7 +282,6 @@ export const NotClosable: Story = {
         <Modal
           {...args}
           open={isOpen}
-          onClose={undefined}
           onCancel={undefined}
           onOk={() => {
             console.log('OK clicked')
@@ -302,14 +300,14 @@ export const NotClosable: Story = {
   },
   args: {
     title: 'Non-Closable Modal',
-    type: 'info',
     okText: 'Acknowledge',
+    closable: false,
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When onClose is not provided, the modal becomes non-closable. No close button is shown and clicking outside has no effect.',
+          'When closable is false is not provided, the modal becomes non-closable. No close button is shown and clicking outside has no effect.',
       },
     },
   },

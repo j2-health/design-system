@@ -6,7 +6,6 @@ import {
   WarningCircleIcon,
   XCircleIcon,
 } from '@phosphor-icons/react'
-import { Button } from '../button'
 import './Modal.css'
 import { useMemo } from 'react'
 import cx from 'classnames'
@@ -14,11 +13,6 @@ import cx from 'classnames'
 type ModalType = 'default' | 'success' | 'info' | 'warning' | 'error'
 
 export type Props = {
-  onClose?: () => void
-  title?: string
-  cancelText?: string
-  okText?: string
-  onOk?: () => void
   type?: ModalType
 } & Expand<ModalProps>
 
@@ -54,27 +48,16 @@ const getIcon = (type: ModalType) => {
 
 const Modal = ({
   open,
-  onClose,
-  children,
-  title = 'Modal title',
-  onCancel,
-  cancelText = 'Cancel',
-  okText = 'Ok',
-  onOk,
   type = 'default',
+  title,
+  children,
+  onCancel,
   ...props
 }: Props) => {
   const icon = useMemo(() => getIcon(type), [type])
 
   return (
     <AntdModal
-      {...props}
-      open={open}
-      onCancel={onCancel}
-      closable={!!onClose}
-      afterClose={() => {
-        onClose?.()
-      }}
       title={
         icon ? (
           <div className="modal-title-with-icon">
@@ -87,30 +70,13 @@ const Modal = ({
           title
         )
       }
-      footer={
-        onCancel || onOk ? (
-          <div
-            className={cx('modal-footer', {
-              'modal-footer-with-icon': icon,
-            })}
-          >
-            {onCancel && (
-              <Button type="default" onClick={onCancel}>
-                {cancelText}
-              </Button>
-            )}
-            {onOk && (
-              <Button type="primary" onClick={onOk}>
-                {okText}
-              </Button>
-            )}
-          </div>
-        ) : null
-      }
       className={cx('j2-modal', { 'j2-modal-with-icon': icon })}
       maskClosable={true}
       centered
-      closeIcon={onClose ? <XIcon size={22} weight="regular" /> : null}
+      closeIcon={<XIcon size={22} weight="regular" />}
+      onCancel={onCancel}
+      open={open}
+      {...props}
     >
       <div
         className={cx('modal-content', {
