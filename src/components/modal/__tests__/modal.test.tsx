@@ -3,16 +3,20 @@ import { Modal } from '../Modal'
 
 describe('Modal', () => {
   it('should render correctly', () => {
-    const { container } = render(
+    render(
       <Modal
         open={true}
         onClose={jest.fn()}
         onCancel={jest.fn()}
         onOk={jest.fn()}
+        title="Test Modal"
       >
         Test content
       </Modal>
     )
-    expect(container).toMatchSnapshot()
+
+    // Modal renders to a portal, so we need to find it in the document
+    const modal = document.querySelector('.j2-modal')
+    expect(modal).toMatchSnapshot()
   })
 })
