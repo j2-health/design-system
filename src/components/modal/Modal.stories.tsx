@@ -42,6 +42,10 @@ const meta: Meta<typeof Modal> = {
       options: ['default', 'success', 'info', 'warning', 'error'],
       description: 'Modal type - determines icon and styling',
     },
+    withContentPadding: {
+      control: 'boolean',
+      description: 'Whether to add padding to the modal content',
+    },
   },
 }
 
@@ -90,6 +94,7 @@ export const Default: Story = {
     type: 'default',
     cancelText: 'Cancel',
     okText: 'OK',
+    withContentPadding: true,
   },
   parameters: {
     docs: {

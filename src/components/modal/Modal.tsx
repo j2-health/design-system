@@ -14,6 +14,7 @@ type ModalType = 'default' | 'success' | 'info' | 'warning' | 'error'
 
 export type Props = {
   type?: ModalType
+  withContentPadding?: boolean
 } & Expand<ModalProps>
 
 const getIcon = (type: ModalType) => {
@@ -52,6 +53,7 @@ const Modal = ({
   title,
   children,
   onCancel,
+  withContentPadding: withPadding = true,
   ...props
 }: Props) => {
   const icon = useMemo(() => getIcon(type), [type])
@@ -79,9 +81,13 @@ const Modal = ({
       {...props}
     >
       <div
-        className={cx('px-6 py-3', {
-          'modal-content-with-icon': icon,
-        })}
+        className={cx(
+          'px-6 py-3',
+          {
+            'modal-content-with-icon': icon,
+          },
+          { 'px-0 py-0': !withPadding }
+        )}
       >
         {children}
       </div>
