@@ -80,10 +80,26 @@ import { NotificationModal } from './components/modal'
 
 ### Created:
 - `src/components/modal/NotificationModal.tsx` - Main component
-- `src/components/modal/NotificationModal.stories.tsx` - Storybook stories
+- `src/components/modal/NotificationModal.stories.tsx` - Comprehensive Storybook stories
 - Updated `src/components/modal/index.tsx` - Export statements
+
+### Storybook Stories Included:
+1. **Success** - Green checkmark icon for positive feedback
+2. **Info** - Blue info icon for general information  
+3. **Warning** - Orange warning icon for cautionary messages
+4. **Error** - Red X icon for error messages
+5. **WithLongContent** - Example with longer text content
+6. **WithoutPadding** - Custom layout with padding disabled
+
+Each story includes:
+- Interactive state management with open/close functionality
+- Descriptive documentation and controls
+- Realistic content examples
+- Proper button text for each notification type
 
 ### Note on Linter Errors
 During implementation, I encountered TypeScript/module resolution errors that appear to be related to workspace configuration rather than code issues. The dependencies (React, antd, @phosphor-icons/react) are properly installed according to package.json, but the TypeScript compiler couldn't resolve them in this environment.
+
+Notably, the existing `Modal.stories.tsx` file uses identical import patterns and has the same linter warnings, indicating this is an environment-specific configuration issue rather than a code problem.
 
 The implementation logic is sound and follows the patterns established in the existing codebase.
