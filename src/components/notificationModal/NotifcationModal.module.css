@@ -1,0 +1,32 @@
+.modalTitleWithIcon {
+  display: flex;
+  gap: var(--j2-padding-sm);
+  align-items: flex-start;
+}
+
+.modalIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalTitleContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalTitleText {
+  font-family: var(--j2-font-family);
+  font-weight: var(--j2-font-weight-strong);
+  font-size: var(--j2-font-size-lg);
+  line-height: var(--j2-line-height-lg);
+  color: var(--j2-color-text-heading);
+  margin: 0;
+}
+
+.modalContentWithIcon {
+  margin-left: calc(24px + var(--j2-padding-sm));
+}

@@ -37,11 +37,6 @@ const meta: Meta<typeof Modal> = {
       control: 'text',
       description: 'OK button text',
     },
-    type: {
-      control: 'select',
-      options: ['default', 'success', 'info', 'warning', 'error'],
-      description: 'Modal type - determines icon and styling',
-    },
     withContentPadding: {
       control: 'boolean',
       description: 'Whether to add padding to the modal content',
@@ -91,7 +86,6 @@ export const Default: Story = {
   render: (args) => <ModalWithState {...args} />,
   args: {
     title: 'Modal title',
-    type: 'default',
     cancelText: 'Cancel',
     okText: 'OK',
     withContentPadding: true,
@@ -167,110 +161,6 @@ export const NoFooter: Story = {
           <Button type="primary">Another Action</Button>
         </div>
       </div>
-    ),
-  },
-}
-
-export const WithInfoIcon: Story = {
-  render: (args) => <ModalWithState {...args} />,
-  args: {
-    title: 'Information',
-    type: 'info',
-    cancelText: 'Cancel',
-    okText: 'OK',
-    children: (
-      <p>
-        Interactively monetize corporate alignments and fully tested niche
-        markets.
-      </p>
-    ),
-  },
-}
-
-export const WithSuccessIcon: Story = {
-  render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
-
-    return (
-      <>
-        <Button type="primary" onClick={() => setIsOpen(true)}>
-          Open Modal
-        </Button>
-        <Modal
-          {...args}
-          open={isOpen}
-          onCancel={() => setIsOpen(false)}
-          onOk={() => {
-            console.log('OK clicked')
-            setIsOpen(false)
-          }}
-        >
-          {args.children}
-        </Modal>
-      </>
-    )
-  },
-  args: {
-    title: 'Success!',
-    type: 'success',
-    okText: 'Great!',
-    children: (
-      <p>
-        Your changes have been saved successfully. All data has been updated in
-        the system.
-      </p>
-    ),
-  },
-}
-
-export const WithWarningIcon: Story = {
-  render: (args) => <ModalWithState {...args} />,
-  args: {
-    title: 'Warning',
-    type: 'warning',
-    cancelText: 'Cancel',
-    okText: 'Continue',
-    children: (
-      <p>
-        This action may have unintended consequences. Please review your
-        settings before proceeding.
-      </p>
-    ),
-  },
-}
-
-export const WithErrorIcon: Story = {
-  render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
-
-    return (
-      <>
-        <Button type="primary" onClick={() => setIsOpen(true)}>
-          Open Modal
-        </Button>
-        <Modal
-          {...args}
-          open={isOpen}
-          onCancel={() => setIsOpen(false)}
-          onOk={() => {
-            console.log('OK clicked')
-            setIsOpen(false)
-          }}
-        >
-          {args.children}
-        </Modal>
-      </>
-    )
-  },
-  args: {
-    title: 'Error Occurred',
-    type: 'error',
-    okText: 'Try Again',
-    children: (
-      <p>
-        Something went wrong while processing your request. Please check your
-        connection and try again.
-      </p>
     ),
   },
 }

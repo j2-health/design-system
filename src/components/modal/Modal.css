@@ -34,35 +34,6 @@
     var(--j2-padding-content-horizontal-lg);
 }
 
-.modal-title-with-icon {
-  display: flex;
-  gap: var(--j2-padding-sm);
-  align-items: flex-start;
-}
-
-.modal-icon {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-title-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.modal-title-text {
-  font-family: var(--j2-font-family);
-  font-weight: var(--j2-font-weight-strong);
-  font-size: var(--j2-font-size-lg);
-  line-height: var(--j2-line-height-lg);
-  color: var(--j2-color-text-heading);
-  margin: 0;
-}
-
 /* Close button styling */
 .j2-modal .ant-modal-close {
   top: var(--j2-padding);
@@ -91,10 +62,6 @@
   color: var(--j2-color-text);
 }
 
-.modal-content-with-icon {
-  margin-left: calc(24px + var(--j2-padding-sm));
-}
-
 /* Footer styling */
 .j2-modal .ant-modal-footer {
   background: transparent;
@@ -103,17 +70,6 @@
     var(--j2-padding-content-horizontal-lg);
   margin: 0;
   text-align: right;
-}
-
-.modal-footer {
-  display: flex;
-  gap: var(--j2-margin-xs);
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.modal-footer-with-icon {
-  margin-left: calc(24px + var(--j2-padding-sm));
 }
 
 /* Backdrop/mask styling */
