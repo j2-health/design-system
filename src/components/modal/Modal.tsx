@@ -79,7 +79,7 @@ const Modal = ({
       {...props}
     >
       <div
-        className={cx('modal-content', {
+        className={cx('px-6 py-3', {
           'modal-content-with-icon': icon,
         })}
       >

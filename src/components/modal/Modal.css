@@ -84,19 +84,11 @@
 
 /* Body styling */
 .j2-modal .ant-modal-body {
-  padding: 0 var(--j2-padding-content-horizontal-lg) var(--j2-padding-sm)
-    var(--j2-padding-content-horizontal-lg);
   font-family: var(--j2-font-family);
   font-weight: var(--j2-font-weight-normal);
   font-size: var(--j2-font-size);
   line-height: var(--j2-line-height);
   color: var(--j2-color-text);
-}
-
-/* Icon modal specific body styling */
-.j2-modal-with-icon .ant-modal-body {
-  padding: var(--j2-padding-xs) var(--j2-padding-content-horizontal-lg)
-    var(--j2-padding-sm) var(--j2-padding-content-horizontal-lg);
 }
 
 .modal-content-with-icon {
