@@ -28,6 +28,8 @@ export interface LegacyNavMenuProps {
   logoUrl?: string
   onLogOut?: () => void
   onChangeClient?: () => void
+  headerSlot?: React.ReactNode
+  footerSlot?: React.ReactNode
 }
 
 export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
@@ -37,6 +39,8 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
   logoUrl = '/',
   onLogOut,
   onChangeClient,
+  headerSlot,
+  footerSlot,
 }) => {
   const handleItemClick = (itemId: string) => {
     onItemClick?.(itemId)
@@ -53,6 +57,8 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
           </a>
         </div>
       </div>
+
+      {headerSlot && <div className="px-4">{headerSlot}</div>}
 
       {/* Navigation Sections */}
       <div className={styles.navContent}>
@@ -81,6 +87,8 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
           </div>
         ))}
       </div>
+
+      {footerSlot && <div className="px-4">{footerSlot}</div>}
 
       {/* User Profile Section */}
       <UserProfile
