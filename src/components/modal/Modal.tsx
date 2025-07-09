@@ -26,7 +26,7 @@ const Modal = ({
       open={open}
       {...props}
     >
-      <div className={cx('px-6 py-3', { 'px-0 py-0': !withPadding })}>
+      <div className={cx(withPadding ? 'px-6 py-3' : 'px-0 py-0')}>
         {children}
       </div>
     </AntdModal>
