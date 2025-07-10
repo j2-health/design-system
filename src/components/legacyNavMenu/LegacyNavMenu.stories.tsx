@@ -91,3 +91,12 @@ export const Default: Story = {
     </div>
   ),
 }
+
+export const WithHeaderAndFooter: Story = {
+  args: {
+    sections: defaultSections,
+    user: defaultUser,
+    headerSlot: <div>Header content goes here</div>,
+    footerSlot: <div>Footer content goes here</div>,
+  },
+}

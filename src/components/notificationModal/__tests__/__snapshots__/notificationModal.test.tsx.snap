@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Modal should render correctly 1`] = `
+exports[`NotificationModal should render correctly 1`] = `
 <div
   aria-labelledby="test-id"
   aria-modal="true"
@@ -44,7 +44,34 @@ exports[`Modal should render correctly 1`] = `
           class="ant-modal-title"
           id="test-id"
         >
-          Test Modal
+          <div
+            class="modalTitleWithIcon"
+          >
+            <div
+              class="modalIcon"
+            >
+              <svg
+                fill="var(--j2-color-info)"
+                height="24"
+                viewBox="0 0 256 256"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"
+                />
+              </svg>
+            </div>
+            <div
+              class="modalTitleContent"
+            >
+              <div
+                class="modalTitleText"
+              >
+                Test Modal
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -53,7 +80,11 @@ exports[`Modal should render correctly 1`] = `
         <div
           class="px-6 py-3"
         >
-          Test content
+          <div
+            class="modalContentWithIcon"
+          >
+            Test content
+          </div>
         </div>
       </div>
       <div
