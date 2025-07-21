@@ -9,6 +9,7 @@ import { AnyObject } from 'antd/es/_util/type'
 
 type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
+  alternatingRows?: boolean
   columns?: TableProps<T>['columns']
 }
 
@@ -29,7 +30,11 @@ export const defaultSortIcon = ({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Table = <T = any,>({ verticalBorders, ...props }: Props<T>) => {
+const Table = <T = any,>({
+  verticalBorders,
+  alternatingRows,
+  ...props
+}: Props<T>) => {
   const defaultLoadingProps: SpinProps = {
     indicator: <Spinner className="!w-fit !h-fit !mx-0 translate-x-[-50%]" />,
     tip: (
@@ -57,6 +62,7 @@ const Table = <T = any,>({ verticalBorders, ...props }: Props<T>) => {
     <div
       className={cx(props.className, {
         [s.bordered]: props.bordered && !verticalBorders,
+        [s.alternatingRows]: alternatingRows,
       })}
     >
       <AntdTable<T>

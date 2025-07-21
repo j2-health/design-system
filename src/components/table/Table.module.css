@@ -45,3 +45,7 @@
   white-space: nowrap;
   color: var(--j2-color-primary) !important;
 }
+
+.alternatingRows :global(.ant-table-tbody > tr:nth-child(even)) {
+  background-color: #fafafa !important;
+}
