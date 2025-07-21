@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { MagnifyingGlass, ArrowDown } from '@phosphor-icons/react'
+import { MagnifyingGlassIcon, ArrowDownIcon } from '@phosphor-icons/react'
 
 const IconExample = () => {
   return (
     <div style={{ display: 'flex', gap: '16px' }}>
-      <MagnifyingGlass />
-      <ArrowDown />
+      <MagnifyingGlassIcon />
+      <ArrowDownIcon />
     </div>
   )
 }

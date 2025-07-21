@@ -1,5 +1,5 @@
 import { Button } from '../button'
-import { Trash } from '@phosphor-icons/react'
+import { TrashIcon } from '@phosphor-icons/react'
 import { FilterInput } from './FilterInput'
 import cx from 'classnames'
 import s from './FiltersForm.module.css'
@@ -59,7 +59,7 @@ export const FilterGroup = ({
           />
           <Button
             type="text"
-            icon={<Trash />}
+            icon={<TrashIcon />}
             onClick={() => onRemove(filterIndex)}
           />
         </div>

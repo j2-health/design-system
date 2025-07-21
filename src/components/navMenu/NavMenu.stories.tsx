@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { NavMenu } from './NavMenu'
 import {
-  Brain,
-  ChartLine,
-  ChartPolar,
-  ChefHat,
-  Database,
-  Detective,
-  FastForward,
-  Gear,
-  HouseSimple,
-  SignOut,
-  Wall,
+  BrainIcon,
+  ChartLineIcon,
+  ChartPolarIcon,
+  ChefHatIcon,
+  DatabaseIcon,
+  DetectiveIcon,
+  FastForwardIcon,
+  GearIcon,
+  HouseSimpleIcon,
+  SignOutIcon,
+  WallIcon,
 } from '@phosphor-icons/react'
 import cx from 'classnames'
 import { ItemType } from 'antd/es/menu/interface'
@@ -21,44 +21,44 @@ const items = [
   {
     key: 'network-management',
     label: 'Network Management',
-    icon: <ChefHat size={20} />,
+    icon: <ChefHatIcon size={20} />,
     children: [
       {
         key: 'insights-hub',
         label: 'Insights Hub',
-        icon: <HouseSimple size={20} />,
+        icon: <HouseSimpleIcon size={20} />,
       },
       {
         key: 'network-optimizer',
         label: 'Network Optimizer',
-        icon: <Brain size={20} />,
+        icon: <BrainIcon size={20} />,
       },
       {
         key: 'quality-metrics',
         label: 'Quality Metrics',
-        icon: <ChartPolar size={20} />,
+        icon: <ChartPolarIcon size={20} />,
       },
       {
         key: 'provider-optimization',
         label: 'Provider Optimization',
-        icon: <FastForward size={20} />,
+        icon: <FastForwardIcon size={20} />,
       },
     ],
   },
   {
     key: 'data-management',
     label: 'Data Management',
-    icon: <Database size={20} />,
+    icon: <DatabaseIcon size={20} />,
     children: [
       {
         key: 'admin-portal',
         label: 'Admin Portal',
-        icon: <Detective size={20} />,
+        icon: <DetectiveIcon size={20} />,
       },
       {
         key: 'dashboards',
         label: 'Dashboards',
-        icon: <ChartLine size={20} />,
+        icon: <ChartLineIcon size={20} />,
       },
     ],
   },
@@ -68,7 +68,7 @@ const footerItems: ItemType[] = [
   {
     key: 'settings',
     label: 'Settings',
-    icon: <Gear size={20} />,
+    icon: <GearIcon size={20} />,
     onClick: () => {
       alert('Settings')
     },
@@ -79,7 +79,7 @@ const footerItems: ItemType[] = [
   {
     key: 'logout',
     label: <a>Logout</a>,
-    icon: <SignOut size={20} />,
+    icon: <SignOutIcon size={20} />,
   },
 ]
 
@@ -124,7 +124,7 @@ export const WithHeaderSlot: Story = {
     headerSlot: (
       <Button className={cx('w-full', 'flex', 'justify-between')} type="dashed">
         <span>Network Intelligence</span>
-        <Wall />
+        <WallIcon />
       </Button>
     ),
   },

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Tag as AntdTag, TagProps } from 'antd'
 import {
-  ArrowsClockwise,
-  CheckCircle,
-  Gear,
+  ArrowsClockwiseIcon,
+  CheckCircleIcon,
+  GearIcon,
   Icon,
-  WarningCircle,
-  XCircle,
+  WarningCircleIcon,
+  XCircleIcon,
 } from '@phosphor-icons/react'
 import './Tag.css'
 
@@ -17,11 +17,11 @@ type Props = Expand<Omit<TagProps, 'icon'>> & {
 }
 
 const colorToIcon = {
-  error: XCircle,
-  success: CheckCircle,
-  warning: WarningCircle,
-  processing: ArrowsClockwise,
-  default: Gear,
+  error: XCircleIcon,
+  success: CheckCircleIcon,
+  warning: WarningCircleIcon,
+  processing: ArrowsClockwiseIcon,
+  default: GearIcon,
 }
 
 const statusToColor = {
