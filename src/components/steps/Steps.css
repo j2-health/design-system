@@ -1,0 +1,52 @@
+.j2Steps {
+  .ant-steps-item-custom > .ant-steps-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-steps-item-custom:has(.vertical-check) > .ant-steps-item-container {
+    align-items: flex-start;
+  }
+
+  .check-icon,
+  .vertical-check-icon {
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .check-icon {
+    align-items: center !important;
+  }
+
+  .vertical-check-icon {
+    align-items: flex-start !important;
+  }
+
+  .check-small,
+  .check-default {
+    border-radius: 50%;
+  }
+
+  .check-small {
+    width: 24px;
+    height: 24px;
+    background-color: var(--j2-blue-1);
+  }
+
+  .check-default {
+    width: 32px;
+    height: 32px;
+    background-color: var(--j2-blue-1);
+  }
+
+  .check-default svg,
+  .check-small svg {
+    display: block;
+    margin: auto;
+  }
+
+  .ant-steps-item-title::after {
+    color: var(--j2-blue-9);
+  }
+}
