@@ -1,0 +1,18 @@
+.j2-drawer {
+  .ant-drawer-header {
+    height: 64px;
+  }
+
+  .ant-drawer-title {
+    font-size: var(--j2-font-size-heading-4);
+    color: var(--j2-color-primary-text);
+  }
+
+  .ant-drawer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--j2-gray-3);
+    height: 72px;
+  }
+}
