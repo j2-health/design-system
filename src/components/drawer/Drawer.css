@@ -15,8 +15,4 @@
     background-color: var(--j2-gray-3);
     height: 72px;
   }
-
-  .ant-drawer-footer button {
-    size: large;
-  }
 }
