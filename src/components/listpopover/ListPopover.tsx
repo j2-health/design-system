@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { Popover } from '../popover/Popover'
 import { Button } from '../button/Button'
-import { Copy } from '@phosphor-icons/react'
+import { CopyIcon } from '@phosphor-icons/react'
 import { Tooltip } from '../tooltip'
 import { OpenMessageFunc } from '../message/useMessage'
 import s from './ListPopover.module.css'
@@ -27,7 +27,7 @@ const CopyButton = ({
     <Button
       type="text"
       icon={
-        <Copy
+        <CopyIcon
           onClick={() => {
             navigator.clipboard.writeText(textToCopy)
             openMessage('success', 'Copied to Clipboard')

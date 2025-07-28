@@ -3,7 +3,11 @@ import { Select as AntDSelect } from 'formik-antd'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import type { SelectProps as AntDSelectProps } from 'antd'
-import { CaretDown, MagnifyingGlass, XCircle } from '@phosphor-icons/react'
+import {
+  CaretDownIcon,
+  MagnifyingGlassIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react'
 import { useState } from 'react'
 
 type SelectProps = Expand<AntDSelectProps> & {
@@ -50,15 +54,15 @@ export const Select = (props: SelectProps) => {
             data-testid="loading-spinner"
           />
         ) : props.showSearch && isFocused ? (
-          <MagnifyingGlass size={14} data-testid="magnifying-glass" />
+          <MagnifyingGlassIcon size={14} data-testid="magnifying-glass" />
         ) : (
-          <CaretDown size={14} data-testid="caret-down" />
+          <CaretDownIcon size={14} data-testid="caret-down" />
         )
       }
       popupRender={dropdownRender}
-      removeIcon={<XCircle size={12} />}
+      removeIcon={<XCircleIcon size={12} />}
       allowClear={
-        props.allowClear ? { clearIcon: <XCircle size={14} /> } : false
+        props.allowClear ? { clearIcon: <XCircleIcon size={14} /> } : false
       }
       showSearch={props.showSearch}
       onSearch={props.onSearch ? handleSearch : undefined}

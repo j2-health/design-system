@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { LegacyNavMenu } from './LegacyNavMenu'
 import type { NavSection, LegacyNavMenuUser } from './LegacyNavMenu'
-import { ChartPie, FileText, Network, Question } from '@phosphor-icons/react'
+import {
+  ChartPieIcon,
+  FileTextIcon,
+  NetworkIcon,
+  QuestionIcon,
+} from '@phosphor-icons/react'
 
 // Default data moved from component
 const defaultSections: NavSection[] = [
@@ -11,12 +16,12 @@ const defaultSections: NavSection[] = [
       {
         id: 'scorecard',
         label: 'Scorecard',
-        icon: <ChartPie size={24} />,
+        icon: <ChartPieIcon size={24} />,
       },
       {
         id: 'reports',
         label: 'Reports',
-        icon: <FileText size={24} />,
+        icon: <FileTextIcon size={24} />,
       },
     ],
   },
@@ -27,7 +32,7 @@ const defaultSections: NavSection[] = [
         id: 'networks',
         label: 'Networks',
         isActive: true,
-        icon: <Network size={24} />,
+        icon: <NetworkIcon size={24} />,
       },
     ],
   },
@@ -37,7 +42,7 @@ const defaultSections: NavSection[] = [
       {
         id: 'user-guide',
         label: 'User Guide',
-        icon: <Question size={24} />,
+        icon: <QuestionIcon size={24} />,
       },
     ],
   },

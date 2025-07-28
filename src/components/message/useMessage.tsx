@@ -1,7 +1,11 @@
 import { message } from 'antd'
 import styles from './Message.module.css'
 import cx from 'classnames'
-import { CheckCircle, WarningCircle, XCircle } from '@phosphor-icons/react'
+import {
+  CheckCircleIcon,
+  WarningCircleIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react'
 
 type NotificationType = 'success' | 'warning' | 'error'
 
@@ -14,7 +18,7 @@ const getIcon = (type: NotificationType) => {
   switch (type) {
     case 'success':
       return (
-        <CheckCircle
+        <CheckCircleIcon
           weight="fill"
           color="var(--j2-color-success)"
           size={16}
@@ -23,7 +27,7 @@ const getIcon = (type: NotificationType) => {
       )
     case 'warning':
       return (
-        <WarningCircle
+        <WarningCircleIcon
           weight="fill"
           color="var(--j2-color-warning)"
           size={16}
@@ -32,7 +36,7 @@ const getIcon = (type: NotificationType) => {
       )
     case 'error':
       return (
-        <XCircle
+        <XCircleIcon
           weight="fill"
           color="var(--j2-color-error)"
           size={16}

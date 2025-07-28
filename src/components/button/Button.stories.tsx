@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './Button'
-import { ChefHat } from '@phosphor-icons/react'
+import { ChefHatIcon } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Button',
@@ -53,7 +53,7 @@ const meta = {
       control: 'radio',
       options: ['With Icon', 'No Icon'],
       mapping: {
-        'With Icon': <ChefHat />,
+        'With Icon': <ChefHatIcon />,
         'No Icon': undefined,
       },
     },

@@ -1,5 +1,5 @@
 import { Button } from '../button'
-import { PlusCircle, Trash } from '@phosphor-icons/react'
+import { PlusCircleIcon, TrashIcon } from '@phosphor-icons/react'
 import s from './FiltersForm.module.css'
 import cx from 'classnames'
 import { FilterForm, FilterConfig } from '.'
@@ -130,7 +130,7 @@ export const FiltersForm = ({
                 {filterGroups.length > 0 ? (
                   <Button
                     type="text"
-                    icon={<Trash />}
+                    icon={<TrashIcon />}
                     onClick={() => dispatch({ type: 'removeNewFilter' })}
                   />
                 ) : (
@@ -142,7 +142,7 @@ export const FiltersForm = ({
         )}
         <div className="flex items-center">
           <Button
-            icon={<PlusCircle />}
+            icon={<PlusCircleIcon />}
             onClick={() => dispatch({ type: 'openNewFilterInput' })}
             disabled={!isValid}
           >

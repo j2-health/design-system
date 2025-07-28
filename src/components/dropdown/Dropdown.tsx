@@ -1,6 +1,6 @@
 import { Dropdown as AntdDropdown, DropdownProps, Typography } from 'antd'
 import { Button } from '../button'
-import { CaretDown } from '@phosphor-icons/react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 import './Dropdown.css'
 
 const { Link } = Typography
@@ -15,7 +15,7 @@ export type Props = Expand<CombinedProps>
 const Label = ({ label }: { label: string }) => (
   <div className="flex items-center gap-2">
     {label}
-    <CaretDown weight="regular" />
+    <CaretDownIcon weight="regular" />
   </div>
 )
 

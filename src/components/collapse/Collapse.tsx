@@ -1,5 +1,5 @@
 import { Collapse as AntdCollapse, CollapseProps } from 'antd'
-import { CaretDown } from '@phosphor-icons/react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 
 export type Props = Expand<CollapseProps>
 
@@ -8,7 +8,7 @@ const Collapse = ({ ...props }: Props) => {
     <AntdCollapse
       {...props}
       expandIcon={({ isActive }) => (
-        <CaretDown
+        <CaretDownIcon
           size={14}
           style={{ transform: `rotate(${isActive ? 0 : -90}deg)` }}
         />

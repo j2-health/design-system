@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Table } from './Table'
 import s from './TableStories.module.css'
-import { Check, X } from '@phosphor-icons/react'
+import { CheckIcon, XIcon } from '@phosphor-icons/react'
 import { Rate } from 'antd'
 
 const meta = {
@@ -82,7 +82,7 @@ export const Default: Story = {
       {
         dataIndex: 'electric',
         title: 'Electric',
-        render: (value) => (value ? <Check /> : <X />),
+        render: (value) => (value ? <CheckIcon /> : <XIcon />),
       },
       {
         dataIndex: 'rating',
@@ -190,7 +190,7 @@ export const AlternatingRows: Story = {
       {
         dataIndex: 'electric',
         title: 'Electric',
-        render: (value) => (value ? <Check /> : <X />),
+        render: (value) => (value ? <CheckIcon /> : <XIcon />),
       },
       {
         dataIndex: 'rating',

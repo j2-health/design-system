@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Tag } from './Tag'
-import { ChefHat } from '@phosphor-icons/react'
+import { ChefHatIcon } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Tag',
@@ -47,6 +47,6 @@ export const CustomIcon: Story = {
     children: 'Look at me, I have a hat!',
     status: 'default',
     showIcon: true,
-    icon: ChefHat,
+    icon: ChefHatIcon,
   },
 }

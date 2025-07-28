@@ -3,7 +3,11 @@ import cx from 'classnames'
 
 import s from './Table.module.css'
 import { Spinner } from '../spinner'
-import { CaretDown, CaretUp, CaretUpDown } from '@phosphor-icons/react'
+import {
+  CaretDownIcon,
+  CaretUpIcon,
+  CaretUpDownIcon,
+} from '@phosphor-icons/react'
 import { ComponentProps } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
 
@@ -21,12 +25,12 @@ export const defaultSortIcon = ({
   sortOrder: 'ascend' | 'descend' | null
 }) => {
   if (sortOrder == 'ascend') {
-    return <CaretUp />
+    return <CaretUpIcon />
   } else if (sortOrder == 'descend') {
-    return <CaretDown />
+    return <CaretDownIcon />
   }
 
-  return <CaretUpDown />
+  return <CaretUpDownIcon />
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,4 +1,4 @@
-import { Star } from '@phosphor-icons/react'
+import { StarIcon } from '@phosphor-icons/react'
 import { Rate as AntdRate, RateProps } from 'antd'
 import './Rate.css'
 
@@ -13,7 +13,7 @@ export const Rate = ({ count = 5, ...props }: Props) => {
       disabled={true}
       allowHalf={true}
       allowClear={true}
-      character={<Star weight="fill" />}
+      character={<StarIcon weight="fill" />}
     />
   )
 }
