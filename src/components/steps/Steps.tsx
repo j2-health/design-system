@@ -5,10 +5,8 @@ import cx from 'classnames'
 import { useSteps } from './useSteps'
 
 type AllProps = StepsProps & {
-  items?: StepProps[]
+  items: StepProps[]
   dot?: boolean
-  size?: 'default' | 'small'
-  direction?: 'horizontal' | 'vertical'
   current?: number
   setCurrent?: (current: number) => void
 }
@@ -20,11 +18,9 @@ export const Steps = ({
   current,
   setCurrent,
   dot = false,
-  size = 'default',
-  direction = 'horizontal',
   ...props
 }: Props) => {
-  const isVertical = direction === 'vertical'
+  const isVertical = props.direction === 'vertical'
   const totalSteps = items?.length || 0
 
   const { current: currentStep, setCurrent: setCurrentStep } = useSteps({
@@ -38,8 +34,6 @@ export const Steps = ({
       className="j2Steps"
       {...props}
       current={currentStep}
-      direction={direction}
-      size={size}
       onChange={(curr) => setCurrentStep(curr)}
       {...(dot && { progressDot: true })}
       items={items?.map((item, index) => {
@@ -49,7 +43,7 @@ export const Steps = ({
             !dot && currentStep > index ? (
               <div
                 className={cx(
-                  `check-${size}`,
+                  `check-${props.size}`,
                   isVertical ? `vertical-check-icon` : `check-icon`
                 )}
               >
