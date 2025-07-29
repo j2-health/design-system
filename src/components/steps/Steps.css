@@ -4,7 +4,7 @@
     align-items: center;
   }
 
-  .ant-steps-item-custom:has(.vertical-check) > .ant-steps-item-container {
+  .ant-steps-item-custom:has(.vertical-check-icon) > .ant-steps-item-container {
     align-items: flex-start;
   }
 
