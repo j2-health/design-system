@@ -1,0 +1,40 @@
+.j2-switch {
+  &.ant-switch {
+    min-width: 44px !important;
+    width: 44px !important;
+  }
+
+  &.ant-switch-small {
+    min-width: 28px !important;
+    width: 28px !important;
+  }
+
+  .ant-switch-inner-checked {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .ant-switch-inner-unchecked {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+
+  .ant-switch-inner-checked:has(svg) {
+    justify-content: flex-end !important;
+    padding-left: 0 !important;
+  }
+
+  .ant-switch-inner-unchecked:has(svg) {
+    justify-content: flex-start !important;
+    padding-left: 0 !important;
+  }
+
+  .ant-switch-inner-checked svg,
+  .ant-switch-inner-unchecked svg {
+    display: block !important;
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+  }
+}
