@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { Switch } from './Switch'
 import { CheckIcon, XIcon } from '@phosphor-icons/react'
+import { useState } from 'react'
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -55,9 +56,13 @@ export const Disabled: Story = {
 
 export const Icon: Story = {
   render: (args) => {
+    const [checked, setChecked] = useState(false)
+
     return (
       <Switch
         {...args}
+        checked={checked}
+        onChange={(checked) => setChecked(checked)}
         checkedChildren={<CheckIcon size={14} weight="bold" />}
         unCheckedChildren={<XIcon size={14} weight="bold" />}
       />
