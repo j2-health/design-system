@@ -15,7 +15,12 @@ export type Props = CardProps & {
 
 const Card = ({ title, children, loading, ...props }: Props) => {
   return (
-    <AntdCard className="j2-card" {...props} title={title} loading={loading}>
+    <AntdCard
+      className={`j2-card j2-card-${props.size}`}
+      {...props}
+      title={title}
+      loading={loading}
+    >
       {children}
     </AntdCard>
   )

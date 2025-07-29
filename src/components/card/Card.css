@@ -13,5 +13,27 @@
 .j2-card {
   .ant-card-head {
     border-bottom: none;
+    min-height: 40px;
+    justify-content: flex-end;
+  }
+
+  .ant-tabs-nav-list {
+    max-height: 46px;
+    min-height: 38px;
+  }
+}
+
+.j2-card-small {
+  .ant-card-head {
+    justify-content: center;
+  }
+
+  .ant-card-head-title {
+    margin-top: 8px;
+  }
+
+  .ant-tabs-nav-list {
+    max-height: 38px;
+    min-height: 30px;
   }
 }

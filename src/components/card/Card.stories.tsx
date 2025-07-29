@@ -14,6 +14,12 @@ const meta = {
         type: 'boolean',
       },
     },
+    size: {
+      control: {
+        type: 'select',
+        options: ['default', 'small'],
+      },
+    },
   },
 } satisfies Meta<typeof Card>
 
@@ -25,12 +31,14 @@ export const Default: Story = {
     title: 'Network Performance Overview',
     children:
       'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
+    size: 'default',
   },
 }
 
 export const WithTabs: Story = {
   args: {
     ...Default.args,
+    size: 'default',
     tabList: [
       {
         key: 'optimization_tips',
@@ -48,6 +56,7 @@ export const Borderless: Story = {
   args: {
     ...Default.args,
     bordered: false,
+    size: 'default',
   },
 }
 
@@ -57,6 +66,7 @@ export const Inner: Story = {
     type: 'inner',
     title: 'Innie',
     children: <p>I'm an innie</p>,
+    size: 'default',
   },
   render: (args) => {
     return (
@@ -64,5 +74,25 @@ export const Inner: Story = {
         <Card {...args} />
       </Card>
     )
+  },
+}
+
+export const Small: Story = {
+  args: {
+    ...Default.args,
+    size: 'small',
+  },
+}
+
+export const SmallWithTabs: Story = {
+  args: {
+    ...Default.args,
+    size: 'small',
+    tabList: [
+      {
+        key: 'optimization_tips',
+        tab: 'Optimization Tips',
+      },
+    ],
   },
 }
