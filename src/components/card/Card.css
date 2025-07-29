@@ -9,3 +9,9 @@
 .ant-card-type-inner {
   background-color: var(--j2-color-bg-layout);
 }
+
+.j2-card {
+  .ant-card-head {
+    border-bottom: none;
+  }
+}

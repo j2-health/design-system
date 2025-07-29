@@ -15,4 +15,8 @@
     background-color: var(--j2-gray-3);
     height: 72px;
   }
+
+  button {
+    padding: 0;
+  }
 }
