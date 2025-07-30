@@ -42,9 +42,9 @@ describe('CheckboxTree', () => {
 
   it('should render with some checked items', () => {
     const { container } = render(
-      <CheckboxTree 
-        treeData={simpleTreeData} 
-        defaultCheckedKeys={['0-0-0', '1-0']} 
+      <CheckboxTree
+        treeData={simpleTreeData}
+        defaultCheckedKeys={['0-0-0', '1-0']}
       />
     )
     expect(container).toMatchSnapshot()
@@ -52,10 +52,7 @@ describe('CheckboxTree', () => {
 
   it('should render disabled', () => {
     const { container } = render(
-      <CheckboxTree 
-        treeData={simpleTreeData} 
-        disabled 
-      />
+      <CheckboxTree treeData={simpleTreeData} disabled />
     )
     expect(container).toMatchSnapshot()
   })

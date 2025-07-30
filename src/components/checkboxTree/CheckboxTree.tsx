@@ -38,7 +38,7 @@ export const CheckboxTree = ({
   style,
 }: CheckboxTreeProps) => {
   // Filter defaultCheckedKeys to only include leaf nodes
-  const defaultLeafKeys = defaultCheckedKeys.filter(key => {
+  const defaultLeafKeys = defaultCheckedKeys.filter((key) => {
     const node = findNode(key, treeData)
     return node && (!node.children || node.children.length === 0)
   })
@@ -47,15 +47,15 @@ export const CheckboxTree = ({
     Set<string | number>
   >(() => new Set(defaultLeafKeys))
 
-  // Filter controlledCheckedKeys to only include leaf nodes  
-  const controlledLeafKeys = controlledCheckedKeys 
-    ? controlledCheckedKeys.filter(key => {
+  // Filter controlledCheckedKeys to only include leaf nodes
+  const controlledLeafKeys = controlledCheckedKeys
+    ? controlledCheckedKeys.filter((key) => {
         const node = findNode(key, treeData)
         return node && (!node.children || node.children.length === 0)
       })
     : undefined
 
-  const checkedLeafKeys = controlledLeafKeys 
+  const checkedLeafKeys = controlledLeafKeys
     ? new Set(controlledLeafKeys)
     : internalCheckedLeafKeys
 
@@ -66,11 +66,11 @@ export const CheckboxTree = ({
       if (checked) {
         // When checking, add all leaf descendants
         const leafKeys = getLeafKeys(node)
-        leafKeys.forEach(leafKey => newCheckedLeafKeys.add(leafKey))
+        leafKeys.forEach((leafKey) => newCheckedLeafKeys.add(leafKey))
       } else {
         // When unchecking, remove all leaf descendants
         const leafKeys = getLeafKeys(node)
-        leafKeys.forEach(leafKey => newCheckedLeafKeys.delete(leafKey))
+        leafKeys.forEach((leafKey) => newCheckedLeafKeys.delete(leafKey))
       }
 
       if (!controlledCheckedKeys) {
@@ -80,15 +80,15 @@ export const CheckboxTree = ({
       if (onCheck) {
         // Get all checked leaf nodes
         const checkedLeafNodes: CheckboxTreeDataNode[] = []
-        
+
         // Get all nodes that appear checked (including parents)
         const allCheckedNodes: CheckboxTreeDataNode[] = []
-        
+
         const traverse = (nodes: CheckboxTreeDataNode[]) => {
           nodes.forEach((node) => {
             if (isNodeChecked(node, newCheckedLeafKeys)) {
               allCheckedNodes.push(node)
-              
+
               // If it's a leaf node, add to checkedLeafNodes
               if (!node.children || node.children.length === 0) {
                 checkedLeafNodes.push(node)
