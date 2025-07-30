@@ -3,6 +3,10 @@
     height: 64px;
   }
 
+  .ant-drawer-body {
+    background-color: var(--j2-gray-2);
+  }
+
   .ant-drawer-title {
     font-size: var(--j2-font-size-heading-4);
     color: var(--j2-color-primary-text);
