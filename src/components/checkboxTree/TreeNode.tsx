@@ -1,10 +1,11 @@
 import { Checkbox } from '../checkbox'
 import { CheckboxTreeDataNode } from './CheckboxTree'
+import { isNodeChecked } from './utils'
 
 type TreeNodeProps = {
   node: CheckboxTreeDataNode
   level: number
-  checkedKeys: Set<string | number>
+  checkedLeafKeys: Set<string | number>
   onCheck: (
     key: string | number,
     checked: boolean,
@@ -16,11 +17,11 @@ type TreeNodeProps = {
 export const TreeNode = ({
   node,
   level,
-  checkedKeys,
+  checkedLeafKeys,
   onCheck,
   disabled,
 }: TreeNodeProps) => {
-  const isChecked = checkedKeys.has(node.key)
+  const isChecked = isNodeChecked(node, checkedLeafKeys)
   const isDisabled = disabled || node.disabled
   const isCheckboxDisabled = isDisabled || node.disableCheckbox
 
@@ -46,7 +47,7 @@ export const TreeNode = ({
               key={childNode.key}
               node={childNode}
               level={level + 1}
-              checkedKeys={checkedKeys}
+              checkedLeafKeys={checkedLeafKeys}
               onCheck={onCheck}
               disabled={disabled}
             />

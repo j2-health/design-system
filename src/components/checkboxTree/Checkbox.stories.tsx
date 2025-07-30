@@ -53,6 +53,9 @@ const simpleTreeData = [
 export const Default: Story = {
   args: {
     treeData: simpleTreeData,
+    onCheck(checkedKeys, info) {
+      console.log(checkedKeys, info)
+    },
   },
 }
 
