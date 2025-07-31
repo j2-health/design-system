@@ -23,7 +23,6 @@ export const TreeNode = ({
 }: TreeNodeProps) => {
   const isChecked = isNodeChecked(node, leafNodeStates)
   const isDisabled = disabled || node.disabled
-  const isCheckboxDisabled = isDisabled || node.disableCheckbox
 
   return (
     <div>
@@ -33,7 +32,7 @@ export const TreeNode = ({
       >
         <Checkbox
           checked={isChecked}
-          disabled={isCheckboxDisabled}
+          disabled={isDisabled}
           onChange={(e) => onCheck(node.key, e.target.checked, node)}
         >
           {node.title}

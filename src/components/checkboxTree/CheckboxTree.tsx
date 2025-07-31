@@ -7,7 +7,6 @@ export type CheckboxTreeDataNode = {
   title: React.ReactNode
   children?: CheckboxTreeDataNode[]
   disabled?: boolean
-  disableCheckbox?: boolean
 }
 
 export type CheckboxTreeProps = {
