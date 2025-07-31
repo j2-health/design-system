@@ -45,7 +45,7 @@ export const CheckboxTree = ({
     return node && (!node.children || node.children.length === 0)
   })
 
-  const [internalLeafNodeStates, setInternalLeafNodeStates] = useState<
+  const [internalLeafNodeValues, setInternalLeafNodeValues] = useState<
     Record<string | number, boolean>
   >(() => {
     const states: Record<string | number, boolean> = {}
@@ -63,7 +63,7 @@ export const CheckboxTree = ({
       })
     : undefined
 
-  const leafNodeStates = controlledLeafKeys
+  const leafNodeValues = controlledLeafKeys
     ? (() => {
         const states: Record<string | number, boolean> = {}
         allLeafKeys.forEach((key) => {
@@ -71,24 +71,24 @@ export const CheckboxTree = ({
         })
         return states
       })()
-    : internalLeafNodeStates
+    : internalLeafNodeValues
 
   const handleCheck = useCallback(
     (_key: string | number, checked: boolean, node: CheckboxTreeDataNode) => {
-      const newLeafNodeStates = { ...leafNodeStates }
+      const newLeafNodeValues = { ...leafNodeValues }
 
       if (checked) {
         // When checking, set all leaf descendants to true
         const leafKeys = getLeafKeys(node)
-        leafKeys.forEach((leafKey) => (newLeafNodeStates[leafKey] = true))
+        leafKeys.forEach((leafKey) => (newLeafNodeValues[leafKey] = true))
       } else {
         // When unchecking, set all leaf descendants to false
         const leafKeys = getLeafKeys(node)
-        leafKeys.forEach((leafKey) => (newLeafNodeStates[leafKey] = false))
+        leafKeys.forEach((leafKey) => (newLeafNodeValues[leafKey] = false))
       }
 
       if (!controlledCheckedKeys) {
-        setInternalLeafNodeStates(newLeafNodeStates)
+        setInternalLeafNodeValues(newLeafNodeValues)
       }
 
       if (onCheck) {
@@ -101,7 +101,7 @@ export const CheckboxTree = ({
 
         const traverse = (nodes: CheckboxTreeDataNode[]) => {
           nodes.forEach((node) => {
-            if (isNodeChecked(node, newLeafNodeStates)) {
+            if (isNodeChecked(node, newLeafNodeValues)) {
               allCheckedNodes.push(node)
 
               // If it's a leaf node, add to checkedLeafNodes
@@ -116,7 +116,7 @@ export const CheckboxTree = ({
         }
         traverse(treeData)
 
-        onCheck(newLeafNodeStates, {
+        onCheck(newLeafNodeValues, {
           checked,
           checkedLeafNodes,
           allCheckedNodes,
@@ -124,7 +124,7 @@ export const CheckboxTree = ({
         })
       }
     },
-    [internalLeafNodeStates, controlledCheckedKeys, onCheck, treeData]
+    [internalLeafNodeValues, controlledCheckedKeys, onCheck, treeData]
   )
 
   return (
@@ -134,7 +134,7 @@ export const CheckboxTree = ({
           key={node.key}
           node={node}
           level={0}
-          leafNodeStates={leafNodeStates}
+          leafNodeValues={leafNodeValues}
           onCheck={handleCheck}
           disabled={disabled}
         />
