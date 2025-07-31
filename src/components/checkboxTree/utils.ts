@@ -17,19 +17,29 @@ export const getLeafKeys = (
   return keys
 }
 
+export const getAllLeafKeys = (
+  nodes: CheckboxTreeDataNode[]
+): (string | number)[] => {
+  const keys: (string | number)[] = []
+  nodes.forEach((node) => {
+    keys.push(...getLeafKeys(node))
+  })
+  return keys
+}
+
 export const isNodeChecked = (
   node: CheckboxTreeDataNode,
-  checkedLeafKeys: Set<string | number>
+  leafNodeStates: Record<string | number, boolean>
 ): boolean => {
   if (!node.children || node.children.length === 0) {
-    // Leaf node - check if it's in the checked set
-    return checkedLeafKeys.has(node.key)
+    // Leaf node - check if it's checked
+    return leafNodeStates[node.key] === true
   }
 
   // Parent node - check if all leaf descendants are checked
   const leafKeys = getLeafKeys(node)
   return (
-    leafKeys.length > 0 && leafKeys.every((key) => checkedLeafKeys.has(key))
+    leafKeys.length > 0 && leafKeys.every((key) => leafNodeStates[key] === true)
   )
 }
 
