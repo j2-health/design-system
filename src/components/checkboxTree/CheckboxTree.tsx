@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { TreeNode } from './TreeNode'
 import { getLeafKeys, getAllLeafKeys, isNodeChecked, findNode } from './utils'
 
@@ -47,31 +47,39 @@ export const CheckboxTree = ({
 
   const [internalLeafNodeValues, setInternalLeafNodeValues] = useState<
     Record<string | number, boolean>
-  >(() => {
-    const states: Record<string | number, boolean> = {}
-    allLeafKeys.forEach((key) => {
-      states[key] = defaultLeafKeys.includes(key)
+  >(() =>
+    allLeafKeys.reduce(
+      (acc, key) => {
+        return {
+          ...acc,
+          [key]: defaultLeafKeys.includes(key),
+        }
+      },
+      {} as Record<string | number, boolean>
+    )
+  )
+
+  const leafNodeValues: Record<string | number, boolean> = useMemo(() => {
+    if (!controlledCheckedKeys) {
+      return internalLeafNodeValues
+    }
+
+    // Filter controlledCheckedKeys to only include leaf nodes
+    const controlledLeafKeys = controlledCheckedKeys.filter((key) => {
+      const node = findNode(key, treeData)
+      return node && (!node.children || node.children.length === 0)
     })
-    return states
-  })
 
-  // Filter controlledCheckedKeys to only include leaf nodes
-  const controlledLeafKeys = controlledCheckedKeys
-    ? controlledCheckedKeys.filter((key) => {
-        const node = findNode(key, treeData)
-        return node && (!node.children || node.children.length === 0)
-      })
-    : undefined
-
-  const leafNodeValues = controlledLeafKeys
-    ? (() => {
-        const states: Record<string | number, boolean> = {}
-        allLeafKeys.forEach((key) => {
-          states[key] = controlledLeafKeys.includes(key)
-        })
-        return states
-      })()
-    : internalLeafNodeValues
+    return allLeafKeys.reduce(
+      (acc, key) => {
+        return {
+          ...acc,
+          [key]: controlledLeafKeys.includes(key),
+        }
+      },
+      {} as Record<string | number, boolean>
+    )
+  }, [allLeafKeys, controlledCheckedKeys, internalLeafNodeValues, treeData])
 
   const handleCheck = useCallback(
     (_key: string | number, checked: boolean, node: CheckboxTreeDataNode) => {
