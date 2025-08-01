@@ -124,7 +124,7 @@ export const CheckboxTree = ({
         })
       }
     },
-    [internalLeafNodeValues, controlledCheckedKeys, onCheck, treeData]
+    [controlledCheckedKeys, onCheck, treeData]
   )
 
   return (
