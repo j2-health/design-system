@@ -1,0 +1,868 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CheckboxTree should render correctly 1`] = `
+<div>
+  <div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+          >
+            <input
+              class="ant-checkbox-input"
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Documents
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Projects
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project A
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project B
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Reports
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Annual Report
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Monthly Report
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+          >
+            <input
+              class="ant-checkbox-input"
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Media
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Images
+              </span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Videos
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CheckboxTree should render disabled 1`] = `
+<div>
+  <div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+          >
+            <input
+              class="ant-checkbox-input"
+              disabled=""
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Documents
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Projects
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      disabled=""
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project A
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      disabled=""
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project B
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Reports
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      disabled=""
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Annual Report
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      disabled=""
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Monthly Report
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+          >
+            <input
+              class="ant-checkbox-input"
+              disabled=""
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Media
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Images
+              </span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Videos
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CheckboxTree should render with some checked items 1`] = `
+<div>
+  <div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+          >
+            <input
+              class="ant-checkbox-input"
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Documents
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Projects
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-checked"
+                  >
+                    <input
+                      checked=""
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project A
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Project B
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Reports
+              </span>
+            </label>
+          </div>
+          <div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Annual Report
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-center min-h-6 mb-1"
+                style="padding-left: 40px;"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                >
+                  <span
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span
+                    class="ant-checkbox-label"
+                  >
+                    Monthly Report
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="flex items-center min-h-6 mb-1"
+        style="padding-left: 0px;"
+      >
+        <label
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+        >
+          <span
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+          >
+            <input
+              class="ant-checkbox-input"
+              type="checkbox"
+            />
+            <span
+              class="ant-checkbox-inner"
+            />
+          </span>
+          <span
+            class="ant-checkbox-label"
+          >
+            Media
+          </span>
+        </label>
+      </div>
+      <div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-checked"
+              >
+                <input
+                  checked=""
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Images
+              </span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <div
+            class="flex items-center min-h-6 mb-1"
+            style="padding-left: 20px;"
+          >
+            <label
+              class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+            >
+              <span
+                class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+              >
+                <input
+                  class="ant-checkbox-input"
+                  type="checkbox"
+                />
+                <span
+                  class="ant-checkbox-inner"
+                />
+              </span>
+              <span
+                class="ant-checkbox-label"
+              >
+                Videos
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
