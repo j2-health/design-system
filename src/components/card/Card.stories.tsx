@@ -15,10 +15,8 @@ const meta = {
       },
     },
     size: {
-      control: {
-        type: 'select',
-        options: ['default', 'small'],
-      },
+      control: 'inline-radio',
+      options: ['default', 'small', 'large'],
     },
   },
 } satisfies Meta<typeof Card>
@@ -88,6 +86,26 @@ export const SmallWithTabs: Story = {
   args: {
     ...Default.args,
     size: 'small',
+    tabList: [
+      {
+        key: 'optimization_tips',
+        tab: 'Optimization Tips',
+      },
+    ],
+  },
+}
+
+export const Large: Story = {
+  args: {
+    ...Default.args,
+    size: 'large',
+  },
+}
+
+export const LargeWithTabs: Story = {
+  args: {
+    ...Default.args,
+    size: 'large',
     tabList: [
       {
         key: 'optimization_tips',
