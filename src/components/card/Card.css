@@ -17,7 +17,7 @@
   }
 
   .ant-tabs .ant-tabs-tab {
-    font-size: 14px;
+    font-size: var(--j2-font-size);
   }
 }
 
@@ -36,7 +36,6 @@
   padding: 0px 32px 32px 32px;
 
   .ant-card-head {
-    /* min-height: 56px; */
     justify-content: flex-end;
     padding: 0;
   }
