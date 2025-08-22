@@ -7,6 +7,10 @@
     padding: var(--j2-padding-sm);
   }
 
+  &.xxsmallPadding :global(.ant-popover-inner) {
+    padding: var(--j2-padding-xxs);
+  }
+
   :global(.ant-popover-title) {
     font-size: var(--j2-font-size-heading-4);
     font-weight: var(--j2-font-weight-strong);
