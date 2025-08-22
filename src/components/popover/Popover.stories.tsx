@@ -30,8 +30,9 @@ const meta = {
     scrollable: {
       control: 'boolean',
     },
-    xxsmallPadding: {
-      control: 'boolean',
+    paddingSize: {
+      control: 'select',
+      options: ['xxs', 'xs', 'sm', 'md', 'xl'],
     },
     smallPadding: {
       control: 'boolean',
@@ -105,7 +106,7 @@ export const Scrollable: Story = {
 
 export const XxsmallPadding: Story = {
   args: {
-    xxsmallPadding: true,
+    paddingSize: 'xxs',
     content: <div>I'm really small</div>,
     trigger: 'hover',
     children: <span>Trigger to learn about CMS</span>,
