@@ -3,8 +3,25 @@
     padding: var(--j2-padding-lg);
   }
 
-  &.smallPadding :global(.ant-popover-inner) {
+  &.smallPadding,
+  &.smPadding :global(.ant-popover-inner) {
     padding: var(--j2-padding-sm);
+  }
+
+  &.xxsPadding :global(.ant-popover-inner) {
+    padding: var(--j2-padding-xxs);
+  }
+
+  &.xsPadding :global(.ant-popover-inner) {
+    padding: var(--j2-padding-xs);
+  }
+
+  &.mdPadding :global(.ant-popover-inner) {
+    padding: var(--j2-padding-md);
+  }
+
+  &.xlPadding :global(.ant-popover-inner) {
+    padding: var(--j2-padding-xl);
   }
 
   :global(.ant-popover-title) {

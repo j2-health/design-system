@@ -30,6 +30,13 @@ const meta = {
     scrollable: {
       control: 'boolean',
     },
+    paddingSize: {
+      control: 'select',
+      options: ['xxs', 'xs', 'sm', 'md', 'xl'],
+    },
+    smallPadding: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof Popover>
 
@@ -94,5 +101,14 @@ export const Scrollable: Story = {
     ),
     trigger: 'hover',
     children: <span>Trigger to scroll through fruits</span>,
+  },
+}
+
+export const XxsmallPadding: Story = {
+  args: {
+    paddingSize: 'xxs',
+    content: <div>I'm really small</div>,
+    trigger: 'hover',
+    children: <span>Trigger to learn about CMS</span>,
   },
 }

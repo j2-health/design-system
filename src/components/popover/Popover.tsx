@@ -5,7 +5,10 @@ import styles from './Popover.module.css'
 type _Props = AntdPopoverProps & {
   contentPadding?: boolean
   scrollable?: boolean
+  /* @deprecated use paddingSize instead */
   smallPadding?: boolean
+  /* default padding is large */
+  paddingSize?: 'xxs' | 'xs' | 'sm' | 'md' | 'xl'
 }
 
 export type PopoverProps = Expand<_Props>
@@ -17,6 +20,7 @@ const Popover = ({
   contentPadding = true,
   content,
   smallPadding = false,
+  paddingSize,
   ...props
 }: PopoverProps) => {
   return (
@@ -24,7 +28,8 @@ const Popover = ({
       overlayClassName={cx(
         styles.j2Popover,
         scrollable && styles.scrollable,
-        smallPadding && styles.smallPadding
+        smallPadding && styles.smallPadding,
+        paddingSize && styles[`${paddingSize}Padding`]
       )}
       {...props}
       placement={placement}
