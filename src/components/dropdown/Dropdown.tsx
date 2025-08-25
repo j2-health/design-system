@@ -11,7 +11,7 @@ export type Props = DropdownProps & {
   icon?: React.ReactNode
 }
 
-const Label = ({ label }: { label: string | undefined }) => (
+const LabelWithCaret = ({ label }: { label: string | undefined }) => (
   <div className="flex items-center gap-2">
     {label}
     <CaretDownIcon weight="regular" />
@@ -28,7 +28,7 @@ const Target = ({ label, type, disabled, icon }: Props) => {
             {label}
           </>
         ) : (
-          <Label label={label} />
+          <LabelWithCaret label={label} />
         )}
       </Link>
     )
@@ -36,7 +36,7 @@ const Target = ({ label, type, disabled, icon }: Props) => {
 
   return (
     <Button disabled={disabled} icon={icon}>
-      {icon ? label : <Label label={label} />}
+      {icon ? label : <LabelWithCaret label={label} />}
     </Button>
   )
 }
