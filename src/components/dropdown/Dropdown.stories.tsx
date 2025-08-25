@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Dropdown } from './Dropdown'
 import { ItemType } from 'antd/es/menu/interface'
+import { DownloadIcon } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Dropdown',
@@ -94,6 +95,36 @@ export const BasicInline: Story = {
   args: {
     label: 'Export Data',
     type: 'basic-inline',
+  },
+  render: (args) => {
+    return <Dropdown {...args} menu={{ items: items }} />
+  },
+}
+
+export const Icon: Story = {
+  args: {
+    icon: <DownloadIcon />,
+    type: 'basic',
+  },
+  render: (args) => {
+    return <Dropdown {...args} menu={{ items: items }} />
+  },
+}
+
+export const IconInline: Story = {
+  args: {
+    icon: <DownloadIcon />,
+    type: 'basic-inline',
+  },
+  render: (args) => {
+    return <Dropdown {...args} menu={{ items: items }} />
+  },
+}
+
+export const IconTwofold: Story = {
+  args: {
+    icon: <DownloadIcon />,
+    type: 'twofold',
   },
   render: (args) => {
     return <Dropdown {...args} menu={{ items: items }} />
