@@ -78,6 +78,14 @@ export const Error: Story = {
   },
 }
 
+export const Loading: Story = {
+  args: {
+    type: 'loading',
+    message: 'Loading...',
+    description: 'Please wait while we process your request.',
+  },
+}
+
 export const MessageOnly: Story = {
   args: {
     ...Success.args,
