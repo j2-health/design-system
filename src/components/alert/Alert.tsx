@@ -6,10 +6,11 @@ import {
   WarningCircleIcon,
   XIcon,
   XCircleIcon,
+  CircleNotchIcon,
 } from '@phosphor-icons/react'
-type Props = Expand<AlertProps> & {
+type Props = Expand<Omit<AlertProps, 'type'>> & {
   description?: string
-  type: 'success' | 'info' | 'warning' | 'error'
+  type: 'success' | 'info' | 'warning' | 'error' | 'loading'
   closable?: boolean
   showIcon?: boolean
   banner?: boolean
@@ -39,17 +40,41 @@ const Alert = ({
         return (
           <WarningCircleIcon fill="var(--j2-color-warning-text)" size={size} />
         )
+      case 'loading':
+        return (
+          <CircleNotchIcon
+            fill="var(--j2-color-info-text)"
+            size={size}
+            weight="regular"
+            style={{
+              animation: 'spin 1s linear infinite',
+            }}
+          />
+        )
       default:
         return null
     }
   }, [type, description])
+
+  const antDType = React.useMemo(():
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'error' => {
+    switch (type) {
+      case 'loading':
+        return 'info'
+      default:
+        return type as 'success' | 'info' | 'warning' | 'error'
+    }
+  }, [type])
 
   return (
     <AntdAlert
       icon={icon}
       closable={closable}
       showIcon={showIcon}
-      type={type}
+      type={antDType}
       banner={banner}
       description={description}
       closeIcon={<XIcon size={14} weight="regular" />}
