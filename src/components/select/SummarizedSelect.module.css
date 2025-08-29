@@ -1,0 +1,12 @@
+.hemisphericSelect :global(.ant-select-selector) {
+  border-radius: 9999px !important;
+}
+
+.summarizedSelect :global(.ant-select-selection-item) {
+  background: none !important;
+  border: none !important;
+}
+
+.menuContainer :global(.ant-select-item-option-selected) {
+  background: var(--j2-blue-5) !important;
+}
