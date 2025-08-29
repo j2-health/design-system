@@ -7,46 +7,50 @@ import cx from 'classnames'
 
 import styles from './SummarizedSelect.module.css'
 
-const countToValue = (count: number) => {
-  if (count == 0) return 'Any J2 Specialty'
-  if (count == 1) return '1 J2 Specialty'
-
-  return `${count} J2 Specialties`
-}
-
 type Option = {
   label: string
   value: string
 }
 
-type CustomProps = {
+type StringSelectProps = SelectProps<string, Option>
+
+type BaseProps = Omit<
+  StringSelectProps,
+  'mode' | 'value' | 'onChange' | 'options'
+> & {
   searchPlaceholder?: string
   formControlPlaceholder: string
-  value: string[]
   options: Option[]
+  loading?: boolean
+  renderLabel: (count: number) => string
+}
+
+type SingleProps = {
+  multiple?: false
+  value: string
+  onChange: (value: string) => void
+}
+
+type MultiProps = {
+  multiple: true
+  value: string[]
   onChange: (value: string[]) => void
 }
 
-type Props = Omit<SelectProps, keyof CustomProps> & {
-  searchPlaceholder?: string
-  formControlPlaceholder: string
-  value: string[]
-  options: Option[]
-  onChange: (value: string[]) => void
-}
+export type Props = BaseProps & (SingleProps | MultiProps)
 
 export function SummarizedSelect({
   searchPlaceholder,
   formControlPlaceholder,
-  value,
-  onChange,
+  loading,
+  multiple,
+  value: selectedValue,
+  onChange: setSelectedValue,
   options,
+  renderLabel,
   ...props
 }: Props) {
-  const selectedValues = value
-  const setSelectedValues = onChange
   const [searchValue, setSearchValue] = useState('')
-  const loading = false
 
   const filteredOptions = useMemo(() => {
     if (!searchValue) return options
@@ -56,7 +60,8 @@ export function SummarizedSelect({
   }, [searchValue])
 
   const handleTagClose = (removedValue: string) => {
-    setSelectedValues(selectedValues.filter((value) => value !== removedValue))
+    if (!multiple) return
+    setSelectedValue(selectedValue.filter((value) => value !== removedValue))
   }
 
   const popupRender = (menu: React.ReactElement) => (
@@ -81,22 +86,27 @@ export function SummarizedSelect({
           allowClear
         />
       </div>
-      {selectedValues.length > 0 && (
-        <div className="px-2 pb-2">
-          <div className="flex flex-wrap gap-1">
-            {selectedValues.map((value) => (
-              <Tag
-                className="opacity-100 z-10"
-                key={value}
-                status="default"
-                closable
-                onClose={() => handleTagClose(value)}
-              >
-                {value}
-              </Tag>
-            ))}
+      {multiple ? (
+        selectedValue.length > 0 && (
+          <div className="px-2 pb-2">
+            <div className="flex flex-wrap gap-1">
+              {selectedValue.map((value) => (
+                <Tag
+                  className="opacity-100 z-10"
+                  key={value}
+                  status="default"
+                  closable
+                  onClose={() => handleTagClose(value)}
+                >
+                  {value}
+                </Tag>
+              ))}
+              {selectedValue}
+            </div>
           </div>
-        </div>
+        )
+      ) : (
+        <div className="px-2 pb-2">{selectedValue}</div>
       )}
       <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
     </div>
@@ -123,11 +133,11 @@ export function SummarizedSelect({
         )
       }
       placeholder={formControlPlaceholder}
-      mode="multiple"
-      value={selectedValues}
-      onChange={setSelectedValues}
+      mode={multiple ? 'multiple' : undefined}
+      value={selectedValue}
+      onChange={setSelectedValue}
       maxTagCount={0}
-      maxTagPlaceholder={() => countToValue(selectedValues.length)}
+      maxTagPlaceholder={() => renderLabel(selectedValue.length)}
       options={filteredOptions}
       popupRender={popupRender}
       onOpenChange={handleOpenChange}
