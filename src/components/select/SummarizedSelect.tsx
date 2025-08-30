@@ -57,7 +57,7 @@ export function SummarizedSelect({
     return options.filter((option) =>
       option.label.toLowerCase().includes(searchValue.toLowerCase())
     )
-  }, [searchValue])
+  }, [searchValue, options])
 
   const handleTagClose = (removedValue: string) => {
     if (!multiple) return
@@ -137,7 +137,9 @@ export function SummarizedSelect({
       value={selectedValue}
       onChange={setSelectedValue}
       maxTagCount={0}
-      maxTagPlaceholder={() => renderLabel(selectedValue.length)}
+      maxTagPlaceholder={
+        multiple ? () => renderLabel(selectedValue.length) : undefined
+      }
       options={filteredOptions}
       popupRender={popupRender}
       onOpenChange={handleOpenChange}
