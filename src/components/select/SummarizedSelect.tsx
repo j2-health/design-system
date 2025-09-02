@@ -45,12 +45,15 @@ export function SummarizedSelect({
   loading,
   multiple,
   value: selectedValue,
-  onChange: setSelectedValue,
+  onChange,
   options,
   renderLabel,
   ...props
 }: Props) {
   const [searchValue, setSearchValue] = useState('')
+  const setSelectedValue = (value: string | string[]) => {
+    onChange(value)
+  }
 
   const filteredOptions = useMemo(() => {
     if (!searchValue) return options
@@ -119,7 +122,7 @@ export function SummarizedSelect({
   }
 
   return (
-    <Select
+    <Select<string | string[]>
       showSearch={false}
       suffixIcon={
         loading ? (
