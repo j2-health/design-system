@@ -135,13 +135,18 @@ export function SummarizedSelect({
       maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
       options={filteredOptions}
       onChange={(val) => {
-        if (multiple && Array.isArray(val)) {
-          onChange(val)
-        } else if (!multiple && typeof val === 'string') {
-          onChange(val)
+        if (multiple) {
+          if (Array.isArray(val)) {
+            onChange(val)
+          } else {
+            throw new Error('Value should be an array in multiple mode')
+          }
         } else {
-          // Handle unexpected value types
-          console.warn('Unexpected value type:', val, typeof val)
+          if (typeof val === 'string') {
+            onChange(val)
+          } else {
+            throw new Error('Value should be a string in single selection mode')
+          }
         }
       }}
       popupRender={popupRender}
@@ -150,9 +155,7 @@ export function SummarizedSelect({
         root: cx('w-[200px]', styles.summarizedSelect, {
           [styles.hemisphericSelect]: props.variant != 'underlined',
         }),
-        popup: {
-          root: '!w-[300px]',
-        },
+        popup: { root: '!w-[300px]' },
       }}
       {...props}
     />
