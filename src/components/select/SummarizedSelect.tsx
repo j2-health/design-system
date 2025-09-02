@@ -8,13 +8,13 @@ import cx from 'classnames'
 import styles from './SummarizedSelect.module.css'
 
 type Option = {
-  label: string
+  label: React.ReactNode
   value: string
 }
 
 type StringSelectProps = SelectProps<string, Option>
 
-type BaseProps = Omit<
+export type Props = Omit<
   StringSelectProps,
   'mode' | 'value' | 'onChange' | 'options'
 > & {
@@ -23,48 +23,38 @@ type BaseProps = Omit<
   options: Option[]
   loading?: boolean
   renderLabel: (count: number) => string
+  multiple: boolean
+  value: string | string[]
+  onChange: (value: string | string[]) => void
 }
-
-type SingleProps = {
-  multiple?: false
-  value: string
-  onChange: (value: string) => void
-}
-
-type MultiProps = {
-  multiple: true
-  value: string[]
-  onChange: (value: string[]) => void
-}
-
-export type Props = BaseProps & (SingleProps | MultiProps)
 
 export function SummarizedSelect({
   searchPlaceholder,
   formControlPlaceholder,
   loading,
   multiple,
-  value: selectedValue,
+  value,
   onChange,
   options,
   renderLabel,
   ...props
 }: Props) {
   const [searchValue, setSearchValue] = useState('')
-  const setSelectedValue = (value: string | string[]) => {
+  const handleChange = (value: string | string[]) => {
     onChange(value)
   }
 
   const filteredOptions = useMemo(() => {
     if (!searchValue) return options
     return options.filter((option) =>
-      option.label.toLowerCase().includes(searchValue.toLowerCase())
+      option.label?.toString().toLowerCase().includes(searchValue.toLowerCase())
     )
   }, [searchValue, options])
 
   const handleTagClose = (removedValue: string) => {
-    if (!multiple) return
-    setSelectedValue(selectedValue.filter((value) => value !== removedValue))
+    if (multiple) return
+
+    handleChange((value as string[]).filter((value) => value !== removedValue))
   }
 
   const popupRender = (menu: React.ReactElement) => (
@@ -89,28 +79,25 @@ export function SummarizedSelect({
           allowClear
         />
       </div>
-      {multiple ? (
-        selectedValue.length > 0 && (
-          <div className="px-2 pb-2">
-            <div className="flex flex-wrap gap-1">
-              {selectedValue.map((value) => (
-                <Tag
-                  className="opacity-100 z-10"
-                  key={value}
-                  status="default"
-                  closable
-                  onClose={() => handleTagClose(value)}
-                >
-                  {value}
-                </Tag>
-              ))}
-              {selectedValue}
+      {multiple
+        ? value.length > 0 && (
+            <div className="px-2 pb-2">
+              <div className="flex flex-wrap gap-1">
+                {(value as string[]).map((value) => (
+                  <Tag
+                    className="opacity-100 z-10"
+                    key={value}
+                    status="default"
+                    closable
+                    onClose={() => handleTagClose(value)}
+                  >
+                    {value}
+                  </Tag>
+                ))}
+              </div>
             </div>
-          </div>
-        )
-      ) : (
-        <div className="px-2 pb-2">{selectedValue}</div>
-      )}
+          )
+        : null}
       <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
     </div>
   )
@@ -122,7 +109,7 @@ export function SummarizedSelect({
   }
 
   return (
-    <Select<string | string[]>
+    <Select<string | string[], Option>
       showSearch={false}
       suffixIcon={
         loading ? (
@@ -137,13 +124,13 @@ export function SummarizedSelect({
       }
       placeholder={formControlPlaceholder}
       mode={multiple ? 'multiple' : undefined}
-      value={selectedValue}
-      onChange={setSelectedValue}
+      value={value}
       maxTagCount={0}
-      maxTagPlaceholder={
-        multiple ? () => renderLabel(selectedValue.length) : undefined
-      }
+      maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
       options={filteredOptions}
+      onChange={(val) => {
+        handleChange(val)
+      }}
       popupRender={popupRender}
       onOpenChange={handleOpenChange}
       classNames={{

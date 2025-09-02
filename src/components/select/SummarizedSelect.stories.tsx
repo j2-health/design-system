@@ -46,7 +46,10 @@ const meta = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: [],
+    multiple: true,
     options: defaultOptions,
+    onChange: () => {},
+    renderLabel: (count: number) => `${count} selected`,
   },
   decorators: [
     (Story) => (
@@ -58,14 +61,34 @@ const meta = {
   tags: ['autodocs'],
 } satisfies Meta<typeof SummarizedSelect>
 
+// eslint-disable-next-line import/no-default-export
 export default meta
 type Story = StoryObj<typeof meta>
 
 // Wrapper component to handle state management in Storybook
-const SummarizedSelectWrapper = (args: any) => {
-  const [value, setValue] = useState<string[]>(args.value || [])
+const SummarizedSelectWrapper = (
+  args: Partial<React.ComponentProps<typeof SummarizedSelect>>
+) => {
+  const isMultiple = args.multiple ?? true
+  const [value, setValue] = useState<string[] | string>(
+    args.value ?? (isMultiple ? [] : '')
+  )
 
-  return <SummarizedSelect {...args} value={value} onChange={setValue} />
+  const handleChange = (newValue: string | string[]) => {
+    setValue(newValue)
+  }
+
+  return (
+    <SummarizedSelect
+      {...args}
+      options={args.options ?? defaultOptions}
+      formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
+      multiple={isMultiple}
+      renderLabel={args.renderLabel ?? ((count: number) => `${count} selected`)}
+      value={value}
+      onChange={handleChange}
+    />
+  )
 }
 
 export const Default: Story = {
@@ -90,7 +113,6 @@ export const CustomPlaceholders: Story = {
   args: {
     searchPlaceholder: 'Type to search medical specialties...',
     formControlPlaceholder: 'Choose your specialties',
-    value: ['Family Medicine'],
   },
   render: (args) => <SummarizedSelectWrapper {...args} />,
 }
@@ -133,4 +155,5 @@ export const SingleSelection: Story = {
   args: {
     multiple: false,
   },
+  render: (args) => <SummarizedSelectWrapper {...args} />,
 }
