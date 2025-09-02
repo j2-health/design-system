@@ -28,13 +28,13 @@ type BaseProps = Omit<
 type SingleProps = {
   multiple?: false
   value: string
-  onChange: (value: string) => void
+  onChange: (newValue: string) => void
 }
 
 type MultiProps = {
   multiple: true
   value: string[]
-  onChange: (value: string[]) => void
+  onChange: (newValue: string[]) => void
 }
 
 export type Props = BaseProps & (SingleProps | MultiProps)
@@ -87,33 +87,31 @@ export function SummarizedSelect({
           allowClear
         />
       </div>
-      {multiple
-        ? value.length > 0 && (
-            <div className="px-2 pb-2">
-              <div className="flex flex-wrap gap-1">
-                {(value as string[]).map((value) => (
-                  <Tag
-                    className="opacity-100 z-10"
-                    key={value}
-                    status="default"
-                    closable
-                    onClose={() => handleTagClose(value)}
-                  >
-                    {value}
-                  </Tag>
-                ))}
-              </div>
-            </div>
-          )
-        : null}
+      {multiple && value.length > 0 ? (
+        <div className="px-2 pb-2">
+          <div className="flex flex-wrap gap-1">
+            {(value as string[]).map((value) => (
+              <Tag
+                className="opacity-100 z-10"
+                key={value}
+                status="default"
+                closable
+                onClose={() => handleTagClose(value)}
+              >
+                {value}
+              </Tag>
+            ))}
+          </div>
+        </div>
+      ) : null}
       <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
     </div>
   )
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      setSearchValue('')
-    }
+    if (open) return
+
+    setSearchValue('')
   }
 
   return (
@@ -137,10 +135,13 @@ export function SummarizedSelect({
       maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
       options={filteredOptions}
       onChange={(val) => {
-        if (multiple) {
-          if (Array.isArray(val)) onChange(val)
+        if (multiple && Array.isArray(val)) {
+          onChange(val)
+        } else if (!multiple && typeof val === 'string') {
+          onChange(val)
         } else {
-          if (typeof val === 'string') onChange(val)
+          // Handle unexpected value types
+          console.warn('Unexpected value type:', val, typeof val)
         }
       }}
       popupRender={popupRender}
