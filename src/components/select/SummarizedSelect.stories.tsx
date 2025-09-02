@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
 import { SummarizedSelect } from './SummarizedSelect'
@@ -46,20 +46,20 @@ const meta = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: [],
-    multiple: true,
     options: defaultOptions,
     onChange: () => {},
     renderLabel: (count: number) => `${count} selected`,
   },
   decorators: [
-    (Story) => (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (Story: any) => (
       <div className="p-8 bg-gray-50 min-h-[400px]">
         <Story />
       </div>
     ),
   ],
   tags: ['autodocs'],
-} satisfies Meta<typeof SummarizedSelect>
+}
 
 // eslint-disable-next-line import/no-default-export
 export default meta
@@ -80,7 +80,8 @@ const SummarizedSelectWrapper = (
 
   return (
     <SummarizedSelect
-      {...args}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(args as any)}
       options={args.options ?? defaultOptions}
       formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
       multiple={isMultiple}
