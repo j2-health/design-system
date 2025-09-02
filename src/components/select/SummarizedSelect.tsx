@@ -12,9 +12,9 @@ type Option = {
   value: string
 }
 
-type StringSelectProps = SelectProps<string, Option>
+type StringSelectProps = SelectProps<string | string[], Option>
 
-export type Props = Omit<
+type BaseProps = Omit<
   StringSelectProps,
   'mode' | 'value' | 'onChange' | 'options'
 > & {
@@ -23,10 +23,21 @@ export type Props = Omit<
   options: Option[]
   loading?: boolean
   renderLabel: (count: number) => string
-  multiple: boolean
-  value: string | string[]
-  onChange: (value: string | string[]) => void
 }
+
+type SingleProps = {
+  multiple?: false
+  value: string
+  onChange: (value: string) => void
+}
+
+type MultiProps = {
+  multiple: true
+  value: string[]
+  onChange: (value: string[]) => void
+}
+
+export type Props = BaseProps & (SingleProps | MultiProps)
 
 export function SummarizedSelect({
   searchPlaceholder,
@@ -40,9 +51,6 @@ export function SummarizedSelect({
   ...props
 }: Props) {
   const [searchValue, setSearchValue] = useState('')
-  const handleChange = (value: string | string[]) => {
-    onChange(value)
-  }
 
   const filteredOptions = useMemo(() => {
     if (!searchValue) return options
@@ -52,9 +60,9 @@ export function SummarizedSelect({
   }, [searchValue, options])
 
   const handleTagClose = (removedValue: string) => {
-    if (multiple) return
+    if (!multiple) return
 
-    handleChange((value as string[]).filter((value) => value !== removedValue))
+    onChange(value.filter((x) => x !== removedValue))
   }
 
   const popupRender = (menu: React.ReactElement) => (
@@ -129,7 +137,11 @@ export function SummarizedSelect({
       maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
       options={filteredOptions}
       onChange={(val) => {
-        handleChange(val)
+        if (multiple) {
+          if (Array.isArray(val)) onChange(val)
+        } else {
+          if (typeof val === 'string') onChange(val)
+        }
       }}
       popupRender={popupRender}
       onOpenChange={handleOpenChange}
