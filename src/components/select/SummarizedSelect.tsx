@@ -12,10 +12,8 @@ type Option = {
   value: string
 }
 
-type StringSelectProps = SelectProps<string | string[], Option>
-
 type BaseProps = Omit<
-  StringSelectProps,
+  SelectProps<string | string[], Option>,
   'mode' | 'value' | 'onChange' | 'options'
 > & {
   searchPlaceholder?: string
