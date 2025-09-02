@@ -128,3 +128,9 @@ export const Underlined: Story = {
   },
   render: (args) => <SummarizedSelectWrapper {...args} />,
 }
+
+export const SingleSelection: Story = {
+  args: {
+    multiple: false,
+  },
+}
