@@ -26,4 +26,6 @@ dist-ssr
 *storybook.log
 .cache
 
+.claude/*.local.json
+
 .coverage

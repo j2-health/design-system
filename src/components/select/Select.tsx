@@ -45,7 +45,6 @@ export const Select = (props: SelectProps) => {
 
   return (
     <AntDSelect
-      {...props}
       suffixIcon={
         props.loading ? (
           <Spin
@@ -59,6 +58,7 @@ export const Select = (props: SelectProps) => {
           <CaretDownIcon size={14} data-testid="caret-down" />
         )
       }
+      {...props}
       popupRender={dropdownRender}
       removeIcon={<XCircleIcon size={12} />}
       allowClear={
