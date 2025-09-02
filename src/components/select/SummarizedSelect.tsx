@@ -20,17 +20,18 @@ type BaseProps = Omit<
   formControlPlaceholder: string
   options: Option[]
   loading?: boolean
-  renderLabel?: (count: number) => string
 }
 
 type SingleProps = {
   multiple?: false
+  renderLabel?: undefined
   value: string
   onChange: (newValue: string) => void
 }
 
 type MultiProps = {
   multiple: true
+  renderLabel: (count: number) => string
   value: string[]
   onChange: (newValue: string[]) => void
 }
@@ -130,7 +131,7 @@ export function SummarizedSelect({
       mode={multiple ? 'multiple' : undefined}
       value={value}
       maxTagCount={0}
-      maxTagPlaceholder={multiple ? () => renderLabel?.(value.length) : value}
+      maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
       options={filteredOptions}
       onChange={(val) => {
         if (multiple) {
