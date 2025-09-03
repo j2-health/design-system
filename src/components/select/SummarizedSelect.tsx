@@ -17,7 +17,10 @@ type BaseProps = Omit<
   'mode' | 'value' | 'onChange' | 'options'
 > & {
   searchPlaceholder?: string
-  formControlPlaceholder: string
+  formControlPlaceholder?: string
+  rootClassName?: string
+  popupClassName?: string
+
   options: Option[]
   loading?: boolean
 }
@@ -47,6 +50,8 @@ export function SummarizedSelect({
   onChange,
   options,
   renderLabel,
+  rootClassName,
+  popupClassName,
   ...props
 }: Props) {
   const [searchValue, setSearchValue] = useState('')
@@ -151,10 +156,10 @@ export function SummarizedSelect({
       popupRender={popupRender}
       onOpenChange={handleOpenChange}
       classNames={{
-        root: cx('w-[200px]', styles.summarizedSelect, {
+        root: cx(rootClassName, styles.summarizedSelect, {
           [styles.hemisphericSelect]: props.variant != 'underlined',
         }),
-        popup: { root: '!w-[300px]' },
+        popup: { root: popupClassName },
       }}
       {...props}
     />
