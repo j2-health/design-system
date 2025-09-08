@@ -69,48 +69,55 @@ export function SummarizedSelect({
     onChange(value.filter((x) => x !== removedValue))
   }
 
-  const popupRender = (menu: React.ReactElement) => (
-    <div>
-      <div className="mb-2 px-2 pb-2 border-b -mx-1 mt-1">
-        <Input
-          placeholder={searchPlaceholder || 'Search...'}
-          value={searchValue}
-          onChange={(e) => {
-            setSearchValue(e.target.value)
-            e.stopPropagation()
-            e.preventDefault()
-          }}
-          onKeyDown={(e) => {
-            // Prevent backspace from removing tags when typing in search input
-            e.stopPropagation()
-          }}
-          onClick={(e) => e.stopPropagation()}
-          prefix={
-            <icons.MagnifyingGlassIcon size={16} className="text-gray-400" />
-          }
-          allowClear
-        />
-      </div>
-      {multiple && value.length > 0 ? (
-        <div className="px-2 pb-2">
-          <div className="flex flex-wrap gap-1">
-            {(value as string[]).map((value) => (
-              <Tag
-                className="opacity-100 z-10"
-                key={value}
-                status="default"
-                closable
-                onClose={() => handleTagClose(value)}
-              >
-                {value}
-              </Tag>
-            ))}
-          </div>
+  const popupRender = (menu: React.ReactElement) => {
+    const valueToLabel = (val: string) => {
+      const option = options.find((opt) => opt.value === val)
+      return option ? option.label : val
+    }
+
+    return (
+      <div>
+        <div className="mb-2 px-2 pb-2 border-b -mx-1 mt-1">
+          <Input
+            placeholder={searchPlaceholder || 'Search...'}
+            value={searchValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value)
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+            onKeyDown={(e) => {
+              // Prevent backspace from removing tags when typing in search input
+              e.stopPropagation()
+            }}
+            onClick={(e) => e.stopPropagation()}
+            prefix={
+              <icons.MagnifyingGlassIcon size={16} className="text-gray-400" />
+            }
+            allowClear
+          />
         </div>
-      ) : null}
-      <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
-    </div>
-  )
+        {multiple && value.length > 0 ? (
+          <div className="px-2 pb-2">
+            <div className="flex flex-wrap gap-1">
+              {(value as string[]).map((value) => (
+                <Tag
+                  className="opacity-100 z-10"
+                  key={value}
+                  status="default"
+                  closable
+                  onClose={() => handleTagClose(value)}
+                >
+                  {valueToLabel(value)}
+                </Tag>
+              ))}
+            </div>
+          </div>
+        ) : null}
+        <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
+      </div>
+    )
+  }
 
   const handleOpenChange = (open: boolean) => {
     if (open) return
