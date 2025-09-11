@@ -12,8 +12,15 @@ type Option = {
   value: string
 }
 
+type GroupOption = {
+  label: string
+  options: Option[]
+}
+
+type SelectOption = Option | GroupOption
+
 type BaseProps = Omit<
-  SelectProps<string | string[], Option>,
+  SelectProps<string | string[], SelectOption>,
   'mode' | 'value' | 'onChange' | 'options'
 > & {
   searchPlaceholder?: string
@@ -21,7 +28,7 @@ type BaseProps = Omit<
   rootClassName?: string
   popupClassName?: string
 
-  options: Option[]
+  options: SelectOption[]
   loading?: boolean
 }
 
@@ -41,6 +48,46 @@ type MultiProps = {
 
 export type Props = BaseProps & (SingleProps | MultiProps)
 
+const isGroupOption = (option: SelectOption): option is GroupOption => {
+  return 'options' in option
+}
+
+const getAllOptions = (options: SelectOption[]): Option[] => {
+  return options.flatMap((option) =>
+    isGroupOption(option) ? option.options : [option]
+  )
+}
+
+const filterOptions = (
+  options: SelectOption[],
+  searchValue: string
+): SelectOption[] => {
+  if (!searchValue) return options
+
+  return options
+    .map((option) => {
+      if (isGroupOption(option)) {
+        const filteredSubOptions = option.options.filter((subOption) =>
+          subOption.label
+            ?.toString()
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
+        )
+        return filteredSubOptions.length > 0
+          ? { ...option, options: filteredSubOptions }
+          : null
+      } else {
+        return option.label
+          ?.toString()
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+          ? option
+          : null
+      }
+    })
+    .filter((option): option is SelectOption => option !== null)
+}
+
 export function SummarizedSelect({
   searchPlaceholder,
   formControlPlaceholder,
@@ -57,11 +104,12 @@ export function SummarizedSelect({
   const [searchValue, setSearchValue] = useState('')
 
   const filteredOptions = useMemo(() => {
-    if (!searchValue) return options
-    return options.filter((option) =>
-      option.label?.toString().toLowerCase().includes(searchValue.toLowerCase())
-    )
+    return filterOptions(options, searchValue)
   }, [searchValue, options])
+
+  const allFlatOptions = useMemo(() => {
+    return getAllOptions(options)
+  }, [options])
 
   const handleTagClose = (removedValue: string) => {
     if (!multiple) return
@@ -71,7 +119,7 @@ export function SummarizedSelect({
 
   const popupRender = (menu: React.ReactElement) => {
     const valueToLabel = (val: string) => {
-      const option = options.find((opt) => opt.value === val)
+      const option = allFlatOptions.find((opt) => opt.value === val)
       return option ? option.label : val
     }
 
@@ -126,7 +174,7 @@ export function SummarizedSelect({
   }
 
   return (
-    <Select<string | string[], Option>
+    <Select<string | string[], SelectOption>
       showSearch={false}
       suffixIcon={
         loading ? (
