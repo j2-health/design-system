@@ -65,29 +65,82 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// Wrapper component to handle state management in Storybook
-const SummarizedSelectWrapper = (
-  args: Partial<React.ComponentProps<typeof SummarizedSelect>>
-) => {
-  const isMultiple = args.multiple ?? true
-  const [value, setValue] = useState<string[] | string>(
-    args.value ?? (isMultiple ? [] : '')
-  )
+type Option = {
+  label: React.ReactNode
+  value: string
+}
 
-  const handleChange = (newValue: string | string[]) => {
+type GroupOption = {
+  label: string
+  options: Option[]
+}
+
+type SelectOption = Option | GroupOption
+
+type MultiSelectArgs = {
+  searchPlaceholder?: string
+  formControlPlaceholder?: string
+  options?: SelectOption[]
+  renderLabel?: (count: number) => string
+  value?: string[]
+  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined'
+  loading?: boolean
+  disabled?: boolean
+}
+
+type SingleSelectArgs = {
+  searchPlaceholder?: string
+  formControlPlaceholder?: string
+  options?: SelectOption[]
+  value?: string
+  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined'
+  loading?: boolean
+  disabled?: boolean
+}
+
+// Multi-select wrapper component
+const MultiSelectWrapper = (args: MultiSelectArgs) => {
+  const [value, setValue] = useState<string[]>(args.value ?? [])
+
+  const handleChange = (newValue: string[]) => {
     setValue(newValue)
   }
 
   return (
     <SummarizedSelect
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      {...(args as any)}
-      options={args.options ?? defaultOptions}
+      searchPlaceholder={args.searchPlaceholder ?? 'Search...'}
       formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
-      multiple={isMultiple}
+      options={args.options ?? defaultOptions}
+      multiple={true}
       renderLabel={args.renderLabel ?? ((count: number) => `${count} selected`)}
       value={value}
       onChange={handleChange}
+      variant={args.variant}
+      loading={args.loading}
+      disabled={args.disabled}
+    />
+  )
+}
+
+// Single-select wrapper component
+const SingleSelectWrapper = (args: SingleSelectArgs) => {
+  const [value, setValue] = useState<string>(args.value ?? '')
+
+  const handleChange = (newValue: string) => {
+    setValue(newValue)
+  }
+
+  return (
+    <SummarizedSelect
+      searchPlaceholder={args.searchPlaceholder ?? 'Search...'}
+      formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
+      options={args.options ?? defaultOptions}
+      multiple={false}
+      value={value}
+      onChange={handleChange}
+      variant={args.variant}
+      loading={args.loading}
+      disabled={args.disabled}
     />
   )
 }
@@ -98,7 +151,7 @@ export const Default: Story = {
     formControlPlaceholder: 'Select J2 Specialties',
     value: [],
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const WithSelectedValues: Story = {
@@ -107,7 +160,7 @@ export const WithSelectedValues: Story = {
     formControlPlaceholder: 'Select J2 Specialties',
     value: ['Family Medicine', 'Nurse Practitioner'],
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const CustomPlaceholders: Story = {
@@ -115,7 +168,7 @@ export const CustomPlaceholders: Story = {
     searchPlaceholder: 'Type to search medical specialties...',
     formControlPlaceholder: 'Choose your specialties',
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const FewOptions: Story = {
@@ -129,7 +182,7 @@ export const FewOptions: Story = {
       { label: 'React', value: 'React' },
     ],
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const EmptyOptions: Story = {
@@ -139,7 +192,7 @@ export const EmptyOptions: Story = {
     value: [],
     options: [],
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const Underlined: Story = {
@@ -149,12 +202,14 @@ export const Underlined: Story = {
     value: ['Family Medicine'],
     variant: 'underlined',
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
 
 export const SingleSelection: Story = {
   args: {
-    multiple: false,
+    searchPlaceholder: 'Search specialties...',
+    formControlPlaceholder: 'Select J2 Specialties',
+    value: 'Family Medicine',
   },
-  render: (args) => <SummarizedSelectWrapper {...args} />,
+  render: (args) => <SingleSelectWrapper {...(args as SingleSelectArgs)} />,
 }
