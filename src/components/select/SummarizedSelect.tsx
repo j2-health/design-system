@@ -213,6 +213,8 @@ export function SummarizedSelect({
       classNames={{
         root: cx(rootClassName, styles.summarizedSelect, {
           [styles.hemisphericSelect]: props.variant != 'underlined',
+          [styles.isActive]:
+            multiple && value.length > 0 && props.variant != 'underlined',
         }),
         popup: { root: popupClassName },
       }}
