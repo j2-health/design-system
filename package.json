@@ -12,8 +12,8 @@
     "preview": "vite preview",
     "start": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "jest",
-    "test:dev": "jest --watchAll",
+    "test": "DEBUG_PRINT_LIMIT=100000 NODE_OPTIONS='--no-deprecation' jest",
+    "test:dev": "npm test -- --watchAll",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
