@@ -377,7 +377,7 @@ exports[`SummarizedSelect Loading State should render with loading state 1`] = `
 exports[`SummarizedSelect Multiple Selection Mode should render with multiple values 1`] = `
 <div>
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-multiple ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect isActive css-dev-only-do-not-override-os2fvf ant-select-multiple ant-select-show-arrow"
   >
     <div
       class="ant-select-selector"

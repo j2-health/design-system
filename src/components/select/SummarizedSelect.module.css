@@ -2,9 +2,33 @@
   border-radius: 9999px !important;
 }
 
-.summarizedSelect :global(.ant-select-selection-item) {
-  background: none !important;
-  border: none !important;
+.summarizedSelect {
+  :global(.ant-select-arrow) {
+    color: var(--j2-color-primary);
+  }
+
+  :global(.ant-select-selection-item) {
+    background: none !important;
+    border: none !important;
+  }
+
+  :global(.ant-select-selection-placeholder) {
+    color: var(--j2-color-primary) !important;
+  }
+}
+
+.isActive {
+  :global(.ant-select-selector) {
+    background: var(--j2-color-primary) !important;
+
+    :global(.ant-select-selection-item-content) {
+      color: white !important;
+    }
+  }
+
+  :global(.ant-select-arrow) {
+    color: white !important;
+  }
 }
 
 .menuContainer :global(.ant-select-item-option-selected) {
