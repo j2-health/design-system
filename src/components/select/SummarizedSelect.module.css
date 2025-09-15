@@ -1,5 +1,11 @@
-.hemisphericSelect :global(.ant-select-selector) {
-  border-radius: 9999px !important;
+.hemisphericSelect {
+  :global(.ant-select-selector) {
+    border-radius: 9999px !important;
+  }
+
+  :global(.ant-select-selection-placeholder) {
+    color: var(--j2-color-primary) !important;
+  }
 }
 
 .summarizedSelect {
@@ -10,10 +16,6 @@
   :global(.ant-select-selection-item) {
     background: none !important;
     border: none !important;
-  }
-
-  :global(.ant-select-selection-placeholder) {
-    color: var(--j2-color-primary) !important;
   }
 }
 
