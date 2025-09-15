@@ -1,4 +1,5 @@
 import { Select, Spin, Input, SelectProps } from 'antd'
+import { DefaultOptionType } from 'antd/es/select'
 import { useState, useMemo } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import * as icons from '../icons'
@@ -7,10 +8,7 @@ import cx from 'classnames'
 
 import styles from './SummarizedSelect.module.css'
 
-type Option = {
-  label: React.ReactNode
-  value: string
-}
+type Option = DefaultOptionType
 
 type GroupOption = {
   label: string
@@ -21,14 +19,13 @@ type SelectOption = Option | GroupOption
 
 type BaseProps = Omit<
   SelectProps<string | string[], SelectOption>,
-  'mode' | 'value' | 'onChange' | 'options'
+  'mode' | 'value' | 'onChange'
 > & {
   searchPlaceholder?: string
   formControlPlaceholder?: string
   rootClassName?: string
   popupClassName?: string
 
-  options: SelectOption[]
   loading?: boolean
 }
 
@@ -52,16 +49,19 @@ const isGroupOption = (option: SelectOption): option is GroupOption => {
   return 'options' in option
 }
 
-const getAllOptions = (options: SelectOption[]): Option[] => {
+const getAllOptions = (options: SelectOption[] | undefined): Option[] => {
+  if (!options) return []
+
   return options.flatMap((option) =>
     isGroupOption(option) ? option.options : [option]
   )
 }
 
 const filterOptions = (
-  options: SelectOption[],
+  options: SelectOption[] | undefined,
   searchValue: string
 ): SelectOption[] => {
+  if (!options) return []
   if (!searchValue) return options
 
   return options
