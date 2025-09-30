@@ -187,7 +187,7 @@ export function SummarizedSelect({
   const handleOpenChange = (open: boolean) => {
     if (open) {
       // Trigger focus by updating the counter
-      setFocusTrigger(prev => prev + 1)
+      setFocusTrigger((prev) => prev + 1)
     } else {
       setSearchValue('')
     }

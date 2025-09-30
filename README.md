@@ -4,9 +4,9 @@
 
 ### Installation
 
-Make sure to install our pre-commit hooks. They are also verified by CI, but
-if you want to be notified early of linting or type errors, you have to
-install `pre-commit` and run its install step. To do this, run the following:
+Make sure to install our pre-commit hooks. They are also verified by CI, but if
+you want to be notified early of linting or type errors, you have to install
+`pre-commit` and run its install step. To do this, run the following:
 
 ```bash
 $ PIP_REQUIRE_VIRTUALENV=false pip install pre-commit
@@ -17,8 +17,8 @@ $ pre-commit install
 
 #### Storybook
 
-In order to run the storybook, make sure to install node modules with `npm
-install`, and run the following command:
+In order to run the storybook, make sure to install node modules with
+`npm install`, and run the following command:
 
 ```bash
 $ npm start
