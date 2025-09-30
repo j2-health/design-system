@@ -49,6 +49,7 @@ type SelectFilter = {
     | Extract<Operator, 'equals' | 'notEqual' | 'blank' | 'notBlank'>
     | undefined
   values: string[]
+  category_name?: string
 }
 
 type NumberFilter = {
@@ -63,6 +64,7 @@ type NumberFilter = {
     | 'inRange'
     | undefined
   values: number[]
+  category_name?: string
 }
 
 type TextFilter = {
@@ -80,6 +82,7 @@ type TextFilter = {
       >
     | undefined
   values: string[]
+  category_name?: string
 }
 
 export type Filter = SelectFilter | NumberFilter | TextFilter
