@@ -1,6 +1,6 @@
-import { Select, Spin, Input, SelectProps } from 'antd'
+import { Select, Spin, Input, SelectProps, InputRef } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import * as icons from '../icons'
 import { Tag } from '../tag'
@@ -102,6 +102,20 @@ export function SummarizedSelect({
   ...props
 }: Props) {
   const [searchValue, setSearchValue] = useState('')
+  const [focusTrigger, setFocusTrigger] = useState(0)
+  const inputRef = useRef<InputRef>(null)
+
+  useEffect(() => {
+    if (focusTrigger > 0) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            inputRef.current?.focus({ cursor: 'end' })
+          }, 100)
+        })
+      })
+    }
+  }, [focusTrigger])
 
   const filteredOptions = useMemo(() => {
     return filterOptions(options, searchValue)
@@ -127,6 +141,9 @@ export function SummarizedSelect({
       <div>
         <div className="mb-2 px-2 pb-2 border-b -mx-1 mt-1">
           <Input
+            ref={inputRef}
+            key={focusTrigger}
+            autoFocus
             placeholder={searchPlaceholder || 'Search...'}
             value={searchValue}
             onChange={(e) => {
@@ -168,9 +185,12 @@ export function SummarizedSelect({
   }
 
   const handleOpenChange = (open: boolean) => {
-    if (open) return
-
-    setSearchValue('')
+    if (open) {
+      // Trigger focus by updating the counter
+      setFocusTrigger(prev => prev + 1)
+    } else {
+      setSearchValue('')
+    }
   }
 
   return (
