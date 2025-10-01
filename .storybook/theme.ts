@@ -9,5 +9,5 @@ export default create({
   fontBase: 'Rubik, sans-serif',
   appBorderRadius: 4,
   colorPrimary: '#253761',
-  colorSecondary: '#4c97fd'
+  colorSecondary: '#4c97fd',
 })
