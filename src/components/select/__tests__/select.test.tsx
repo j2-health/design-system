@@ -1,9 +1,10 @@
 import { render, fireEvent } from '@testing-library/react'
+import type { ReactElement } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'formik-antd'
 import { Select } from '../Select'
 
-const renderWithForm = (selectElement: JSX.Element) => {
+const renderWithForm = (selectElement: ReactElement) => {
   return render(
     <Formik initialValues={{ test: '' }} onSubmit={() => {}}>
       <Form>{selectElement}</Form>

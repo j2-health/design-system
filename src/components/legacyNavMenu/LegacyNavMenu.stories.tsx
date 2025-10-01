@@ -85,7 +85,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div style={{ height: '100vh', display: 'flex' }}>
-      <LegacyNavMenu {...args} />
+      <LegacyNavMenu sections={args.sections} user={args.user} {...args} />
       <div style={{ flex: 1, padding: '20px', backgroundColor: '#f5f5f5' }}>
         <h1>Main Content Area</h1>
         <p>
