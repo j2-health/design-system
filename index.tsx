@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
+import './src/stylesheets/index.css'
+
 export * from './src/AppConfigProvider'
 export * from './src/appTheme'
 export * from './src/components/alert'
