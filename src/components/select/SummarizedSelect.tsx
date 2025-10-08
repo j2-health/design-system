@@ -88,19 +88,21 @@ const filterOptions = (
     .filter((option): option is SelectOption => option !== null)
 }
 
-export function SummarizedSelect({
-  searchPlaceholder,
-  formControlPlaceholder,
-  loading,
-  multiple,
-  value,
-  onChange,
-  options,
-  renderLabel,
-  rootClassName,
-  popupClassName,
-  ...props
-}: Props) {
+export function SummarizedSelect(allProps: Props) {
+  const {
+    searchPlaceholder,
+    formControlPlaceholder,
+    loading,
+    multiple,
+    value,
+    onChange,
+    options,
+    renderLabel,
+    rootClassName,
+    popupClassName,
+    ...props
+  } = allProps
+
   const [searchValue, setSearchValue] = useState('')
   const [focusTrigger, setFocusTrigger] = useState(0)
   const inputRef = useRef<InputRef>(null)
@@ -129,6 +131,19 @@ export function SummarizedSelect({
     if (!multiple) return
 
     onChange(value.filter((x) => x !== removedValue))
+  }
+
+  const handleToggleAll = () => {
+    if (!multiple) return
+
+    const allFilteredValues = getAllOptions(filteredOptions).map(
+      (opt) => opt.value as string
+    )
+    const someSelected = allFilteredValues.some((val) => value.includes(val))
+
+    if (someSelected) {
+      onChange(value.filter((val) => !allFilteredValues.includes(val)))
+    }
   }
 
   const popupRender = (menu: React.ReactElement) => {
@@ -180,6 +195,22 @@ export function SummarizedSelect({
           </div>
         ) : null}
         <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
+        <div className="flex justify-between items-center">
+          {multiple && (
+            <div className="w-full border-t border-j2-gray-5 mt-1 pt-1">
+              <div
+                aria-selected="false"
+                className="ant-select-item ant-select-item-option text-j2-blue-9 hover:bg-j2-blue-5 w-full"
+                title="Clear all"
+                onClick={handleToggleAll}
+              >
+                <div className="ant-select-item-option-content text-center font-semibold">
+                  Clear all
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     )
   }
