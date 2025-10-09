@@ -9,7 +9,7 @@ import offlineExporting from 'highcharts/modules/offline-exporting'
 
 type Series = {
   name?: string
-  data: number[]
+  data: Highcharts.PointOptionsObject[] | number[]
   color?: string
   hoverColor?: string
 }
