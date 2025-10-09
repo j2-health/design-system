@@ -30,6 +30,8 @@ type BarChartProps = {
   ) => React.ReactNode
   chartRef?: React.RefObject<HighchartsReact.RefObject>
   exporting?: Highcharts.ExportingOptions
+  maxBars?: number
+  barsWidth?: number
 }
 
 const BarChart = ({
@@ -44,12 +46,20 @@ const BarChart = ({
   tooltip,
   exporting,
   chartRef,
+  maxBars = 50,
+  barsWidth = undefined,
 }: BarChartProps) => {
   if (exporting) {
     exportingModule(Highcharts)
     offlineExporting(Highcharts)
   }
   accessibilityModule(Highcharts)
+
+  const limitedCategories = categories.slice(0, maxBars)
+  const limitedSeries = series.map((s) => ({
+    ...s,
+    data: s.data.slice(0, maxBars),
+  }))
 
   const { token } = theme.useToken()
 
@@ -66,6 +76,12 @@ const BarChart = ({
     chart: {
       type: 'column',
     },
+    plotOptions: {
+      column: {
+        borderRadius: 12,
+        ...(barsWidth !== undefined ? { pointWidth: barsWidth } : {}),
+      },
+    },
     exporting: {
       ...exporting,
       enabled: false,
@@ -81,7 +97,7 @@ const BarChart = ({
             ...exporting?.chartOptions?.title?.style,
           },
         },
-        series: series.map((s) => ({
+        series: limitedSeries.map((s) => ({
           type: 'column',
           color: s.color ? s.color : '#253761', // --j2-blue-9
         })),
@@ -92,7 +108,8 @@ const BarChart = ({
       text: '',
     },
     xAxis: {
-      categories: categories,
+      categories: limitedCategories,
+      gridLineDashStyle: 'Dot',
       title: xAxisTitle
         ? {
             text: xAxisTitle,
@@ -108,6 +125,7 @@ const BarChart = ({
       min: min,
       max: max,
       endOnTick: true,
+      gridLineDashStyle: 'Dot',
       title: yAxisTitle
         ? {
             text: yAxisTitle,
@@ -125,11 +143,11 @@ const BarChart = ({
     legend: {
       enabled: false,
     },
-    series: series.map((s) => ({
+    series: limitedSeries.map((s) => ({
       data: s.data,
       name: s.name,
       type: 'column',
-      color: s.color || 'var(--j2-color-primary)',
+      color: s.color || 'var(--j2-blue-11)',
       states: {
         hover: {
           color: s.hoverColor || token.colorPrimaryTextHover,
