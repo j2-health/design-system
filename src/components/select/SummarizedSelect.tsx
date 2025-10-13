@@ -135,6 +135,19 @@ export function SummarizedSelect({
     onChange(value.filter((x) => x !== removedValue))
   }
 
+  const handleToggleAll = () => {
+    if (!multiple) return
+
+    const allFilteredValues = getAllOptions(filteredOptions).map(
+      (opt) => opt.value as string
+    )
+    const someSelected = allFilteredValues.some((val) => value.includes(val))
+
+    if (someSelected) {
+      onChange(value.filter((val) => !allFilteredValues.includes(val)))
+    }
+  }
+
   const optionRender = (option: FlattenOptionData<SelectOption>) => {
     if ('logo' in option.data && option.data.logo) {
       return (
@@ -200,6 +213,22 @@ export function SummarizedSelect({
           </div>
         ) : null}
         <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
+        <div className="flex justify-between items-center">
+          {multiple && (
+            <div className="w-full border-t border-j2-gray-5 mt-1 pt-1">
+              <div
+                aria-selected="false"
+                className="ant-select-item ant-select-item-option text-j2-blue-9 hover:bg-j2-blue-5 w-full"
+                title="Clear all"
+                onClick={handleToggleAll}
+              >
+                <div className="ant-select-item-option-content text-center font-semibold">
+                  Clear all
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     )
   }
