@@ -126,7 +126,7 @@ const BarChart = ({
       max: max,
       endOnTick: true,
       gridLineDashStyle: 'Dot',
-      gridLineColor: '#DADAD2',
+      gridLineColor: 'var(--j2-gray-6)',
       title: yAxisTitle
         ? {
             text: yAxisTitle,
