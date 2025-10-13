@@ -2,6 +2,7 @@ import { Select, Spin, Input, SelectProps, InputRef } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
+import type { FlattenOptionData } from 'rc-select/lib/interface';
 import * as icons from '../icons'
 import { Tag } from '../tag'
 import cx from 'classnames'
@@ -9,13 +10,16 @@ import cx from 'classnames'
 import styles from './SummarizedSelect.module.css'
 
 type Option = DefaultOptionType
+type OptionWithLogo = Option & {
+  logo: string
+}
 
 type GroupOption = {
   label: string
   options: Option[]
 }
 
-type SelectOption = Option | GroupOption
+export type SelectOption = Option | GroupOption | OptionWithLogo
 
 type BaseProps = Omit<
   SelectProps<string | string[], SelectOption>,
@@ -88,21 +92,19 @@ const filterOptions = (
     .filter((option): option is SelectOption => option !== null)
 }
 
-export function SummarizedSelect(allProps: Props) {
-  const {
-    searchPlaceholder,
-    formControlPlaceholder,
-    loading,
-    multiple,
-    value,
-    onChange,
-    options,
-    renderLabel,
-    rootClassName,
-    popupClassName,
-    ...props
-  } = allProps
-
+export function SummarizedSelect({
+  searchPlaceholder,
+  formControlPlaceholder,
+  loading,
+  multiple,
+  value,
+  onChange,
+  options,
+  renderLabel,
+  rootClassName,
+  popupClassName,
+  ...props
+}: Props) {
   const [searchValue, setSearchValue] = useState('')
   const [focusTrigger, setFocusTrigger] = useState(0)
   const inputRef = useRef<InputRef>(null)
@@ -133,17 +135,16 @@ export function SummarizedSelect(allProps: Props) {
     onChange(value.filter((x) => x !== removedValue))
   }
 
-  const handleToggleAll = () => {
-    if (!multiple) return
-
-    const allFilteredValues = getAllOptions(filteredOptions).map(
-      (opt) => opt.value as string
-    )
-    const someSelected = allFilteredValues.some((val) => value.includes(val))
-
-    if (someSelected) {
-      onChange(value.filter((val) => !allFilteredValues.includes(val)))
+  const optionRender = (option: FlattenOptionData<SelectOption>) => {
+    if ('logo' in option.data && option.data.logo) {
+      return (
+        <div className="flex items-center gap-2">
+          <img src={option.data.logo} alt="" className="w-4 h-4 object-contain" />
+          <span>{option.label}</span>
+        </div>
+      )
     }
+    return <div>{option.label}</div>
   }
 
   const popupRender = (menu: React.ReactElement) => {
@@ -195,22 +196,6 @@ export function SummarizedSelect(allProps: Props) {
           </div>
         ) : null}
         <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
-        <div className="flex justify-between items-center">
-          {multiple && (
-            <div className="w-full border-t border-j2-gray-5 mt-1 pt-1">
-              <div
-                aria-selected="false"
-                className="ant-select-item ant-select-item-option text-j2-blue-9 hover:bg-j2-blue-5 w-full"
-                title="Clear all"
-                onClick={handleToggleAll}
-              >
-                <div className="ant-select-item-option-content text-center font-semibold">
-                  Clear all
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     )
   }
@@ -260,6 +245,7 @@ export function SummarizedSelect(allProps: Props) {
         }
       }}
       popupRender={popupRender}
+      optionRender={optionRender}
       onOpenChange={handleOpenChange}
       classNames={{
         root: cx(rootClassName, styles.summarizedSelect, {
