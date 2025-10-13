@@ -78,7 +78,7 @@ const BarChart = ({
     },
     plotOptions: {
       column: {
-        borderRadius: 12,
+        borderRadius: '20%',
         ...(barsWidth !== undefined ? { pointWidth: barsWidth } : {}),
       },
     },
@@ -126,6 +126,7 @@ const BarChart = ({
       max: max,
       endOnTick: true,
       gridLineDashStyle: 'Dot',
+      gridLineColor: 'var(--j2-gray-6)',
       title: yAxisTitle
         ? {
             text: yAxisTitle,
