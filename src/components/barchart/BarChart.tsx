@@ -78,7 +78,7 @@ const BarChart = ({
     },
     plotOptions: {
       column: {
-        borderRadius: "20%",
+        borderRadius: '20%',
         ...(barsWidth !== undefined ? { pointWidth: barsWidth } : {}),
       },
     },
