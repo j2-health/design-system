@@ -2,7 +2,7 @@ import { Select, Spin, Input, SelectProps, InputRef } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
-import type { FlattenOptionData } from 'rc-select/lib/interface';
+import type { FlattenOptionData } from 'rc-select/lib/interface'
 import * as icons from '../icons'
 import { Tag } from '../tag'
 import cx from 'classnames'
@@ -139,7 +139,11 @@ export function SummarizedSelect({
     if ('logo' in option.data && option.data.logo) {
       return (
         <div className="flex items-center gap-2">
-          <img src={option.data.logo} alt="" className="w-4 h-4 object-contain" />
+          <img
+            src={option.data.logo}
+            alt=""
+            className="w-4 h-4 object-contain"
+          />
           <span>{option.label}</span>
         </div>
       )
