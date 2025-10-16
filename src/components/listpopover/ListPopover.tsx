@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import cx from 'classnames'
 import { Popover } from '../popover/Popover'
 import { Button } from '../button/Button'
@@ -12,6 +13,7 @@ export type PopoverItem = string | PopoverObjectItem
 type _ContentProps = {
   items: PopoverItem[]
   openMessage: OpenMessageFunc
+  renderItem?: (label: string) => ReactNode
 }
 
 type PopoverContentProps = Expand<_ContentProps>
@@ -41,13 +43,17 @@ const CopyButton = ({
 const StringListItem = ({
   item,
   openMessage,
+  renderItem,
 }: {
   item: string
   openMessage: OpenMessageFunc
+  renderItem?: (label: string) => ReactNode
 }) => {
   return (
     <div key={item} className={cx('flex items-center')}>
-      <p className={cx('overflow-hidden text-nowrap text-ellipsis')}>{item}</p>
+      <div className={cx('overflow-hidden text-nowrap text-ellipsis')}>
+        {renderItem ? renderItem(item) : item}
+      </div>
       <CopyButton openMessage={openMessage} textToCopy={item} />
     </div>
   )
@@ -57,10 +63,12 @@ const ObjectListItem = ({
   item,
   openMessage,
   index,
+  renderItem,
 }: {
   item: PopoverObjectItem
   openMessage: OpenMessageFunc
   index: number
+  renderItem?: (label: string) => ReactNode
 }) => {
   return (
     <div className={cx({ 'mt-2': index != 0 })}>
@@ -75,9 +83,9 @@ const ObjectListItem = ({
       </p>
       {item.items.map((subItem, index) => (
         <div key={`${subItem}:${index}`} className={cx('flex items-center')}>
-          <p className={cx('overflow-hidden text-nowrap text-ellipsis')}>
-            {subItem}
-          </p>
+          <div className={cx('overflow-hidden text-nowrap text-ellipsis')}>
+            {renderItem ? renderItem(subItem) : subItem}
+          </div>
           <CopyButton openMessage={openMessage} textToCopy={subItem} />
         </div>
       ))}
@@ -85,18 +93,28 @@ const ObjectListItem = ({
   )
 }
 
-const PopoverContent = ({ items, openMessage }: PopoverContentProps) => {
+const PopoverContent = ({
+  items,
+  openMessage,
+  renderItem,
+}: PopoverContentProps) => {
   return (
     <div className={cx('max-w-[400px] max-h-[198px]')}>
       {items.map((item, i) =>
         typeof item === 'string' ? (
-          <StringListItem key={item} item={item} openMessage={openMessage} />
+          <StringListItem
+            key={item}
+            item={item}
+            openMessage={openMessage}
+            renderItem={renderItem}
+          />
         ) : (
           <ObjectListItem
             index={i}
             key={item.categoryName}
             item={item}
             openMessage={openMessage}
+            renderItem={renderItem}
           />
         )
       )}
@@ -109,6 +127,7 @@ type Props = {
   column: string
   openMessage: OpenMessageFunc
   children: React.ReactNode
+  renderItem?: (label: string) => ReactNode
 }
 
 export type ListPopoverProps = Expand<Props>
@@ -118,11 +137,18 @@ const ListPopover = ({
   items,
   column,
   openMessage,
+  renderItem,
 }: ListPopoverProps) => {
   return (
     <Popover
       title={`${column} (${items.length})`}
-      content={<PopoverContent items={items} openMessage={openMessage} />}
+      content={
+        <PopoverContent
+          items={items}
+          openMessage={openMessage}
+          renderItem={renderItem}
+        />
+      }
       trigger="click"
       scrollable={true}
       arrow={false}
