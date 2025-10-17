@@ -9,6 +9,8 @@
 }
 
 .summarizedSelect {
+  width: fit-content !important;
+
   :global(.ant-select-arrow) {
     color: var(--j2-color-primary);
   }
