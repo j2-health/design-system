@@ -1,4 +1,5 @@
 import * as React from 'react'
+import cx from 'classnames'
 import { Tag as AntdTag, TagProps } from 'antd'
 import {
   ArrowsClockwiseIcon,
@@ -52,7 +53,7 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
       {...props}
       color={status}
       icon={iconComponent}
-      className="j2-tag"
+      className={cx('j2-tag', props.className)}
     />
   )
 }

@@ -167,7 +167,7 @@ export function SummarizedSelect({
   const popupRender = (menu: React.ReactElement) => {
     const valueToLabel = (val: string) => {
       const option = allFlatOptions.find((opt) => opt.value === val)
-      return option ? option.label : val
+      return option ? (option.label as string) : val
     }
 
     return (
@@ -200,13 +200,18 @@ export function SummarizedSelect({
             <div className="flex flex-wrap gap-1">
               {(value as string[]).map((value) => (
                 <Tag
-                  className="opacity-100 z-10"
+                  className="opacity-100 z-10 flex max-w-full"
                   key={value}
                   status="default"
                   closable
                   onClose={() => handleTagClose(value)}
                 >
-                  {valueToLabel(value)}
+                  <span
+                    className="overflow-ellipsis overflow-hidden"
+                    title={valueToLabel(value)}
+                  >
+                    {valueToLabel(value)}
+                  </span>
                 </Tag>
               ))}
             </div>
