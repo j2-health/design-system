@@ -11,7 +11,7 @@ import styles from './SummarizedSelect.module.css'
 
 type Option = DefaultOptionType
 type OptionWithLogo = Option & {
-  logo: string
+  logo: React.ReactNode
 }
 
 type GroupOption = {
@@ -152,11 +152,7 @@ export function SummarizedSelect({
     if ('logo' in option.data && option.data.logo) {
       return (
         <div className="flex items-center gap-2">
-          <img
-            src={option.data.logo}
-            alt=""
-            className="w-4 h-4 object-contain"
-          />
+          {option.data.logo}
           <span>{option.label}</span>
         </div>
       )
