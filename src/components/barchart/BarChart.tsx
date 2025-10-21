@@ -32,6 +32,8 @@ type BarChartProps = {
   exporting?: Highcharts.ExportingOptions
   maxBars?: number
   barsWidth?: number
+  height?: number
+  width?: number
 }
 
 const BarChart = ({
@@ -46,6 +48,8 @@ const BarChart = ({
   tooltip,
   exporting,
   chartRef,
+  height,
+  width,
   maxBars = 50,
   barsWidth = undefined,
 }: BarChartProps) => {
@@ -75,6 +79,8 @@ const BarChart = ({
     },
     chart: {
       type: 'column',
+      ...(height ? { height } : {}),
+      ...(width ? { width } : {}),
     },
     plotOptions: {
       column: {
@@ -109,7 +115,6 @@ const BarChart = ({
     },
     xAxis: {
       categories: limitedCategories,
-      gridLineDashStyle: 'Dot',
       title: xAxisTitle
         ? {
             text: xAxisTitle,
@@ -126,7 +131,7 @@ const BarChart = ({
       max: max,
       endOnTick: true,
       gridLineDashStyle: 'Dot',
-      gridLineColor: 'var(--j2-gray-6)',
+      gridLineColor: 'white',
       title: yAxisTitle
         ? {
             text: yAxisTitle,
