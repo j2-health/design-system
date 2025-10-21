@@ -152,8 +152,10 @@ export function SummarizedSelect({
     if ('logo' in option.data && option.data.logo) {
       return (
         <div className="flex items-center gap-2">
-          {option.data.logo}
-          <span>{option.label}</span>
+          <div className="h-4 shrink-0">{option.data.logo}</div>
+          <span className="overflow-ellipsis overflow-hidden">
+            {option.label}
+          </span>
         </div>
       )
     }
