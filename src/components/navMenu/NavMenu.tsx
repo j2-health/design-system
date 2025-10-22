@@ -3,8 +3,8 @@ import { ItemType } from 'antd/es/menu/interface'
 import cx from 'classnames'
 import { Menu } from '../menu'
 
-import Logo from '../../svgs/j2-logo.svg?react'
-import Wordmark from '../../svgs/j2-wordmark.svg?react'
+import SmallLogo from '../../svgs/j2-logo-menu-collapse.svg?react'
+import LogoWithText from '../../svgs/j2-logo-menu.svg?react'
 import ExpandIcon from '../../svgs/menu-sidebar-expand.svg?react'
 import CollapseIcon from '../../svgs/menu-sidebar-collapse.svg?react'
 import { Button } from '../button'
@@ -52,7 +52,7 @@ export const NavMenu = ({
       )}
     >
       <div className={cx('flex', 'flex-col', 'h-full')}>
-        <div className={cx('py-5', isCollapsed ? 'px-4' : 'px-3')}>
+        <div className="py-5 px-3">
           <div
             className={cx(
               'flex',
@@ -66,8 +66,7 @@ export const NavMenu = ({
               href={href}
               className={cx('flex', 'items-center', 'gap-2', styles.logo)}
             >
-              <Logo />
-              {!isCollapsed && <Wordmark />}
+              {isCollapsed ? <SmallLogo /> : <LogoWithText />}
             </a>
             <Tooltip
               title={isCollapsed ? 'Expand Menu' : 'Collapse Menu'}
