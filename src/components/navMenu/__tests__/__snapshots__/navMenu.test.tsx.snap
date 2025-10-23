@@ -19,7 +19,6 @@ exports[`NavMenu should render correctly 1`] = `
             href="/"
           >
             <test-file-stub />
-            <test-file-stub />
           </a>
           <div
             aria-describedby="test-id"
