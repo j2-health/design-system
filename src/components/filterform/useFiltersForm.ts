@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 import { FilterForm, FilterGroup, FormFilter } from './types'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { isEmptyFormFilter } from './filterHelpers'
 
 type UseFiltersFormInput = {

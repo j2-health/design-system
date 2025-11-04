@@ -1,6 +1,6 @@
 {
   "name": "@j2-health/design-system",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/design-system.umd.js",
   "module": "./dist/design-system.es.js",
