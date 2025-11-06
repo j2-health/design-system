@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './LegacyNavMenu.module.css'
-import J2Logo from '../../svgs/j2-logo.svg?react'
+import J2Logo from '../../svgs/j2-logo-menu-collapse.svg?react'
 import { UserProfile } from './UserProfile'
 
 export interface NavItem {
