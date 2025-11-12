@@ -8,12 +8,12 @@
 }
 
 :global(.ant-table-bordered .ant-table-row .ant-table-cell) {
-  border-bottom: 1px solid var(--j2-color-border-secondary) !important;
+  border-bottom: 0.5px solid var(--j2-color-border-secondary) !important;
 }
 
 :global(.ant-table-bordered .ant-table-container) {
-  border-right: 1px solid var(--j2-color-border-secondary);
-  border-bottom: 1px solid var(--j2-color-border-secondary) !important;
+  border-right: 0.5px solid var(--j2-color-border-secondary);
+  border-bottom: 0.5px solid var(--j2-color-border-secondary) !important;
   border-radius: var(--j2-border-radius);
   overflow: hidden;
 
