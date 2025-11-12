@@ -49,3 +49,7 @@
 .alternatingRows :global(.ant-table-tbody > tr:nth-child(even)) {
   background-color: #fafafa !important;
 }
+
+:global(.ant-table-column-sorters) {
+  margin-right: 1rem !important;
+}
