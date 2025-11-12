@@ -9,15 +9,11 @@
 
 :global(.ant-table-bordered .ant-table-row .ant-table-cell) {
   border-bottom: 1px solid var(--j2-color-border-secondary) !important;
-  border-right: 1px solid var(--j2-color-border-secondary) !important;
-}
-
-:global(.ant-table-bordered .ant-table-row .ant-table-cell:last-child) {
-  border-right: none !important;
 }
 
 :global(.ant-table-bordered .ant-table-container) {
-  border: 1px solid var(--j2-color-border-secondary);
+  border-right: 1px solid var(--j2-color-border-secondary);
+  border-bottom: 1px solid var(--j2-color-border-secondary) !important;
   border-radius: var(--j2-border-radius);
   overflow: hidden;
 
@@ -48,12 +44,6 @@
 :global(.ant-table-thead) > tr > th {
   white-space: nowrap;
   color: var(--j2-color-primary) !important;
-  border-bottom: 1px solid var(--j2-color-border-secondary) !important;
-  border-right: 1px solid var(--j2-color-border-secondary) !important;
-}
-
-:global(.ant-table-thead) > tr > th:last-child {
-  border-right: none !important;
 }
 
 .alternatingRows :global(.ant-table-tbody > tr:nth-child(even)) {
