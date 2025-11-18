@@ -67,15 +67,11 @@ export const FilterInput = ({
     }
   }
 
-  const handleChange = (filter: FormFilter | undefined) => {
+  React.useEffect(() => {
     if (filter) {
       onChange?.(filter)
     }
-  }
-
-  React.useEffect(() => {
-    handleChange(filter)
-  }, [filter])
+  }, [filter, onChange])
 
   return (
     <div className={cx('grid grid-cols-3 gap-2', className)}>
