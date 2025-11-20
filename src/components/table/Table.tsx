@@ -1,12 +1,16 @@
-import { Table as AntdTable, SpinProps, TableProps } from 'antd'
+import { Table as AntdTable, SpinProps, TableProps, Select, Button } from 'antd'
 import cx from 'classnames'
-
 import s from './Table.module.css'
 import { Spinner } from '../spinner'
 import {
   CaretDownIcon,
   CaretUpIcon,
   CaretUpDownIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  DotsThreeIcon,
+  CaretDoubleLeftIcon,
+  CaretDoubleRightIcon,
 } from '@phosphor-icons/react'
 import { ComponentProps } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
@@ -15,6 +19,7 @@ type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
   alternatingRows?: boolean
   columns?: TableProps<T>['columns']
+  paginationTextLabels?: boolean
 }
 
 type Props<T> = Expand<MergedProps<T>>
@@ -24,19 +29,47 @@ export const defaultSortIcon = ({
 }: {
   sortOrder: 'ascend' | 'descend' | null
 }) => {
-  if (sortOrder == 'ascend') {
-    return <CaretUpIcon />
-  } else if (sortOrder == 'descend') {
-    return <CaretDownIcon />
-  }
-
+  if (sortOrder == 'ascend') return <CaretUpIcon />
+  if (sortOrder == 'descend') return <CaretDownIcon />
   return <CaretUpDownIcon />
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Table = <T = any,>({
+const renderIconButton = (
+  icon: React.ReactNode,
+  isSmallPagination?: boolean,
+  customClassName?: string
+) => (
+  <Button
+    type="link"
+    size={isSmallPagination ? 'small' : 'middle'}
+    className={cx(customClassName, isSmallPagination ? '!w-6' : '!w-8')}
+  >
+    {icon}
+  </Button>
+)
+
+const renderJumpItem = (
+  icon: React.ReactNode,
+  doubleIcon: React.ReactNode,
+  isSmallPagination?: boolean
+) => (
+  <a className="ant-pagination-item-link">
+    <div className="ant-pagination-item-container">
+      <span className="ant-pagination-item-ellipsis">
+        {renderIconButton(icon, isSmallPagination, s['jump-button'])}
+      </span>
+      <span className="ant-pagination-item-link-icon">
+        {renderIconButton(doubleIcon, isSmallPagination, s['jump-button'])}
+      </span>
+    </div>
+  </a>
+)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-constraint
+const Table = <T extends unknown = any>({
   verticalBorders,
   alternatingRows,
+  paginationTextLabels = false,
   ...props
 }: Props<T>) => {
   const defaultLoadingProps: SpinProps = {
@@ -51,16 +84,86 @@ const Table = <T = any,>({
 
   const loading: SpinProps | boolean | undefined =
     typeof props.loading == 'object'
-      ? {
-          ...props.loading,
-          ...defaultLoadingProps,
-        }
+      ? { ...props.loading, ...defaultLoadingProps }
       : props.loading && defaultLoadingProps
 
   const columns = props.columns?.map((column) => ({
     ...column,
     sortIcon: column.sortIcon ?? defaultSortIcon,
   }))
+
+  const isSmallPagination =
+    props.pagination &&
+    typeof props.pagination === 'object' &&
+    props.pagination.size === 'small'
+
+  const paginationLocale = {
+    jump_to: isSmallPagination ? (
+      <>
+        Go to
+        <span style={{ paddingLeft: '4px', paddingRight: '8px' }}>:</span>
+      </>
+    ) : (
+      'Go to'
+    ),
+    page: isSmallPagination ? '' : 'page',
+  }
+
+  const itemRender = (
+    _page: number,
+    type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next',
+    element: React.ReactNode
+  ) => {
+    if (type === 'prev') {
+      return (
+        <a>
+          {paginationTextLabels
+            ? 'Previous'
+            : renderIconButton(<CaretLeftIcon />, isSmallPagination)}
+        </a>
+      )
+    }
+
+    if (type === 'next') {
+      return (
+        <a>
+          {paginationTextLabels
+            ? 'Next'
+            : renderIconButton(<CaretRightIcon />, isSmallPagination)}
+        </a>
+      )
+    }
+
+    if (type === 'jump-prev') {
+      return renderJumpItem(
+        <DotsThreeIcon />,
+        <CaretDoubleLeftIcon />,
+        isSmallPagination
+      )
+    }
+
+    if (type === 'jump-next') {
+      return renderJumpItem(
+        <DotsThreeIcon />,
+        <CaretDoubleRightIcon />,
+        isSmallPagination
+      )
+    }
+
+    return element
+  }
+
+  const paginationConfig = props.pagination
+    ? {
+        ...props.pagination,
+        locale: { ...paginationLocale, ...props.pagination.locale },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        selectComponentClass: (selectProps: any) => (
+          <Select {...selectProps} suffixIcon={<CaretDownIcon />} />
+        ),
+        itemRender,
+      }
+    : false
 
   return (
     <div
@@ -74,6 +177,8 @@ const Table = <T = any,>({
         {...props}
         loading={loading}
         columns={columns}
+        // @ts-expect-error TS is wrong here, pagination DOES accept JSX.Element, not only strings
+        pagination={paginationConfig}
         rowKey={(record) => JSON.stringify(record)}
         locale={{
           emptyText: (
