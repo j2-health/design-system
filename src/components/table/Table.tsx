@@ -1,4 +1,11 @@
-import { Table as AntdTable, SpinProps, TableProps, Select, Button } from 'antd'
+import {
+  Table as AntdTable,
+  SpinProps,
+  TableProps,
+  Select,
+  Button,
+  SelectProps,
+} from 'antd'
 import cx from 'classnames'
 import s from './Table.module.css'
 import { Spinner } from '../spinner'
@@ -157,8 +164,7 @@ const Table = <T extends unknown = any>({
     ? {
         ...props.pagination,
         locale: { ...paginationLocale, ...props.pagination.locale },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        selectComponentClass: (selectProps: any) => (
+        selectComponentClass: (selectProps: SelectProps) => (
           <Select {...selectProps} suffixIcon={<CaretDownIcon />} />
         ),
         itemRender,
