@@ -39,11 +39,63 @@ const meta = {
         type: { summary: 'boolean' },
       },
     },
+    paginationTextLabels: {
+      control: {
+        type: 'boolean',
+      },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
   },
 } satisfies Meta<typeof Table>
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+const smallDataSource = [
+  {
+    make: 'Tesla',
+    model: 'Model Y',
+    price: 64950,
+    electric: true,
+    rating: 4.8,
+  },
+  {
+    make: 'Ford',
+    model: 'F-Series',
+    price: 33850,
+    electric: false,
+    rating: 4.2,
+  },
+  {
+    make: 'Toyota',
+    model: 'Corolla',
+    price: 29600,
+    electric: false,
+    rating: 4.8,
+  },
+]
+
+const columns = [
+  { dataIndex: 'make', title: 'Make' },
+  { dataIndex: 'model', title: 'Model' },
+  {
+    dataIndex: 'price',
+    title: 'Price',
+    render: (value: number) => `$${value.toLocaleString()}`,
+  },
+  {
+    dataIndex: 'electric',
+    title: 'Electric',
+    render: (value: boolean) => (value ? <CheckIcon /> : <XIcon />),
+  },
+  {
+    dataIndex: 'rating',
+    title: 'Rating',
+    render: (value: number) => <Rate disabled value={value} />,
+  },
+]
 
 export const Default: Story = {
   render: (args) => (
@@ -52,44 +104,8 @@ export const Default: Story = {
     </div>
   ),
   args: {
-    dataSource: [
-      {
-        make: 'Tesla',
-        model: 'Model Y',
-        price: 64950,
-        electric: true,
-        rating: 0.01,
-      },
-      {
-        make: 'Ford',
-        model: 'F-Series',
-        price: 33850,
-        electric: false,
-        rating: 2,
-      },
-      {
-        make: 'Toyota',
-        model: 'Corolla',
-        price: 29600,
-        electric: false,
-        rating: 4.8,
-      },
-    ],
-    columns: [
-      { dataIndex: 'make', title: 'Make' },
-      { dataIndex: 'model', title: 'Model' },
-      { dataIndex: 'price', title: 'Price' },
-      {
-        dataIndex: 'electric',
-        title: 'Electric',
-        render: (value) => (value ? <CheckIcon /> : <XIcon />),
-      },
-      {
-        dataIndex: 'rating',
-        title: 'Rating',
-        render: (value) => <Rate disabled value={value} />,
-      },
-    ],
+    dataSource: smallDataSource,
+    columns,
   },
 }
 
@@ -179,28 +195,387 @@ export const AlternatingRows: Story = {
         rating: 4.0,
       },
     ],
-    columns: [
-      { dataIndex: 'make', title: 'Make' },
-      { dataIndex: 'model', title: 'Model' },
-      {
-        dataIndex: 'price',
-        title: 'Price',
-        render: (value) => `$${value.toLocaleString()}`,
-      },
-      {
-        dataIndex: 'electric',
-        title: 'Electric',
-        render: (value) => (value ? <CheckIcon /> : <XIcon />),
-      },
-      {
-        dataIndex: 'rating',
-        title: 'Rating',
-        render: (value) => <Rate disabled value={value} />,
-      },
-    ],
+    columns,
   },
   render: (args) => (
     <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+// Pagination Stories
+
+export const PaginationAlignLeft: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      position: ['bottomLeft'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationAlignCenter: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      position: ['bottomCenter'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationBasic: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationWithSizeChanger: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      showSizeChanger: true, // automatically shown if there are more than 50 items
+      pageSizeOptions: ['10', '20', '50', '100'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationWithQuickJumper: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      showQuickJumper: true,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationOnePage: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 3,
+      pageSize: 10,
+      current: 1,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationWithTotal: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      showTotal: (total, _) => `Total ${total} items`,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+// TODO: Center that div
+export const PaginationSimple: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      simple: true,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationWithTextLabels: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+    },
+    paginationTextLabels: true,
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationFullFeatures: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 9,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total, _) => `Total ${total} items`,
+      pageSizeOptions: ['10', '20', '50', '100'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table} style={{ width: 'max-content' }}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniAlignLeft: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      position: ['bottomLeft'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniAlignCenter: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      position: ['bottomCenter'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniBasic: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniWithSizeChanger: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 50,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      showSizeChanger: true, // automatically shown if there are more than 50 items
+      pageSizeOptions: ['10', '20', '50', '100'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniWithQuickJumper: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      showQuickJumper: true,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniOnePage: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 3,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniWithTotal: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      showTotal: (total, _) => `Total ${total} items`,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniSimple: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+      simple: true,
+    },
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniWithTextLabels: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 1,
+      size: 'small',
+    },
+    paginationTextLabels: true,
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+export const PaginationMiniFullFeatures: Story = {
+  args: {
+    dataSource: smallDataSource,
+    columns,
+    pagination: {
+      total: 85,
+      pageSize: 10,
+      current: 9,
+      size: 'small',
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total, _) => `Total ${total} items`,
+      pageSizeOptions: ['10', '20', '50', '100'],
+    },
+  },
+  render: (args) => (
+    <div className={s.table} style={{ width: 'max-content' }}>
       <Table {...args} />
     </div>
   ),
