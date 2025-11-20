@@ -105,14 +105,7 @@ const Table = <T extends unknown = any>({
     props.pagination.size === 'small'
 
   const paginationLocale = {
-    jump_to: isSmallPagination ? (
-      <>
-        Go to
-        <span style={{ paddingLeft: '4px', paddingRight: '8px' }}>:</span>
-      </>
-    ) : (
-      'Go to'
-    ),
+    jump_to: `Go to\u00A0${isSmallPagination ? ':\u00A0\u00A0\u00A0' : ''}`,
     page: isSmallPagination ? '' : 'page',
   }
 
@@ -183,7 +176,6 @@ const Table = <T extends unknown = any>({
         {...props}
         loading={loading}
         columns={columns}
-        // @ts-expect-error TS is wrong here, pagination DOES accept JSX.Element, not only strings
         pagination={paginationConfig}
         rowKey={(record) => JSON.stringify(record)}
         locale={{
