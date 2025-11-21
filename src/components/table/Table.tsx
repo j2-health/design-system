@@ -100,9 +100,9 @@ const Table = <T extends unknown = any>({
   }))
 
   const isSmallPagination =
-    props.pagination &&
-    typeof props.pagination === 'object' &&
-    props.pagination.size === 'small'
+    (typeof props.pagination === 'object' &&
+      props.pagination.size == 'small') ||
+    props.size == 'small'
 
   const paginationLocale = {
     jump_to: `Go to\u00A0${isSmallPagination ? ':\u00A0\u00A0\u00A0' : ''}`,
