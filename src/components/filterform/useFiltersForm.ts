@@ -191,7 +191,10 @@ const filterFormReducer = (state: FilterFormState, action: Action) => {
     case 'changeFilter': {
       const { groupIndex, filterIndex, filter } = action.payload
       const filterGroups = copyFilterGroups(state.filterGroups)
-      filterGroups[groupIndex].filters[filterIndex] = filter
+      const group = filterGroups[groupIndex]
+      if (group) {
+        group.filters[filterIndex] = filter
+      }
 
       return {
         ...state,
