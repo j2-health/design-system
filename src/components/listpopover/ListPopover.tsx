@@ -154,9 +154,9 @@ const ListPopover = ({
       arrow={false}
       contentPadding={false}
     >
-      <div>
+      <div className="w-full overflow-hidden">
         <Button
-          className={cx('p-0 h-auto')}
+          className={cx('p-0 h-auto w-full overflow-hidden text-left')}
           type={items.length > 0 ? 'link' : 'text'}
         >
           {children}
