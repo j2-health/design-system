@@ -23,6 +23,8 @@ type BarChartProps = {
   tickFormat?: (value: number) => string
   xAxisTitle?: string
   yAxisTitle?: string
+  gridLineColor?: string
+  gridLineDashStyle?: Highcharts.DashStyleValue
   tooltip: (
     category: string | number | undefined,
     value: number | null | undefined,
@@ -45,6 +47,8 @@ const BarChart = ({
   tickFormat,
   xAxisTitle,
   yAxisTitle,
+  gridLineColor,
+  gridLineDashStyle,
   tooltip,
   exporting,
   chartRef,
@@ -130,12 +134,13 @@ const BarChart = ({
       min: min,
       max: max,
       endOnTick: true,
-      gridLineDashStyle: 'Dot',
-      gridLineColor: 'white',
+      gridLineDashStyle: gridLineDashStyle || 'Dot',
+      gridLineColor: gridLineColor || 'white',
       title: yAxisTitle
         ? {
             text: yAxisTitle,
             style: { ...baseFont, color: token.colorTextDescription },
+            x: -10,
           }
         : undefined,
       tickInterval: tickInterval,
