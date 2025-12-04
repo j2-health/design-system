@@ -25,6 +25,7 @@ type BarChartProps = {
   yAxisTitle?: string
   gridLineColor?: string
   gridLineDashStyle?: Highcharts.DashStyleValue
+  xAxisLabelMaxLines?: number
   tooltip: (
     category: string | number | undefined,
     value: number | null | undefined,
@@ -49,6 +50,7 @@ const BarChart = ({
   yAxisTitle,
   gridLineColor,
   gridLineDashStyle,
+  xAxisLabelMaxLines,
   tooltip,
   exporting,
   chartRef,
@@ -128,6 +130,16 @@ const BarChart = ({
       labels: {
         y: 30,
         style: baseFont,
+        ...(xAxisLabelMaxLines
+          ? {
+              useHTML: true,
+              formatter: function (
+                this: Highcharts.AxisLabelsFormatterContextObject
+              ) {
+                return `<div style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: ${xAxisLabelMaxLines}; -webkit-box-orient: vertical; text-align: center;">${this.value}</div>`
+              },
+            }
+          : {}),
       },
     },
     yAxis: {
