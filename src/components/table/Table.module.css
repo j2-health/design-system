@@ -4,7 +4,7 @@
 }
 
 :global(.ant-table-cell) {
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 :global(.ant-table-bordered .ant-table-row .ant-table-cell) {
