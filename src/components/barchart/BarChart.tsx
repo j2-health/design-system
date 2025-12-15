@@ -59,10 +59,8 @@ const BarChart = ({
   maxBars = 50,
   barsWidth = undefined,
 }: BarChartProps) => {
-  if (exporting) {
-    exportingModule(Highcharts)
-    offlineExporting(Highcharts)
-  }
+  exportingModule(Highcharts)
+  offlineExporting(Highcharts)
   accessibilityModule(Highcharts)
 
   const limitedCategories = categories.slice(0, maxBars)
