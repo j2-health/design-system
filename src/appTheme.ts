@@ -224,6 +224,9 @@ export const appTheme: ThemeConfig = {
       itemSelectedColor: '#fff',
       itemMarginInline: 12,
     },
+    Progress: {
+      defaultColor: 'var(--j2-color-primary)',
+    },
     Rate: {
       marginXS: 0,
     },
