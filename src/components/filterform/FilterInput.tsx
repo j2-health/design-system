@@ -67,8 +67,21 @@ export const FilterInput = ({
     }
   }
 
+  // Track if this is a user-driven change (not initialization)
+  const isInitialMount = React.useRef(true)
+  const prevFilterRef = React.useRef(filter)
+
   React.useEffect(() => {
-    if (filter) {
+    // Skip the initial mount to avoid calling onChange during initialization
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      prevFilterRef.current = filter
+      return
+    }
+
+    // Only call onChange if the filter actually changed
+    if (filter && filter !== prevFilterRef.current) {
+      prevFilterRef.current = filter
       onChange?.(filter)
     }
   }, [filter, onChange])
