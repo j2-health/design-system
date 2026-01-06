@@ -120,8 +120,9 @@
 }
 
 :global(
-  .ant-pagination:not(.ant-pagination-mini) .ant-pagination-options-quick-jumper
-) {
+    .ant-pagination:not(.ant-pagination-mini)
+      .ant-pagination-options-quick-jumper
+  ) {
   gap: var(--j2-margin-xs);
 }
 
@@ -130,7 +131,9 @@
 }
 
 :global(
-  .ant-pagination.ant-pagination-mini .ant-pagination-options-quick-jumper input
-) {
+    .ant-pagination.ant-pagination-mini
+      .ant-pagination-options-quick-jumper
+      input
+  ) {
   margin-inline-start: var(--j2-margin-xs) !important;
 }
