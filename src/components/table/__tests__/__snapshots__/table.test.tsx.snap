@@ -49,7 +49,11 @@ exports[`Table should render correctly 1`] = `
                       <td
                         class="ant-table-cell"
                       >
-                        aetna
+                        <span
+                          aria-describedby="test-id"
+                        >
+                          aetna
+                        </span>
                       </td>
                     </tr>
                   </tbody>

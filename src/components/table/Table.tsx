@@ -95,7 +95,9 @@ const Table = <T extends unknown = any>({
       ? { ...props.loading, ...defaultLoadingProps }
       : props.loading && defaultLoadingProps
 
-  const isSimpleValue = (value: unknown): value is string | number | boolean => {
+  const isSimpleValue = (
+    value: unknown
+  ): value is string | number | boolean => {
     return (
       typeof value === 'string' ||
       typeof value === 'number' ||
@@ -108,7 +110,7 @@ const Table = <T extends unknown = any>({
     if (isSimpleValue(node)) {
       return String(node)
     }
-    
+
     // Check if it's a React element with simple text children
     if (
       node &&
@@ -123,22 +125,25 @@ const Table = <T extends unknown = any>({
         return String(children)
       }
     }
-    
+
     return null
   }
 
   const columns = props.columns?.map((column) => {
-    const hasEllipsis = column.ellipsis === true || 
-                        (typeof column.ellipsis === 'object' && column.ellipsis)
-    
+    const hasEllipsis =
+      column.ellipsis === true ||
+      (typeof column.ellipsis === 'object' && column.ellipsis)
+
     const originalRender = column.render
 
     return {
       ...column,
       sortIcon: column.sortIcon ?? defaultSortIcon,
-      ellipsis: hasEllipsis ? {
-        showTitle: false, // Disable default browser tooltip
-      } : column.ellipsis,
+      ellipsis: hasEllipsis
+        ? {
+            showTitle: false, // Disable default browser tooltip
+          }
+        : column.ellipsis,
       render: (value: unknown, record: T, index: number): ReactNode => {
         const renderedContent = originalRender
           ? originalRender(value, record, index)
@@ -153,13 +158,13 @@ const Table = <T extends unknown = any>({
           if (isSimpleValue(renderedContent)) {
             return (
               <Tooltip title={tooltipText}>
-                <span className={hasEllipsis ? "block truncate" : undefined}>
+                <span className={hasEllipsis ? 'block truncate' : undefined}>
                   {renderedContent}
                 </span>
               </Tooltip>
             )
           }
-          
+
           // For React elements, wrap the element itself
           return (
             <Tooltip title={tooltipText}>
