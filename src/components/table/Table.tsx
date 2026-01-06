@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   SelectProps,
+  Tooltip,
 } from 'antd'
 import cx from 'classnames'
 import s from './Table.module.css'
@@ -19,7 +20,7 @@ import {
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
 } from '@phosphor-icons/react'
-import { ComponentProps } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
 
 type MergedProps<T> = TableProps<T> & {
@@ -94,10 +95,84 @@ const Table = <T extends unknown = any>({
       ? { ...props.loading, ...defaultLoadingProps }
       : props.loading && defaultLoadingProps
 
-  const columns = props.columns?.map((column) => ({
-    ...column,
-    sortIcon: column.sortIcon ?? defaultSortIcon,
-  }))
+  const isSimpleValue = (value: unknown): value is string | number | boolean => {
+    return (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'boolean'
+    )
+  }
+
+  // Helper to extract text content from React elements
+  const extractTextContent = (node: unknown): string | null => {
+    if (isSimpleValue(node)) {
+      return String(node)
+    }
+    
+    // Check if it's a React element with simple text children
+    if (
+      node &&
+      typeof node === 'object' &&
+      'props' in node &&
+      node.props &&
+      typeof node.props === 'object' &&
+      'children' in node.props
+    ) {
+      const children = node.props.children
+      if (isSimpleValue(children)) {
+        return String(children)
+      }
+    }
+    
+    return null
+  }
+
+  const columns = props.columns?.map((column) => {
+    const hasEllipsis = column.ellipsis === true || 
+                        (typeof column.ellipsis === 'object' && column.ellipsis)
+    
+    const originalRender = column.render
+
+    return {
+      ...column,
+      sortIcon: column.sortIcon ?? defaultSortIcon,
+      ellipsis: hasEllipsis ? {
+        showTitle: false, // Disable default browser tooltip
+      } : column.ellipsis,
+      render: (value: unknown, record: T, index: number): ReactNode => {
+        const renderedContent = originalRender
+          ? originalRender(value, record, index)
+          : value
+
+        // Try to extract text content for tooltip
+        const tooltipText = extractTextContent(renderedContent)
+
+        // If we can extract text content, wrap with tooltip
+        if (tooltipText) {
+          // For simple values, wrap in a span
+          if (isSimpleValue(renderedContent)) {
+            return (
+              <Tooltip title={tooltipText}>
+                <span className={hasEllipsis ? "block truncate" : undefined}>
+                  {renderedContent}
+                </span>
+              </Tooltip>
+            )
+          }
+          
+          // For React elements, wrap the element itself
+          return (
+            <Tooltip title={tooltipText}>
+              <div>{renderedContent as ReactNode}</div>
+            </Tooltip>
+          )
+        }
+
+        // Complex components without extractable text - return as is
+        return renderedContent as ReactNode
+      },
+    }
+  })
 
   const isSmallPagination =
     (typeof props.pagination === 'object' &&
@@ -194,9 +269,12 @@ type ColumnProps<T extends AnyObject> = Expand<
   ComponentProps<typeof AntdTable.Column<T>>
 >
 
-Table.Column = <T extends AnyObject>(props: ColumnProps<T>) => {
+const TableColumn = <T extends AnyObject>(props: ColumnProps<T>) => {
   return <AntdTable.Column<T> {...props} sortIcon={defaultSortIcon} />
 }
+TableColumn.displayName = 'Table.Column'
+
+Table.Column = TableColumn
 Table.Summary = AntdTable.Summary
 
 export type { TableColumnType } from 'antd'
