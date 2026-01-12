@@ -44,7 +44,7 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
     const color: string = statusToColor[status]
 
     return (
-      <span role="img" className="anticon">
+      <span role="img" className="anticon" aria-label={`${status} icon`}>
         {React.createElement(iconName, { color, ...baseProps })}
       </span>
     )
