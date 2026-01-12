@@ -38,3 +38,50 @@
 .menuContainer :global(.ant-select-item-option-selected) {
   background: var(--j2-blue-5) !important;
 }
+
+/*
+ * Headlined variant styles
+ * Ant Design 5 uses :where() with 0 specificity, so our class selectors override without !important
+ */
+.headlinedSelect:global(.ant-select) :global(.ant-select-selector) {
+  background: transparent;
+  padding-left: 0;
+  padding-bottom: 4px;
+  font-size: var(--j2-font-size-heading-2);
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.headlinedSelect:global(.ant-select) :global(.ant-select-selection-item) {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Hover state - show underline */
+.headlinedSelect:global(.ant-select):hover :global(.ant-select-selector) {
+  border-bottom-color: var(--j2-color-primary);
+}
+
+/* Open/focused state - keep underline and text color */
+.headlinedSelect:global(.ant-select-open) :global(.ant-select-selector),
+.headlinedSelect:global(.ant-select-focused) :global(.ant-select-selector) {
+  border-bottom-color: var(--j2-color-primary);
+}
+
+.headlinedSelect:global(.ant-select-open) :global(.ant-select-selection-item),
+.headlinedSelect:global(.ant-select-focused)
+  :global(.ant-select-selection-item) {
+  color: inherit;
+}
+
+/* Headline dropdown styles - needs !important to override .menuContainer */
+.menuContainer.headlinedMenuContainer :global(.ant-select-item-option-selected) {
+  background: var(--j2-color-primary) !important;
+}
+
+.menuContainer.headlinedMenuContainer
+  :global(.ant-select-item-option-selected)
+  :global(.ant-select-item-option-content) {
+  color: white;
+}

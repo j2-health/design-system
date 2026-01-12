@@ -83,7 +83,7 @@ type MultiSelectArgs = {
   options?: SelectOption[]
   renderLabel?: (count: number) => string
   value?: string[]
-  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined'
+  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined'
   loading?: boolean
   disabled?: boolean
 }
@@ -93,7 +93,7 @@ type SingleSelectArgs = {
   formControlPlaceholder?: string
   options?: SelectOption[]
   value?: string
-  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined'
+  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined'
   loading?: boolean
   disabled?: boolean
 }
@@ -210,6 +210,16 @@ export const SingleSelection: Story = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: 'Family Medicine',
+  },
+  render: (args) => <SingleSelectWrapper {...(args as SingleSelectArgs)} />,
+}
+
+export const Headline: Story = {
+  args: {
+    searchPlaceholder: 'Search specialties...',
+    formControlPlaceholder: 'Select J2 Specialties',
+    value: 'Family Medicine',
+    variant: 'headlined',
   },
   render: (args) => <SingleSelectWrapper {...(args as SingleSelectArgs)} />,
 }
