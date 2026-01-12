@@ -76,7 +76,8 @@
 }
 
 /* Headline dropdown styles - needs !important to override .menuContainer */
-.menuContainer.headlinedMenuContainer :global(.ant-select-item-option-selected) {
+.menuContainer.headlinedMenuContainer
+  :global(.ant-select-item-option-selected) {
   background: var(--j2-color-primary) !important;
 }
 
