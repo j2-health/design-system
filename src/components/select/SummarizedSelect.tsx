@@ -308,7 +308,6 @@ export function SummarizedSelect({
         }),
         popup: { root: popupClassName },
       }}
-      popupMatchSelectWidth={isHeadline ? true : undefined}
       variant={antVariant}
       {...props}
     />
