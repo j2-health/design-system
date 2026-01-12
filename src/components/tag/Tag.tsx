@@ -1,5 +1,4 @@
 import * as React from 'react'
-import cx from 'classnames'
 import { Tag as AntdTag, TagProps } from 'antd'
 import {
   ArrowsClockwiseIcon,
@@ -38,14 +37,17 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
     if (!showIcon) return null
 
     const baseProps = {
-      className: 'j2-tag-icon',
       size: 12,
     }
 
     const iconName: Icon = icon ?? colorToIcon[status]
     const color: string = statusToColor[status]
 
-    return React.createElement(iconName, { color, ...baseProps })
+    return (
+      <span role="img" className="anticon">
+        {React.createElement(iconName, { color, ...baseProps })}
+      </span>
+    )
   }, [status, showIcon, icon])
 
   return (
@@ -53,7 +55,7 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
       {...props}
       color={status}
       icon={iconComponent}
-      className={cx('j2-tag', props.className)}
+      className={props.className}
     />
   )
 }
