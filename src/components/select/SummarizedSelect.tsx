@@ -21,14 +21,17 @@ type GroupOption = {
 
 export type SelectOption = Option | GroupOption | OptionWithLogo
 
+export type SummarizedSelectVariant = SelectProps['variant'] | 'headlined'
+
 type BaseProps = Omit<
   SelectProps<string | string[], SelectOption>,
-  'mode' | 'value' | 'onChange'
+  'mode' | 'value' | 'onChange' | 'variant'
 > & {
   searchPlaceholder?: string
   formControlPlaceholder?: string
   rootClassName?: string
   popupClassName?: string
+  variant?: SummarizedSelectVariant
 
   loading?: boolean
 }
@@ -103,8 +106,11 @@ export function SummarizedSelect({
   renderLabel,
   rootClassName,
   popupClassName,
+  variant,
   ...props
 }: Props) {
+  const isHeadline = variant === 'headlined'
+  const antVariant = isHeadline ? 'borderless' : variant
   const [searchValue, setSearchValue] = useState('')
   const [focusTrigger, setFocusTrigger] = useState(0)
   const inputRef = useRef<InputRef>(null)
@@ -215,7 +221,13 @@ export function SummarizedSelect({
             </div>
           </div>
         ) : null}
-        <div className={cx(styles.menuContainer, 'rounded-lg')}>{menu}</div>
+        <div
+          className={cx(styles.menuContainer, 'rounded-lg', {
+            [styles.headlinedMenuContainer]: isHeadline,
+          })}
+        >
+          {menu}
+        </div>
         <div className="flex justify-between items-center">
           {multiple && (
             <div className="w-full border-t border-j2-gray-5 mt-1 pt-1">
@@ -285,12 +297,18 @@ export function SummarizedSelect({
       onOpenChange={handleOpenChange}
       classNames={{
         root: cx(rootClassName, styles.summarizedSelect, {
-          [styles.hemisphericSelect]: props.variant != 'underlined',
+          [styles.hemisphericSelect]:
+            variant !== 'underlined' && variant !== 'headlined',
           [styles.isActive]:
-            multiple && value.length > 0 && props.variant != 'underlined',
+            multiple &&
+            value.length > 0 &&
+            variant !== 'underlined' &&
+            variant !== 'headlined',
+          [styles.headlinedSelect]: isHeadline,
         }),
         popup: { root: popupClassName },
       }}
+      variant={antVariant}
       {...props}
     />
   )

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Tag } from './Tag'
-import { ChefHatIcon } from '@phosphor-icons/react'
+import { ChefHatIcon, TagIcon } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Tag',
@@ -49,4 +49,18 @@ export const CustomIcon: Story = {
     showIcon: true,
     icon: ChefHatIcon,
   },
+}
+
+export const InsideFlexContainer: Story = {
+  args: {
+    children: 'Tagged tag',
+    status: 'default',
+    showIcon: true,
+    icon: TagIcon,
+  },
+  render: (args) => (
+    <div style={{ display: 'flex' }}>
+      <Tag {...args} />
+    </div>
+  ),
 }
