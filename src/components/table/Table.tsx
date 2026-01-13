@@ -157,7 +157,7 @@ const Table = <T extends unknown = any>({
           // For simple values, wrap in a span
           if (isSimpleValue(renderedContent)) {
             return (
-              <Tooltip title={tooltipText}>
+              <Tooltip title={tooltipText} arrow={false}>
                 <span className={hasEllipsis ? 'block truncate' : undefined}>
                   {renderedContent}
                 </span>
@@ -167,7 +167,7 @@ const Table = <T extends unknown = any>({
 
           // For React elements, wrap the element itself
           return (
-            <Tooltip title={tooltipText}>
+            <Tooltip title={tooltipText} arrow={false}>
               <div>{renderedContent as ReactNode}</div>
             </Tooltip>
           )
