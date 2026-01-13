@@ -21,6 +21,7 @@ const Popover = ({
   content,
   smallPadding = false,
   paddingSize,
+  arrow = false,
   ...props
 }: PopoverProps) => {
   return (
@@ -33,6 +34,7 @@ const Popover = ({
       )}
       {...props}
       placement={placement}
+      arrow={arrow}
       content={() => {
         if (!contentPadding) {
           return <div>{typeof content == 'function' ? content() : content}</div>
