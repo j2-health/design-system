@@ -20,14 +20,34 @@ import {
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
 } from '@phosphor-icons/react'
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, ReactNode, SyntheticEvent, useMemo } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
+import { ResizableTitle } from './ResizableTitle'
+import { ResizeCallbackData } from 'react-resizable'
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import { DraggableResizableTitle } from './DraggableResizableTitle'
 
 type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
   alternatingRows?: boolean
   columns?: TableProps<T>['columns']
   paginationTextLabels?: boolean
+  resizable?: boolean
+  onColumnResize?: (dataIndex: string, width: number) => void
+  draggableColumns?: boolean
+  onColumnOrderChange?: (newOrder: string[]) => void
 }
 
 type Props<T> = Expand<MergedProps<T>>
@@ -78,8 +98,20 @@ const Table = <T extends unknown = any>({
   verticalBorders,
   alternatingRows,
   paginationTextLabels = false,
+  resizable = false,
+  onColumnResize,
+  draggableColumns = false,
+  onColumnOrderChange,
   ...props
 }: Props<T>) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
+
   const defaultLoadingProps: SpinProps = {
     indicator: <Spinner className="!w-fit !h-fit !mx-0 translate-x-[-50%]" />,
     tip: (
@@ -129,12 +161,47 @@ const Table = <T extends unknown = any>({
     return null
   }
 
+  const handleResize =
+    (dataIndex: string) =>
+    (_e: SyntheticEvent, { size }: ResizeCallbackData) => {
+      if (onColumnResize) {
+        onColumnResize(dataIndex, size.width)
+      }
+    }
+
+  // Get column dataIndex values for sortable context
+  const columnIds = useMemo(() => {
+    return (
+      props.columns?.map((col) => {
+        const dataIndex = (col as { dataIndex?: string | number }).dataIndex
+        return String(dataIndex ?? col.key ?? '')
+      }) ?? []
+    )
+  }, [props.columns])
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over || active.id === over.id || !onColumnOrderChange) return
+
+    const oldIndex = columnIds.indexOf(String(active.id))
+    const newIndex = columnIds.indexOf(String(over.id))
+
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const newOrder = arrayMove(columnIds, oldIndex, newIndex)
+      onColumnOrderChange(newOrder)
+    }
+  }
+
   const columns = props.columns?.map((column) => {
     const hasEllipsis =
       column.ellipsis === true ||
       (typeof column.ellipsis === 'object' && column.ellipsis)
 
     const originalRender = column.render
+    const dataIndex = String(
+      (column as { dataIndex?: string | number }).dataIndex ?? column.key ?? ''
+    )
+    const isFixed = (column as { fixed?: boolean | string }).fixed
 
     return {
       ...column,
@@ -144,6 +211,19 @@ const Table = <T extends unknown = any>({
             showTitle: false, // Disable default browser tooltip
           }
         : column.ellipsis,
+      // Add onHeaderCell for resizable/draggable columns
+      ...((resizable || draggableColumns) && dataIndex
+        ? {
+            onHeaderCell: () =>
+              ({
+                id: dataIndex,
+                width: column.width,
+                minWidth: (column as { minWidth?: number }).minWidth,
+                onResize: resizable ? handleResize(dataIndex) : undefined,
+                isDraggable: draggableColumns && !isFixed,
+              }) as Record<string, unknown>,
+          }
+        : {}),
       render: (value: unknown, record: T, index: number): ReactNode => {
         const renderedContent = originalRender
           ? originalRender(value, record, index)
@@ -244,7 +324,23 @@ const Table = <T extends unknown = any>({
       }
     : false
 
-  return (
+  // Use DraggableResizableTitle when dragging is enabled, ResizableTitle otherwise
+  const headerCellComponent =
+    draggableColumns || resizable
+      ? draggableColumns
+        ? DraggableResizableTitle
+        : ResizableTitle
+      : undefined
+
+  const customComponents = headerCellComponent
+    ? {
+        header: {
+          cell: headerCellComponent,
+        },
+      }
+    : undefined
+
+  const tableContent = (
     <div
       className={cx(props.className, {
         [s.bordered]: props.bordered && !verticalBorders,
@@ -254,6 +350,7 @@ const Table = <T extends unknown = any>({
       <AntdTable<T>
         showSorterTooltip={{ target: 'sorter-icon' }}
         {...props}
+        components={customComponents}
         loading={loading}
         columns={columns}
         pagination={paginationConfig}
@@ -268,6 +365,26 @@ const Table = <T extends unknown = any>({
       />
     </div>
   )
+
+  // Wrap with DndContext if draggable columns are enabled
+  if (draggableColumns) {
+    return (
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={columnIds}
+          strategy={horizontalListSortingStrategy}
+        >
+          {tableContent}
+        </SortableContext>
+      </DndContext>
+    )
+  }
+
+  return tableContent
 }
 
 type ColumnProps<T extends AnyObject> = Expand<
