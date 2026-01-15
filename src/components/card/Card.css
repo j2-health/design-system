@@ -19,6 +19,18 @@
   .ant-tabs .ant-tabs-tab {
     font-size: var(--j2-font-size);
   }
+
+  &.ant-card-type-inner {
+    &.inner-basic {
+      background-color: white;
+      > .ant-card-head {
+        /* restore border */
+        border-bottom: 1px solid var(--j2-color-border-secondary);
+        /* restore justify-content */
+        justify-content: center;
+      }
+    }
+  }
 }
 
 .j2-card-default {
