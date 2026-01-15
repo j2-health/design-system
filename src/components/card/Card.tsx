@@ -14,9 +14,11 @@ export type Props = Omit<CardProps, 'size'> & {
   loading?: boolean
   /** Card size */
   size?: 'default' | 'small' | 'large'
-  /** Inner card type variant */
-  /** It allows inner card to have variants independent of other props.
-      Works only with type="inner" */
+  /**
+   * Inner card type variant.
+   * It allows inner card to have variants independent of other props.
+   * Works only with type="inner".
+   */
   innerVariant?: 'default' | 'basic'
 }
 

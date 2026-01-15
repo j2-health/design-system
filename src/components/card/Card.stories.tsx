@@ -34,10 +34,8 @@ export const Default: Story = {
     children:
       'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
     size: 'default',
-    innerVariant: 'default',
   },
 }
-
 export const WithTabs: Story = {
   args: {
     ...Default.args,
@@ -85,7 +83,7 @@ export const Inner: Story = {
             title="Small Inner Basic"
             innerVariant="basic"
           >
-            <p>I'm an small inner card with basic variant</p>
+            <p>I'm a small inner card with basic variant</p>
           </Card>
         </div>
       </Card>
