@@ -18,6 +18,10 @@ const meta = {
       control: 'inline-radio',
       options: ['default', 'small', 'large'],
     },
+    innerVariant: {
+      control: 'inline-radio',
+      options: ['default', 'basic'],
+    },
   },
 } satisfies Meta<typeof Card>
 
@@ -30,6 +34,7 @@ export const Default: Story = {
     children:
       'Optimizing your provider network might not be thrilling, but hey, it saves money and boosts care quality. Worth it, right?',
     size: 'default',
+    innerVariant: 'default',
   },
 }
 
@@ -69,7 +74,20 @@ export const Inner: Story = {
   render: (args) => {
     return (
       <Card title="Outie">
-        <Card {...args} />
+        <div className="flex flex-col gap-3">
+          <Card {...args} title="Inner Default" />
+          <Card {...args} title="Inner Basic" innerVariant="basic">
+            <p>I'm an inner card with basic variant</p>
+          </Card>
+          <Card
+            {...args}
+            size="small"
+            title="Small Inner Basic"
+            innerVariant="basic"
+          >
+            <p>I'm an small inner card with basic variant</p>
+          </Card>
+        </div>
       </Card>
     )
   },
