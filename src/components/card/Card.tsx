@@ -28,6 +28,7 @@ const Card = ({
   loading,
   size = 'default',
   innerVariant = 'default',
+  className,
   ...props
 }: Props) => {
   const isInner = props.type === 'inner'
@@ -37,7 +38,8 @@ const Card = ({
       className={cx(
         'j2-card',
         `j2-card-${size}`,
-        isInnerBasic && 'inner-basic'
+        isInnerBasic && 'inner-basic',
+        className
       )}
       {...props}
       size={size === 'large' ? 'default' : size}
