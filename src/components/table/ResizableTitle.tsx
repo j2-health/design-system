@@ -26,8 +26,6 @@ export const ResizableTitle = ({
   maxWidth = 1000,
   style,
   className,
-  id: _id,
-  isDraggable: _isDraggable,
   ...restProps
 }: ResizableTitleProps) => {
   // Use width if it's a number, otherwise fall back to a reasonable default
