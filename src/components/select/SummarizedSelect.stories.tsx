@@ -96,6 +96,7 @@ type SingleSelectArgs = {
   variant?: 'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined'
   loading?: boolean
   disabled?: boolean
+  popupMatchSelectWidth?: boolean
 }
 
 // Multi-select wrapper component
@@ -141,6 +142,7 @@ const SingleSelectWrapper = (args: SingleSelectArgs) => {
       variant={args.variant}
       loading={args.loading}
       disabled={args.disabled}
+      popupMatchSelectWidth={args.popupMatchSelectWidth}
     />
   )
 }
@@ -214,12 +216,21 @@ export const SingleSelection: Story = {
   render: (args) => <SingleSelectWrapper {...(args as SingleSelectArgs)} />,
 }
 
-export const Headline: Story = {
+export const Headlined: Story = {
   args: {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: 'Family Medicine',
     variant: 'headlined',
   },
-  render: (args) => <SingleSelectWrapper {...(args as SingleSelectArgs)} />,
+  render: (args) => (
+    <div className="flex flex-col">
+      <SingleSelectWrapper {...(args as SingleSelectArgs)} />
+      <p className="mt-8 mb-2">popupMatchSelectWidth: false</p>
+      <SingleSelectWrapper
+        {...(args as SingleSelectArgs)}
+        popupMatchSelectWidth={false}
+      />
+    </div>
+  ),
 }
