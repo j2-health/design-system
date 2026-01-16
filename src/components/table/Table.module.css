@@ -137,3 +137,44 @@
   ) {
   margin-inline-start: var(--j2-margin-xs) !important;
 }
+
+/* Column Resizing Styles */
+:global(.react-resizable) {
+  position: relative;
+  background-clip: padding-box;
+}
+
+:global(.react-resizable-handle) {
+  position: absolute;
+  right: -8px;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 16px;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+:global(.react-resizable-handle::before) {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 50%;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+:global(.react-resizable-handle:hover::before),
+:global(.react-resizable-handle:active::before) {
+  border-left-color: var(--j2-color-primary);
+  border-right-color: var(--j2-color-primary);
+}
+
+:global(.react-resizable-handle:active) {
+  background-color: rgba(var(--j2-color-primary-rgb, 24, 144, 255), 0.1);
+}

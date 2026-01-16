@@ -20,14 +20,40 @@ import {
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
 } from '@phosphor-icons/react'
-import { ComponentProps, ReactNode } from 'react'
+import {
+  ComponentProps,
+  ReactNode,
+  SyntheticEvent,
+  useMemo,
+  useCallback,
+} from 'react'
 import { AnyObject } from 'antd/es/_util/type'
+import { ResizableTitle } from './ResizableTitle'
+import { ResizeCallbackData } from 'react-resizable'
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import { DraggableResizableTitle } from './DraggableResizableTitle'
 
 type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
   alternatingRows?: boolean
   columns?: TableProps<T>['columns']
   paginationTextLabels?: boolean
+  resizable?: boolean
+  onColumnResize?: (dataIndex: string, width: number) => void
+  draggableColumns?: boolean
+  onColumnOrderChange?: (newOrder: string[]) => void
 }
 
 type Props<T> = Expand<MergedProps<T>>
@@ -73,13 +99,57 @@ const renderJumpItem = (
   </a>
 )
 
+const isSimpleValue = (value: unknown): value is string | number | boolean => {
+  return (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  )
+}
+
+// Helper to extract text content from React elements
+const extractTextContent = (node: unknown): string | null => {
+  if (isSimpleValue(node)) {
+    return String(node)
+  }
+
+  // Check if it's a React element with simple text children
+  if (
+    node &&
+    typeof node === 'object' &&
+    'props' in node &&
+    node.props &&
+    typeof node.props === 'object' &&
+    'children' in node.props
+  ) {
+    const children = node.props.children
+    if (isSimpleValue(children)) {
+      return String(children)
+    }
+  }
+
+  return null
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-constraint
 const Table = <T extends unknown = any>({
   verticalBorders,
   alternatingRows,
   paginationTextLabels = false,
+  resizable = false,
+  onColumnResize,
+  draggableColumns = false,
+  onColumnOrderChange,
   ...props
 }: Props<T>) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
+
   const defaultLoadingProps: SpinProps = {
     indicator: <Spinner className="!w-fit !h-fit !mx-0 translate-x-[-50%]" />,
     tip: (
@@ -95,89 +165,114 @@ const Table = <T extends unknown = any>({
       ? { ...props.loading, ...defaultLoadingProps }
       : props.loading && defaultLoadingProps
 
-  const isSimpleValue = (
-    value: unknown
-  ): value is string | number | boolean => {
-    return (
-      typeof value === 'string' ||
-      typeof value === 'number' ||
-      typeof value === 'boolean'
-    )
-  }
-
-  // Helper to extract text content from React elements
-  const extractTextContent = (node: unknown): string | null => {
-    if (isSimpleValue(node)) {
-      return String(node)
-    }
-
-    // Check if it's a React element with simple text children
-    if (
-      node &&
-      typeof node === 'object' &&
-      'props' in node &&
-      node.props &&
-      typeof node.props === 'object' &&
-      'children' in node.props
-    ) {
-      const children = node.props.children
-      if (isSimpleValue(children)) {
-        return String(children)
-      }
-    }
-
-    return null
-  }
-
-  const columns = props.columns?.map((column) => {
-    const hasEllipsis =
-      column.ellipsis === true ||
-      (typeof column.ellipsis === 'object' && column.ellipsis)
-
-    const originalRender = column.render
-
-    return {
-      ...column,
-      sortIcon: column.sortIcon ?? defaultSortIcon,
-      ellipsis: hasEllipsis
-        ? {
-            showTitle: false, // Disable default browser tooltip
-          }
-        : column.ellipsis,
-      render: (value: unknown, record: T, index: number): ReactNode => {
-        const renderedContent = originalRender
-          ? originalRender(value, record, index)
-          : value
-
-        // Try to extract text content for tooltip
-        const tooltipText = extractTextContent(renderedContent)
-
-        // If we can extract text content, wrap with tooltip
-        if (tooltipText) {
-          // For simple values, wrap in a span
-          if (isSimpleValue(renderedContent)) {
-            return (
-              <Tooltip title={tooltipText} arrow={false}>
-                <span className={hasEllipsis ? 'block truncate' : undefined}>
-                  {renderedContent}
-                </span>
-              </Tooltip>
-            )
-          }
-
-          // For React elements, wrap the element itself
-          return (
-            <Tooltip title={tooltipText} arrow={false}>
-              <div>{renderedContent as ReactNode}</div>
-            </Tooltip>
-          )
-        }
-
-        // Complex components without extractable text - return as is
-        return renderedContent as ReactNode
+  const handleResize = useCallback(
+    (dataIndex: string) =>
+      (_e: SyntheticEvent, { size }: ResizeCallbackData) => {
+        onColumnResize?.(dataIndex, size.width)
       },
-    }
-  })
+    [onColumnResize]
+  )
+
+  // Get column dataIndex values for sortable context
+  const columnIds = useMemo(() => {
+    return (
+      props.columns?.map((col) => {
+        const dataIndex = (col as { dataIndex?: string | number }).dataIndex
+        return String(dataIndex ?? col.key ?? '')
+      }) ?? []
+    )
+  }, [props.columns])
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event
+      if (!over || active.id === over.id || !onColumnOrderChange) return
+
+      const oldIndex = columnIds.indexOf(String(active.id))
+      const newIndex = columnIds.indexOf(String(over.id))
+
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newOrder = arrayMove(columnIds, oldIndex, newIndex)
+        onColumnOrderChange(newOrder)
+      }
+    },
+    [columnIds, onColumnOrderChange]
+  )
+
+  const columns = useMemo(
+    () =>
+      props.columns?.map((column) => {
+        const hasEllipsis =
+          column.ellipsis === true ||
+          (typeof column.ellipsis === 'object' && column.ellipsis)
+
+        const originalRender = column.render
+        const dataIndex = String(
+          (column as { dataIndex?: string | number }).dataIndex ??
+            column.key ??
+            ''
+        )
+        const isFixed = (column as { fixed?: boolean | string }).fixed
+
+        return {
+          ...column,
+          sortIcon: column.sortIcon ?? defaultSortIcon,
+          ellipsis: hasEllipsis
+            ? {
+                showTitle: false, // Disable default browser tooltip
+              }
+            : column.ellipsis,
+          // Add onHeaderCell for resizable/draggable columns
+          ...((resizable || draggableColumns) && dataIndex
+            ? {
+                onHeaderCell: () =>
+                  ({
+                    id: dataIndex,
+                    width: column.width,
+                    minWidth: (column as { minWidth?: number }).minWidth,
+                    onResize: resizable ? handleResize(dataIndex) : undefined,
+                    isDraggable: draggableColumns && !isFixed,
+                  }) as Record<string, unknown>,
+              }
+            : {}),
+          render: (value: unknown, record: T, index: number): ReactNode => {
+            const renderedContent = originalRender
+              ? originalRender(value, record, index)
+              : value
+
+            // Try to extract text content for tooltip
+            const tooltipText = extractTextContent(renderedContent)
+
+            // If we can extract text content, wrap with tooltip
+            if (tooltipText) {
+              // For simple values, wrap in a span
+              if (isSimpleValue(renderedContent)) {
+                return (
+                  <Tooltip title={tooltipText} arrow={false}>
+                    <span
+                      className={hasEllipsis ? 'block truncate' : undefined}
+                    >
+                      {renderedContent}
+                    </span>
+                  </Tooltip>
+                )
+              }
+
+              // For React elements, wrap the element itself
+              return (
+                <Tooltip title={tooltipText} arrow={false}>
+                  <div>{renderedContent as ReactNode}</div>
+                </Tooltip>
+              )
+            }
+
+            // Complex components without extractable text - return as is
+            return renderedContent as ReactNode
+          },
+        }
+      }),
+    [props.columns, resizable, draggableColumns, handleResize]
+  )
 
   const isSmallPagination =
     (typeof props.pagination === 'object' &&
@@ -244,7 +339,23 @@ const Table = <T extends unknown = any>({
       }
     : false
 
-  return (
+  // Use DraggableResizableTitle when dragging is enabled, ResizableTitle otherwise
+  const headerCellComponent =
+    draggableColumns || resizable
+      ? draggableColumns
+        ? DraggableResizableTitle
+        : ResizableTitle
+      : undefined
+
+  const customComponents = headerCellComponent
+    ? {
+        header: {
+          cell: headerCellComponent,
+        },
+      }
+    : undefined
+
+  const tableContent = (
     <div
       className={cx(props.className, {
         [s.bordered]: props.bordered && !verticalBorders,
@@ -254,6 +365,7 @@ const Table = <T extends unknown = any>({
       <AntdTable<T>
         showSorterTooltip={{ target: 'sorter-icon' }}
         {...props}
+        components={customComponents}
         loading={loading}
         columns={columns}
         pagination={paginationConfig}
@@ -268,6 +380,26 @@ const Table = <T extends unknown = any>({
       />
     </div>
   )
+
+  // Wrap with DndContext if draggable columns are enabled
+  if (draggableColumns) {
+    return (
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={columnIds}
+          strategy={horizontalListSortingStrategy}
+        >
+          {tableContent}
+        </SortableContext>
+      </DndContext>
+    )
+  }
+
+  return tableContent
 }
 
 type ColumnProps<T extends AnyObject> = Expand<
