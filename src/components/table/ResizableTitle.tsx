@@ -1,5 +1,11 @@
 import { Resizable, ResizeCallbackData } from 'react-resizable'
-import { SyntheticEvent, CSSProperties, useState } from 'react'
+import {
+  SyntheticEvent,
+  CSSProperties,
+  useState,
+  useCallback,
+  useRef,
+} from 'react'
 
 type ResizableTitleProps = {
   onResize?: (e: SyntheticEvent, data: ResizeCallbackData) => void
@@ -8,6 +14,8 @@ type ResizableTitleProps = {
   maxWidth?: number
   style?: CSSProperties
   className?: string
+  id?: string
+  isDraggable?: boolean
   [key: string]: unknown
 }
 
@@ -18,6 +26,8 @@ export const ResizableTitle = ({
   maxWidth = 1000,
   style,
   className,
+  id: _id,
+  isDraggable: _isDraggable,
   ...restProps
 }: ResizableTitleProps) => {
   // Use width if it's a number, otherwise fall back to a reasonable default
@@ -25,20 +35,29 @@ export const ResizableTitle = ({
 
   // Track width locally during resize for smooth dragging
   const [resizingWidth, setResizingWidth] = useState<number | null>(null)
+  const isResizingRef = useRef(false)
   const displayWidth = resizingWidth ?? numericWidth
+
+  const handleResize = useCallback(
+    (_e: SyntheticEvent, { size }: ResizeCallbackData) => {
+      isResizingRef.current = true
+      setResizingWidth(size.width)
+    },
+    []
+  )
+
+  const handleResizeStop = useCallback(
+    (e: SyntheticEvent, data: ResizeCallbackData) => {
+      setResizingWidth(null)
+      isResizingRef.current = false
+      onResize?.(e, data)
+    },
+    [onResize]
+  )
 
   // If no resize handler, render plain th
   if (!onResize) {
     return <th style={style} className={className} {...restProps} />
-  }
-
-  const handleResize = (_e: SyntheticEvent, { size }: ResizeCallbackData) => {
-    setResizingWidth(size.width)
-  }
-
-  const handleResizeStop = (e: SyntheticEvent, data: ResizeCallbackData) => {
-    setResizingWidth(null)
-    onResize(e, data)
   }
 
   return (
