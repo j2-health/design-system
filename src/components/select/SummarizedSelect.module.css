@@ -43,14 +43,25 @@
  * Headlined variant styles
  * Ant Design 5 uses :where() with 0 specificity, so our class selectors override without !important
  */
+
+.headlinedSelect:global(.ant-select):global(.ant-select-single) {
+  font-size: var(--j2-font-size-heading-2);
+  height: 40px;
+}
+
 .headlinedSelect:global(.ant-select) :global(.ant-select-selector) {
   background: transparent;
   padding-left: 0;
-  padding-bottom: 4px;
+  padding-right: 4px;
   font-size: var(--j2-font-size-heading-2);
   border-bottom: 1px solid transparent;
   border-radius: 0;
-  overflow: visible;
+}
+
+.headlinedSelect:global(.ant-select) :global(.ant-select-arrow) {
+  height: 16px;
+  width: 16px;
+  right: 0;
 }
 
 .headlinedSelect:global(.ant-select) :global(.ant-select-selection-item) {
