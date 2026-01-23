@@ -1,0 +1,17 @@
+/* Target alerts without description - align icon and text midlines */
+.alert:not(:global(.ant-alert-with-description)) {
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px; /* Reduced from default 12px to balance vertical alignment with icon */
+}
+
+.alert:not(:global(.ant-alert-with-description)) :global(.ant-alert-icon) {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 2px; /* Fine-tune vertical position to match text midline (derived from sizeXXS / 2) */
+}
+
+.alert:not(:global(.ant-alert-with-description)) :global(.ant-alert-message) {
+  line-height: 1.5714285714285714; /* Theme line height token value */
+}
