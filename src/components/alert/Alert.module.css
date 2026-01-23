@@ -12,6 +12,20 @@
   margin-top: 2px; /* Fine-tune vertical position to match text midline (derived from sizeXXS / 2) */
 }
 
+.alert:not(:global(.ant-alert-with-description))
+  :global(.ant-alert-close-icon) {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 2px; /* Match icon alignment */
+}
+
 .alert:not(:global(.ant-alert-with-description)) :global(.ant-alert-message) {
   line-height: 1.5714285714285714; /* Theme line height token value */
+}
+
+/* Align close icon for alerts WITH description */
+.alert:global(.ant-alert-with-description) :global(.ant-alert-close-icon) {
+  align-self: flex-start;
+  margin-top: 4px; /* Align with larger icon */
 }
