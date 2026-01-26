@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Tag } from './Tag'
 import { ChefHatIcon, TagIcon } from '@phosphor-icons/react'
 

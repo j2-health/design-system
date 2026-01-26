@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { AnchorIcon, ChefHatIcon } from '@phosphor-icons/react'
 
 import { Breadcrumb } from './Breadcrumb'

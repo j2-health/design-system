@@ -1,4 +1,4 @@
-import type { StoryObj, Decorator } from '@storybook/react'
+import type { StoryObj, Decorator } from '@storybook/react-vite'
 
 import { Steps } from './Steps'
 import { BagIcon, CarIcon, DogIcon } from '@phosphor-icons/react'

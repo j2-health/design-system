@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { LegacyNavMenu } from './LegacyNavMenu'
 import type { NavSection, LegacyNavMenuUser } from './LegacyNavMenu'
 import {
