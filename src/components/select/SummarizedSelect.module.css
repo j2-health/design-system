@@ -36,7 +36,23 @@
 }
 
 .menuContainer :global(.ant-select-item-option-selected) {
-  background: var(--j2-blue-5) !important;
+  background: var(--j2-color-primary) !important;
+}
+
+.menuContainer
+  :global(.ant-select-item-option-selected)
+  :global(.ant-select-item-option-content) {
+  color: white;
+}
+
+.menuContainerMultiple :global(.ant-select-item-option-selected) {
+  background: var(--j2-color-primary-bg-hover) !important;
+}
+
+.menuContainerMultiple
+  :global(.ant-select-item-option-selected)
+  :global(.ant-select-item-option-content) {
+  color: inherit;
 }
 
 /*
@@ -96,4 +112,16 @@
   :global(.ant-select-item-option-selected)
   :global(.ant-select-item-option-content) {
   color: white;
+}
+
+.clearAllButton {
+  color: var(--j2-color-primary);
+}
+
+.clearAllButton:hover {
+  background-color: var(--j2-color-primary-bg-hover);
+}
+
+.clearAllDivider {
+  border-top: var(--j2-line-width) solid var(--j2-color-border-secondary);
 }
