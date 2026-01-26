@@ -32,10 +32,12 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    message: 'Important information',
-    description:
-      'Some additional information that helps to clarify the message.',
+    message: 'Important information qefawefsdasd',
+
+    description: '',
+
     type: 'info',
+    closable: false,
   },
 }
 

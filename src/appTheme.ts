@@ -185,6 +185,9 @@ export const appTheme: ThemeConfig = {
     controlPaddingHorizontalSM: 8,
   },
   components: {
+    Alert: {
+      paddingContentHorizontalLG: 16, // Use standard padding instead of paddingLG when description is present
+    },
     Breadcrumb: {
       itemColor: 'var(--j2-color-text-label)',
       lastItemColor: 'var(--j2-color-primary)',
