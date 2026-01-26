@@ -121,7 +121,3 @@
 .clearAllButton:hover {
   background-color: var(--j2-color-primary-bg-hover);
 }
-
-.clearAllDivider {
-  border-top: var(--j2-line-width) solid var(--j2-color-border-secondary);
-}

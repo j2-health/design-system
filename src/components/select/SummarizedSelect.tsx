@@ -231,7 +231,7 @@ export function SummarizedSelect({
             prefix={
               <icons.MagnifyingGlassIcon
                 size={16}
-                style={{ color: 'var(--j2-color-text-placeholder)' }}
+                className="text-j2-text-placeholder"
               />
             }
             allowClear
@@ -269,7 +269,7 @@ export function SummarizedSelect({
         </div>
         <div className="flex justify-between items-center">
           {multiple && (
-            <div className={cx('w-full mt-1 pt-1', styles.clearAllDivider)}>
+            <div className="w-full mt-1 pt-1 border-t border-j2-border-secondary">
               <div
                 aria-selected="false"
                 className={cx(
