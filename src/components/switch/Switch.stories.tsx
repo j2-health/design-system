@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { Switch } from './Switch'
 import { CheckIcon, XIcon } from '@phosphor-icons/react'
 import { useState } from 'react'

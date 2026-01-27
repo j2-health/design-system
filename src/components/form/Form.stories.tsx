@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Formik } from 'formik'
 import { Form } from './Form'
 import { Select } from '../select'
 import { Button } from '../button/Button'
-import { action } from '@storybook/addon-actions'
+import { action } from 'storybook/actions'
 import * as Yup from 'yup'
 
 const meta = {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SummarizedSelect Basic Rendering should render correctly with default props 1`] = `
+exports[`SummarizedSelect > Basic Rendering > should render correctly with default props 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -60,7 +60,7 @@ exports[`SummarizedSelect Basic Rendering should render correctly with default p
 </div>
 `;
 
-exports[`SummarizedSelect Basic Rendering should render with custom placeholders 1`] = `
+exports[`SummarizedSelect > Basic Rendering > should render with custom placeholders 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -120,7 +120,7 @@ exports[`SummarizedSelect Basic Rendering should render with custom placeholders
 </div>
 `;
 
-exports[`SummarizedSelect Edge Cases should handle empty options array 1`] = `
+exports[`SummarizedSelect > Edge Cases > should handle empty options array 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -180,7 +180,7 @@ exports[`SummarizedSelect Edge Cases should handle empty options array 1`] = `
 </div>
 `;
 
-exports[`SummarizedSelect Edge Cases should handle options with undefined labels 1`] = `
+exports[`SummarizedSelect > Edge Cases > should handle options with undefined labels 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -240,7 +240,7 @@ exports[`SummarizedSelect Edge Cases should handle options with undefined labels
 </div>
 `;
 
-exports[`SummarizedSelect Grouped Options should render grouped options correctly 1`] = `
+exports[`SummarizedSelect > Grouped Options > should render grouped options correctly 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -300,7 +300,7 @@ exports[`SummarizedSelect Grouped Options should render grouped options correctl
 </div>
 `;
 
-exports[`SummarizedSelect Loading State should render with loading state 1`] = `
+exports[`SummarizedSelect > Loading State > should render with loading state 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
@@ -374,7 +374,7 @@ exports[`SummarizedSelect Loading State should render with loading state 1`] = `
 </div>
 `;
 
-exports[`SummarizedSelect Multiple Selection Mode should render with multiple values 1`] = `
+exports[`SummarizedSelect > Multiple Selection Mode > should render with multiple values 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect isActive css-dev-only-do-not-override-os2fvf ant-select-multiple ant-select-show-arrow"
@@ -461,7 +461,7 @@ exports[`SummarizedSelect Multiple Selection Mode should render with multiple va
 </div>
 `;
 
-exports[`SummarizedSelect Single Selection Mode should render with selected value 1`] = `
+exports[`SummarizedSelect > Single Selection Mode > should render with selected value 1`] = `
 <div>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"

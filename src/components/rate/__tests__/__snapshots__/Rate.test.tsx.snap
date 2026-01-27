@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Rate should render correctly 1`] = `
+exports[`Rate > should render correctly 1`] = `
 <div>
   <ul
     class="ant-rate j2-rate css-dev-only-do-not-override-os2fvf ant-rate-disabled"

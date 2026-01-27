@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { SummarizedSelect } from '../SummarizedSelect'
@@ -75,7 +76,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should call onChange with correct value when option selected', async () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
       const user = userEvent.setup()
 
       render(
@@ -164,7 +165,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should call onChange when tag is removed', async () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
       const user = userEvent.setup()
 
       render(
@@ -189,7 +190,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should call onChange with new array when option selected', async () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
       const user = userEvent.setup()
 
       render(
@@ -225,7 +226,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should select from grouped options', async () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
       const user = userEvent.setup()
 
       render(
@@ -408,7 +409,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should throw error when value is not string in single mode', () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
 
       const TestComponent = () => {
         const handleChange = (val: string) => {
@@ -428,7 +429,7 @@ describe('SummarizedSelect', () => {
     })
 
     it('should throw error when value is not array in multiple mode', () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
 
       const TestComponent = () => {
         const handleChange = (val: string[]) => {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CheckboxTree should render correctly 1`] = `
+exports[`CheckboxTree > should render correctly 1`] = `
 <div>
   <div>
     <div>
@@ -285,7 +285,7 @@ exports[`CheckboxTree should render correctly 1`] = `
 </div>
 `;
 
-exports[`CheckboxTree should render disabled 1`] = `
+exports[`CheckboxTree > should render disabled 1`] = `
 <div>
   <div>
     <div>
@@ -580,7 +580,7 @@ exports[`CheckboxTree should render disabled 1`] = `
 </div>
 `;
 
-exports[`CheckboxTree should render with some checked items 1`] = `
+exports[`CheckboxTree > should render with some checked items 1`] = `
 <div>
   <div>
     <div>

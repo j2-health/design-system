@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Preview } from '@storybook/react'
+import type { Preview } from '@storybook/react-vite'
 import theme from './theme'
 import { AppConfigProvider } from '../src/AppConfigProvider'
 import '../src/stylesheets/index.css'

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Radio should render correctly 1`] = `
+exports[`Radio > should render correctly 1`] = `
 <div>
   <label
     class="ant-radio-wrapper css-dev-only-do-not-override-os2fvf"
@@ -21,7 +21,7 @@ exports[`Radio should render correctly 1`] = `
 </div>
 `;
 
-exports[`RadioGroup should render correctly 1`] = `
+exports[`RadioGroup > should render correctly 1`] = `
 <div>
   <div
     class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-os2fvf"

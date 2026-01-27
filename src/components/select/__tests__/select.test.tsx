@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { render, fireEvent } from '@testing-library/react'
 import { Formik } from 'formik'
 import { Form } from 'formik-antd'
@@ -65,7 +66,7 @@ describe('Select', () => {
   })
 
   it('should call onSearch when search input changes', () => {
-    const handleSearch = jest.fn()
+    const handleSearch = vi.fn()
     const { getByRole } = renderWithForm(
       <Select
         name="test"
