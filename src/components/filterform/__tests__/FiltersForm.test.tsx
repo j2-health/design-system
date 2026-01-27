@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { userEvent } from '@testing-library/user-event'
 import { act, render, screen } from '@testing-library/react'
 import { FiltersForm } from '../FiltersForm'
@@ -5,8 +6,8 @@ import { FilterConfig, FilterForm } from '../types'
 import '@testing-library/jest-dom'
 import { useFiltersForm } from '../useFiltersForm'
 
-jest.mock('../useFiltersForm', () => ({
-  useFiltersForm: jest.fn(),
+vi.mock('../useFiltersForm', () => ({
+  useFiltersForm: vi.fn(),
 }))
 
 describe('FiltersForm', () => {
@@ -15,8 +16,8 @@ describe('FiltersForm', () => {
   ]
 
   const mockHook = (output: Partial<ReturnType<typeof useFiltersForm>>) => {
-    ;(useFiltersForm as jest.Mock).mockImplementation(() => ({
-      dispatch: jest.fn(),
+    ;(useFiltersForm as ReturnType<typeof vi.fn>).mockImplementation(() => ({
+      dispatch: vi.fn(),
       filterGroups: [
         {
           field: 'name',
@@ -74,7 +75,7 @@ describe('FiltersForm', () => {
         isEmpty: true,
       })
 
-      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      render(<FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />)
       expect(
         screen.getByRole('button', { name: 'Apply Filters' })
       ).toBeEnabled()
@@ -87,9 +88,7 @@ describe('FiltersForm', () => {
       })
 
       act(() => {
-        render(
-          <FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />
-        )
+        render(<FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />)
       })
 
       expect(
@@ -102,7 +101,7 @@ describe('FiltersForm', () => {
         isValid: true,
         isEmpty: false,
       })
-      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      render(<FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />)
       expect(
         screen.getByRole('button', { name: 'Apply Filters' })
       ).toBeEnabled()
@@ -114,7 +113,7 @@ describe('FiltersForm', () => {
       mockHook({
         isValid: false,
       })
-      render(<FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />)
+      render(<FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />)
       expect(screen.getByRole('button', { name: 'Add Rule' })).toBeDisabled()
     })
 
@@ -123,9 +122,7 @@ describe('FiltersForm', () => {
         isValid: true,
       })
       act(() => {
-        render(
-          <FiltersForm onSubmit={jest.fn()} filterConfigs={filterConfigs} />
-        )
+        render(<FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />)
       })
 
       expect(screen.getByRole('button', { name: 'Add Rule' })).toBeEnabled()

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Alert should render correctly 1`] = `
+exports[`Alert > should render correctly 1`] = `
 <div>
   <div
     class="ant-alert ant-alert-success alert css-dev-only-do-not-override-os2fvf"

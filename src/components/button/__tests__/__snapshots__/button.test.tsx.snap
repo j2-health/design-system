@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Button should render correctly 1`] = `
+exports[`Button > should render correctly 1`] = `
 <div>
   <button
     class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-default ant-btn-color-default ant-btn-variant-outlined"

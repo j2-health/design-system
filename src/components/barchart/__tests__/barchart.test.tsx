@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { act, render } from '@testing-library/react'
 import { BarChart } from '../BarChart'
 
@@ -10,8 +11,8 @@ const stripDynamicIds = (html: string): string => {
     )
 }
 
-jest.mock('react-dom/server', () => ({
-  renderToString: jest.fn(() => 'mocked string'),
+vi.mock('react-dom/server', () => ({
+  renderToString: vi.fn(() => 'mocked string'),
 }))
 
 describe('BarChart', () => {

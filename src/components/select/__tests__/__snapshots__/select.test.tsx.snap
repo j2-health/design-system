@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Select should not render clear icon when allowClear is disabled 1`] = `
+exports[`Select > should not render clear icon when allowClear is disabled 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
@@ -63,7 +63,7 @@ exports[`Select should not render clear icon when allowClear is disabled 1`] = `
 </div>
 `;
 
-exports[`Select should render correctly 1`] = `
+exports[`Select > should render correctly 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
@@ -126,7 +126,7 @@ exports[`Select should render correctly 1`] = `
 </div>
 `;
 
-exports[`Select should render with allowClear enabled 1`] = `
+exports[`Select > should render with allowClear enabled 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
@@ -189,7 +189,7 @@ exports[`Select should render with allowClear enabled 1`] = `
 </div>
 `;
 
-exports[`Select should render with loading indicator 1`] = `
+exports[`Select > should render with loading indicator 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
@@ -266,7 +266,7 @@ exports[`Select should render with loading indicator 1`] = `
 </div>
 `;
 
-exports[`Select should render with options 1`] = `
+exports[`Select > should render with options 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
@@ -329,7 +329,7 @@ exports[`Select should render with options 1`] = `
 </div>
 `;
 
-exports[`Select should render with search enabled 1`] = `
+exports[`Select > should render with search enabled 1`] = `
 <div>
   <form
     class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"

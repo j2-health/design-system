@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Breadcrumb should render correctly 1`] = `
+exports[`Breadcrumb > should render correctly 1`] = `
 <div>
   <nav
     class="ant-breadcrumb css-dev-only-do-not-override-os2fvf"

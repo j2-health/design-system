@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`NotificationModal should render correctly 1`] = `
+exports[`NotificationModal > should render correctly 1`] = `
 <div
   aria-labelledby="test-id"
   aria-modal="true"
@@ -9,7 +9,7 @@ exports[`NotificationModal should render correctly 1`] = `
   style="width: 520px;"
 >
   <div
-    style="outline: none;"
+    style="outline-color: none; outline-style: none; outline-width: initial;"
     tabindex="0"
   >
     <div
@@ -110,7 +110,7 @@ exports[`NotificationModal should render correctly 1`] = `
     </div>
   </div>
   <div
-    style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+    style="width: 0px; height: 0px; overflow: hidden; outline-color: none; outline-style: none; outline-width: initial;"
     tabindex="0"
   />
 </div>
