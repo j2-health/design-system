@@ -53,7 +53,7 @@ const meta = {
   decorators: [
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (Story: any) => (
-      <div className="p-8 bg-gray-50 min-h-[400px]">
+      <div className="p-8 bg-j2-bg-layout min-h-[400px]">
         <Story />
       </div>
     ),
