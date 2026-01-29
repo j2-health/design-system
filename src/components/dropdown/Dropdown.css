@@ -5,3 +5,12 @@
     color: var(--j2-color-primary-text-hover);
   }
 }
+
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-selected {
+  background-color: var(--j2-color-primary) !important;
+  color: white !important;
+}
+
+.ant-dropdown-menu.j2-dropdown-slim-menu .ant-dropdown-menu-item-group-list {
+  margin: 0;
+}

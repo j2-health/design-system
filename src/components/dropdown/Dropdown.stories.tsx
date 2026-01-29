@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { Dropdown } from './Dropdown'
 import { ItemType } from 'antd/es/menu/interface'
-import { DownloadIcon } from '@phosphor-icons/react'
+import { DownloadIcon, SortAscendingIcon } from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Dropdown',
@@ -128,5 +128,35 @@ export const IconTwofold: Story = {
   },
   render: (args) => {
     return <Dropdown {...args} menu={{ items: items }} />
+  },
+}
+
+export const SlimMenu: Story = {
+  args: {
+    icon: <SortAscendingIcon weight="regular" size={20} />,
+    label: 'Gaps',
+    type: 'basic-inline',
+    menuType: 'slim',
+    menu: {
+      items: [
+        {
+          type: 'group',
+          label: 'Sort by',
+          children: [
+            { key: 'name-asc', label: 'Name (A->Z)' },
+            { key: 'name-desc', label: 'Name (Z->A)' },
+            { key: 'gap-asc', label: 'Gaps (Low->High)' },
+            { key: 'gap-desc', label: 'Gaps (High->Low)' },
+            { key: 'population-asc', label: 'Population (Low->High)' },
+            { key: 'population-desc', label: 'Population (High->Low)' },
+          ],
+        },
+      ],
+      selectable: true,
+      selectedKeys: ['gap-desc'],
+    },
+  },
+  render: (args) => {
+    return <Dropdown {...args} />
   },
 }
