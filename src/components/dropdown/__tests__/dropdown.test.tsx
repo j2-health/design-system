@@ -41,7 +41,9 @@ describe('Dropdown', () => {
         ...menuItems,
         className: 'custom-menu-class',
       }
-      render(<Dropdown label="Test" menu={menuWithClassName} menuType="slim" open />)
+      render(
+        <Dropdown label="Test" menu={menuWithClassName} menuType="slim" open />
+      )
 
       const menuElement = document.querySelector('.ant-dropdown-menu')
       expect(menuElement).toHaveClass('j2-dropdown-slim-menu')
