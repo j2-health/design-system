@@ -14,6 +14,14 @@ export type Props = DropdownProps & {
   targetClassName?: string
 }
 
+export type TargetProps = {
+  label?: string
+  type?: 'basic' | 'basic-inline' | 'twofold'
+  disabled?: boolean
+  icon?: React.ReactNode
+  className?: string
+}
+
 const LabelWithCaret = ({ label }: { label: string | undefined }) => (
   <div className="flex items-center gap-2">
     {label}
@@ -21,7 +29,7 @@ const LabelWithCaret = ({ label }: { label: string | undefined }) => (
   </div>
 )
 
-const Target = ({ label, type, disabled, icon, className }: Props) => {
+const Target = ({ label, type, disabled, icon, className }: TargetProps) => {
   if (type === 'basic-inline') {
     return (
       <Link disabled={disabled} className={cx('flex gap-1', className)}>
