@@ -1,9 +1,170 @@
 import type { Config } from 'tailwindcss'
+import colors from 'tailwindcss/colors.js'
 
-export default {
-  content: ['./src/**/*.{ts,tsx,mdx}'],
+// Export as a preset for consuming apps
+export const tailwindPreset = {
   theme: {
-    extend: {},
+  colors: {
+    transparent: colors.transparent,
+    current: colors.current,
+    white: colors.white,
+    black: colors.black,
+    j2: {
+        // Generic color definitions
+        'blue-1': 'var(--j2-blue-1)',
+        'blue-2': 'var(--j2-blue-2)',
+        'blue-3': 'var(--j2-blue-3)',
+        'blue-4': 'var(--j2-blue-4)',
+        'blue-5': 'var(--j2-blue-5)',
+        'blue-6': 'var(--j2-blue-6)',
+        'blue-7': 'var(--j2-blue-7)',
+        'blue-8': 'var(--j2-blue-8)',
+        'blue-9': 'var(--j2-blue-9)',
+        'blue-10': 'var(--j2-blue-10)',
+        'blue-11': 'var(--j2-blue-11)',
+        'blue-12': 'var(--j2-blue-12)',
+        'gray-1': 'var(--j2-gray-1)',
+        'gray-2': 'var(--j2-gray-2)',
+        'gray-3': 'var(--j2-gray-3)',
+        'gray-4': 'var(--j2-gray-4)',
+        'gray-5': 'var(--j2-gray-5)',
+        'gray-6': 'var(--j2-gray-6)',
+        'gray-7': 'var(--j2-gray-7)',
+        'gray-8': 'var(--j2-gray-8)',
+        'gray-9': 'var(--j2-gray-9)',
+        'gray-10': 'var(--j2-gray-10)',
+        'gray-11': 'var(--j2-gray-11)',
+        'gray-12': 'var(--j2-gray-12)',
+        'green-1': 'var(--j2-green-1)',
+        'green-2': 'var(--j2-green-2)',
+        'green-3': 'var(--j2-green-3)',
+        'green-4': 'var(--j2-green-4)',
+        'green-5': 'var(--j2-green-5)',
+        'green-6': 'var(--j2-green-6)',
+        'green-7': 'var(--j2-green-7)',
+        'green-8': 'var(--j2-green-8)',
+        'green-9': 'var(--j2-green-9)',
+        'green-10': 'var(--j2-green-10)',
+        'green-11': 'var(--j2-green-11)',
+        'green-12': 'var(--j2-green-12)',
+        'gold-1': 'var(--j2-gold-1)',
+        'gold-2': 'var(--j2-gold-2)',
+        'gold-3': 'var(--j2-gold-3)',
+        'gold-4': 'var(--j2-gold-4)',
+        'gold-5': 'var(--j2-gold-5)',
+        'gold-6': 'var(--j2-gold-6)',
+        'gold-7': 'var(--j2-gold-7)',
+        'gold-8': 'var(--j2-gold-8)',
+        'gold-9': 'var(--j2-gold-9)',
+        'gold-10': 'var(--j2-gold-10)',
+        'gold-11': 'var(--j2-gold-11)',
+        'gold-12': 'var(--j2-gold-12)',
+        'red-1': 'var(--j2-red-1)',
+        'red-2': 'var(--j2-red-2)',
+        'red-3': 'var(--j2-red-3)',
+        'red-4': 'var(--j2-red-4)',
+        'red-5': 'var(--j2-red-5)',
+        'red-6': 'var(--j2-red-6)',
+        'red-7': 'var(--j2-red-7)',
+        'red-8': 'var(--j2-red-8)',
+        'red-9': 'var(--j2-red-9)',
+        'red-10': 'var(--j2-red-10)',
+        'red-11': 'var(--j2-red-11)',
+        'red-12': 'var(--j2-red-12)',
+
+        // Primary color tokens
+        primary: 'var(--j2-color-primary)',
+        'primary-hover': 'var(--j2-color-primary-hover)',
+        'primary-active': 'var(--j2-color-primary-active)',
+        'primary-bg': 'var(--j2-color-primary-bg)',
+        'primary-bg-hover': 'var(--j2-color-primary-bg-hover)',
+        'primary-border': 'var(--j2-color-primary-border)',
+        'primary-border-hover': 'var(--j2-color-primary-border-hover)',
+        'primary-text': 'var(--j2-color-primary-text)',
+        'primary-text-hover': 'var(--j2-color-primary-text-hover)',
+        'primary-text-active': 'var(--j2-color-primary-text-active)',
+
+        // Text color tokens
+        text: 'var(--j2-color-text)',
+        'text-secondary': 'var(--j2-color-text-secondary)',
+        'text-tertiary': 'var(--j2-color-text-tertiary)',
+        'text-quaternary': 'var(--j2-color-text-quaternary)',
+        'text-heading': 'var(--j2-color-text-heading)',
+        'text-label': 'var(--j2-color-text-label)',
+        'text-description': 'var(--j2-color-text-description)',
+        'text-disabled': 'var(--j2-color-text-disabled)',
+        'text-placeholder': 'var(--j2-color-text-placeholder)',
+
+        // Border color tokens
+        border: 'var(--j2-color-border)',
+        'border-secondary': 'var(--j2-color-border-secondary)',
+
+        // Background color tokens
+        'bg-layout': 'var(--j2-color-bg-layout)',
+        'bg-elevated': 'var(--j2-color-bg-elevated)',
+        'bg-mask': 'var(--j2-color-bg-mask)',
+        'bg-spotlight': 'var(--j2-color-bg-spotlight)',
+
+        // Status colors
+        success: 'var(--j2-color-success)',
+        'success-bg': 'var(--j2-color-success-bg)',
+        'success-bg-hover': 'var(--j2-color-success-bg-hover)',
+        'success-border': 'var(--j2-color-success-border)',
+        warning: 'var(--j2-color-warning)',
+        'warning-bg': 'var(--j2-color-warning-bg)',
+        'warning-bg-hover': 'var(--j2-color-warning-bg-hover)',
+        'warning-border': 'var(--j2-color-warning-border)',
+        error: 'var(--j2-color-error)',
+        'error-bg': 'var(--j2-color-error-bg)',
+        'error-bg-hover': 'var(--j2-color-error-bg-hover)',
+        'error-border': 'var(--j2-color-error-border)',
+        info: 'var(--j2-color-info)',
+        'info-bg': 'var(--j2-color-info-bg)',
+        'info-bg-hover': 'var(--j2-color-info-bg-hover)',
+        'info-border': 'var(--j2-color-info-border)',
+
+        // Icon colors
+        icon: 'var(--j2-color-icon)',
+        'icon-hover': 'var(--j2-color-icon-hover)',
+      },
   },
+  extend: {
+    borderColor: {
+      DEFAULT: 'var(--j2-color-border)',
+    },
+    fontWeight: {
+      normal: '400',
+      medium: '500',
+      semibold: '600',
+      bold: '600',
+    },
+    borderWidth: {
+      j2: 'var(--j2-line-width)',
+      'j2-bold': 'var(--j2-line-width-bold)',
+      'j2-focus': 'var(--j2-line-width-focus)',
+    },
+    borderRadius: {
+      j2: 'var(--j2-border-radius)',
+      'j2-lg': 'var(--j2-border-radius-lg)',
+      'j2-sm': 'var(--j2-border-radius-sm)',
+      'j2-xs': 'var(--j2-border-radius-xs)',
+    },
+    spacing: {
+      j2: 'var(--j2-size)',
+      'j2-xs': 'var(--j2-size-xs)',
+      'j2-sm': 'var(--j2-size-sm)',
+      'j2-md': 'var(--j2-size-md)',
+      'j2-lg': 'var(--j2-size-lg)',
+      'j2-xl': 'var(--j2-size-xl)',
+      'j2-xxl': 'var(--j2-size-xxl)',
+    },
+  },
+  }
+}
+
+// Default export for this project's own Tailwind config
+export default {
+  ...tailwindPreset,
+  content: ['./src/**/*.{ts,tsx,mdx}'],
   plugins: [],
 } satisfies Config
