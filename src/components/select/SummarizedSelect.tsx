@@ -180,16 +180,35 @@ export function SummarizedSelect({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Prevent backspace from removing tags when typing in search input
-    e.stopPropagation()
+    // Allow these navigation keys to bubble up to Select's native keyboard handler
+    const navigationKeys = ['ArrowUp', 'ArrowDown']
 
+    // Handle Enter - select first filtered option (custom behavior)
     if (e.key === 'Enter') {
       e.preventDefault()
+      e.stopPropagation()
       handleSelectFirstOption()
-    } else if (e.key === 'Escape') {
-      e.preventDefault()
-      setIsOpen(false)
+      return
     }
+
+    // Handle Escape - close dropdown (custom behavior)
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation()
+      setIsOpen(false)
+      return
+    }
+
+    // For arrow keys, prevent cursor movement but allow propagation to Select
+    if (navigationKeys.includes(e.key)) {
+      e.preventDefault() // Prevents cursor from moving to start/end of input text
+      // Do NOT call stopPropagation() - let event bubble to Select component
+      return
+    }
+
+    // For all other keys (including Backspace), stop propagation
+    // This prevents backspace from removing tags in multiple mode
+    e.stopPropagation()
   }
 
   const optionRender = (option: FlattenOptionData<SelectOption>) => {
