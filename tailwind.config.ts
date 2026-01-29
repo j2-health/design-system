@@ -129,6 +129,9 @@ export const tailwindPreset = {
       },
   },
   extend: {
+    borderColor: {
+      DEFAULT: 'var(--j2-color-border)',
+    },
     fontWeight: {
       normal: '400',
       medium: '500',
