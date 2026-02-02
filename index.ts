@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
+export * from './tailwind.config.ts'
+
 export * from './src/AppConfigProvider'
 export * from './src/appTheme'
 export * from './src/components/alert'

@@ -113,6 +113,7 @@ export function SummarizedSelect({
   const antVariant = isHeadline ? 'borderless' : variant
   const [searchValue, setSearchValue] = useState('')
   const [focusTrigger, setFocusTrigger] = useState(0)
+  const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef<InputRef>(null)
 
   useEffect(() => {
@@ -130,6 +131,10 @@ export function SummarizedSelect({
   const filteredOptions = useMemo(() => {
     return filterOptions(options, searchValue)
   }, [searchValue, options])
+
+  const flatFilteredOptions = useMemo(() => {
+    return getAllOptions(filteredOptions)
+  }, [filteredOptions])
 
   const allFlatOptions = useMemo(() => {
     return getAllOptions(options)
@@ -152,6 +157,58 @@ export function SummarizedSelect({
     if (someSelected) {
       onChange(value.filter((val) => !allFilteredValues.includes(val)))
     }
+  }
+
+  const handleSelectFirstOption = () => {
+    if (flatFilteredOptions.length === 0) return
+
+    const firstOption = flatFilteredOptions[0]
+    if (!firstOption) return
+
+    const optionValue = firstOption.value as string
+
+    if (multiple) {
+      if (value.includes(optionValue)) {
+        onChange(value.filter((v) => v !== optionValue))
+      } else {
+        onChange([...value, optionValue])
+      }
+    } else {
+      onChange(optionValue)
+      setIsOpen(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow these navigation keys to bubble up to Select's native keyboard handler
+    const navigationKeys = ['ArrowUp', 'ArrowDown']
+
+    // Handle Enter - select first filtered option (custom behavior)
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      e.stopPropagation()
+      handleSelectFirstOption()
+      return
+    }
+
+    // Handle Escape - close dropdown (custom behavior)
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation()
+      setIsOpen(false)
+      return
+    }
+
+    // For arrow keys, prevent cursor movement but allow propagation to Select
+    if (navigationKeys.includes(e.key)) {
+      e.preventDefault() // Prevents cursor from moving to start/end of input text
+      // Do NOT call stopPropagation() - let event bubble to Select component
+      return
+    }
+
+    // For all other keys (including Backspace), stop propagation
+    // This prevents backspace from removing tags in multiple mode
+    e.stopPropagation()
   }
 
   const optionRender = (option: FlattenOptionData<SelectOption>) => {
@@ -188,20 +245,20 @@ export function SummarizedSelect({
               e.stopPropagation()
               e.preventDefault()
             }}
-            onKeyDown={(e) => {
-              // Prevent backspace from removing tags when typing in search input
-              e.stopPropagation()
-            }}
+            onKeyDown={handleKeyDown}
             onClick={(e) => e.stopPropagation()}
             prefix={
-              <icons.MagnifyingGlassIcon size={16} className="text-gray-400" />
+              <icons.MagnifyingGlassIcon
+                size={16}
+                className="text-j2-text-placeholder"
+              />
             }
             allowClear
           />
         </div>
         {multiple && value.length > 0 ? (
           <div className="px-2 pb-2">
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-y-1">
               {(value as string[]).map((value) => (
                 <Tag
                   className="opacity-100 z-10 flex max-w-full"
@@ -224,16 +281,20 @@ export function SummarizedSelect({
         <div
           className={cx(styles.menuContainer, 'rounded-lg', {
             [styles.headlinedMenuContainer]: isHeadline,
+            [styles.menuContainerMultiple]: multiple,
           })}
         >
           {menu}
         </div>
         <div className="flex justify-between items-center">
           {multiple && (
-            <div className="w-full border-t border-j2-gray-5 mt-1 pt-1">
+            <div className="w-full mt-1 pt-1 border-t border-j2-border-secondary">
               <div
                 aria-selected="false"
-                className="ant-select-item ant-select-item-option text-j2-blue-9 hover:bg-j2-blue-5 w-full"
+                className={cx(
+                  'ant-select-item ant-select-item-option w-full',
+                  styles.clearAllButton
+                )}
                 title="Clear all"
                 onClick={handleToggleAll}
               >
@@ -249,6 +310,7 @@ export function SummarizedSelect({
   }
 
   const handleOpenChange = (open: boolean) => {
+    setIsOpen(open)
     if (open) {
       // Trigger focus by updating the counter
       setFocusTrigger((prev) => prev + 1)
@@ -259,6 +321,7 @@ export function SummarizedSelect({
 
   return (
     <Select<string | string[], SelectOption>
+      open={isOpen}
       showSearch={false}
       suffixIcon={
         loading ? (
