@@ -32,9 +32,16 @@ export const CircularProgress = ({
 }: CircularProgressProps) => {
   const clampedPercent = Math.min(100, Math.max(0, percent))
 
+  // Use a safe size for internal geometry calculations to avoid division by zero.
+  const safeSize = size > 0 ? size : 1
+
+  // Clamp strokeWidth so that the computed radius stays positive (strokeWidth < size).
+  const maxStrokeWidth = Math.max(0, safeSize - 1)
+  const effectiveStrokeWidth = Math.min(Math.max(0, strokeWidth), maxStrokeWidth)
+
   // Fixed viewBox for consistent rendering at any size
   const viewBox = 100
-  const strokeInViewBoxUnits = (strokeWidth / size) * viewBox
+  const strokeInViewBoxUnits = (effectiveStrokeWidth / safeSize) * viewBox
 
   const radius = (viewBox - strokeInViewBoxUnits) / 2
 
