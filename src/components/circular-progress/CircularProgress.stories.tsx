@@ -15,7 +15,7 @@ const meta: Meta<typeof CircularProgress> = {
       control: { type: 'number', min: 16, max: 200 },
     },
     strokeWidth: {
-      control: { type: 'number', min: 1, max: 316 },
+      control: { type: 'number', min: 1, max: 50 },
     },
     showPercent: {
       control: 'boolean',
