@@ -98,4 +98,55 @@ describe('CircularProgress', () => {
     const trackCircle = container.querySelectorAll('circle')[1]
     expect(trackCircle).toHaveAttribute('stroke-dasharray')
   })
+
+  describe('size and strokeWidth validation', () => {
+    it('should handle size of 0 without crashing', () => {
+      const { container } = render(<CircularProgress percent={50} size={0} />)
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+    })
+
+    it('should handle negative size without crashing', () => {
+      const { container } = render(<CircularProgress percent={50} size={-10} />)
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+    })
+
+    it('should handle strokeWidth greater than size', () => {
+      const { container } = render(
+        <CircularProgress percent={50} size={20} strokeWidth={50} />
+      )
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+      // Should still render circles with clamped strokeWidth
+      const circles = container.querySelectorAll('circle')
+      expect(circles.length).toBe(2)
+    })
+
+    it('should handle strokeWidth equal to size', () => {
+      const { container } = render(
+        <CircularProgress percent={50} size={50} strokeWidth={50} />
+      )
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+    })
+
+    it('should handle negative strokeWidth', () => {
+      const { container } = render(
+        <CircularProgress percent={50} strokeWidth={-5} />
+      )
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+      const circles = container.querySelectorAll('circle')
+      expect(circles.length).toBe(2)
+    })
+
+    it('should render correctly with very small size', () => {
+      const { container } = render(
+        <CircularProgress percent={75} size={1} strokeWidth={1} />
+      )
+      const svg = container.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+    })
+  })
 })

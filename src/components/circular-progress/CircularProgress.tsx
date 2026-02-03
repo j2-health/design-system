@@ -37,7 +37,8 @@ export const CircularProgress = ({
 
   // Clamp strokeWidth so that the computed radius stays positive (strokeWidth < size).
   const maxStrokeWidth = Math.max(0, safeSize - 1)
-  const effectiveStrokeWidth = Math.min(Math.max(0, strokeWidth), maxStrokeWidth)
+  const positiveStrokeWidth = Math.max(0, strokeWidth)
+  const effectiveStrokeWidth = Math.min(positiveStrokeWidth, maxStrokeWidth)
 
   // Fixed viewBox for consistent rendering at any size
   const viewBox = 100
