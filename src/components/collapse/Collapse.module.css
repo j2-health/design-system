@@ -1,0 +1,43 @@
+.default :global(.ant-collapse-header-text),
+.warning :global(.ant-collapse-header-text),
+.error :global(.ant-collapse-header-text) {
+  display: flex;
+  align-items: center;
+  gap: var(--j2-size-xs);
+}
+
+/* Warning state */
+.warning:global(.ant-collapse) {
+  border-color: var(--j2-color-warning-border);
+  background-color: var(--j2-color-warning-bg);
+}
+
+.warning :global(.ant-collapse-item) {
+  border-bottom-color: var(--j2-color-warning-border) !important;
+}
+
+.warning :global(.ant-collapse-content) {
+  border-top-color: var(--j2-color-warning-border) !important;
+}
+
+.warning :global(.ant-collapse-header) {
+  color: var(--j2-color-text) !important;
+}
+
+/* Error state */
+.error:global(.ant-collapse) {
+  border-color: var(--j2-color-error-border);
+  background-color: var(--j2-color-error-bg);
+}
+
+.error :global(.ant-collapse-item) {
+  border-bottom-color: var(--j2-color-error-border) !important;
+}
+
+.error :global(.ant-collapse-content) {
+  border-top-color: var(--j2-color-error-border) !important;
+}
+
+.error :global(.ant-collapse-header) {
+  color: var(--j2-color-text) !important;
+}

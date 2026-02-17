@@ -25,11 +25,18 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
+    state: {
+      control: 'radio',
+      options: ['default', 'warning', 'error'],
+    },
     expandIconPosition: {
       control: 'radio',
       options: ['start', 'end'],
     },
     bordered: {
+      control: 'boolean',
+    },
+    showIcon: {
       control: 'boolean',
     },
   },
@@ -44,5 +51,29 @@ export const Default: Story = {
     defaultActiveKey: ['value-based-care'],
     expandIconPosition: 'end',
     bordered: true,
+    state: 'default',
+    showIcon: true,
+  },
+}
+
+export const Warning: Story = {
+  args: {
+    items: items,
+    defaultActiveKey: ['value-based-care'],
+    expandIconPosition: 'end',
+    bordered: true,
+    state: 'warning',
+    showIcon: true,
+  },
+}
+
+export const Error: Story = {
+  args: {
+    items: items,
+    defaultActiveKey: ['value-based-care'],
+    expandIconPosition: 'end',
+    bordered: true,
+    state: 'error',
+    showIcon: true,
   },
 }
