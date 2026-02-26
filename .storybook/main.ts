@@ -12,6 +12,12 @@ const config: StorybookConfig = {
     check: false,
     skipCompiler: true,
   },
+  viteFinal(config) {
+    config.optimizeDeps ??= {}
+    config.optimizeDeps.exclude ??= []
+    config.optimizeDeps.exclude.push('highcharts', '@highcharts/react')
+    return config
+  },
 }
 
 // eslint-disable-next-line import/no-default-export

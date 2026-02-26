@@ -21,7 +21,10 @@
     "noUnusedLocals": true,
     "noErrorTruncation": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "highcharts": ["./node_modules/highcharts/highcharts.src"]
+    }
   },
   "include": ["src"]
 }

@@ -1,11 +1,13 @@
 import { theme } from 'antd'
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
+import type * as Highcharts from 'highcharts'
+import {
+  Chart as HighchartsReact,
+  type HighchartsReactRefObject,
+} from '@highcharts/react'
+import '@highcharts/react/options/Accessibility'
+import '@highcharts/react/options/Exporting'
 import styles from './chart.module.css'
 import { renderToString } from 'react-dom/server'
-import accessibilityModule from 'highcharts/modules/accessibility'
-import exportingModule from 'highcharts/modules/exporting'
-import offlineExporting from 'highcharts/modules/offline-exporting'
 
 type Series = {
   name?: string
@@ -31,7 +33,7 @@ type BarChartProps = {
     value: number | null | undefined,
     seriesName: string | undefined
   ) => React.ReactNode
-  chartRef?: React.RefObject<HighchartsReact.RefObject>
+  chartRef?: React.RefObject<HighchartsReactRefObject>
   exporting?: Highcharts.ExportingOptions
   maxBars?: number
   barsWidth?: number
@@ -59,10 +61,6 @@ const BarChart = ({
   maxBars = 50,
   barsWidth = undefined,
 }: BarChartProps) => {
-  exportingModule(Highcharts)
-  offlineExporting(Highcharts)
-  accessibilityModule(Highcharts)
-
   const limitedCategories = categories.slice(0, maxBars)
   const limitedSeries = series.map((s) => ({
     ...s,
@@ -190,9 +188,7 @@ const BarChart = ({
     },
   }
 
-  return (
-    <HighchartsReact ref={chartRef} highcharts={Highcharts} options={options} />
-  )
+  return <HighchartsReact ref={chartRef} options={options} />
 }
 
 export { BarChart }

@@ -1,2 +1,2 @@
 export { BarChart } from './BarChart'
-export { HighchartsReact } from 'highcharts-react-official'
+export { Chart as HighchartsReact } from '@highcharts/react'
