@@ -1,8 +1,8 @@
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
+import type * as Highcharts from 'highcharts'
+import { Chart as HighchartsReact } from '@highcharts/react'
+import '@highcharts/react/series/Venn'
+import '@highcharts/react/options/Accessibility'
 import { theme } from 'antd'
-import VennModule from 'highcharts/modules/venn'
-import accessability from 'highcharts/modules/accessibility'
 
 type Props = {
   data: Highcharts.PointOptionsObject[]
@@ -12,8 +12,6 @@ type Props = {
 }
 
 export const VennDiagram = ({ data, title, tooltip, onClick }: Props) => {
-  VennModule(Highcharts)
-  accessability(Highcharts)
   const { token } = theme.useToken()
 
   const baseFont: Highcharts.CSSObject = {
@@ -28,7 +26,7 @@ export const VennDiagram = ({ data, title, tooltip, onClick }: Props) => {
     title: {
       text: title,
     },
-    tooltip,
+    ...(tooltip ? { tooltip } : {}),
     chart: {
       spacing: [36, 36, 36, 36],
     },
@@ -52,5 +50,5 @@ export const VennDiagram = ({ data, title, tooltip, onClick }: Props) => {
     ],
   }
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />
+  return <HighchartsReact options={options} />
 }
