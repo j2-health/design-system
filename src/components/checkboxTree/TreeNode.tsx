@@ -1,3 +1,4 @@
+import { CaretDownIcon } from '@phosphor-icons/react'
 import { Checkbox } from '../checkbox'
 import { CheckboxTreeDataNode } from './CheckboxTree'
 import { isNodeChecked } from './utils'
@@ -12,6 +13,8 @@ type TreeNodeProps = {
     node: CheckboxTreeDataNode
   ) => void
   disabled: boolean
+  expandedKeys: Set<string | number>
+  onToggleExpand: (key: string | number) => void
 }
 
 export const TreeNode = ({
@@ -20,9 +23,13 @@ export const TreeNode = ({
   leafNodeValues,
   onCheck,
   disabled,
+  expandedKeys,
+  onToggleExpand,
 }: TreeNodeProps) => {
   const isChecked = isNodeChecked(node, leafNodeValues)
   const isDisabled = disabled || node.disabled
+  const hasChildren = node.children && node.children.length > 0
+  const isExpanded = expandedKeys.has(node.key)
 
   return (
     <div>
@@ -37,20 +44,47 @@ export const TreeNode = ({
         >
           {node.title}
         </Checkbox>
+        {hasChildren && !isDisabled && (
+          <button
+            type="button"
+            onClick={() => onToggleExpand(node.key)}
+            className="flex items-center justify-center ml-auto cursor-pointer bg-transparent border-none p-0"
+            aria-expanded={isExpanded}
+            aria-label={`${isExpanded ? 'Collapse' : 'Expand'}${typeof node.title === 'string' ? ` ${node.title}` : ''}`}
+          >
+            <CaretDownIcon
+              size={14}
+              style={{
+                transform: `rotate(${isExpanded ? 0 : -90}deg)`,
+                transition: 'transform 150ms ease',
+              }}
+            />
+          </button>
+        )}
       </div>
 
-      {node.children && (
-        <div>
-          {node.children.map((childNode) => (
-            <TreeNode
-              key={childNode.key}
-              node={childNode}
-              level={level + 1}
-              leafNodeValues={leafNodeValues}
-              onCheck={onCheck}
-              disabled={disabled}
-            />
-          ))}
+      {hasChildren && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateRows: isExpanded ? '1fr' : '0fr',
+            transition: 'grid-template-rows 150ms ease',
+          }}
+        >
+          <div style={{ overflow: 'hidden' }}>
+            {node.children!.map((childNode) => (
+              <TreeNode
+                key={childNode.key}
+                node={childNode}
+                level={level + 1}
+                leafNodeValues={leafNodeValues}
+                onCheck={onCheck}
+                disabled={disabled}
+                expandedKeys={expandedKeys}
+                onToggleExpand={onToggleExpand}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

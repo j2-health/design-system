@@ -43,6 +43,22 @@ export const isNodeChecked = (
   )
 }
 
+export const getAllParentKeys = (
+  nodes: CheckboxTreeDataNode[]
+): (string | number)[] => {
+  const keys: (string | number)[] = []
+  const traverse = (currentNodes: CheckboxTreeDataNode[]) => {
+    currentNodes.forEach((node) => {
+      if (node.children && node.children.length > 0) {
+        keys.push(node.key)
+        traverse(node.children)
+      }
+    })
+  }
+  traverse(nodes)
+  return keys
+}
+
 export const findNode = (
   key: string | number,
   nodes: CheckboxTreeDataNode[]
