@@ -44,12 +44,13 @@ export const TreeNode = ({
         >
           {node.title}
         </Checkbox>
-        {hasChildren && (
+        {hasChildren && !isDisabled && (
           <button
             type="button"
             onClick={() => onToggleExpand(node.key)}
             className="flex items-center justify-center ml-auto cursor-pointer bg-transparent border-none p-0"
-            aria-label={isExpanded ? 'Collapse' : 'Expand'}
+            aria-expanded={isExpanded}
+            aria-label={`${isExpanded ? 'Collapse' : 'Expand'}${typeof node.title === 'string' ? ` ${node.title}` : ''}`}
           >
             <CaretDownIcon
               size={14}

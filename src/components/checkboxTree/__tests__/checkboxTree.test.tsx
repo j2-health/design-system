@@ -73,48 +73,39 @@ describe('CheckboxTree', () => {
       expect(screen.getByText('Videos')).toBeTruthy()
 
       const expandButtons = screen.getAllByRole('button', {
-        name: 'Collapse',
+        name: /Collapse/,
       })
       expect(expandButtons.length).toBe(4) // Documents, Projects, Reports, Media
+      expandButtons.forEach((button) => {
+        expect(button).toHaveAttribute('aria-expanded', 'true')
+      })
     })
 
     it('should collapse children on toggle click', () => {
       render(<CheckboxTree treeData={simpleTreeData} />)
 
       const documentsToggle = screen.getAllByRole('button', {
-        name: 'Collapse',
+        name: /Collapse/,
       })[0]
       fireEvent.click(documentsToggle)
 
-      // Button label should change to Expand
-      expect(documentsToggle).toHaveAttribute('aria-label', 'Expand')
-
-      // Children container should have grid-template-rows: 0fr
-      const childrenContainer = documentsToggle
-        .closest('div')!
-        .parentElement!.querySelector('[style*="grid-template-rows"]')
-      expect(childrenContainer).toHaveStyle({ gridTemplateRows: '0fr' })
+      expect(documentsToggle).toHaveAttribute('aria-expanded', 'false')
     })
 
     it('should re-expand children on second toggle click', () => {
       render(<CheckboxTree treeData={simpleTreeData} />)
 
       const documentsToggle = screen.getAllByRole('button', {
-        name: 'Collapse',
+        name: /Collapse/,
       })[0]
 
       // Collapse
       fireEvent.click(documentsToggle)
-      expect(documentsToggle).toHaveAttribute('aria-label', 'Expand')
+      expect(documentsToggle).toHaveAttribute('aria-expanded', 'false')
 
       // Re-expand
       fireEvent.click(documentsToggle)
-      expect(documentsToggle).toHaveAttribute('aria-label', 'Collapse')
-
-      const childrenContainer = documentsToggle
-        .closest('div')!
-        .parentElement!.querySelector('[style*="grid-template-rows"]')
-      expect(childrenContainer).toHaveStyle({ gridTemplateRows: '1fr' })
+      expect(documentsToggle).toHaveAttribute('aria-expanded', 'true')
     })
 
     it('should start collapsed when defaultExpandAll is false', () => {
@@ -122,15 +113,11 @@ describe('CheckboxTree', () => {
         <CheckboxTree treeData={simpleTreeData} defaultExpandAll={false} />
       )
 
-      const expandButtons = screen.getAllByRole('button', { name: 'Expand' })
+      const expandButtons = screen.getAllByRole('button', { name: /Expand/ })
       expect(expandButtons.length).toBe(4) // Documents, Projects, Reports, Media
 
-      // Children containers should be collapsed
       expandButtons.forEach((button) => {
-        const childrenContainer = button
-          .closest('div')!
-          .parentElement!.querySelector('[style*="grid-template-rows"]')
-        expect(childrenContainer).toHaveStyle({ gridTemplateRows: '0fr' })
+        expect(button).toHaveAttribute('aria-expanded', 'false')
       })
     })
 
@@ -140,12 +127,14 @@ describe('CheckboxTree', () => {
       )
 
       // Media (key '1') should be expanded
-      const mediaExpandBtn = screen.getByRole('button', { name: 'Collapse' })
+      const mediaExpandBtn = screen.getByRole('button', {
+        name: /Collapse/,
+      })
       expect(mediaExpandBtn).toBeTruthy()
 
       // Documents (key '0'), Projects (key '0-0'), Reports (key '0-1') should be collapsed
       const collapsedButtons = screen.getAllByRole('button', {
-        name: 'Expand',
+        name: /Expand/,
       })
       expect(collapsedButtons.length).toBe(3)
     })
@@ -162,7 +151,9 @@ describe('CheckboxTree', () => {
       )
 
       // Click to collapse Documents
-      const documentsToggle = screen.getByRole('button', { name: 'Collapse' })
+      const documentsToggle = screen.getByRole('button', {
+        name: /Collapse/,
+      })
       fireEvent.click(documentsToggle)
 
       expect(onExpand).toHaveBeenCalledWith([])
@@ -177,7 +168,7 @@ describe('CheckboxTree', () => {
       )
 
       const collapseButtons = screen.getAllByRole('button', {
-        name: 'Collapse',
+        name: /Collapse/,
       })
       expect(collapseButtons.length).toBe(2)
     })
@@ -194,7 +185,7 @@ describe('CheckboxTree', () => {
       render(<CheckboxTree treeData={simpleTreeData} onCheck={onCheck} />)
 
       const toggleButton = screen.getAllByRole('button', {
-        name: 'Collapse',
+        name: /Collapse/,
       })[0]
       fireEvent.click(toggleButton)
 

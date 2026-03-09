@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import cx from 'classnames'
 import { TreeNode } from './TreeNode'
 import {
   getLeafKeys,
@@ -35,6 +34,7 @@ export type CheckboxTreeProps = {
   expandedKeys?: (string | number)[]
   onExpand?: (expandedKeys: (string | number)[]) => void
   className?: string
+  style?: React.CSSProperties
 }
 
 export const CheckboxTree = ({
@@ -48,6 +48,7 @@ export const CheckboxTree = ({
   expandedKeys: controlledExpandedKeys,
   onExpand,
   className,
+  style,
 }: CheckboxTreeProps) => {
   // Get all leaf keys from tree data
   const allLeafKeys = getAllLeafKeys(treeData)
@@ -190,7 +191,7 @@ export const CheckboxTree = ({
   )
 
   return (
-    <div className={cx(className, 'px-4')}>
+    <div className={className} style={style}>
       {treeData.map((node) => (
         <TreeNode
           key={node.key}
