@@ -1,6 +1,12 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { TreeNode } from './TreeNode'
-import { getLeafKeys, getAllLeafKeys, isNodeChecked, findNode } from './utils'
+import {
+  getLeafKeys,
+  getAllLeafKeys,
+  getAllParentKeys,
+  isNodeChecked,
+  findNode,
+} from './utils'
 
 export type CheckboxTreeDataNode = {
   key: string | number
@@ -23,6 +29,10 @@ export type CheckboxTreeProps = {
     }
   ) => void
   disabled?: boolean
+  defaultExpandAll?: boolean
+  defaultExpandedKeys?: (string | number)[]
+  expandedKeys?: (string | number)[]
+  onExpand?: (expandedKeys: (string | number)[]) => void
   className?: string
   style?: React.CSSProperties
 }
@@ -33,6 +43,10 @@ export const CheckboxTree = ({
   checkedKeys: controlledCheckedKeys,
   onCheck,
   disabled = false,
+  defaultExpandAll = true,
+  defaultExpandedKeys,
+  expandedKeys: controlledExpandedKeys,
+  onExpand,
   className,
   style,
 }: CheckboxTreeProps) => {
@@ -57,6 +71,34 @@ export const CheckboxTree = ({
       },
       {} as Record<string | number, boolean>
     )
+  )
+
+  const [internalExpandedKeys, setInternalExpandedKeys] = useState<
+    (string | number)[]
+  >(() => {
+    if (defaultExpandedKeys) return defaultExpandedKeys
+    if (defaultExpandAll) return getAllParentKeys(treeData)
+    return []
+  })
+
+  const expandedKeysSet = useMemo(() => {
+    const keys = controlledExpandedKeys ?? internalExpandedKeys
+    return new Set(keys)
+  }, [controlledExpandedKeys, internalExpandedKeys])
+
+  const handleToggleExpand = useCallback(
+    (key: string | number) => {
+      const currentKeys = controlledExpandedKeys ?? internalExpandedKeys
+      const newKeys = currentKeys.includes(key)
+        ? currentKeys.filter((k) => k !== key)
+        : [...currentKeys, key]
+
+      if (!controlledExpandedKeys) {
+        setInternalExpandedKeys(newKeys)
+      }
+      onExpand?.(newKeys)
+    },
+    [controlledExpandedKeys, internalExpandedKeys, onExpand]
   )
 
   const leafNodeValues: Record<string | number, boolean> = useMemo(() => {
@@ -145,6 +187,8 @@ export const CheckboxTree = ({
           leafNodeValues={leafNodeValues}
           onCheck={handleCheck}
           disabled={disabled}
+          expandedKeys={expandedKeysSet}
+          onToggleExpand={handleToggleExpand}
         />
       ))}
     </div>

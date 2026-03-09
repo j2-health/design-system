@@ -10,6 +10,7 @@ const meta: Meta<typeof CheckboxTree> = {
   },
   argTypes: {
     disabled: { control: 'boolean' },
+    defaultExpandAll: { control: 'boolean' },
   },
 }
 
@@ -63,5 +64,28 @@ export const WithSomeChecked: Story = {
   args: {
     treeData: simpleTreeData,
     defaultCheckedKeys: ['0-0-0', '1-0'],
+  },
+}
+
+export const Collapsible: Story = {
+  args: {
+    treeData: simpleTreeData,
+    onCheck(checkedKeys, info) {
+      console.log(checkedKeys, info)
+    },
+  },
+}
+
+export const DefaultCollapsed: Story = {
+  args: {
+    treeData: simpleTreeData,
+    defaultExpandAll: false,
+  },
+}
+
+export const PartiallyExpanded: Story = {
+  args: {
+    treeData: simpleTreeData,
+    defaultExpandedKeys: ['1'],
   },
 }
