@@ -37,11 +37,18 @@ export const TreeNode = ({
         className="flex items-center min-h-6 mb-1"
         style={{ paddingLeft: level * 20 }}
       >
-        {hasChildren ? (
+        <Checkbox
+          checked={isChecked}
+          disabled={isDisabled}
+          onChange={(e) => onCheck(node.key, e.target.checked, node)}
+        >
+          {node.title}
+        </Checkbox>
+        {hasChildren && (
           <button
             type="button"
             onClick={() => onToggleExpand(node.key)}
-            className="flex items-center justify-center w-4 mr-1 cursor-pointer bg-transparent border-none p-0"
+            className="flex items-center justify-center ml-auto cursor-pointer bg-transparent border-none p-0"
             aria-label={isExpanded ? 'Collapse' : 'Expand'}
           >
             <CaretDownIcon
@@ -52,16 +59,7 @@ export const TreeNode = ({
               }}
             />
           </button>
-        ) : (
-          <span className="w-4 mr-1 inline-block" />
         )}
-        <Checkbox
-          checked={isChecked}
-          disabled={isDisabled}
-          onChange={(e) => onCheck(node.key, e.target.checked, node)}
-        >
-          {node.title}
-        </Checkbox>
       </div>
 
       {hasChildren && (
