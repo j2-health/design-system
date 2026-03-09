@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { TreeNode } from './TreeNode'
 import {
   getLeafKeys,
@@ -80,6 +80,18 @@ export const CheckboxTree = ({
     if (defaultExpandAll) return getAllParentKeys(treeData)
     return []
   })
+
+  // When defaultExpandAll is true and treeData changes, auto-expand new parent nodes
+  useEffect(() => {
+    if (controlledExpandedKeys || !defaultExpandAll || defaultExpandedKeys) return
+    const allParentKeys = getAllParentKeys(treeData)
+    setInternalExpandedKeys((prev) => {
+      const prevSet = new Set(prev)
+      const newKeys = allParentKeys.filter((key) => !prevSet.has(key))
+      if (newKeys.length === 0) return prev
+      return [...prev, ...newKeys]
+    })
+  }, [treeData, defaultExpandAll, controlledExpandedKeys, defaultExpandedKeys])
 
   const expandedKeysSet = useMemo(() => {
     const keys = controlledExpandedKeys ?? internalExpandedKeys
