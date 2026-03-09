@@ -75,7 +75,7 @@ describe('CheckboxTree', () => {
       const expandButtons = screen.getAllByRole('button', {
         name: 'Collapse',
       })
-      expect(expandButtons.length).toBe(3) // Documents, Projects, Reports
+      expect(expandButtons.length).toBe(4) // Documents, Projects, Reports, Media
     })
 
     it('should collapse children on toggle click', () => {
@@ -123,7 +123,7 @@ describe('CheckboxTree', () => {
       )
 
       const expandButtons = screen.getAllByRole('button', { name: 'Expand' })
-      expect(expandButtons.length).toBe(3)
+      expect(expandButtons.length).toBe(4) // Documents, Projects, Reports, Media
 
       // Children containers should be collapsed
       expandButtons.forEach((button) => {
@@ -143,11 +143,11 @@ describe('CheckboxTree', () => {
       const mediaExpandBtn = screen.getByRole('button', { name: 'Collapse' })
       expect(mediaExpandBtn).toBeTruthy()
 
-      // Documents (key '0') should be collapsed
+      // Documents (key '0'), Projects (key '0-0'), Reports (key '0-1') should be collapsed
       const collapsedButtons = screen.getAllByRole('button', {
         name: 'Expand',
       })
-      expect(collapsedButtons.length).toBe(2) // Documents and one of its children
+      expect(collapsedButtons.length).toBe(3)
     })
 
     it('should support controlled expandedKeys with onExpand', () => {
