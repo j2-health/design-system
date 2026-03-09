@@ -82,7 +82,8 @@ export const CheckboxTree = ({
 
   // When defaultExpandAll is true and treeData changes, auto-expand new parent nodes
   useEffect(() => {
-    if (controlledExpandedKeys || !defaultExpandAll || defaultExpandedKeys) return
+    if (controlledExpandedKeys || !defaultExpandAll || defaultExpandedKeys)
+      return
     const allParentKeys = getAllParentKeys(treeData)
     setInternalExpandedKeys((prev) => {
       const prevSet = new Set(prev)
