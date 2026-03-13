@@ -50,6 +50,13 @@
   background-color: #fafafa !important;
 }
 
+.alternatingRows
+  :global(.ant-table-tbody > tr:nth-child(even) > .ant-table-cell-fix-left),
+.alternatingRows
+  :global(.ant-table-tbody > tr:nth-child(even) > .ant-table-cell-fix-right) {
+  background-color: inherit !important;
+}
+
 :global(.ant-table-column-sorters) {
   margin-right: 1rem !important;
 }
