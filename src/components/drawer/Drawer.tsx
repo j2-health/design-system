@@ -6,11 +6,17 @@ import './Drawer.css'
 type AllProps = DrawerProps & {
   fillPage?: boolean
   footer?: React.ReactNode
+  extraContent?: React.ReactNode
 }
 
 export type Props = Expand<AllProps>
 
-export const Drawer = ({ fillPage = false, footer, ...props }: Props) => {
+export const Drawer = ({
+  fillPage = false,
+  footer,
+  extraContent,
+  ...props
+}: Props) => {
   return (
     <AntdDrawer
       {...props}
@@ -19,6 +25,7 @@ export const Drawer = ({ fillPage = false, footer, ...props }: Props) => {
       {...(footer && { footer })}
       extra={
         <Space>
+          {extraContent}
           <Button className="p-0" type="link" onClick={props.onClose}>
             <XIcon size={22} weight="regular" />
           </Button>
