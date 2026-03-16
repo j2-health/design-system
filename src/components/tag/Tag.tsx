@@ -51,9 +51,10 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
     )
   }, [status, showIcon, icon])
 
-  const statusToClassName: Partial<Record<keyof typeof statusToColor, string>> = {
-    default: 'bg-[rgba(255,0,0,0.02)]'
-  }
+  const statusToClassName: Partial<Record<keyof typeof statusToColor, string>> =
+    {
+      default: 'bg-[var(--j2-color-fill-quaternary)]',
+    }
 
   return (
     <AntdTag
