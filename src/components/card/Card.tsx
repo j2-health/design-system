@@ -13,7 +13,7 @@ export type Props = Omit<CardProps, 'size'> & {
   /** Loading state */
   loading?: boolean
   /** Card size */
-  size?: 'default' | 'small' | 'large'
+  size?: 'default' | 'small' | 'compact' | 'large'
   /**
    * Inner card type variant.
    * It allows inner card to have variants independent of other props.
@@ -42,7 +42,7 @@ const Card = ({
         className
       )}
       {...props}
-      size={size === 'large' ? 'default' : size}
+      size={size === 'large' || size === 'compact' ? 'default' : size}
       title={title}
       loading={loading}
     >
