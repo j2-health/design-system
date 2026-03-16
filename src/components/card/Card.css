@@ -62,6 +62,12 @@
   }
 }
 
+.j2-card-compact {
+  .ant-card-body {
+    padding: 8px 12px;
+  }
+}
+
 .j2-card-small {
   .ant-card-head {
     min-height: 38px;
