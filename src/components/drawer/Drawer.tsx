@@ -3,7 +3,7 @@ import { Button } from '../button'
 import { XIcon } from '@phosphor-icons/react'
 import './Drawer.css'
 
-type AllProps = DrawerProps & {
+type AllProps = Omit<DrawerProps, 'extra' | 'closable'> & {
   fillPage?: boolean
   footer?: React.ReactNode
   extraContent?: React.ReactNode
@@ -26,7 +26,12 @@ export const Drawer = ({
       extra={
         <Space>
           {extraContent}
-          <Button className="p-0" type="link" onClick={props.onClose}>
+          <Button
+            className="p-0"
+            type="link"
+            onClick={props.onClose}
+            aria-label="Close"
+          >
             <XIcon size={22} weight="regular" />
           </Button>
         </Space>
