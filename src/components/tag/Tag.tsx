@@ -8,6 +8,7 @@ import {
   WarningCircleIcon,
   XCircleIcon,
 } from '@phosphor-icons/react'
+import cx from 'classnames'
 import './Tag.css'
 
 type Props = Expand<Omit<TagProps, 'icon'>> & {
@@ -50,12 +51,17 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
     )
   }, [status, showIcon, icon])
 
+  const statusToClassName: Partial<Record<keyof typeof statusToColor, string>> =
+    {
+      default: 'bg-[var(--j2-color-fill-quaternary)]',
+    }
+
   return (
     <AntdTag
       {...props}
       color={status}
       icon={iconComponent}
-      className={props.className}
+      className={cx(props.className, statusToClassName[status])}
     />
   )
 }
