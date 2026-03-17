@@ -6,6 +6,7 @@ type ItemConfig = {
   title: string
   icon?: Icon
   href?: string
+  onClick?: React.MouseEventHandler
 }
 export type Props = Expand<
   Omit<BreadcrumbProps, 'items'> & { items: ItemConfig[] }
@@ -16,6 +17,7 @@ const Breadcrumb = ({ items, ...props }: Props) => {
     () =>
       items.map((item) => ({
         href: item.href,
+        onClick: item.onClick,
         title: (
           <span className="flex items-center gap-1">
             {item.icon && <item.icon size={14} />}
