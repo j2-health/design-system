@@ -1,1 +1,75 @@
-export { Select as AntdSelect } from 'antd'
+import * as React from 'react'
+import { Select as RawAntDSelect, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import type { SelectProps as AntDSelectProps } from 'antd'
+import {
+  CaretDownIcon,
+  MagnifyingGlassIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react'
+import { useState } from 'react'
+
+type AntdSelectProps = Expand<AntDSelectProps>
+
+export const AntdSelect = (props: AntdSelectProps) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  const handleSearch = (value: string) => {
+    if (props.onSearch) {
+      props.onSearch(value)
+    }
+  }
+
+  const dropdownRender = React.useCallback(
+    (menu: React.ReactElement): React.ReactElement => {
+      if (props.loading) {
+        return (
+          <div className="flex items-center justify-between px-3 py-1">
+            <span>Loading...</span>
+            <Spin indicator={<LoadingOutlined spin />} size="small" />
+          </div>
+        )
+      }
+
+      if (!props.options || (props.options && props.options.length === 0)) {
+        return <div className="px-3 py-1">No options</div>
+      }
+
+      return menu
+    },
+    [props.loading, props.options?.length]
+  )
+
+  return (
+    <RawAntDSelect
+      suffixIcon={
+        props.loading ? (
+          <Spin
+            indicator={<LoadingOutlined spin />}
+            size="small"
+            data-testid="loading-spinner"
+          />
+        ) : props.showSearch && isFocused ? (
+          <MagnifyingGlassIcon size={14} data-testid="magnifying-glass" />
+        ) : (
+          <CaretDownIcon size={14} data-testid="caret-down" />
+        )
+      }
+      {...props}
+      popupRender={dropdownRender}
+      removeIcon={<XCircleIcon size={12} />}
+      allowClear={
+        props.allowClear ? { clearIcon: <XCircleIcon size={14} /> } : false
+      }
+      showSearch={props.showSearch}
+      onSearch={props.onSearch ? handleSearch : undefined}
+      onFocus={() => {
+        setIsFocused(true)
+      }}
+      onBlur={() => {
+        setIsFocused(false)
+      }}
+      size={props.size || 'large'}
+    />
+  )
+}
