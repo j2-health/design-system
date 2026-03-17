@@ -5,7 +5,6 @@ import {
   getAllLeafKeys,
   getAllParentKeys,
   isNodeChecked,
-  findNode,
 } from './utils'
 
 export type CheckboxTreeDataNode = {
@@ -50,28 +49,21 @@ export const CheckboxTree = ({
   className,
   style,
 }: CheckboxTreeProps) => {
-  // Get all leaf keys from tree data
-  const allLeafKeys = getAllLeafKeys(treeData)
-
-  // Filter defaultCheckedKeys to only include leaf nodes
-  const defaultLeafKeys = defaultCheckedKeys.filter((key) => {
-    const node = findNode(key, treeData)
-    return node && (!node.children || node.children.length === 0)
-  })
+  const allLeafKeys = useMemo(() => getAllLeafKeys(treeData), [treeData])
+  const leafKeySet = useMemo(() => new Set(allLeafKeys), [allLeafKeys])
 
   const [internalLeafNodeValues, setInternalLeafNodeValues] = useState<
     Record<string | number, boolean>
-  >(() =>
-    allLeafKeys.reduce(
-      (acc, key) => {
-        return {
-          ...acc,
-          [key]: defaultLeafKeys.includes(key),
-        }
-      },
-      {} as Record<string | number, boolean>
+  >(() => {
+    const defaultLeafKeySet = new Set(
+      defaultCheckedKeys.filter((key) => leafKeySet.has(key))
     )
-  )
+    const values: Record<string | number, boolean> = {}
+    for (const key of allLeafKeys) {
+      values[key] = defaultLeafKeySet.has(key)
+    }
+    return values
+  })
 
   const [internalExpandedKeys, setInternalExpandedKeys] = useState<
     (string | number)[]
@@ -119,22 +111,16 @@ export const CheckboxTree = ({
       return internalLeafNodeValues
     }
 
-    // Filter controlledCheckedKeys to only include leaf nodes
-    const controlledLeafKeys = controlledCheckedKeys.filter((key) => {
-      const node = findNode(key, treeData)
-      return node && (!node.children || node.children.length === 0)
-    })
-
-    return allLeafKeys.reduce(
-      (acc, key) => {
-        return {
-          ...acc,
-          [key]: controlledLeafKeys.includes(key),
-        }
-      },
-      {} as Record<string | number, boolean>
+    const controlledLeafKeySet = new Set(
+      controlledCheckedKeys.filter((key) => leafKeySet.has(key))
     )
-  }, [allLeafKeys, controlledCheckedKeys, internalLeafNodeValues, treeData])
+
+    const values: Record<string | number, boolean> = {}
+    for (const key of allLeafKeys) {
+      values[key] = controlledLeafKeySet.has(key)
+    }
+    return values
+  }, [allLeafKeys, leafKeySet, controlledCheckedKeys, internalLeafNodeValues])
 
   const handleCheck = useCallback(
     (_key: string | number, checked: boolean, node: CheckboxTreeDataNode) => {
