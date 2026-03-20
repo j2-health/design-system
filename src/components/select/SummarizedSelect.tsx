@@ -39,7 +39,7 @@ type BaseProps = Omit<
 type SingleProps = {
   multiple?: false
   renderLabel?: undefined
-  value: string
+  value: string | undefined
   onChange: (newValue: string) => void
 }
 
