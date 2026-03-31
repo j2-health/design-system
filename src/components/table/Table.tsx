@@ -149,6 +149,11 @@ const Table = <T extends unknown = any>({
           ? originalRender(value, record, index)
           : value
 
+        // Render null/undefined as dashes with no tooltip
+        if (renderedContent == null) {
+          return <span className="text-j2-text-secondary">--</span>
+        }
+
         // Try to extract text content for tooltip
         const tooltipText = extractTextContent(renderedContent)
 
