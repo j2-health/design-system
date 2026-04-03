@@ -342,73 +342,75 @@ export function SummarizedSelect({
 
   return (
     <>
-    <span
-      ref={measureSpanRef}
-      aria-hidden
-      style={{
-        position: 'absolute',
-        visibility: 'hidden',
-        whiteSpace: 'nowrap',
-        fontSize: 'inherit',
-      }}
-    >
-      {displayText}
-    </span>
-    <Select<string | string[], SelectOption>
-      open={isOpen}
-      showSearch={false}
-      style={{ width: measuredWidth }}
-      suffixIcon={
-        loading ? (
-          <Spin
-            indicator={<LoadingOutlined spin />}
-            size="small"
-            data-testid="loading-spinner"
-          />
-        ) : (
-          <icons.CaretDownIcon size={14} data-testid="caret-down" />
-        )
-      }
-      placeholder={formControlPlaceholder}
-      mode={multiple ? 'multiple' : undefined}
-      value={value}
-      maxTagCount={0}
-      maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
-      options={filteredOptions}
-      onChange={(val) => {
-        if (multiple) {
-          if (Array.isArray(val)) {
-            onChange(val)
-          } else {
-            throw new Error('Value should be an array in multiple mode')
-          }
-        } else {
-          if (typeof val === 'string') {
-            onChange(val)
-          } else {
-            throw new Error('Value should be a string in single selection mode')
-          }
+      <span
+        ref={measureSpanRef}
+        aria-hidden
+        style={{
+          position: 'absolute',
+          visibility: 'hidden',
+          whiteSpace: 'nowrap',
+          fontSize: 'inherit',
+        }}
+      >
+        {displayText}
+      </span>
+      <Select<string | string[], SelectOption>
+        open={isOpen}
+        showSearch={false}
+        style={{ width: measuredWidth }}
+        suffixIcon={
+          loading ? (
+            <Spin
+              indicator={<LoadingOutlined spin />}
+              size="small"
+              data-testid="loading-spinner"
+            />
+          ) : (
+            <icons.CaretDownIcon size={14} data-testid="caret-down" />
+          )
         }
-      }}
-      popupRender={popupRender}
-      optionRender={optionRender}
-      onOpenChange={handleOpenChange}
-      classNames={{
-        root: cx(rootClassName, styles.summarizedSelect, {
-          [styles.hemisphericSelect]:
-            variant !== 'underlined' && variant !== 'headlined',
-          [styles.isActive]:
-            multiple &&
-            value.length > 0 &&
-            variant !== 'underlined' &&
-            variant !== 'headlined',
-          [styles.headlinedSelect]: isHeadline,
-        }),
-        popup: { root: popupClassName },
-      }}
-      variant={antVariant}
-      {...props}
-    />
+        placeholder={formControlPlaceholder}
+        mode={multiple ? 'multiple' : undefined}
+        value={value}
+        maxTagCount={0}
+        maxTagPlaceholder={multiple ? () => renderLabel(value.length) : value}
+        options={filteredOptions}
+        onChange={(val) => {
+          if (multiple) {
+            if (Array.isArray(val)) {
+              onChange(val)
+            } else {
+              throw new Error('Value should be an array in multiple mode')
+            }
+          } else {
+            if (typeof val === 'string') {
+              onChange(val)
+            } else {
+              throw new Error(
+                'Value should be a string in single selection mode'
+              )
+            }
+          }
+        }}
+        popupRender={popupRender}
+        optionRender={optionRender}
+        onOpenChange={handleOpenChange}
+        classNames={{
+          root: cx(rootClassName, styles.summarizedSelect, {
+            [styles.hemisphericSelect]:
+              variant !== 'underlined' && variant !== 'headlined',
+            [styles.isActive]:
+              multiple &&
+              value.length > 0 &&
+              variant !== 'underlined' &&
+              variant !== 'headlined',
+            [styles.headlinedSelect]: isHeadline,
+          }),
+          popup: { root: popupClassName },
+        }}
+        variant={antVariant}
+        {...props}
+      />
     </>
   )
 }
