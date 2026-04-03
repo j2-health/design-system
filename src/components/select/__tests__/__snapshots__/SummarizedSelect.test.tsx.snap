@@ -2,8 +2,13 @@
 
 exports[`SummarizedSelect > Basic Rendering > should render correctly with default props 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  />
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -62,8 +67,15 @@ exports[`SummarizedSelect > Basic Rendering > should render correctly with defau
 
 exports[`SummarizedSelect > Basic Rendering > should render with custom placeholders 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  >
+    Select a plan
+  </span>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -122,8 +134,13 @@ exports[`SummarizedSelect > Basic Rendering > should render with custom placehol
 
 exports[`SummarizedSelect > Edge Cases > should handle empty options array 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  />
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -182,8 +199,13 @@ exports[`SummarizedSelect > Edge Cases > should handle empty options array 1`] =
 
 exports[`SummarizedSelect > Edge Cases > should handle options with undefined labels 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  />
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -242,8 +264,13 @@ exports[`SummarizedSelect > Edge Cases > should handle options with undefined la
 
 exports[`SummarizedSelect > Grouped Options > should render grouped options correctly 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  />
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -302,8 +329,13 @@ exports[`SummarizedSelect > Grouped Options > should render grouped options corr
 
 exports[`SummarizedSelect > Loading State > should render with loading state 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  />
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -376,8 +408,15 @@ exports[`SummarizedSelect > Loading State > should render with loading state 1`]
 
 exports[`SummarizedSelect > Multiple Selection Mode > should render with multiple values 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  >
+    2 plans selected
+  </span>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect isActive css-dev-only-do-not-override-os2fvf ant-select-multiple ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
@@ -463,8 +502,15 @@ exports[`SummarizedSelect > Multiple Selection Mode > should render with multipl
 
 exports[`SummarizedSelect > Single Selection Mode > should render with selected value 1`] = `
 <div>
+  <span
+    aria-hidden="true"
+    style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
+  >
+    Bronze Plan
+  </span>
   <div
     class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow"
+    style="width: 46px;"
   >
     <div
       class="ant-select-selector"
