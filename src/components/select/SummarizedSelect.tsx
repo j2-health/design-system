@@ -32,6 +32,7 @@ type BaseProps = Omit<
   rootClassName?: string
   popupClassName?: string
   variant?: SummarizedSelectVariant
+  defaultOpen?: boolean
 
   loading?: boolean
 }
@@ -107,14 +108,34 @@ export function SummarizedSelect({
   rootClassName,
   popupClassName,
   variant,
+  defaultOpen = false,
   ...props
 }: Props) {
   const isHeadline = variant === 'headlined'
   const antVariant = isHeadline ? 'borderless' : variant
   const [searchValue, setSearchValue] = useState('')
-  const [focusTrigger, setFocusTrigger] = useState(0)
-  const [isOpen, setIsOpen] = useState(false)
+  const [focusTrigger, setFocusTrigger] = useState(defaultOpen ? 1 : 0)
+  const [isOpen, setIsOpen] = useState(defaultOpen)
   const inputRef = useRef<InputRef>(null)
+  const measureSpanRef = useRef<HTMLSpanElement>(null)
+  const [measuredWidth, setMeasuredWidth] = useState<number>()
+
+  const displayText = useMemo(() => {
+    if (multiple && value.length > 0) {
+      return renderLabel(value.length)
+    }
+    if (!multiple && value) {
+      const option = getAllOptions(options).find((opt) => opt.value === value)
+      return option ? String(option.label) : String(value)
+    }
+    return formControlPlaceholder ?? ''
+  }, [multiple, value, options, renderLabel, formControlPlaceholder])
+
+  useEffect(() => {
+    if (!measureSpanRef.current) return
+    // padding (22px = 11px each side) + arrow (18px) + border (6px)
+    setMeasuredWidth(Math.ceil(measureSpanRef.current.offsetWidth) + 46)
+  }, [displayText])
 
   useEffect(() => {
     if (focusTrigger > 0) {
@@ -320,9 +341,23 @@ export function SummarizedSelect({
   }
 
   return (
+    <>
+    <span
+      ref={measureSpanRef}
+      aria-hidden
+      style={{
+        position: 'absolute',
+        visibility: 'hidden',
+        whiteSpace: 'nowrap',
+        fontSize: 'inherit',
+      }}
+    >
+      {displayText}
+    </span>
     <Select<string | string[], SelectOption>
       open={isOpen}
       showSearch={false}
+      style={{ width: measuredWidth }}
       suffixIcon={
         loading ? (
           <Spin
@@ -374,5 +409,6 @@ export function SummarizedSelect({
       variant={antVariant}
       {...props}
     />
+    </>
   )
 }
