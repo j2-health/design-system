@@ -61,6 +61,7 @@
 .headlinedSelect:global(.ant-select):global(.ant-select-single) {
   font-size: var(--j2-font-size-heading-2);
   height: 40px;
+  width: fit-content !important;
 }
 
 .headlinedSelect:global(.ant-select) :global(.ant-select-selector) {
