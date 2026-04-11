@@ -1,0 +1,95 @@
+import {
+  Meta,
+  Primary,
+  Controls,
+  Stories,
+  Description,
+} from '@storybook/blocks'
+import * as AlertStories from './Alert.stories'
+
+<Meta of={AlertStories} />
+
+# Alert
+
+Alerts display important messages that require user attention. They provide
+contextual feedback about system status, user actions, or information that
+shouldn't be missed.
+
+## When to Use
+
+Use alerts to communicate information that is relevant to the user's current
+context or workflow. Choose the appropriate variant based on the message's
+intent:
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Variant</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Action completed successfully</td>
+      <td>
+        <code>Success</code>
+      </td>
+      <td>"Your changes have been saved"</td>
+    </tr>
+    <tr>
+      <td>Helpful tips or neutral updates</td>
+      <td>
+        <code>Info</code>
+      </td>
+      <td>"Your session will expire in 5 minutes"</td>
+    </tr>
+    <tr>
+      <td>Potential issues needing attention</td>
+      <td>
+        <code>Warning</code>
+      </td>
+      <td>"Some fields are incomplete"</td>
+    </tr>
+    <tr>
+      <td>Critical errors blocking progress</td>
+      <td>
+        <code>Error</code>
+      </td>
+      <td>"Unable to connect to server"</td>
+    </tr>
+    <tr>
+      <td>Background operations in progress</td>
+      <td>
+        <code>Loading</code>
+      </td>
+      <td>"Processing your request..."</td>
+    </tr>
+  </tbody>
+</table>
+
+## When Not to Use
+
+- **For inline form validation:** Use field-level error messages instead
+- **For transient notifications:** Use Toast or Notification components for
+  messages that auto-dismiss
+- **For confirmation dialogs:** Use Modal when user action is required before
+  proceeding
+- **For empty states:** Use dedicated empty state patterns instead
+
+## Best Practices
+
+- Keep messages concise and actionable
+- Use the `description` prop for additional context when needed
+- Consider using `banner` mode for page-level alerts
+- Make alerts dismissible (`closable`) when the information isn't critical
+
+---
+
+<Primary />
+
+<Controls />
+
+## All Variants
+
+<Stories />
