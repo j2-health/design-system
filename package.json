@@ -61,7 +61,7 @@
     "globals": "^15.9.0",
     "happy-dom": "^20.8.4",
     "prettier": "^3.3.3",
-    "storybook": "^10.2.0",
+    "storybook": "^10.3.5",
     "ts-node": "^10.9.2",
     "typescript-eslint": "^8.15.0",
     "vite-plugin-svgr": "^4.2.0",
