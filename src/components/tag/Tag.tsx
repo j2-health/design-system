@@ -15,6 +15,13 @@ type Props = Expand<Omit<TagProps, 'icon'>> & {
   status: 'default' | 'error' | 'success' | 'warning' | 'processing'
   icon?: Icon
   showIcon?: boolean
+  /**
+   * Visual density of the tag.
+   * `default` — standard padding and font size.
+   * `small` — condensed padding + smaller font for subtle inline labels
+   * (e.g. "Optional", "Beta") where a default Tag would feel too heavy.
+   */
+  size?: 'default' | 'small'
 }
 
 const colorToIcon = {
@@ -33,7 +40,13 @@ const statusToColor = {
   default: 'var(--j2-color-text)',
 }
 
-export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
+export const Tag = ({
+  status,
+  showIcon = false,
+  icon,
+  size = 'default',
+  ...props
+}: Props) => {
   const iconComponent = React.useMemo(() => {
     if (!showIcon) return null
 
@@ -61,7 +74,11 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
       {...props}
       color={status}
       icon={iconComponent}
-      className={cx(props.className, statusToClassName[status])}
+      className={cx(
+        props.className,
+        statusToClassName[status],
+        size === 'small' && 'j2-tag-small'
+      )}
     />
   )
 }
