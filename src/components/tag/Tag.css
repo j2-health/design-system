@@ -1,13 +1,3 @@
 .ant-tag .anticon + span {
   margin-inline-start: var(--j2-margin-xxs);
 }
-
-/* Small variant — condensed padding + font for subtle inline labels. */
-.ant-tag.j2-tag-small {
-  padding-inline: var(--j2-size-xxs);
-  padding-block: 0;
-  font-size: var(--j2-font-size-xs);
-  line-height: var(--j2-line-height-xs);
-  height: auto;
-  border-radius: var(--j2-border-radius-sm);
-}

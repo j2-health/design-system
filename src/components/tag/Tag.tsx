@@ -83,7 +83,7 @@ export const Tag = ({
       className={cx(
         props.className,
         statusToClassName[status],
-        size === 'small' && 'j2-tag-small'
+        size === 'small' && '!px-1 !py-0 !h-auto !text-j2-xs !rounded-j2-sm'
       )}
     />
   )

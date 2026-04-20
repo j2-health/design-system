@@ -16,9 +16,11 @@ const changelog = `
 ### Add \`size\` prop with \`small\` variant — 2026-04-20
 
 **What:** Added \`size?: 'default' | 'small'\` prop to \`Tag\`. Default keeps
-current Ant Design styling untouched. \`small\` applies a condensed variant:
+current Ant Design styling untouched. \`small\` applies a condensed variant
+via Tailwind classes (\`!px-1 !py-0 !h-auto !text-j2-xs !rounded-j2-sm\`):
 10px font, 16px line height, 4px horizontal padding, 0 vertical padding, 6px
-radius — all on design tokens.
+radius. New \`text-j2-xs\` Tailwind token added to the config (pairs
+\`--j2-font-size-xs\` with \`--j2-line-height-xs\`).
 
 **Why:** Consuming surfaces sometimes need a subtle inline label ("Optional",
 "Beta", etc.) sitting next to body-weight text. The default Tag's padding and
