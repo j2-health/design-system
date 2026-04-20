@@ -22,7 +22,7 @@
      to transparent by default, which reads as the card collapsing. */
   &.ant-card-hoverable:hover {
     border-color: var(--j2-color-border);
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: var(--j2-box-shadow-tertiary);
   }
 
   .ant-tabs .ant-tabs-tab {
