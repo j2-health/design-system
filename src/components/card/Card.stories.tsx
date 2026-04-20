@@ -1,12 +1,57 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import {
+  Controls,
+  Description,
+  Markdown,
+  Primary,
+  Stories,
+  Title,
+} from '@storybook/addon-docs/blocks'
 
 import { Card } from './Card'
+
+const changelog = `
+## Changelog
+
+### Soften hover shadow + keep border on hover — 2026-04-20
+
+**What:** Overrode Ant Design's default \`hoverable\` styling on \`.j2-card\`:
+
+- Box-shadow lowered to \`var(--j2-box-shadow-tertiary)\` (the lightest level in
+  the Ant/Figma shadow scale — designed for panels and forms).
+- Border color pinned to \`var(--j2-color-border)\` on hover (Ant's default drops
+  it to \`transparent\`).
+
+**Why:** Ant's stock hover lift is a three-layer shadow tuned for a more
+material UI. Next to j2's flatter visual language (thin borders, subtle fills)
+it read as too severe — especially when multiple hoverable cards sit near each
+other, or when a card is already distinguished by a selected border. Dropping
+the border on hover additionally made the card appear to collapse/shift.
+
+**Breaking:** No. The shadow still appears on hover for every \`hoverable\` Card —
+just at lower intensity, and the border now holds steady. No API change.
+
+**Notes:** If a specific surface later needs a stronger hover lift, prefer adding
+an opt-in prop over rolling the global value back up.
+`
 
 const meta = {
   title: 'Components/Card',
   component: Card,
   parameters: {
     layout: 'centered',
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Description />
+          <Primary />
+          <Controls />
+          <Stories />
+          <Markdown>{changelog}</Markdown>
+        </>
+      ),
+    },
   },
   argTypes: {
     bordered: {

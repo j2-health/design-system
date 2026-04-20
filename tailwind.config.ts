@@ -4,12 +4,12 @@ import colors from 'tailwindcss/colors.js'
 // Export as a preset for consuming apps
 export const tailwindPreset = {
   theme: {
-  colors: {
-    transparent: colors.transparent,
-    current: colors.current,
-    white: colors.white,
-    black: colors.black,
-    j2: {
+    colors: {
+      transparent: colors.transparent,
+      current: colors.current,
+      white: colors.white,
+      black: colors.black,
+      j2: {
         // Generic color definitions
         'blue-1': 'var(--j2-blue-1)',
         'blue-2': 'var(--j2-blue-2)',
@@ -127,39 +127,45 @@ export const tailwindPreset = {
         icon: 'var(--j2-color-icon)',
         'icon-hover': 'var(--j2-color-icon-hover)',
       },
+    },
+    extend: {
+      borderColor: {
+        DEFAULT: 'var(--j2-color-border)',
+      },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '600',
+      },
+      borderWidth: {
+        j2: 'var(--j2-line-width)',
+        'j2-bold': 'var(--j2-line-width-bold)',
+        'j2-focus': 'var(--j2-line-width-focus)',
+      },
+      borderRadius: {
+        j2: 'var(--j2-border-radius)',
+        'j2-lg': 'var(--j2-border-radius-lg)',
+        'j2-sm': 'var(--j2-border-radius-sm)',
+        'j2-xs': 'var(--j2-border-radius-xs)',
+      },
+      fontSize: {
+        'j2-xs': [
+          'var(--j2-font-size-xs)',
+          { lineHeight: 'var(--j2-line-height-xs)' },
+        ],
+      },
+      spacing: {
+        j2: 'var(--j2-size)',
+        'j2-xs': 'var(--j2-size-xs)',
+        'j2-sm': 'var(--j2-size-sm)',
+        'j2-md': 'var(--j2-size-md)',
+        'j2-lg': 'var(--j2-size-lg)',
+        'j2-xl': 'var(--j2-size-xl)',
+        'j2-xxl': 'var(--j2-size-xxl)',
+      },
+    },
   },
-  extend: {
-    borderColor: {
-      DEFAULT: 'var(--j2-color-border)',
-    },
-    fontWeight: {
-      normal: '400',
-      medium: '500',
-      semibold: '600',
-      bold: '600',
-    },
-    borderWidth: {
-      j2: 'var(--j2-line-width)',
-      'j2-bold': 'var(--j2-line-width-bold)',
-      'j2-focus': 'var(--j2-line-width-focus)',
-    },
-    borderRadius: {
-      j2: 'var(--j2-border-radius)',
-      'j2-lg': 'var(--j2-border-radius-lg)',
-      'j2-sm': 'var(--j2-border-radius-sm)',
-      'j2-xs': 'var(--j2-border-radius-xs)',
-    },
-    spacing: {
-      j2: 'var(--j2-size)',
-      'j2-xs': 'var(--j2-size-xs)',
-      'j2-sm': 'var(--j2-size-sm)',
-      'j2-md': 'var(--j2-size-md)',
-      'j2-lg': 'var(--j2-size-lg)',
-      'j2-xl': 'var(--j2-size-xl)',
-      'j2-xxl': 'var(--j2-size-xxl)',
-    },
-  },
-  }
 }
 
 // Default export for this project's own Tailwind config

@@ -163,6 +163,7 @@
   --j2-font-size: 14px;
   --j2-font-size-lg: 16px;
   --j2-font-size-sm: 12px;
+  --j2-font-size-xs: 10px;
   --j2-font-size-xl: 20px;
   --j2-font-size-heading-1: 38px;
   --j2-font-size-heading-2: 30px;
@@ -170,6 +171,7 @@
   --j2-font-size-heading-4: 20px;
   --j2-font-size-heading-5: 16px;
   --j2-line-height: 1.5714285714285714;
+  --j2-line-height-xs: 1.6;
   --j2-line-height-heading-1: 1.2105263157894737;
   --j2-line-height-heading-2: 1.2666666666666666;
   --j2-line-height-heading-3: 1.3333333333333333;
@@ -249,6 +251,10 @@
   --j2-control-padding-horizontal-sm: 8px;
 
   --j2-color-bg-elevated: #ffffff;
+
+  --j2-box-shadow: var(--ant-box-shadow);
+  --j2-box-shadow-secondary: var(--ant-box-shadow-secondary);
+  --j2-box-shadow-tertiary: var(--ant-box-shadow-tertiary);
 
   font-family: var(--j2-font-family);
   font-synthesis: none;

@@ -16,6 +16,15 @@
     min-height: 40px;
   }
 
+  /* Soften Ant's default hover shadow — the stock lift is too heavy next to
+     j2's flatter visual language. Keeps a subtle cue without competing with
+     selected-state borders. Also preserve the border on hover: Ant drops it
+     to transparent by default, which reads as the card collapsing. */
+  &.ant-card-hoverable:hover {
+    border-color: var(--j2-color-border);
+    box-shadow: var(--j2-box-shadow-tertiary);
+  }
+
   .ant-tabs .ant-tabs-tab {
     font-size: var(--j2-font-size);
   }
