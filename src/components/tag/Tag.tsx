@@ -11,18 +11,24 @@ import {
 import cx from 'classnames'
 import './Tag.css'
 
-type Props = Expand<Omit<TagProps, 'icon'>> & {
+type BaseProps = Expand<Omit<TagProps, 'icon'>> & {
   status: 'default' | 'error' | 'success' | 'warning' | 'processing'
+}
+
+type DefaultSizeProps = BaseProps & {
+  size?: 'default'
   icon?: Icon
   showIcon?: boolean
-  /**
-   * Visual density of the tag.
-   * `default` — standard padding and font size.
-   * `small` — condensed padding + smaller font for subtle inline labels
-   * (e.g. "Optional", "Beta") where a default Tag would feel too heavy.
-   */
-  size?: 'default' | 'small'
 }
+
+type SmallSizeProps = BaseProps & {
+  size: 'small'
+  /** Icons are not supported on the small variant — omit this prop. */
+  icon?: never
+  showIcon?: never
+}
+
+type Props = DefaultSizeProps | SmallSizeProps
 
 const colorToIcon = {
   error: XCircleIcon,
@@ -48,7 +54,7 @@ export const Tag = ({
   ...props
 }: Props) => {
   const iconComponent = React.useMemo(() => {
-    if (!showIcon) return null
+    if (!showIcon || size === 'small') return null
 
     const baseProps = {
       size: 12,
