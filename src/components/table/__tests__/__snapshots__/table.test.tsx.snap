@@ -6,16 +6,16 @@ exports[`Table > should render correctly 1`] = `
     class=""
   >
     <div
-      class="ant-table-wrapper css-dev-only-do-not-override-os2fvf"
+      class="ant-table-wrapper css-dev-only-do-not-override-mncuj7"
     >
       <div
-        class="ant-spin-nested-loading css-dev-only-do-not-override-os2fvf"
+        class="ant-spin-nested-loading css-dev-only-do-not-override-mncuj7"
       >
         <div
           class="ant-spin-container"
         >
           <div
-            class="ant-table css-dev-only-do-not-override-os2fvf"
+            class="ant-table css-dev-only-do-not-override-mncuj7"
           >
             <div
               class="ant-table-container"
@@ -26,7 +26,6 @@ exports[`Table > should render correctly 1`] = `
                 <table
                   style="table-layout: auto;"
                 >
-                  <colgroup />
                   <thead
                     class="ant-table-thead"
                   >

@@ -3,7 +3,7 @@
 exports[`Alert > should render correctly 1`] = `
 <div>
   <div
-    class="ant-alert ant-alert-success alert css-dev-only-do-not-override-os2fvf"
+    class="ant-alert ant-alert-success alert css-dev-only-do-not-override-mncuj7"
     data-show="true"
     role="alert"
   >

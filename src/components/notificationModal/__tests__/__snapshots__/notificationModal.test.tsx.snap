@@ -4,7 +4,7 @@ exports[`NotificationModal > should render correctly 1`] = `
 <div
   aria-labelledby="test-id"
   aria-modal="true"
-  class="ant-modal css-dev-only-do-not-override-os2fvf j2-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+  class="ant-modal css-dev-only-do-not-override-mncuj7 j2-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
   role="dialog"
   style="width: 520px;"
 >
@@ -91,7 +91,7 @@ exports[`NotificationModal > should render correctly 1`] = `
         class="ant-modal-footer"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
           type="button"
         >
           <span>
@@ -99,7 +99,7 @@ exports[`NotificationModal > should render correctly 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
           type="button"
         >
           <span>
