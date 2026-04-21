@@ -3,10 +3,10 @@
 exports[`Input > should render correctly 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-os2fvf"
+    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
   >
     <input
-      class="ant-input ant-input-lg css-dev-only-do-not-override-os2fvf ant-input-outlined"
+      class="ant-input ant-input-lg css-dev-only-do-not-override-mncuj7 ant-input-outlined"
       id="name"
       name="name"
       type="text"

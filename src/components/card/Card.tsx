@@ -2,7 +2,6 @@ import { Card as AntdCard, CardProps } from 'antd'
 import cx from 'classnames'
 
 // import this file to enable styling defined in there
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import './Card.css'
 
 export type Props = Omit<CardProps, 'size'> & {

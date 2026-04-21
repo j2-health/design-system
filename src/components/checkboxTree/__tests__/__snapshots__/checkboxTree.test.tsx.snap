@@ -9,10 +9,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
           >
             <input
               class="ant-checkbox-input"
@@ -60,10 +60,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -111,10 +111,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -138,10 +138,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -168,10 +168,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -219,10 +219,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -246,10 +246,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -279,10 +279,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
           >
             <input
               class="ant-checkbox-input"
@@ -330,10 +330,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -357,10 +357,10 @@ exports[`CheckboxTree > should render correctly 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -394,10 +394,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
           >
             <input
               class="ant-checkbox-input"
@@ -427,10 +427,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -460,10 +460,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -488,10 +488,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -519,10 +519,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -552,10 +552,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -580,10 +580,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -614,10 +614,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
           >
             <input
               class="ant-checkbox-input"
@@ -647,10 +647,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -675,10 +675,10 @@ exports[`CheckboxTree > should render disabled 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper ant-checkbox-wrapper-disabled css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-disabled"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-disabled"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -713,10 +713,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
           >
             <input
               class="ant-checkbox-input"
@@ -764,10 +764,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -815,10 +815,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-checked"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-checked"
                       >
                         <input
                           checked=""
@@ -843,10 +843,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -873,10 +873,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -924,10 +924,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -951,10 +951,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
                     style="padding-left: 40px;"
                   >
                     <label
-                      class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                      class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
                     >
                       <span
-                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                       >
                         <input
                           class="ant-checkbox-input"
@@ -984,10 +984,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
         style="padding-left: 0px;"
       >
         <label
-          class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+          class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
         >
           <span
-            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+            class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
           >
             <input
               class="ant-checkbox-input"
@@ -1035,10 +1035,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper ant-checkbox-wrapper-checked css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf ant-checkbox-checked"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7 ant-checkbox-checked"
                 >
                   <input
                     checked=""
@@ -1063,10 +1063,10 @@ exports[`CheckboxTree > should render with some checked items 1`] = `
               style="padding-left: 20px;"
             >
               <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-os2fvf"
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-mncuj7"
               >
                 <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-os2fvf"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-mncuj7"
                 >
                   <input
                     class="ant-checkbox-input"

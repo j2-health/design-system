@@ -11,11 +11,24 @@ import {
 import cx from 'classnames'
 import './Tag.css'
 
-type Props = Expand<Omit<TagProps, 'icon'>> & {
+type BaseProps = Expand<Omit<TagProps, 'icon'>> & {
   status: 'default' | 'error' | 'success' | 'warning' | 'processing'
+}
+
+type DefaultSizeProps = BaseProps & {
+  size?: 'default'
   icon?: Icon
   showIcon?: boolean
 }
+
+type SmallSizeProps = BaseProps & {
+  size: 'small'
+  /** Icons are not supported on the small variant — omit this prop. */
+  icon?: never
+  showIcon?: never
+}
+
+type Props = DefaultSizeProps | SmallSizeProps
 
 const colorToIcon = {
   error: XCircleIcon,
@@ -33,9 +46,15 @@ const statusToColor = {
   default: 'var(--j2-color-text)',
 }
 
-export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
+export const Tag = ({
+  status,
+  showIcon = false,
+  icon,
+  size = 'default',
+  ...props
+}: Props) => {
   const iconComponent = React.useMemo(() => {
-    if (!showIcon) return null
+    if (!showIcon || size === 'small') return null
 
     const baseProps = {
       size: 12,
@@ -61,7 +80,11 @@ export const Tag = ({ status, showIcon = false, icon, ...props }: Props) => {
       {...props}
       color={status}
       icon={iconComponent}
-      className={cx(props.className, statusToClassName[status])}
+      className={cx(
+        props.className,
+        statusToClassName[status],
+        size === 'small' && '!px-1 !py-0 !h-auto !text-j2-xs !rounded-j2-sm'
+      )}
     />
   )
 }
