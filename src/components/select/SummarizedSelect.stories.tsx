@@ -234,3 +234,81 @@ export const Headlined: Story = {
     </div>
   ),
 }
+
+// Dropdown-trigger variant — the trigger is an antd Dropdown with a
+// Typography.Link target (label + caret). Useful when the control sits
+// inline in flowing text (e.g. a drawer title) rather than as a form field.
+
+const networkOptions = [
+  { label: 'Aetna California Commercial', value: '1' },
+  { label: 'Aetna California Medicare Advantage', value: '2' },
+  { label: 'Anthem Blue Cross Texas', value: '3' },
+  { label: 'Blue Shield of California', value: '4' },
+  { label: 'Cigna National PPO', value: '5' },
+  { label: 'Humana Medicare Advantage', value: '6' },
+  { label: 'Kaiser Permanente Mid-Atlantic', value: '7' },
+  { label: 'UnitedHealthcare Commercial', value: '8' },
+  { label: 'UnitedHealthcare Medicare Advantage', value: '9' },
+]
+
+type DropdownTriggerArgs = SingleSelectArgs
+
+const DropdownTriggerWrapper = (args: DropdownTriggerArgs) => {
+  const [value, setValue] = useState<string>(args.value ?? '')
+
+  return (
+    <SummarizedSelect
+      trigger="dropdown"
+      searchPlaceholder={args.searchPlaceholder ?? 'Search...'}
+      formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
+      options={args.options ?? defaultOptions}
+      multiple={false}
+      value={value}
+      onChange={setValue}
+      loading={args.loading}
+      disabled={args.disabled}
+    />
+  )
+}
+
+export const DropdownTrigger: Story = {
+  args: {
+    searchPlaceholder: 'Search networks...',
+    formControlPlaceholder: 'Select a network',
+    value: '1',
+    options: networkOptions,
+  },
+  render: (args) => (
+    <DropdownTriggerWrapper {...(args as DropdownTriggerArgs)} />
+  ),
+}
+
+type DropdownMultiArgs = MultiSelectArgs
+
+const DropdownMultiWrapper = (args: DropdownMultiArgs) => {
+  const [value, setValue] = useState<string[]>(args.value ?? [])
+
+  return (
+    <SummarizedSelect
+      trigger="dropdown"
+      searchPlaceholder={args.searchPlaceholder ?? 'Search...'}
+      formControlPlaceholder={args.formControlPlaceholder ?? 'Select...'}
+      options={args.options ?? defaultOptions}
+      multiple={true}
+      renderLabel={args.renderLabel ?? ((count: number) => `${count} selected`)}
+      value={value}
+      onChange={setValue}
+      loading={args.loading}
+      disabled={args.disabled}
+    />
+  )
+}
+
+export const DropdownTriggerMulti: Story = {
+  args: {
+    searchPlaceholder: 'Search specialties...',
+    formControlPlaceholder: 'Select specialties',
+    value: ['Family Medicine', 'Pediatrics'],
+  },
+  render: (args) => <DropdownMultiWrapper {...(args as DropdownMultiArgs)} />,
+}

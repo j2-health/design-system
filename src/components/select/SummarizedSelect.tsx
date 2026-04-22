@@ -1,4 +1,12 @@
-import { Select, Spin, Input, SelectProps, InputRef } from 'antd'
+import {
+  Dropdown as AntdDropdown,
+  Select,
+  Spin,
+  Input,
+  SelectProps,
+  InputRef,
+  Typography,
+} from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -23,6 +31,8 @@ export type SelectOption = Option | GroupOption | OptionWithLogo
 
 export type SummarizedSelectVariant = SelectProps['variant'] | 'headlined'
 
+export type SummarizedSelectTrigger = 'select' | 'dropdown'
+
 type BaseProps = Omit<
   SelectProps<string | string[], SelectOption>,
   'mode' | 'value' | 'onChange' | 'variant'
@@ -32,6 +42,13 @@ type BaseProps = Omit<
   rootClassName?: string
   popupClassName?: string
   variant?: SummarizedSelectVariant
+  /**
+   * Shape of the control that opens the popup.
+   * - `'select'` (default): antd Select, styled by `variant`.
+   * - `'dropdown'`: antd Dropdown with a `Typography.Link` target (label + caret).
+   *   Ignores `variant` — the trigger is always a link.
+   */
+  trigger?: SummarizedSelectTrigger
   defaultOpen?: boolean
 
   loading?: boolean
@@ -108,6 +125,7 @@ export function SummarizedSelect({
   rootClassName,
   popupClassName,
   variant,
+  trigger = 'select',
   defaultOpen = false,
   ...props
 }: Props) {
@@ -188,6 +206,19 @@ export function SummarizedSelect({
 
     const optionValue = firstOption.value as string
 
+    if (multiple) {
+      if (value.includes(optionValue)) {
+        onChange(value.filter((v) => v !== optionValue))
+      } else {
+        onChange([...value, optionValue])
+      }
+    } else {
+      onChange(optionValue)
+      setIsOpen(false)
+    }
+  }
+
+  const handleOptionClick = (optionValue: string) => {
     if (multiple) {
       if (value.includes(optionValue)) {
         onChange(value.filter((v) => v !== optionValue))
@@ -338,6 +369,173 @@ export function SummarizedSelect({
     } else {
       setSearchValue('')
     }
+  }
+
+  const renderDropdownOptionRow = (option: Option) => {
+    const optionValue = option.value as string
+    const isSelected = multiple
+      ? value.includes(optionValue)
+      : value === optionValue
+    const hasLogo = 'logo' in option && (option as OptionWithLogo).logo
+    return (
+      <div
+        key={optionValue}
+        role="option"
+        aria-selected={isSelected}
+        onClick={() => handleOptionClick(optionValue)}
+        className={cx(
+          'px-3 py-1.5 rounded cursor-pointer text-sm',
+          isSelected
+            ? 'bg-[var(--j2-color-primary)] text-white hover:bg-[var(--j2-color-primary)]'
+            : 'hover:bg-[var(--j2-color-bg-hover)]'
+        )}
+      >
+        {hasLogo ? (
+          <div className="flex items-center gap-2">
+            <div className="h-4 shrink-0">
+              {(option as OptionWithLogo).logo}
+            </div>
+            <span className="overflow-hidden overflow-ellipsis">
+              {option.label}
+            </span>
+          </div>
+        ) : (
+          option.label
+        )}
+      </div>
+    )
+  }
+
+  const dropdownPopupRender = () => {
+    const valueToLabel = (val: string) => {
+      const option = allFlatOptions.find((opt) => opt.value === val)
+      return option ? (option.label as string) : val
+    }
+
+    return (
+      <div className="bg-white rounded-lg shadow-md p-2 min-w-[240px]">
+        <div className="pb-2 border-b border-j2-border-secondary">
+          <Input
+            ref={inputRef}
+            key={focusTrigger}
+            autoFocus
+            placeholder={searchPlaceholder || 'Search...'}
+            value={searchValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value)
+              e.stopPropagation()
+            }}
+            onKeyDown={handleKeyDown}
+            onClick={(e) => e.stopPropagation()}
+            prefix={
+              <icons.MagnifyingGlassIcon
+                size={16}
+                className="text-j2-text-placeholder"
+              />
+            }
+            allowClear
+          />
+        </div>
+        {multiple && value.length > 0 && (
+          <div className="px-1 pt-2">
+            <div className="flex flex-wrap gap-y-1">
+              {(value as string[]).map((v) => (
+                <Tag
+                  className="opacity-100 z-10 flex max-w-full"
+                  key={v}
+                  status="default"
+                  closable
+                  onClose={() => handleTagClose(v)}
+                >
+                  <span
+                    className="overflow-ellipsis overflow-hidden"
+                    title={valueToLabel(v)}
+                  >
+                    {valueToLabel(v)}
+                  </span>
+                </Tag>
+              ))}
+            </div>
+          </div>
+        )}
+        <div
+          className="max-h-72 overflow-y-auto py-1"
+          role="listbox"
+          aria-multiselectable={multiple || undefined}
+        >
+          {filteredOptions.length === 0 ? (
+            <div className="px-3 py-2 text-sm text-[var(--j2-color-text-secondary)]">
+              No options found
+            </div>
+          ) : (
+            filteredOptions.map((opt) => {
+              if (isGroupOption(opt)) {
+                return (
+                  <div key={`group-${opt.label}`}>
+                    <div className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-[var(--j2-color-text-tertiary)]">
+                      {opt.label}
+                    </div>
+                    {opt.options.map(renderDropdownOptionRow)}
+                  </div>
+                )
+              }
+              return renderDropdownOptionRow(opt)
+            })
+          )}
+        </div>
+        {multiple && value.length > 0 && (
+          <div className="mt-1 pt-1 border-t border-j2-border-secondary">
+            <div
+              role="button"
+              aria-label="Clear all"
+              title="Clear all"
+              onClick={handleToggleAll}
+              className={cx(
+                'text-center font-semibold text-sm py-1.5 rounded cursor-pointer',
+                styles.clearAllButton
+              )}
+            >
+              Clear all
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  if (trigger === 'dropdown') {
+    const hasSelection = multiple ? value.length > 0 : Boolean(value)
+    const triggerContent = (
+      <span className="inline-flex items-center gap-1">
+        {hasSelection ? displayText : (formControlPlaceholder ?? 'Select')}
+        {loading ? (
+          <Spin
+            indicator={<LoadingOutlined spin />}
+            size="small"
+            data-testid="loading-spinner"
+          />
+        ) : (
+          <icons.CaretDownIcon weight="regular" data-testid="caret-down" />
+        )}
+      </span>
+    )
+
+    return (
+      <AntdDropdown
+        open={isOpen}
+        onOpenChange={handleOpenChange}
+        trigger={['click']}
+        disabled={props.disabled}
+        popupRender={dropdownPopupRender}
+      >
+        <Typography.Link
+          disabled={props.disabled}
+          className={cx('inline-flex', rootClassName)}
+        >
+          {triggerContent}
+        </Typography.Link>
+      </AntdDropdown>
+    )
   }
 
   return (
