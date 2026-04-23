@@ -153,7 +153,7 @@ export const tailwindPreset = {
         'j2-xs': [
           'var(--j2-font-size-xs)',
           { lineHeight: 'var(--j2-line-height-xs)' },
-        ],
+        ] as [string, { lineHeight: string }],
       },
       spacing: {
         j2: 'var(--j2-size)',
