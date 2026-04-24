@@ -3,7 +3,7 @@
 exports[`Pagination > should render correctly 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-os2fvf"
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
   >
     <li
       aria-disabled="true"
@@ -14,7 +14,7 @@ exports[`Pagination > should render correctly 1`] = `
         disabled=""
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -101,7 +101,7 @@ exports[`Pagination > should render correctly 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -121,7 +121,7 @@ exports[`Pagination > should render correctly 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -159,7 +159,7 @@ exports[`Pagination > should render correctly 1`] = `
     >
       <a>
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -181,7 +181,7 @@ exports[`Pagination > should render correctly 1`] = `
     >
       <div
         aria-label="Page Size"
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-selector"
@@ -242,7 +242,7 @@ exports[`Pagination > should render correctly 1`] = `
 exports[`Pagination > should render size changer and total 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-os2fvf"
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
   >
     <li
       class="ant-pagination-total-text"
@@ -258,7 +258,7 @@ exports[`Pagination > should render size changer and total 1`] = `
         disabled=""
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -345,7 +345,7 @@ exports[`Pagination > should render size changer and total 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -365,7 +365,7 @@ exports[`Pagination > should render size changer and total 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -403,7 +403,7 @@ exports[`Pagination > should render size changer and total 1`] = `
     >
       <a>
         <button
-          class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -425,7 +425,7 @@ exports[`Pagination > should render size changer and total 1`] = `
     >
       <div
         aria-label="Page Size"
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-selector"
@@ -486,7 +486,7 @@ exports[`Pagination > should render size changer and total 1`] = `
 exports[`Pagination > should render with text labels for prev/next 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-os2fvf"
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
   >
     <li
       aria-disabled="true"
@@ -569,7 +569,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -589,7 +589,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-os2fvf ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -634,7 +634,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
     >
       <div
         aria-label="Page Size"
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-os2fvf ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-selector"
