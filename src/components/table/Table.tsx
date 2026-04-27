@@ -1,24 +1,12 @@
-import {
-  Table as AntdTable,
-  SpinProps,
-  TableProps,
-  Select,
-  Button,
-  SelectProps,
-  Tooltip,
-} from 'antd'
+import { Table as AntdTable, SpinProps, TableProps, Tooltip } from 'antd'
 import cx from 'classnames'
 import s from './Table.module.css'
 import { Spinner } from '../spinner'
+import { withDesignSystemPaginationOverrides } from '../pagination/Pagination'
 import {
   CaretDownIcon,
   CaretUpIcon,
   CaretUpDownIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
-  DotsThreeIcon,
-  CaretDoubleLeftIcon,
-  CaretDoubleRightIcon,
 } from '@phosphor-icons/react'
 import { ComponentProps, ReactNode } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
@@ -41,37 +29,6 @@ export const defaultSortIcon = ({
   if (sortOrder == 'descend') return <CaretDownIcon />
   return <CaretUpDownIcon />
 }
-
-const renderIconButton = (
-  icon: React.ReactNode,
-  isSmallPagination?: boolean,
-  customClassName?: string
-) => (
-  <Button
-    type="link"
-    size={isSmallPagination ? 'small' : 'middle'}
-    className={cx(customClassName, isSmallPagination ? '!w-6' : '!w-8')}
-  >
-    {icon}
-  </Button>
-)
-
-const renderJumpItem = (
-  icon: React.ReactNode,
-  doubleIcon: React.ReactNode,
-  isSmallPagination?: boolean
-) => (
-  <a className="ant-pagination-item-link">
-    <div className="ant-pagination-item-container">
-      <span className="ant-pagination-item-ellipsis">
-        {renderIconButton(icon, isSmallPagination, s['jump-button'])}
-      </span>
-      <span className="ant-pagination-item-link-icon">
-        {renderIconButton(doubleIcon, isSmallPagination, s['jump-button'])}
-      </span>
-    </div>
-  </a>
-)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-constraint
 const Table = <T extends unknown = any>({
@@ -184,69 +141,17 @@ const Table = <T extends unknown = any>({
     }
   })
 
-  const isSmallPagination =
-    (typeof props.pagination === 'object' &&
-      props.pagination.size == 'small') ||
-    props.size == 'small'
-
-  const paginationLocale = {
-    jump_to: `Go to\u00A0${isSmallPagination ? ':\u00A0\u00A0\u00A0' : ''}`,
-    page: isSmallPagination ? '' : 'page',
-  }
-
-  const itemRender = (
-    _page: number,
-    type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next',
-    element: React.ReactNode
-  ) => {
-    if (type === 'prev') {
-      return (
-        <a>
-          {paginationTextLabels
-            ? 'Previous'
-            : renderIconButton(<CaretLeftIcon />, isSmallPagination)}
-        </a>
-      )
-    }
-
-    if (type === 'next') {
-      return (
-        <a>
-          {paginationTextLabels
-            ? 'Next'
-            : renderIconButton(<CaretRightIcon />, isSmallPagination)}
-        </a>
-      )
-    }
-
-    if (type === 'jump-prev') {
-      return renderJumpItem(
-        <DotsThreeIcon />,
-        <CaretDoubleLeftIcon />,
-        isSmallPagination
-      )
-    }
-
-    if (type === 'jump-next') {
-      return renderJumpItem(
-        <DotsThreeIcon />,
-        <CaretDoubleRightIcon />,
-        isSmallPagination
-      )
-    }
-
-    return element
-  }
-
   const paginationConfig = props.pagination
-    ? {
-        ...props.pagination,
-        locale: { ...paginationLocale, ...props.pagination.locale },
-        selectComponentClass: (selectProps: SelectProps) => (
-          <Select {...selectProps} suffixIcon={<CaretDownIcon />} />
-        ),
-        itemRender,
-      }
+    ? withDesignSystemPaginationOverrides(
+        typeof props.pagination === 'object' ? props.pagination : {},
+        {
+          paginationTextLabels,
+          isSmall:
+            (typeof props.pagination === 'object' &&
+              props.pagination.size === 'small') ||
+            props.size === 'small',
+        }
+      )
     : false
 
   return (

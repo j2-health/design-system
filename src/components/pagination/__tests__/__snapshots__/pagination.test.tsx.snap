@@ -1,0 +1,693 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pagination > should render correctly 1`] = `
+<div>
+  <ul
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
+  >
+    <li
+      aria-disabled="true"
+      class="ant-pagination-prev ant-pagination-disabled"
+      title="Previous Page"
+    >
+      <a
+        disabled=""
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          type="button"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+            />
+          </svg>
+        </button>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+      tabindex="0"
+      title="1"
+    >
+      <a
+        rel="nofollow"
+      >
+        1
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-2"
+      tabindex="0"
+      title="2"
+    >
+      <a
+        rel="nofollow"
+      >
+        2
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-3"
+      tabindex="0"
+      title="3"
+    >
+      <a
+        rel="nofollow"
+      >
+        3
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-4"
+      tabindex="0"
+      title="4"
+    >
+      <a
+        rel="nofollow"
+      >
+        4
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
+      tabindex="0"
+      title="5"
+    >
+      <a
+        rel="nofollow"
+      >
+        5
+      </a>
+    </li>
+    <li
+      class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
+      tabindex="0"
+      title="Next 5 Pages"
+    >
+      <a
+        class="ant-pagination-item-link"
+      >
+        <div
+          class="ant-pagination-item-container"
+        >
+          <span
+            class="ant-pagination-item-ellipsis"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z"
+                />
+              </svg>
+            </button>
+          </span>
+          <span
+            class="ant-pagination-item-link-icon"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M141.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L124.69,128,50.34,53.66A8,8,0,0,1,61.66,42.34l80,80A8,8,0,0,1,141.66,133.66Zm80-11.32-80-80a8,8,0,0,0-11.32,11.32L204.69,128l-74.35,74.34a8,8,0,0,0,11.32,11.32l80-80A8,8,0,0,0,221.66,122.34Z"
+                />
+              </svg>
+            </button>
+          </span>
+        </div>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-10"
+      tabindex="0"
+      title="10"
+    >
+      <a
+        rel="nofollow"
+      >
+        10
+      </a>
+    </li>
+    <li
+      aria-disabled="false"
+      class="ant-pagination-next"
+      tabindex="0"
+      title="Next Page"
+    >
+      <a>
+        <button
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          type="button"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+            />
+          </svg>
+        </button>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-options"
+    >
+      <div
+        aria-label="Page Size"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
+      >
+        <div
+          class="ant-select-selector"
+        >
+          <span
+            class="ant-select-selection-wrap"
+          >
+            <span
+              class="ant-select-selection-search"
+            >
+              <input
+                aria-autocomplete="list"
+                aria-controls="rc_select_TEST_OR_SSR_list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-label="Page Size"
+                aria-owns="rc_select_TEST_OR_SSR_list"
+                autocomplete="off"
+                class="ant-select-selection-search-input"
+                id="rc_select_TEST_OR_SSR"
+                role="combobox"
+                type="search"
+                value=""
+              />
+            </span>
+            <span
+              class="ant-select-selection-item"
+              title="10 / page"
+            >
+              10 / page
+            </span>
+          </span>
+        </div>
+        <span
+          aria-hidden="true"
+          class="ant-select-arrow"
+          style="user-select: none;"
+          unselectable="on"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Pagination > should render size changer and total 1`] = `
+<div>
+  <ul
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
+  >
+    <li
+      class="ant-pagination-total-text"
+    >
+      Total 100 items
+    </li>
+    <li
+      aria-disabled="true"
+      class="ant-pagination-prev ant-pagination-disabled"
+      title="Previous Page"
+    >
+      <a
+        disabled=""
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          type="button"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+            />
+          </svg>
+        </button>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+      tabindex="0"
+      title="1"
+    >
+      <a
+        rel="nofollow"
+      >
+        1
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-2"
+      tabindex="0"
+      title="2"
+    >
+      <a
+        rel="nofollow"
+      >
+        2
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-3"
+      tabindex="0"
+      title="3"
+    >
+      <a
+        rel="nofollow"
+      >
+        3
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-4"
+      tabindex="0"
+      title="4"
+    >
+      <a
+        rel="nofollow"
+      >
+        4
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
+      tabindex="0"
+      title="5"
+    >
+      <a
+        rel="nofollow"
+      >
+        5
+      </a>
+    </li>
+    <li
+      class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
+      tabindex="0"
+      title="Next 5 Pages"
+    >
+      <a
+        class="ant-pagination-item-link"
+      >
+        <div
+          class="ant-pagination-item-container"
+        >
+          <span
+            class="ant-pagination-item-ellipsis"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z"
+                />
+              </svg>
+            </button>
+          </span>
+          <span
+            class="ant-pagination-item-link-icon"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M141.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L124.69,128,50.34,53.66A8,8,0,0,1,61.66,42.34l80,80A8,8,0,0,1,141.66,133.66Zm80-11.32-80-80a8,8,0,0,0-11.32,11.32L204.69,128l-74.35,74.34a8,8,0,0,0,11.32,11.32l80-80A8,8,0,0,0,221.66,122.34Z"
+                />
+              </svg>
+            </button>
+          </span>
+        </div>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-10"
+      tabindex="0"
+      title="10"
+    >
+      <a
+        rel="nofollow"
+      >
+        10
+      </a>
+    </li>
+    <li
+      aria-disabled="false"
+      class="ant-pagination-next"
+      tabindex="0"
+      title="Next Page"
+    >
+      <a>
+        <button
+          class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          type="button"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+            />
+          </svg>
+        </button>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-options"
+    >
+      <div
+        aria-label="Page Size"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
+      >
+        <div
+          class="ant-select-selector"
+        >
+          <span
+            class="ant-select-selection-wrap"
+          >
+            <span
+              class="ant-select-selection-search"
+            >
+              <input
+                aria-autocomplete="list"
+                aria-controls="rc_select_TEST_OR_SSR_list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-label="Page Size"
+                aria-owns="rc_select_TEST_OR_SSR_list"
+                autocomplete="off"
+                class="ant-select-selection-search-input"
+                id="rc_select_TEST_OR_SSR"
+                role="combobox"
+                type="search"
+                value=""
+              />
+            </span>
+            <span
+              class="ant-select-selection-item"
+              title="10 / page"
+            >
+              10 / page
+            </span>
+          </span>
+        </div>
+        <span
+          aria-hidden="true"
+          class="ant-select-arrow"
+          style="user-select: none;"
+          unselectable="on"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Pagination > should render with text labels for prev/next 1`] = `
+<div>
+  <ul
+    class="ant-pagination css-dev-only-do-not-override-mncuj7"
+  >
+    <li
+      aria-disabled="true"
+      class="ant-pagination-prev ant-pagination-disabled"
+      title="Previous Page"
+    >
+      <a
+        disabled=""
+      >
+        Previous
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+      tabindex="0"
+      title="1"
+    >
+      <a
+        rel="nofollow"
+      >
+        1
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-2"
+      tabindex="0"
+      title="2"
+    >
+      <a
+        rel="nofollow"
+      >
+        2
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-3"
+      tabindex="0"
+      title="3"
+    >
+      <a
+        rel="nofollow"
+      >
+        3
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-4"
+      tabindex="0"
+      title="4"
+    >
+      <a
+        rel="nofollow"
+      >
+        4
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
+      tabindex="0"
+      title="5"
+    >
+      <a
+        rel="nofollow"
+      >
+        5
+      </a>
+    </li>
+    <li
+      class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
+      tabindex="0"
+      title="Next 5 Pages"
+    >
+      <a
+        class="ant-pagination-item-link"
+      >
+        <div
+          class="ant-pagination-item-container"
+        >
+          <span
+            class="ant-pagination-item-ellipsis"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z"
+                />
+              </svg>
+            </button>
+          </span>
+          <span
+            class="ant-pagination-item-link-icon"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              type="button"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M141.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L124.69,128,50.34,53.66A8,8,0,0,1,61.66,42.34l80,80A8,8,0,0,1,141.66,133.66Zm80-11.32-80-80a8,8,0,0,0-11.32,11.32L204.69,128l-74.35,74.34a8,8,0,0,0,11.32,11.32l80-80A8,8,0,0,0,221.66,122.34Z"
+                />
+              </svg>
+            </button>
+          </span>
+        </div>
+      </a>
+    </li>
+    <li
+      class="ant-pagination-item ant-pagination-item-10"
+      tabindex="0"
+      title="10"
+    >
+      <a
+        rel="nofollow"
+      >
+        10
+      </a>
+    </li>
+    <li
+      aria-disabled="false"
+      class="ant-pagination-next"
+      tabindex="0"
+      title="Next Page"
+    >
+      <a>
+        Next
+      </a>
+    </li>
+    <li
+      class="ant-pagination-options"
+    >
+      <div
+        aria-label="Page Size"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
+      >
+        <div
+          class="ant-select-selector"
+        >
+          <span
+            class="ant-select-selection-wrap"
+          >
+            <span
+              class="ant-select-selection-search"
+            >
+              <input
+                aria-autocomplete="list"
+                aria-controls="rc_select_TEST_OR_SSR_list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-label="Page Size"
+                aria-owns="rc_select_TEST_OR_SSR_list"
+                autocomplete="off"
+                class="ant-select-selection-search-input"
+                id="rc_select_TEST_OR_SSR"
+                role="combobox"
+                type="search"
+                value=""
+              />
+            </span>
+            <span
+              class="ant-select-selection-item"
+              title="10 / page"
+            >
+              10 / page
+            </span>
+          </span>
+        </div>
+        <span
+          aria-hidden="true"
+          class="ant-select-arrow"
+          style="user-select: none;"
+          unselectable="on"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="0 0 256 256"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>
+`;
