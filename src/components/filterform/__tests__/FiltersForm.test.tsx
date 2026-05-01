@@ -108,6 +108,50 @@ describe('FiltersForm', () => {
     })
   })
 
+  describe('searchableFilterField', () => {
+    const multiFieldConfigs: FilterConfig[] = [
+      { field: 'name', type: 'text', label: 'Name' },
+      { field: 'email', type: 'text', label: 'Email' },
+      { field: 'phone', type: 'text', label: 'Phone' },
+    ]
+
+    it('accepts user search input in the field select when true', async () => {
+      mockHook({})
+      const user = userEvent.setup()
+      render(
+        <FiltersForm
+          onSubmit={vi.fn()}
+          filterConfigs={multiFieldConfigs}
+          searchableFilterField
+        />
+      )
+
+      const fieldCombobox = screen.getAllByRole(
+        'combobox'
+      )[0] as HTMLInputElement
+      await user.click(fieldCombobox)
+      await user.type(fieldCombobox, 'pho')
+
+      expect(fieldCombobox.value).toBe('pho')
+    })
+
+    it('rejects user search input in the field select by default', async () => {
+      mockHook({})
+      const user = userEvent.setup()
+      render(
+        <FiltersForm onSubmit={vi.fn()} filterConfigs={multiFieldConfigs} />
+      )
+
+      const fieldCombobox = screen.getAllByRole(
+        'combobox'
+      )[0] as HTMLInputElement
+      await user.click(fieldCombobox)
+      await user.type(fieldCombobox, 'pho')
+
+      expect(fieldCombobox.value).toBe('')
+    })
+  })
+
   describe('add rule button', () => {
     it('should disable the add rule button when rules are not valid', async () => {
       mockHook({

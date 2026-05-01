@@ -74,3 +74,11 @@ export const Default: Story = {
     title: 'Find some produce',
   },
 }
+
+export const SearchableFilterField: Story = {
+  args: {
+    ...Default.args,
+    title: 'Find some produce (searchable filter field)',
+    searchableFilterField: true,
+  },
+}
