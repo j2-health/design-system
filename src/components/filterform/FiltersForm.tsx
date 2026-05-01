@@ -15,6 +15,7 @@ type Props = {
   onSubmit: (values: FilterForm) => void
   initialValues?: FilterForm
   maxFiltersPerField?: number
+  searchableFilterField?: boolean
 }
 
 export const FiltersForm = ({
@@ -23,6 +24,7 @@ export const FiltersForm = ({
   onSubmit,
   initialValues,
   maxFiltersPerField = 5,
+  searchableFilterField = false,
 }: Props) => {
   const { dispatch, filterGroups, isNewFilterInputOpen, isValid, isEmpty } =
     useFiltersForm({
@@ -88,6 +90,7 @@ export const FiltersForm = ({
               groupIndex={groupIndex}
               filterConfigs={availableFilterConfigs}
               className="grow"
+              searchableFilterField={searchableFilterField}
               onChange={(filter, filterIndex) => {
                 dispatch({
                   type: 'changeFilter',
@@ -119,6 +122,7 @@ export const FiltersForm = ({
                 key={JSON.stringify(filterGroups)}
                 filterConfigs={availableFilterConfigs}
                 className="flex-1"
+                searchableFilterField={searchableFilterField}
                 onChange={(filter) => {
                   dispatch({ type: 'changeNewFilter', payload: filter })
                 }}
