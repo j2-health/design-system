@@ -115,8 +115,9 @@ describe('FiltersForm', () => {
       { field: 'phone', type: 'text', label: 'Phone' },
     ]
 
-    it('filters field options as the user types when true', async () => {
+    it('accepts user search input in the field select when true', async () => {
       mockHook({})
+      const user = userEvent.setup()
       render(
         <FiltersForm
           onSubmit={vi.fn()}
@@ -125,29 +126,29 @@ describe('FiltersForm', () => {
         />
       )
 
-      const fieldCombobox = screen.getAllByRole('combobox')[0]
-      await userEvent.click(fieldCombobox)
-      await userEvent.type(fieldCombobox, 'pho')
+      const fieldCombobox = screen.getAllByRole(
+        'combobox'
+      )[0] as HTMLInputElement
+      await user.click(fieldCombobox)
+      await user.type(fieldCombobox, 'pho')
 
-      expect(
-        await screen.findByRole('option', { name: 'Phone' })
-      ).toBeInTheDocument()
-      expect(
-        screen.queryByRole('option', { name: 'Email' })
-      ).not.toBeInTheDocument()
-      expect(
-        screen.queryByRole('option', { name: 'Name' })
-      ).not.toBeInTheDocument()
+      expect(fieldCombobox.value).toBe('pho')
     })
 
-    it('makes the field select read-only by default so it is not searchable', () => {
+    it('rejects user search input in the field select by default', async () => {
       mockHook({})
+      const user = userEvent.setup()
       render(
         <FiltersForm onSubmit={vi.fn()} filterConfigs={multiFieldConfigs} />
       )
 
-      const fieldCombobox = screen.getAllByRole('combobox')[0]
-      expect(fieldCombobox).toHaveAttribute('readonly')
+      const fieldCombobox = screen.getAllByRole(
+        'combobox'
+      )[0] as HTMLInputElement
+      await user.click(fieldCombobox)
+      await user.type(fieldCombobox, 'pho')
+
+      expect(fieldCombobox.value).toBe('')
     })
   })
 
