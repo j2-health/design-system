@@ -109,26 +109,45 @@ describe('FiltersForm', () => {
   })
 
   describe('searchableFilterField', () => {
-    it('makes the field select searchable when true', () => {
+    const multiFieldConfigs: FilterConfig[] = [
+      { field: 'name', type: 'text', label: 'Name' },
+      { field: 'email', type: 'text', label: 'Email' },
+      { field: 'phone', type: 'text', label: 'Phone' },
+    ]
+
+    it('filters field options as the user types when true', async () => {
       mockHook({})
-      const { container } = render(
+      render(
         <FiltersForm
           onSubmit={vi.fn()}
-          filterConfigs={filterConfigs}
+          filterConfigs={multiFieldConfigs}
           searchableFilterField
         />
       )
-      const fieldSelect = container.querySelector('.ant-select')
-      expect(fieldSelect).toHaveClass('ant-select-show-search')
+
+      const fieldCombobox = screen.getAllByRole('combobox')[0]
+      await userEvent.click(fieldCombobox)
+      await userEvent.type(fieldCombobox, 'pho')
+
+      expect(
+        await screen.findByRole('option', { name: 'Phone' })
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('option', { name: 'Email' })
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('option', { name: 'Name' })
+      ).not.toBeInTheDocument()
     })
 
-    it('keeps the field select non-searchable by default', () => {
+    it('makes the field select read-only by default so it is not searchable', () => {
       mockHook({})
-      const { container } = render(
-        <FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />
+      render(
+        <FiltersForm onSubmit={vi.fn()} filterConfigs={multiFieldConfigs} />
       )
-      const fieldSelect = container.querySelector('.ant-select')
-      expect(fieldSelect).not.toHaveClass('ant-select-show-search')
+
+      const fieldCombobox = screen.getAllByRole('combobox')[0]
+      expect(fieldCombobox).toHaveAttribute('readonly')
     })
   })
 
