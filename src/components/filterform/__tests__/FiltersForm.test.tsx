@@ -108,6 +108,30 @@ describe('FiltersForm', () => {
     })
   })
 
+  describe('searchableFilterField', () => {
+    it('makes the field select searchable when true', () => {
+      mockHook({})
+      const { container } = render(
+        <FiltersForm
+          onSubmit={vi.fn()}
+          filterConfigs={filterConfigs}
+          searchableFilterField
+        />
+      )
+      const fieldSelect = container.querySelector('.ant-select')
+      expect(fieldSelect).toHaveClass('ant-select-show-search')
+    })
+
+    it('keeps the field select non-searchable by default', () => {
+      mockHook({})
+      const { container } = render(
+        <FiltersForm onSubmit={vi.fn()} filterConfigs={filterConfigs} />
+      )
+      const fieldSelect = container.querySelector('.ant-select')
+      expect(fieldSelect).not.toHaveClass('ant-select-show-search')
+    })
+  })
+
   describe('add rule button', () => {
     it('should disable the add rule button when rules are not valid', async () => {
       mockHook({
