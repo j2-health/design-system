@@ -91,6 +91,8 @@ export const FilterInput = ({
       <Select
         options={fieldOptions}
         value={filter?.field}
+        showSearch
+        optionFilterProp="label"
         onChange={handleFieldChange}
         size={size}
       />
