@@ -14,7 +14,6 @@ type FilterGroupProps = {
   groupIndex: number
   filterConfigs: FilterConfig[]
   className?: string
-  searchableFilterField?: boolean
   onRemove: (index: number) => void
   onChange: (filter: FormFilter, index: number) => void
   onDone: (filter: FormFilter, index: number) => void
@@ -25,7 +24,6 @@ export const FilterGroup = ({
   groupIndex,
   filterConfigs,
   className,
-  searchableFilterField = false,
   onRemove,
   onChange,
   onDone,
@@ -56,7 +54,6 @@ export const FilterGroup = ({
             value={filter}
             filterConfigs={filterConfigs}
             className="flex-1"
-            searchableFilterField={searchableFilterField}
             onChange={(filter) => onChange(filter, filterIndex)}
             onBlur={(filter) => onDone(filter, filterIndex)}
           />

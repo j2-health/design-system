@@ -33,7 +33,6 @@ type FilterInputProps = {
   onBlur?: (value: FormFilter) => void
   className?: string
   size?: SizeType
-  searchableFilterField?: boolean
 }
 
 export const FilterInput = ({
@@ -43,7 +42,6 @@ export const FilterInput = ({
   onBlur,
   className,
   size = 'middle',
-  searchableFilterField = false,
 }: FilterInputProps) => {
   const {
     filter,
@@ -93,7 +91,7 @@ export const FilterInput = ({
       <Select
         options={fieldOptions}
         value={filter?.field}
-        showSearch={searchableFilterField}
+        showSearch
         optionFilterProp="label"
         onChange={handleFieldChange}
         size={size}
