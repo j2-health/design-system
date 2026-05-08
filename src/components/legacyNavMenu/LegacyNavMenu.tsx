@@ -52,7 +52,7 @@ export const LegacyNavMenu: React.FC<LegacyNavMenuProps> = ({
       <div className={styles.logoSection}>
         <div className={styles.logoContainer}>
           <a href={logoUrl} className={styles.logoLink}>
-            {/* @ts-expect-error - SVG component props */}
+            {/* @ts-ignore - SVG component props vary across React typings */}
             <J2Logo className={styles.logo} />
           </a>
         </div>
