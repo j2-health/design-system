@@ -179,6 +179,7 @@ const BarChart = ({
       backgroundColor: 'transparent',
       shadow: false,
       padding: 0,
+      style: { zIndex: 9999 },
       formatter: function (this) {
         return renderToString(
           <div className={styles.tooltip}>
