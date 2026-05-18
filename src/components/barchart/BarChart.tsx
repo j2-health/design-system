@@ -175,6 +175,7 @@ const BarChart = ({
     })),
     tooltip: {
       useHTML: true,
+      outside: true,
       backgroundColor: 'transparent',
       shadow: false,
       padding: 0,
