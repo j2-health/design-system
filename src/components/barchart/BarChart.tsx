@@ -182,7 +182,7 @@ const BarChart = ({
       formatter: function (this) {
         return renderToString(
           <div className={styles.tooltip}>
-            {tooltip(this.x, this.y, this.series.name)}
+            {tooltip(this.key, this.y, this.series.name)}
           </div>
         )
       },
