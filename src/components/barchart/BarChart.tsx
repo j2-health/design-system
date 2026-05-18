@@ -175,13 +175,15 @@ const BarChart = ({
     })),
     tooltip: {
       useHTML: true,
+      outside: true,
       backgroundColor: 'transparent',
       shadow: false,
       padding: 0,
+      style: { zIndex: 9999 },
       formatter: function (this) {
         return renderToString(
           <div className={styles.tooltip}>
-            {tooltip(this.x, this.y, this.series.name)}
+            {tooltip(this.key, this.y, this.series.name)}
           </div>
         )
       },
