@@ -54,61 +54,57 @@ export const Select = (props: SelectProps) => {
 
   const handleToggleAll = () => {
     if (currentValue.length === 0) {
-      const allValues = flattenOptions(
+      const flat = flattenOptions(
         props.options as (DefaultOptionType | GroupOption)[] | undefined
       )
-        .map((opt) => opt.value)
-        .filter((v): v is string | number => v !== undefined && v !== null)
+      const allOptions = flat.filter(
+        (opt) => opt.value !== undefined && opt.value !== null
+      )
+      const allValues = allOptions.map((opt) => opt.value as string | number)
       void helpers.setValue(allValues)
+      props.onChange?.(allValues, allOptions)
     } else {
       void helpers.setValue([])
+      props.onChange?.([], [])
     }
   }
 
-  const dropdownRender = React.useCallback(
-    (menu: React.ReactElement): React.ReactElement => {
-      if (props.loading) {
-        return (
-          <div className="flex items-center justify-between px-3 py-1">
-            <span>Loading...</span>
-            <Spin indicator={<LoadingOutlined spin />} size="small" />
-          </div>
-        )
-      }
-
-      if (!props.options || (props.options && props.options.length === 0)) {
-        return <div className="px-3 py-1">No options</div>
-      }
-
-      if (!showSelectAllFooter) return menu
-
-      const label = currentValue.length === 0 ? 'Select all' : 'Clear all'
-
+  const dropdownRender = (menu: React.ReactElement): React.ReactElement => {
+    if (props.loading) {
       return (
-        <>
-          {menu}
-          <div className="mt-1 pt-1 border-t border-j2-border-secondary">
-            <div
-              role="button"
-              aria-label={label}
-              title={label}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={handleToggleAll}
-              className="text-center font-semibold text-sm py-1.5 rounded cursor-pointer text-j2-primary hover:bg-j2-primary-bg-hover"
-            >
-              {label}
-            </div>
-          </div>
-        </>
+        <div className="flex items-center justify-between px-3 py-1">
+          <span>Loading...</span>
+          <Spin indicator={<LoadingOutlined spin />} size="small" />
+        </div>
       )
-    },
-    [
-      props.loading,
-      props.options?.length,
-      showSelectAllFooter,
-      currentValue.length,
-    ]
-  )
+    }
+
+    if (!props.options || (props.options && props.options.length === 0)) {
+      return <div className="px-3 py-1">No options</div>
+    }
+
+    if (!showSelectAllFooter) return menu
+
+    const label = currentValue.length === 0 ? 'Select all' : 'Clear all'
+
+    return (
+      <>
+        {menu}
+        <div className="mt-1 pt-1 border-t border-j2-border-secondary">
+          <button
+            type="button"
+            aria-label={label}
+            title={label}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={handleToggleAll}
+            className="w-full text-center font-semibold text-sm py-1.5 rounded cursor-pointer text-j2-primary hover:bg-j2-primary-bg-hover bg-transparent border-0"
+          >
+            {label}
+          </button>
+        </div>
+      </>
+    )
+  }
 
   return (
     <AntDSelect

@@ -299,6 +299,46 @@ describe('Select', () => {
       expect(screen.queryByText('Select all')).not.toBeInTheDocument()
     })
 
+    it('forwards consumer onChange when "Select all" is clicked', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={planOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      const [value, option] = handleChange.mock.calls[0]
+      expect(value).toEqual(['bronze', 'silver', 'gold', 'platinum'])
+      expect(option).toEqual(planOptions)
+    })
+
+    it('forwards consumer onChange when "Clear all" is clicked', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={planOptions}
+          onChange={handleChange}
+        />,
+        ['bronze', 'silver']
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Clear all'))
+
+      expect(handleChange).toHaveBeenCalledWith([], [])
+    })
+
     it('forwards consumer onSearch callback while tracking search internally', async () => {
       const user = userEvent.setup()
       const handleSearch = vi.fn()
