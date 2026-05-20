@@ -339,6 +339,48 @@ describe('Select', () => {
       expect(handleChange).toHaveBeenCalledWith([], [])
     })
 
+    it('does not render footer when the Select is disabled', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" disabled options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      // antd already prevents the popup from opening when disabled; the
+      // !props.disabled gate in showSelectAllFooter is a defense-in-depth
+      // belt-and-suspenders for cases where the dropdown might be forced
+      // open programmatically.
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+      expect(screen.queryByText('Clear all')).not.toBeInTheDocument()
+    })
+
+    it('pushes labelInValue-shaped payload when labelInValue is set', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          labelInValue
+          options={planOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      const [value, option] = handleChange.mock.calls[0]
+      expect(value).toEqual([
+        { value: 'bronze', label: 'Bronze Plan' },
+        { value: 'silver', label: 'Silver Plan' },
+        { value: 'gold', label: 'Gold Plan' },
+        { value: 'platinum', label: 'Platinum Plan' },
+      ])
+      expect(option).toEqual(planOptions)
+    })
+
     it('forwards consumer onSearch callback while tracking search internally', async () => {
       const user = userEvent.setup()
       const handleSearch = vi.fn()

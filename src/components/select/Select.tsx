@@ -43,7 +43,11 @@ export const Select = (props: SelectProps) => {
   const hasOptions = (props.options?.length ?? 0) > 0
   const currentValue: unknown[] = Array.isArray(field.value) ? field.value : []
   const showSelectAllFooter =
-    isMultiple && !props.loading && hasOptions && !isSearching
+    isMultiple &&
+    !props.loading &&
+    !props.disabled &&
+    hasOptions &&
+    !isSearching
 
   const handleSearch = (value: string) => {
     setIsSearching(value.length > 0)
@@ -53,6 +57,8 @@ export const Select = (props: SelectProps) => {
   }
 
   const handleToggleAll = () => {
+    if (props.disabled) return
+
     if (currentValue.length === 0) {
       const flat = flattenOptions(
         props.options as (DefaultOptionType | GroupOption)[] | undefined
@@ -60,9 +66,14 @@ export const Select = (props: SelectProps) => {
       const allOptions = flat.filter(
         (opt) => opt.value !== undefined && opt.value !== null
       )
-      const allValues = allOptions.map((opt) => opt.value as string | number)
-      void helpers.setValue(allValues)
-      props.onChange?.(allValues, allOptions)
+      // antd's labelInValue mode expects values shaped as { value, label }
+      // rather than raw scalars; mirror that contract so the field state
+      // and downstream onChange payload match what consumers expect.
+      const payload = props.labelInValue
+        ? allOptions.map((opt) => ({ value: opt.value, label: opt.label }))
+        : allOptions.map((opt) => opt.value as string | number)
+      void helpers.setValue(payload)
+      props.onChange?.(payload, allOptions)
     } else {
       void helpers.setValue([])
       props.onChange?.([], [])
