@@ -381,6 +381,51 @@ describe('Select', () => {
       expect(option).toEqual(planOptions)
     })
 
+    it('selects across grouped options and skips disabled entries on "Select all"', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      const groupedOptions = [
+        {
+          label: 'Metals',
+          options: [
+            { label: 'Bronze Plan', value: 'bronze' },
+            { label: 'Silver Plan', value: 'silver', disabled: true },
+            { label: 'Gold Plan', value: 'gold' },
+          ],
+        },
+        {
+          label: 'Premium',
+          options: [{ label: 'Platinum Plan', value: 'platinum' }],
+        },
+      ]
+
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={groupedOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      const expectedValues = ['bronze', 'gold', 'platinum']
+      const expectedOptions = [
+        { label: 'Bronze Plan', value: 'bronze' },
+        { label: 'Gold Plan', value: 'gold' },
+        { label: 'Platinum Plan', value: 'platinum' },
+      ]
+
+      await waitFor(() => {
+        expect(screen.getByTestId('form-state')).toHaveTextContent(
+          JSON.stringify({ test: expectedValues })
+        )
+      })
+      expect(handleChange).toHaveBeenCalledWith(expectedValues, expectedOptions)
+    })
+
     it('forwards consumer onSearch callback while tracking search internally', async () => {
       const user = userEvent.setup()
       const handleSearch = vi.fn()

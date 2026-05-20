@@ -64,7 +64,7 @@ export const Select = (props: SelectProps) => {
         props.options as (DefaultOptionType | GroupOption)[] | undefined
       )
       const allOptions = flat.filter(
-        (opt) => opt.value !== undefined && opt.value !== null
+        (opt) => opt.value !== undefined && opt.value !== null && !opt.disabled
       )
       // antd's labelInValue mode expects values shaped as { value, label }
       // rather than raw scalars; mirror that contract so the field state
