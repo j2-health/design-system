@@ -101,6 +101,69 @@ export const Multiple: Story = {
   ),
 }
 
+// MultipleSelectAll demonstrates the "Select all" / "Clear all" footer that
+// renders on multi-select dropdowns. Footer hides while the user is filtering
+// via the inline search.
+
+const stateOptions = [
+  { label: 'Alabama', value: '01' },
+  { label: 'Alaska', value: '02' },
+  { label: 'Arizona', value: '04' },
+  { label: 'Arkansas', value: '05' },
+  { label: 'California', value: '06' },
+  { label: 'Colorado', value: '08' },
+  { label: 'Connecticut', value: '09' },
+  { label: 'Delaware', value: '10' },
+  { label: 'Florida', value: '12' },
+  { label: 'Georgia', value: '13' },
+  { label: 'Hawaii', value: '15' },
+  { label: 'Idaho', value: '16' },
+  { label: 'Illinois', value: '17' },
+  { label: 'Indiana', value: '18' },
+  { label: 'Iowa', value: '19' },
+  { label: 'Kansas', value: '20' },
+]
+
+export const MultipleSelectAllEmpty: Story = {
+  args: {
+    name: 'states',
+    size: 'middle',
+    mode: 'multiple',
+    placeholder: 'Select states',
+    showSearch: true,
+    optionFilterProp: 'label',
+    allowClear: true,
+    options: stateOptions,
+  },
+  render: (args) => (
+    <Formik initialValues={{ states: [] }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} className="w-96" />
+      </Form>
+    </Formik>
+  ),
+}
+
+export const MultipleSelectAllPartial: Story = {
+  args: {
+    name: 'states',
+    size: 'middle',
+    mode: 'multiple',
+    placeholder: 'Select states',
+    showSearch: true,
+    optionFilterProp: 'label',
+    allowClear: true,
+    options: stateOptions,
+  },
+  render: (args) => (
+    <Formik initialValues={{ states: ['06', '12'] }} onSubmit={() => {}}>
+      <Form>
+        <Select {...args} className="w-96" />
+      </Form>
+    </Formik>
+  ),
+}
+
 export const Loading: Story = {
   args: {
     ...Basic.args,

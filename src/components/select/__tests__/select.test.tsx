@@ -1,6 +1,7 @@
 import { vi } from 'vitest'
-import { render, fireEvent } from '@testing-library/react'
-import { Formik } from 'formik'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Formik, useFormikContext } from 'formik'
 import { Form } from 'formik-antd'
 import { Select } from '../Select'
 
@@ -11,6 +12,34 @@ const renderWithForm = (selectElement: JSX.Element) => {
     </Formik>
   )
 }
+
+// Exposes the current Formik values via a data-testid so tests can assert on
+// state changes the Select pushes to the form (e.g. select-all / clear-all).
+const FormStateProbe = () => {
+  const { values } = useFormikContext<Record<string, unknown>>()
+  return <div data-testid="form-state">{JSON.stringify(values)}</div>
+}
+
+const renderMultipleWithForm = (
+  selectElement: JSX.Element,
+  initialValue: string[] = []
+) => {
+  return render(
+    <Formik initialValues={{ test: initialValue }} onSubmit={() => {}}>
+      <Form>
+        {selectElement}
+        <FormStateProbe />
+      </Form>
+    </Formik>
+  )
+}
+
+const planOptions = [
+  { label: 'Bronze Plan', value: 'bronze' },
+  { label: 'Silver Plan', value: 'silver' },
+  { label: 'Gold Plan', value: 'gold' },
+  { label: 'Platinum Plan', value: 'platinum' },
+]
 
 describe('Select', () => {
   it('should render correctly', () => {
@@ -115,5 +144,307 @@ describe('Select', () => {
     fireEvent.mouseOver(container.firstChild as Element)
     expect(container.querySelector('[data-testid="clear-icon"]')).toBeFalsy()
     expect(container).toMatchSnapshot()
+  })
+
+  describe('Multiple mode select-all / clear-all footer', () => {
+    it('renders "Select all" footer when value is empty', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+
+      expect(await screen.findByText('Select all')).toBeInTheDocument()
+      expect(screen.queryByText('Clear all')).not.toBeInTheDocument()
+    })
+
+    it('renders "Clear all" footer when value has items', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={planOptions} />,
+        ['bronze', 'silver']
+      )
+
+      await user.click(screen.getByRole('combobox'))
+
+      expect(await screen.findByText('Clear all')).toBeInTheDocument()
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+    })
+
+    it('selects every option when "Select all" is clicked', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      await waitFor(() => {
+        expect(screen.getByTestId('form-state')).toHaveTextContent(
+          JSON.stringify({ test: ['bronze', 'silver', 'gold', 'platinum'] })
+        )
+      })
+    })
+
+    it('empties value when "Clear all" is clicked', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={planOptions} />,
+        ['bronze', 'silver']
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Clear all'))
+
+      await waitFor(() => {
+        expect(screen.getByTestId('form-state')).toHaveTextContent(
+          JSON.stringify({ test: [] })
+        )
+      })
+    })
+
+    it('flips label from "Select all" to "Clear all" after selecting all', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      expect(await screen.findByText('Clear all')).toBeInTheDocument()
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+    })
+
+    it('hides footer while user is searching', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          showSearch
+          optionFilterProp="label"
+          options={planOptions}
+        />
+      )
+
+      const combobox = screen.getByRole('combobox')
+      await user.click(combobox)
+      expect(await screen.findByText('Select all')).toBeInTheDocument()
+
+      await user.type(combobox, 'bro')
+
+      await waitFor(() => {
+        expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+      })
+      expect(screen.queryByText('Clear all')).not.toBeInTheDocument()
+    })
+
+    it('restores footer when search input is cleared', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          showSearch
+          optionFilterProp="label"
+          options={planOptions}
+        />
+      )
+
+      const combobox = screen.getByRole('combobox')
+      await user.click(combobox)
+      await user.type(combobox, 'bro')
+      await waitFor(() => {
+        expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+      })
+
+      await user.clear(combobox)
+
+      expect(await screen.findByText('Select all')).toBeInTheDocument()
+    })
+
+    it('does not render footer in single-select mode', async () => {
+      const user = userEvent.setup()
+      renderWithForm(<Select name="test" options={planOptions} />)
+
+      await user.click(screen.getByRole('combobox'))
+      // The Bronze Plan option should be visible to confirm dropdown is open.
+      expect(await screen.findByText('Bronze Plan')).toBeInTheDocument()
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+      expect(screen.queryByText('Clear all')).not.toBeInTheDocument()
+    })
+
+    it('does not render footer when loading', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" loading options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      expect(await screen.findByText('Loading...')).toBeInTheDocument()
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+    })
+
+    it('does not render footer when options list is empty', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" options={[]} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      expect(await screen.findByText('No options')).toBeInTheDocument()
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+    })
+
+    it('forwards consumer onChange when "Select all" is clicked', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={planOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      const [value, option] = handleChange.mock.calls[0]
+      expect(value).toEqual(['bronze', 'silver', 'gold', 'platinum'])
+      expect(option).toEqual(planOptions)
+    })
+
+    it('forwards consumer onChange when "Clear all" is clicked', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={planOptions}
+          onChange={handleChange}
+        />,
+        ['bronze', 'silver']
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Clear all'))
+
+      expect(handleChange).toHaveBeenCalledWith([], [])
+    })
+
+    it('does not render footer when the Select is disabled', async () => {
+      const user = userEvent.setup()
+      renderMultipleWithForm(
+        <Select name="test" mode="multiple" disabled options={planOptions} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      // antd already prevents the popup from opening when disabled; the
+      // !props.disabled gate in showSelectAllFooter is a defense-in-depth
+      // belt-and-suspenders for cases where the dropdown might be forced
+      // open programmatically.
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+      expect(screen.queryByText('Clear all')).not.toBeInTheDocument()
+    })
+
+    it('pushes labelInValue-shaped payload when labelInValue is set', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          labelInValue
+          options={planOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      const [value, option] = handleChange.mock.calls[0]
+      expect(value).toEqual([
+        { value: 'bronze', label: 'Bronze Plan' },
+        { value: 'silver', label: 'Silver Plan' },
+        { value: 'gold', label: 'Gold Plan' },
+        { value: 'platinum', label: 'Platinum Plan' },
+      ])
+      expect(option).toEqual(planOptions)
+    })
+
+    it('selects across grouped options and skips disabled entries on "Select all"', async () => {
+      const user = userEvent.setup()
+      const handleChange = vi.fn()
+      const groupedOptions = [
+        {
+          label: 'Metals',
+          options: [
+            { label: 'Bronze Plan', value: 'bronze' },
+            { label: 'Silver Plan', value: 'silver', disabled: true },
+            { label: 'Gold Plan', value: 'gold' },
+          ],
+        },
+        {
+          label: 'Premium',
+          options: [{ label: 'Platinum Plan', value: 'platinum' }],
+        },
+      ]
+
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          options={groupedOptions}
+          onChange={handleChange}
+        />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByText('Select all'))
+
+      const expectedValues = ['bronze', 'gold', 'platinum']
+      const expectedOptions = [
+        { label: 'Bronze Plan', value: 'bronze' },
+        { label: 'Gold Plan', value: 'gold' },
+        { label: 'Platinum Plan', value: 'platinum' },
+      ]
+
+      await waitFor(() => {
+        expect(screen.getByTestId('form-state')).toHaveTextContent(
+          JSON.stringify({ test: expectedValues })
+        )
+      })
+      expect(handleChange).toHaveBeenCalledWith(expectedValues, expectedOptions)
+    })
+
+    it('forwards consumer onSearch callback while tracking search internally', async () => {
+      const user = userEvent.setup()
+      const handleSearch = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode="multiple"
+          showSearch
+          optionFilterProp="label"
+          onSearch={handleSearch}
+          options={planOptions}
+        />
+      )
+
+      const combobox = screen.getByRole('combobox')
+      await user.click(combobox)
+      await user.type(combobox, 'bro')
+
+      expect(handleSearch).toHaveBeenCalledWith('bro')
+    })
   })
 })
