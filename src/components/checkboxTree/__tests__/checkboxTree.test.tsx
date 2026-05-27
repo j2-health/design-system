@@ -360,7 +360,7 @@ describe('CheckboxTree', () => {
       expect(screen.queryByText('Images')).toBeNull()
     })
 
-    it('should mount a node’s children when it is expanded', () => {
+    it('should mount children when a node is expanded', () => {
       render(
         <CheckboxTree
           treeData={simpleTreeData}
