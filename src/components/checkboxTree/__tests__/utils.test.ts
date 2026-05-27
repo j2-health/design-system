@@ -2,7 +2,7 @@ import {
   getLeafKeys,
   getAllLeafKeys,
   isNodeChecked,
-  isNodeIndeterminate,
+  getNodeCheckState,
   getAllParentKeys,
 } from '../utils'
 import { CheckboxTreeDataNode } from '../CheckboxTree'
@@ -135,7 +135,7 @@ describe('isNodeChecked', () => {
   })
 })
 
-describe('isNodeIndeterminate', () => {
+describe('getNodeCheckState', () => {
   const allChecked: Record<string, boolean> = {
     '0-0-0': true,
     '0-0-1': true,
@@ -154,40 +154,60 @@ describe('isNodeIndeterminate', () => {
     '1-1': false,
   }
 
-  it('should return false for a leaf node', () => {
+  it('should report a checked leaf', () => {
     expect(
-      isNodeIndeterminate({ key: '0-0-0', title: 'Project A' }, someChecked)
-    ).toBe(false)
+      getNodeCheckState({ key: '0-0-0', title: 'Project A' }, someChecked)
+    ).toEqual({ checked: true, indeterminate: false })
   })
 
-  it('should return true when only some leaf descendants are checked', () => {
-    expect(isNodeIndeterminate(nestedTree[0], someChecked)).toBe(true)
+  it('should report an unchecked leaf', () => {
+    expect(
+      getNodeCheckState({ key: '0-0-1', title: 'Project B' }, someChecked)
+    ).toEqual({ checked: false, indeterminate: false })
   })
 
-  it('should return false when all leaf descendants are checked', () => {
-    expect(isNodeIndeterminate(nestedTree[0], allChecked)).toBe(false)
+  it('should report a fully-checked parent as checked', () => {
+    expect(getNodeCheckState(nestedTree[0], allChecked)).toEqual({
+      checked: true,
+      indeterminate: false,
+    })
   })
 
-  it('should return false when no leaf descendants are checked', () => {
-    expect(isNodeIndeterminate(nestedTree[1], someChecked)).toBe(false)
+  it('should report a partially-checked parent as indeterminate', () => {
+    expect(getNodeCheckState(nestedTree[0], someChecked)).toEqual({
+      checked: false,
+      indeterminate: true,
+    })
   })
 
-  it('should return true for a partially-checked nested parent', () => {
+  it('should report an unchecked parent as neither', () => {
+    expect(getNodeCheckState(nestedTree[1], someChecked)).toEqual({
+      checked: false,
+      indeterminate: false,
+    })
+  })
+
+  it('should report a partially-checked nested parent as indeterminate', () => {
     // Projects subtree: 0-0-0 checked, 0-0-1 unchecked in someChecked
-    expect(isNodeIndeterminate(nestedTree[0].children![0], someChecked)).toBe(
-      true
-    )
+    expect(getNodeCheckState(nestedTree[0].children![0], someChecked)).toEqual({
+      checked: false,
+      indeterminate: true,
+    })
   })
 
-  it('should return false for a fully-checked nested parent', () => {
+  it('should report a fully-checked nested parent as checked', () => {
     // Reports subtree: 0-1-0 and 0-1-1 both checked in someChecked
-    expect(isNodeIndeterminate(nestedTree[0].children![1], someChecked)).toBe(
-      false
-    )
+    expect(getNodeCheckState(nestedTree[0].children![1], someChecked)).toEqual({
+      checked: true,
+      indeterminate: false,
+    })
   })
 
-  it('should return false for a parent with no leaf states', () => {
-    expect(isNodeIndeterminate(nestedTree[0], {})).toBe(false)
+  it('should report neither for a parent with no leaf states', () => {
+    expect(getNodeCheckState(nestedTree[0], {})).toEqual({
+      checked: false,
+      indeterminate: false,
+    })
   })
 })
 

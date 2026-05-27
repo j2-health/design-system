@@ -1,7 +1,7 @@
 import { CaretDownIcon } from '@phosphor-icons/react'
 import { Checkbox } from '../checkbox'
 import { CheckboxTreeDataNode } from './CheckboxTree'
-import { isNodeChecked, isNodeIndeterminate } from './utils'
+import { getNodeCheckState } from './utils'
 
 type TreeNodeProps = {
   node: CheckboxTreeDataNode
@@ -28,9 +28,11 @@ export const TreeNode = ({
   onToggleExpand,
   lazyChildren,
 }: TreeNodeProps) => {
-  const isChecked = isNodeChecked(node, leafNodeValues)
-  const isIndeterminate =
-    lazyChildren && !isChecked && isNodeIndeterminate(node, leafNodeValues)
+  const { checked: isChecked, indeterminate } = getNodeCheckState(
+    node,
+    leafNodeValues
+  )
+  const isIndeterminate = lazyChildren && indeterminate
   const isDisabled = disabled || node.disabled
   const hasChildren = node.children && node.children.length > 0
   const isExpanded = expandedKeys.has(node.key)

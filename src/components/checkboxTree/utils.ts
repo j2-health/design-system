@@ -43,13 +43,10 @@ export const isNodeChecked = (
   )
 }
 
-export const isNodeIndeterminate = (
+export const getNodeCheckState = (
   node: CheckboxTreeDataNode,
   leafNodeStates: Record<string | number, boolean>
-): boolean => {
-  if (!node.children || node.children.length === 0) {
-    return false
-  }
+): { checked: boolean; indeterminate: boolean } => {
   let hasChecked = false
   let hasUnchecked = false
   const visit = (current: CheckboxTreeDataNode): boolean => {
@@ -64,7 +61,10 @@ export const isNodeIndeterminate = (
     return current.children.some(visit)
   }
   visit(node)
-  return hasChecked && hasUnchecked
+  return {
+    checked: hasChecked && !hasUnchecked,
+    indeterminate: hasChecked && hasUnchecked,
+  }
 }
 
 export const getAllParentKeys = (
