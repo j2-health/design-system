@@ -337,6 +337,18 @@ describe('CheckboxTree', () => {
       expect(projectA.checked).toBe(false)
     })
 
+    it('should preserve prior checks across consecutive clicks in uncontrolled mode', () => {
+      const onCheck = vi.fn()
+      render(<CheckboxTree treeData={simpleTreeData} onCheck={onCheck} />)
+
+      fireEvent.click(screen.getByLabelText('Project A'))
+      fireEvent.click(screen.getByLabelText('Images'))
+
+      const [values] = onCheck.mock.calls[onCheck.mock.calls.length - 1]
+      expect(values['0-0-0']).toBe(true)
+      expect(values['1-0']).toBe(true)
+    })
+
     it('should render nothing for empty treeData', () => {
       const { container } = render(<CheckboxTree treeData={[]} />)
       expect(container.firstChild).toBeEmptyDOMElement()
