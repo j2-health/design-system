@@ -34,6 +34,7 @@ export type CheckboxTreeProps = {
   onExpand?: (expandedKeys: (string | number)[]) => void
   className?: string
   style?: React.CSSProperties
+  lazyChildren?: boolean
 }
 
 export const CheckboxTree = ({
@@ -48,6 +49,7 @@ export const CheckboxTree = ({
   onExpand,
   className,
   style,
+  lazyChildren = false,
 }: CheckboxTreeProps) => {
   const allLeafKeys = useMemo(() => getAllLeafKeys(treeData), [treeData])
   const leafKeySet = useMemo(() => new Set(allLeafKeys), [allLeafKeys])
@@ -188,6 +190,7 @@ export const CheckboxTree = ({
           disabled={disabled}
           expandedKeys={expandedKeysSet}
           onToggleExpand={handleToggleExpand}
+          lazyChildren={lazyChildren}
         />
       ))}
     </div>

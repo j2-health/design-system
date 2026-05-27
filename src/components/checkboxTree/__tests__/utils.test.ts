@@ -2,6 +2,7 @@ import {
   getLeafKeys,
   getAllLeafKeys,
   isNodeChecked,
+  isNodeIndeterminate,
   getAllParentKeys,
 } from '../utils'
 import { CheckboxTreeDataNode } from '../CheckboxTree'
@@ -131,6 +132,62 @@ describe('isNodeChecked', () => {
 
   it('should return false for a parent with no leaf states', () => {
     expect(isNodeChecked(nestedTree[0], {})).toBe(false)
+  })
+})
+
+describe('isNodeIndeterminate', () => {
+  const allChecked: Record<string, boolean> = {
+    '0-0-0': true,
+    '0-0-1': true,
+    '0-1-0': true,
+    '0-1-1': true,
+    '1-0': true,
+    '1-1': true,
+  }
+
+  const someChecked: Record<string, boolean> = {
+    '0-0-0': true,
+    '0-0-1': false,
+    '0-1-0': true,
+    '0-1-1': true,
+    '1-0': false,
+    '1-1': false,
+  }
+
+  it('should return false for a leaf node', () => {
+    expect(
+      isNodeIndeterminate({ key: '0-0-0', title: 'Project A' }, someChecked)
+    ).toBe(false)
+  })
+
+  it('should return true when only some leaf descendants are checked', () => {
+    expect(isNodeIndeterminate(nestedTree[0], someChecked)).toBe(true)
+  })
+
+  it('should return false when all leaf descendants are checked', () => {
+    expect(isNodeIndeterminate(nestedTree[0], allChecked)).toBe(false)
+  })
+
+  it('should return false when no leaf descendants are checked', () => {
+    expect(isNodeIndeterminate(nestedTree[1], someChecked)).toBe(false)
+  })
+
+  it('should return true for a partially-checked nested parent', () => {
+    // Projects subtree: 0-0-0 checked, 0-0-1 unchecked in someChecked
+    expect(isNodeIndeterminate(nestedTree[0].children![0], someChecked)).toBe(
+      true
+    )
+  })
+
+  it('should return false for a fully-checked nested parent', () => {
+    // Reports subtree: 0-1-0 and 0-1-1 both checked in someChecked
+    expect(isNodeIndeterminate(nestedTree[0].children![1], someChecked)).toBe(
+      false
+    )
+  })
+
+  it('should return false for a parent with no leaf states', () => {
+    expect(isNodeIndeterminate(nestedTree[0], {})).toBe(false)
   })
 })
 

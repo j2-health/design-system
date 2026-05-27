@@ -342,4 +342,74 @@ describe('CheckboxTree', () => {
       expect(container.firstChild).toBeEmptyDOMElement()
     })
   })
+
+  describe('lazyChildren', () => {
+    it('should not mount children of a collapsed node when lazyChildren is set', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          defaultExpandAll={false}
+          lazyChildren
+        />
+      )
+
+      expect(screen.getByText('Documents')).toBeTruthy()
+      expect(screen.getByText('Media')).toBeTruthy()
+      expect(screen.queryByText('Projects')).toBeNull()
+      expect(screen.queryByText('Project A')).toBeNull()
+      expect(screen.queryByText('Images')).toBeNull()
+    })
+
+    it('should mount a node’s children when it is expanded', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          defaultExpandAll={false}
+          lazyChildren
+        />
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: /Expand Documents/ }))
+
+      // Direct children appear...
+      expect(screen.getByText('Projects')).toBeTruthy()
+      expect(screen.getByText('Reports')).toBeTruthy()
+      // ...but their still-collapsed grandchildren do not.
+      expect(screen.queryByText('Project A')).toBeNull()
+    })
+
+    it('should keep collapsed children mounted by default (no lazyChildren)', () => {
+      render(
+        <CheckboxTree treeData={simpleTreeData} defaultExpandAll={false} />
+      )
+
+      // Default behavior is unchanged: collapsed children stay in the DOM.
+      expect(screen.getByText('Projects')).toBeTruthy()
+      expect(screen.getByText('Project A')).toBeTruthy()
+    })
+
+    it('should show an indeterminate parent when partially checked with lazyChildren', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          checkedKeys={['0-0-0']}
+          lazyChildren
+        />
+      )
+
+      const documents = screen.getByLabelText('Documents')
+      expect(documents.closest('.ant-checkbox')).toHaveClass(
+        'ant-checkbox-indeterminate'
+      )
+    })
+
+    it('should not show an indeterminate parent by default (no lazyChildren)', () => {
+      render(<CheckboxTree treeData={simpleTreeData} checkedKeys={['0-0-0']} />)
+
+      const documents = screen.getByLabelText('Documents')
+      expect(documents.closest('.ant-checkbox')).not.toHaveClass(
+        'ant-checkbox-indeterminate'
+      )
+    })
+  })
 })
