@@ -30,7 +30,7 @@ export const TreeNode = ({
 }: TreeNodeProps) => {
   const isChecked = isNodeChecked(node, leafNodeValues)
   const isIndeterminate =
-    lazyChildren && isNodeIndeterminate(node, leafNodeValues)
+    lazyChildren && !isChecked && isNodeIndeterminate(node, leafNodeValues)
   const isDisabled = disabled || node.disabled
   const hasChildren = node.children && node.children.length > 0
   const isExpanded = expandedKeys.has(node.key)
