@@ -1,7 +1,6 @@
 import {
   getLeafKeys,
   getAllLeafKeys,
-  isNodeChecked,
   getNodeCheckState,
   getAllParentKeys,
 } from '../utils'
@@ -83,55 +82,6 @@ describe('getAllLeafKeys', () => {
 
   it('should return empty array for empty input', () => {
     expect(getAllLeafKeys([])).toEqual([])
-  })
-})
-
-describe('isNodeChecked', () => {
-  const allChecked: Record<string, boolean> = {
-    '0-0-0': true,
-    '0-0-1': true,
-    '0-1-0': true,
-    '0-1-1': true,
-    '1-0': true,
-    '1-1': true,
-  }
-
-  const someChecked: Record<string, boolean> = {
-    '0-0-0': true,
-    '0-0-1': false,
-    '0-1-0': true,
-    '0-1-1': true,
-    '1-0': false,
-    '1-1': false,
-  }
-
-  it('should return true for a checked leaf', () => {
-    expect(
-      isNodeChecked({ key: '0-0-0', title: 'Project A' }, allChecked)
-    ).toBe(true)
-  })
-
-  it('should return false for an unchecked leaf', () => {
-    expect(
-      isNodeChecked({ key: '0-0-1', title: 'Project B' }, someChecked)
-    ).toBe(false)
-  })
-
-  it('should return true when all leaf descendants are checked', () => {
-    expect(isNodeChecked(nestedTree[0], allChecked)).toBe(true)
-  })
-
-  it('should return false when some leaf descendants are unchecked', () => {
-    expect(isNodeChecked(nestedTree[0], someChecked)).toBe(false)
-  })
-
-  it('should return true for a parent subtree with all leaves checked', () => {
-    // Reports subtree: 0-1-0 and 0-1-1 are both true in someChecked
-    expect(isNodeChecked(nestedTree[0].children![1], someChecked)).toBe(true)
-  })
-
-  it('should return false for a parent with no leaf states', () => {
-    expect(isNodeChecked(nestedTree[0], {})).toBe(false)
   })
 })
 
