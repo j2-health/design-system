@@ -337,9 +337,91 @@ describe('CheckboxTree', () => {
       expect(projectA.checked).toBe(false)
     })
 
+    it('should preserve prior checks across consecutive clicks in uncontrolled mode', () => {
+      const onCheck = vi.fn()
+      render(<CheckboxTree treeData={simpleTreeData} onCheck={onCheck} />)
+
+      fireEvent.click(screen.getByLabelText('Project A'))
+      fireEvent.click(screen.getByLabelText('Images'))
+
+      const [values] = onCheck.mock.calls[onCheck.mock.calls.length - 1]
+      expect(values['0-0-0']).toBe(true)
+      expect(values['1-0']).toBe(true)
+    })
+
     it('should render nothing for empty treeData', () => {
       const { container } = render(<CheckboxTree treeData={[]} />)
       expect(container.firstChild).toBeEmptyDOMElement()
+    })
+  })
+
+  describe('lazyChildren', () => {
+    it('should not mount children of a collapsed node when lazyChildren is set', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          defaultExpandAll={false}
+          lazyChildren
+        />
+      )
+
+      expect(screen.getByText('Documents')).toBeTruthy()
+      expect(screen.getByText('Media')).toBeTruthy()
+      expect(screen.queryByText('Projects')).toBeNull()
+      expect(screen.queryByText('Project A')).toBeNull()
+      expect(screen.queryByText('Images')).toBeNull()
+    })
+
+    it('should mount children when a node is expanded', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          defaultExpandAll={false}
+          lazyChildren
+        />
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: /Expand Documents/ }))
+
+      // Direct children appear...
+      expect(screen.getByText('Projects')).toBeTruthy()
+      expect(screen.getByText('Reports')).toBeTruthy()
+      // ...but their still-collapsed grandchildren do not.
+      expect(screen.queryByText('Project A')).toBeNull()
+    })
+
+    it('should keep collapsed children mounted by default (no lazyChildren)', () => {
+      render(
+        <CheckboxTree treeData={simpleTreeData} defaultExpandAll={false} />
+      )
+
+      // Default behavior is unchanged: collapsed children stay in the DOM.
+      expect(screen.getByText('Projects')).toBeTruthy()
+      expect(screen.getByText('Project A')).toBeTruthy()
+    })
+
+    it('should show an indeterminate parent when partially checked with lazyChildren', () => {
+      render(
+        <CheckboxTree
+          treeData={simpleTreeData}
+          checkedKeys={['0-0-0']}
+          lazyChildren
+        />
+      )
+
+      const documents = screen.getByLabelText('Documents')
+      expect(documents.closest('.ant-checkbox')).toHaveClass(
+        'ant-checkbox-indeterminate'
+      )
+    })
+
+    it('should not show an indeterminate parent by default (no lazyChildren)', () => {
+      render(<CheckboxTree treeData={simpleTreeData} checkedKeys={['0-0-0']} />)
+
+      const documents = screen.getByLabelText('Documents')
+      expect(documents.closest('.ant-checkbox')).not.toHaveClass(
+        'ant-checkbox-indeterminate'
+      )
     })
   })
 })

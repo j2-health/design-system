@@ -27,20 +27,28 @@ export const getAllLeafKeys = (
   return keys
 }
 
-export const isNodeChecked = (
+export const getNodeCheckState = (
   node: CheckboxTreeDataNode,
   leafNodeStates: Record<string | number, boolean>
-): boolean => {
-  if (!node.children || node.children.length === 0) {
-    // Leaf node - check if it's checked
-    return leafNodeStates[node.key] === true
+): { checked: boolean; indeterminate: boolean } => {
+  let hasChecked = false
+  let hasUnchecked = false
+  const visit = (current: CheckboxTreeDataNode): boolean => {
+    if (!current.children || current.children.length === 0) {
+      if (leafNodeStates[current.key] === true) {
+        hasChecked = true
+      } else {
+        hasUnchecked = true
+      }
+      return hasChecked && hasUnchecked
+    }
+    return current.children.some(visit)
   }
-
-  // Parent node - check if all leaf descendants are checked
-  const leafKeys = getLeafKeys(node)
-  return (
-    leafKeys.length > 0 && leafKeys.every((key) => leafNodeStates[key] === true)
-  )
+  visit(node)
+  return {
+    checked: hasChecked && !hasUnchecked,
+    indeterminate: hasChecked && hasUnchecked,
+  }
 }
 
 export const getAllParentKeys = (

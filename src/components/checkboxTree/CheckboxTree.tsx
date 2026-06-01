@@ -1,11 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { TreeNode } from './TreeNode'
-import {
-  getLeafKeys,
-  getAllLeafKeys,
-  getAllParentKeys,
-  isNodeChecked,
-} from './utils'
+import { getLeafKeys, getAllLeafKeys, getAllParentKeys } from './utils'
 
 export type CheckboxTreeDataNode = {
   key: string | number
@@ -34,6 +29,7 @@ export type CheckboxTreeProps = {
   onExpand?: (expandedKeys: (string | number)[]) => void
   className?: string
   style?: React.CSSProperties
+  lazyChildren?: boolean
 }
 
 export const CheckboxTree = ({
@@ -48,6 +44,7 @@ export const CheckboxTree = ({
   onExpand,
   className,
   style,
+  lazyChildren = false,
 }: CheckboxTreeProps) => {
   const allLeafKeys = useMemo(() => getAllLeafKeys(treeData), [treeData])
   const leafKeySet = useMemo(() => new Set(allLeafKeys), [allLeafKeys])
@@ -148,22 +145,27 @@ export const CheckboxTree = ({
         // Get all nodes that appear checked (including parents)
         const allCheckedNodes: CheckboxTreeDataNode[] = []
 
-        const traverse = (nodes: CheckboxTreeDataNode[]) => {
-          nodes.forEach((node) => {
-            if (isNodeChecked(node, newLeafNodeValues)) {
-              allCheckedNodes.push(node)
-
-              // If it's a leaf node, add to checkedLeafNodes
-              if (!node.children || node.children.length === 0) {
-                checkedLeafNodes[node.key] = node
+        const collectChecked = (current: CheckboxTreeDataNode): boolean => {
+          let isChecked: boolean
+          if (!current.children || current.children.length === 0) {
+            isChecked = newLeafNodeValues[current.key] === true
+            if (isChecked) {
+              checkedLeafNodes[current.key] = current
+            }
+          } else {
+            isChecked = true
+            for (const child of current.children) {
+              if (!collectChecked(child)) {
+                isChecked = false
               }
             }
-            if (node.children) {
-              traverse(node.children)
-            }
-          })
+          }
+          if (isChecked) {
+            allCheckedNodes.push(current)
+          }
+          return isChecked
         }
-        traverse(treeData)
+        treeData.forEach(collectChecked)
 
         onCheck(newLeafNodeValues, {
           checked,
@@ -173,7 +175,7 @@ export const CheckboxTree = ({
         })
       }
     },
-    [controlledCheckedKeys, onCheck, treeData]
+    [controlledCheckedKeys, onCheck, treeData, leafNodeValues]
   )
 
   return (
@@ -188,6 +190,7 @@ export const CheckboxTree = ({
           disabled={disabled}
           expandedKeys={expandedKeysSet}
           onToggleExpand={handleToggleExpand}
+          lazyChildren={lazyChildren}
         />
       ))}
     </div>

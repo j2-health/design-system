@@ -11,6 +11,7 @@ const meta: Meta<typeof CheckboxTree> = {
   argTypes: {
     disabled: { control: 'boolean' },
     defaultExpandAll: { control: 'boolean' },
+    lazyChildren: { control: 'boolean' },
   },
 }
 
@@ -87,5 +88,23 @@ export const PartiallyExpanded: Story = {
   args: {
     treeData: simpleTreeData,
     defaultExpandedKeys: ['1'],
+  },
+}
+
+const largeTreeData = Array.from({ length: 6 }, (_, stateIndex) => ({
+  key: `state-${stateIndex}`,
+  title: `State ${stateIndex + 1} (40 counties)`,
+  children: Array.from({ length: 40 }, (_, countyIndex) => ({
+    key: `county-${stateIndex}-${countyIndex}`,
+    title: `County ${countyIndex + 1}`,
+  })),
+}))
+
+export const LazyChildren: Story = {
+  args: {
+    treeData: largeTreeData,
+    lazyChildren: true,
+    defaultExpandAll: false,
+    defaultCheckedKeys: ['county-0-0', 'county-0-1', 'county-0-2'],
   },
 }

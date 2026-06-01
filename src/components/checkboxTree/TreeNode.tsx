@@ -1,7 +1,7 @@
 import { CaretDownIcon } from '@phosphor-icons/react'
 import { Checkbox } from '../checkbox'
 import { CheckboxTreeDataNode } from './CheckboxTree'
-import { isNodeChecked } from './utils'
+import { getNodeCheckState } from './utils'
 
 type TreeNodeProps = {
   node: CheckboxTreeDataNode
@@ -15,6 +15,7 @@ type TreeNodeProps = {
   disabled: boolean
   expandedKeys: Set<string | number>
   onToggleExpand: (key: string | number) => void
+  lazyChildren: boolean
 }
 
 export const TreeNode = ({
@@ -25,8 +26,13 @@ export const TreeNode = ({
   disabled,
   expandedKeys,
   onToggleExpand,
+  lazyChildren,
 }: TreeNodeProps) => {
-  const isChecked = isNodeChecked(node, leafNodeValues)
+  const { checked: isChecked, indeterminate } = getNodeCheckState(
+    node,
+    leafNodeValues
+  )
+  const isIndeterminate = lazyChildren && indeterminate
   const isDisabled = disabled || node.disabled
   const hasChildren = node.children && node.children.length > 0
   const isExpanded = expandedKeys.has(node.key)
@@ -39,6 +45,7 @@ export const TreeNode = ({
       >
         <Checkbox
           checked={isChecked}
+          indeterminate={isIndeterminate}
           disabled={isDisabled}
           onChange={(e) => onCheck(node.key, e.target.checked, node)}
         >
@@ -72,18 +79,20 @@ export const TreeNode = ({
           }}
         >
           <div style={{ overflow: 'hidden' }}>
-            {node.children!.map((childNode) => (
-              <TreeNode
-                key={childNode.key}
-                node={childNode}
-                level={level + 1}
-                leafNodeValues={leafNodeValues}
-                onCheck={onCheck}
-                disabled={disabled}
-                expandedKeys={expandedKeys}
-                onToggleExpand={onToggleExpand}
-              />
-            ))}
+            {(!lazyChildren || isExpanded) &&
+              node.children!.map((childNode) => (
+                <TreeNode
+                  key={childNode.key}
+                  node={childNode}
+                  level={level + 1}
+                  leafNodeValues={leafNodeValues}
+                  onCheck={onCheck}
+                  disabled={disabled}
+                  expandedKeys={expandedKeys}
+                  onToggleExpand={onToggleExpand}
+                  lazyChildren={lazyChildren}
+                />
+              ))}
           </div>
         </div>
       )}
