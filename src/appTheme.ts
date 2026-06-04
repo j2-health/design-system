@@ -233,6 +233,12 @@ export const appTheme: ThemeConfig = {
     Rate: {
       marginXS: 0,
     },
+    Radio: {
+      // Unselected outlined radio-button labels default to colorText (near-black);
+      // align them with the selected label's primary blue so the control reads as
+      // a single cohesive outlined-blue selector.
+      buttonColor: 'var(--j2-color-primary)',
+    },
     Select: {
       multipleItemBg: 'var(--j2-gray-2)',
       multipleItemBorderColor: 'var(--j2-gray-4)',
