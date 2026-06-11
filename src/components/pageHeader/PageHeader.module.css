@@ -1,0 +1,18 @@
+.pageHeader {
+  height: 78px;
+  padding: var(--j2-padding-xl) var(--j2-padding-content-horizontal-lg);
+  border-bottom: 1px solid transparent;
+}
+
+.bordered {
+  border-bottom-color: var(--j2-color-border);
+}
+
+.title {
+  font-size: 30px;
+  margin: 0;
+}
+
+.actions {
+  gap: var(--j2-margin-xs);
+}
