@@ -1,5 +1,12 @@
 # Design System
 
+> ⚠️ **This repository is public, and holds UI components only.** No business
+> logic, no customer data, and no details of the private applications that
+> consume it — a component may accept domain data as props, but must not know
+> what that data means. Everything committed here is permanently world-readable,
+> including git history, so a mistake cannot be undone by deleting the file
+> later. See [CLAUDE.md](CLAUDE.md) for the full rules.
+
 ## Contributing
 
 ### Installation
