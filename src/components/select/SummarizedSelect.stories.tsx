@@ -152,6 +152,7 @@ export const Default: Story = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: [],
+    multiple: true,
   },
   render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
@@ -161,6 +162,7 @@ export const WithSelectedValues: Story = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: ['Family Medicine', 'Nurse Practitioner'],
+    multiple: true,
   },
   render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
@@ -178,6 +180,7 @@ export const FewOptions: Story = {
     searchPlaceholder: 'Search skills...',
     formControlPlaceholder: 'Select Skills',
     value: [],
+    multiple: true,
     options: [
       { label: 'JavaScript', value: 'JavaScript' },
       { label: 'TypeScript', value: 'TypeScript' },
@@ -193,6 +196,7 @@ export const EmptyOptions: Story = {
     formControlPlaceholder: 'No options available',
     value: [],
     options: [],
+    multiple: true,
   },
   render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
 }
@@ -202,6 +206,7 @@ export const Underlined: Story = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select J2 Specialties',
     value: ['Family Medicine'],
+    multiple: true,
     variant: 'underlined',
   },
   render: (args) => <MultiSelectWrapper {...(args as MultiSelectArgs)} />,
@@ -309,6 +314,7 @@ export const DropdownTriggerMulti: Story = {
     searchPlaceholder: 'Search specialties...',
     formControlPlaceholder: 'Select specialties',
     value: ['Family Medicine', 'Pediatrics'],
+    multiple: true,
   },
   render: (args) => <DropdownMultiWrapper {...(args as DropdownMultiArgs)} />,
 }
