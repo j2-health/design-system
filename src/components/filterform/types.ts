@@ -46,8 +46,7 @@ type SelectFilter = {
   field: string
   type: 'select'
   operator:
-    | Extract<Operator, 'equals' | 'notEqual' | 'blank' | 'notBlank'>
-    | undefined
+    Extract<Operator, 'equals' | 'notEqual' | 'blank' | 'notBlank'> | undefined
   values: string[]
 }
 

@@ -73,10 +73,7 @@ const Alert = ({
   }, [type, description, token.size, token.sizeLG])
 
   const antDType = React.useMemo(():
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'error' => {
+    'success' | 'info' | 'warning' | 'error' => {
     switch (type) {
       case 'loading':
         return 'info'

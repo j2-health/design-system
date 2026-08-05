@@ -22,9 +22,7 @@ type TextValueInputConfig = {
 }
 
 type ValueInputConfig =
-  | SelectValueInputConfig
-  | NumberValueInputConfig
-  | TextValueInputConfig
+  SelectValueInputConfig | NumberValueInputConfig | TextValueInputConfig
 
 type FilterInputProps = {
   value?: FormFilter

@@ -70,9 +70,7 @@ type TextValueInputConfig = {
 }
 
 export type ValueInputConfig =
-  | SelectValueInputConfig
-  | NumberValueInputConfig
-  | TextValueInputConfig
+  SelectValueInputConfig | NumberValueInputConfig | TextValueInputConfig
 
 type FilterFieldState = {
   filter: FormFilter | undefined
