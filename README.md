@@ -96,7 +96,8 @@ exists in the published package.
 
 ### Publishing to npm
 
-Publishing is tag-driven via
+The package is published publicly (the source is public anyway). Publishing is
+tag-driven via
 [.github/workflows/publish-workflow.yml](.github/workflows/publish-workflow.yml)
 and requires the `NPM_TOKEN` repository secret (an npm automation token with
 publish rights on the `@j2-health` org).
