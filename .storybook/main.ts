@@ -19,6 +19,11 @@ const config: StorybookConfig = {
     config.optimizeDeps ??= {}
     config.optimizeDeps.exclude ??= []
     config.optimizeDeps.exclude.push('highcharts', '@highcharts/react')
+    // Drop the library-build-only dts plugin: it would otherwise emit the
+    // whole declaration tree into storybook-static/ (published to Pages).
+    config.plugins = (config.plugins ?? []).filter(
+      (p) => !(p && 'name' in p && p.name === 'unplugin-dts')
+    )
     return config
   },
 }
