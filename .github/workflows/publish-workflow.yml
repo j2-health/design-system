@@ -9,6 +9,9 @@ on:
   push:
     tags:
       - 'v*'
+  # Manual fallback: publishes whatever version package.json declares on the
+  # chosen ref (npm rejects duplicate versions, so re-runs are safe).
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -33,6 +36,7 @@ jobs:
         run: npm ci
 
       - name: Verify tag matches package.json version
+        if: github.event_name == 'push'
         run: |
           pkg_version="v$(node -p "require('./package.json').version")"
           if [ "$pkg_version" != "$GITHUB_REF_NAME" ]; then
