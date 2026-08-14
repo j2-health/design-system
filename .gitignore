@@ -30,3 +30,4 @@ storybook-static
 .claude/*.local.json
 
 coverage/
+*.tsbuildinfo
