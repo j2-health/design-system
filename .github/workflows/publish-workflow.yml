@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      # For npm provenance attestation (--provenance)
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -46,6 +48,6 @@ jobs:
 
       - name: Publish
         # prepublishOnly runs the library build (tsc -b && vite build)
-        run: npm publish
+        run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
