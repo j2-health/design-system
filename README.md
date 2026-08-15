@@ -44,8 +44,14 @@ $ npm install @j2-health/design-system
 ```
 
 The package ships a prebuilt bundle plus type declarations, and expects the
-consuming app to provide the peer dependencies listed in `package.json`
-(react, antd, formik, highcharts, tailwindcss, ...).
+consuming app to provide the peer dependencies listed in `package.json` (react,
+antd, formik, highcharts, tailwindcss, ...).
+
+> **Tailwind v3 only.** The preset is a Tailwind 3 config. Installing Tailwind
+> without a version pin gets you v4, which does not satisfy the
+> `tailwindcss@^3.4.14` peer range — npm reports it as a warning and installs it
+> anyway, so the mismatch is easy to miss. Pin it:
+> `npm i -D tailwindcss@^3.4.14`.
 
 Wire it up in three places:
 
@@ -56,8 +62,8 @@ Wire it up in three places:
    ```
 
 2. **Styles** — import the compiled component styles once (e.g. in your app
-   entry), and pull the base stylesheet (design tokens, `@tailwind`
-   directives, base element styles) into your own CSS pipeline:
+   entry), and pull the base stylesheet (design tokens, `@tailwind` directives,
+   base element styles) into your own CSS pipeline:
 
    ```tsx
    // app entry
@@ -89,8 +95,8 @@ Wire it up in three places:
 
 Include this repo as a git submodule and compile its raw TypeScript source with
 your own toolchain (vite alias + tsconfig paths + tailwind content globs
-pointing into the submodule). The npm entry point for this mode is `index.ts`
-at the repo root; submodule consumers should alias `design-system` to that file
+pointing into the submodule). The npm entry point for this mode is `index.ts` at
+the repo root; submodule consumers should alias `design-system` to that file
 explicitly, since the package.json `exports` map points at `dist/`, which only
 exists in the published package.
 
