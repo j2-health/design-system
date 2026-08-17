@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "module": "index.tsx",
+  "module": "index.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b",
     "lint": "eslint src",
     "prettier": "prettier --check src",
     "preview": "vite preview",
