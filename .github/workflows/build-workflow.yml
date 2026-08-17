@@ -1,0 +1,35 @@
+name: Build Workflow
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build and type-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up frontend dependencies
+        uses: ./.github/actions/setup-dependencies
+
+      # `npm run build` was broken for ~22 months because nothing ran it:
+      # lint and unit tests never build, and Pages deploys via Storybook's
+      # own action rather than these scripts.
+      - name: Build
+        run: |
+          npm run build
+
+      # eslint does not type-check, so without this a type error ships.
+      - name: Type-check
+        run: |
+          npm run type-check
+
+      # Storybook is what this repo actually publishes. Building it on the
+      # pull request catches a break before it reaches Pages, rather than
+      # after merge.
+      - name: Build Storybook
+        run: |
+          npm run build-storybook
