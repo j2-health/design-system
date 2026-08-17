@@ -340,6 +340,65 @@ describe('SummarizedSelect', () => {
 
       expect(searchInput).toHaveValue('test')
     })
+
+    it('flattens and sorts grouped options while searching when ungroupAndSortOnSearch is set', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <SummarizedSelect
+          options={mockGroupedOptions}
+          value=""
+          onChange={() => {}}
+          ungroupAndSortOnSearch
+        />
+      )
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      // At rest the grouped headers are shown.
+      expect(screen.getByText('Popular Plans')).toBeInTheDocument()
+      expect(screen.getByText('Premium Plans')).toBeInTheDocument()
+
+      // Searching across both groups (all four plans contain "plan")...
+      const searchInput = screen.getByPlaceholderText('Search...')
+      await user.type(searchInput, 'plan')
+
+      // ...drops the group headers and renders one flat list sorted by label.
+      expect(screen.queryByText('Popular Plans')).not.toBeInTheDocument()
+      expect(screen.queryByText('Premium Plans')).not.toBeInTheDocument()
+      const optionLabels = Array.from(
+        document.querySelectorAll('.ant-select-item-option')
+      ).map((el) => el.textContent)
+      expect(optionLabels).toEqual([
+        'Bronze Plan',
+        'Gold Plan',
+        'Platinum Plan',
+        'Silver Plan',
+      ])
+    })
+
+    it('keeps grouped options grouped while searching by default', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <SummarizedSelect
+          options={mockGroupedOptions}
+          value=""
+          onChange={() => {}}
+        />
+      )
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      const searchInput = screen.getByPlaceholderText('Search...')
+      await user.type(searchInput, 'plan')
+
+      // Without the flag, group headers remain visible during search.
+      expect(screen.getByText('Popular Plans')).toBeInTheDocument()
+      expect(screen.getByText('Premium Plans')).toBeInTheDocument()
+    })
   })
 
   describe('Loading State', () => {

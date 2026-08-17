@@ -51,6 +51,16 @@ type BaseProps = Omit<
   trigger?: SummarizedSelectTrigger
   defaultOpen?: boolean
 
+  /**
+   * When `true`, grouped options are flattened into a single ungrouped list,
+   * sorted by label (case-insensitive, numeric-aware), while the user is
+   * actively searching (non-empty search value). This lets consumers show
+   * grouped sections at rest (e.g. "Recent" / "All networks") but collapse to
+   * one clean alphabetical match list once the user starts typing. No effect
+   * on ungrouped options or when the search box is empty. Defaults to `false`.
+   */
+  ungroupAndSortOnSearch?: boolean
+
   loading?: boolean
 }
 
@@ -127,6 +137,7 @@ export function SummarizedSelect({
   variant,
   trigger = 'select',
   defaultOpen = false,
+  ungroupAndSortOnSearch = false,
   ...props
 }: Props) {
   const isHeadline = variant === 'headlined'
@@ -168,8 +179,20 @@ export function SummarizedSelect({
   }, [focusTrigger])
 
   const filteredOptions = useMemo(() => {
-    return filterOptions(options, searchValue)
-  }, [searchValue, options])
+    const filtered = filterOptions(options, searchValue)
+    // While searching grouped options, optionally collapse the groups into a
+    // single flat list sorted by label (case-insensitive, numeric-aware) so
+    // consumers like the network picker show one clean alphabetical match list
+    // during search instead of per-group results. No-op for ungrouped options
+    // or an empty search.
+    if (!ungroupAndSortOnSearch || !searchValue) return filtered
+    return [...getAllOptions(filtered)].sort((a, b) =>
+      String(a.label ?? '').localeCompare(String(b.label ?? ''), undefined, {
+        sensitivity: 'base',
+        numeric: true,
+      })
+    )
+  }, [searchValue, options, ungroupAndSortOnSearch])
 
   const flatFilteredOptions = useMemo(() => {
     return getAllOptions(filteredOptions)
