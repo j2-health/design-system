@@ -4,8 +4,8 @@ import {
   Chart as HighchartsReact,
   type HighchartsReactRefObject,
 } from '@highcharts/react'
-import '@highcharts/react/options/Accessibility'
-import '@highcharts/react/options/Exporting'
+import '@highcharts/react/options/Accessibility.js'
+import '@highcharts/react/options/Exporting.js'
 import styles from './chart.module.css'
 import { renderToString } from 'react-dom/server'
 

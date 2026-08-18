@@ -1,0 +1,57 @@
+name: Publish to npm
+
+# Publishes @j2-health/design-system when a version tag (v1.2.3) is pushed.
+# Release procedure: see "Publishing to npm" in README.md.
+# Requires the NPM_TOKEN repository secret (an npm automation token with
+# publish rights on the @j2-health org).
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # Manual fallback: publishes whatever version package.json declares on the
+  # chosen ref (npm rejects duplicate versions, so re-runs are safe).
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # For npm provenance attestation (--provenance)
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: package-lock.json
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify tag matches package.json version
+        if: github.event_name == 'push'
+        run: |
+          pkg_version="v$(node -p "require('./package.json').version")"
+          if [ "$pkg_version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $pkg_version" >&2
+            exit 1
+          fi
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Publish
+        # prepublishOnly runs the library build (tsc -b && vite build)
+        run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
