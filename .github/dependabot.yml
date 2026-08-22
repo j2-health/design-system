@@ -1,0 +1,17 @@
+version: 2
+
+# Vanta scans this repository for vulnerable dependencies, but nothing was
+# telling us when one needed bumping — there was no Dependabot config here and
+# no Dependabot pull request had ever been opened.
+#
+# Deliberately ungrouped, matching j2's config: a grouped bump bundles many
+# package moves behind one check run, so a failure says only that "something in
+# the bundle broke". `open-pull-requests-limit` throttles the volume instead.
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    rebase-strategy: "auto"
+    versioning-strategy: "increase"
