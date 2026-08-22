@@ -29,7 +29,7 @@
     "classnames": "^2.5.1",
     "formik": "^2.4.6",
     "formik-antd": "^3.0.0-beta.9",
-    "highcharts": "^12.5.0",
+    "highcharts": "^13.0.1",
     "lodash": "^4.18.1",
     "postcss": "^8.5.18",
     "react": "^18.3.1",
