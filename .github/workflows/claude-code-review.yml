@@ -12,11 +12,15 @@ on:
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+    # Skip Dependabot's own events. A Dependabot-triggered run reads the repo's
+    # *Dependabot* secret store rather than the Actions one, so
+    # CLAUDE_CODE_OAUTH_TOKEN arrives empty and claude-code-action exits at env
+    # validation having read no code. That red says nothing about the code and
+    # no rebase can clear it, so skip instead. `github.actor` is whoever caused
+    # this event, not the PR author — Dependabot for its own opens and rebases,
+    # but the engineer's login when a human pushes, so an adaptation commit on a
+    # Dependabot branch is still reviewed.
+    if: github.actor != 'dependabot[bot]'
 
     runs-on: ubuntu-latest
     permissions:
