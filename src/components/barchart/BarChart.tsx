@@ -190,7 +190,13 @@ const BarChart = ({
     },
   }
 
-  return <HighchartsReact ref={chartRef} options={options} />
+  return (
+    <HighchartsReact
+      ref={chartRef}
+      options={options}
+      containerProps={{ className: 'highcharts-light' }}
+    />
+  )
 }
 
 export { BarChart }
