@@ -1,11 +1,12 @@
 import { vi } from 'vitest'
+import type { ReactElement } from 'react'
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Formik, useFormikContext } from 'formik'
 import { Form } from 'formik-antd'
 import { Select } from '../Select'
 
-const renderWithForm = (selectElement: JSX.Element) => {
+const renderWithForm = (selectElement: ReactElement) => {
   return render(
     <Formik initialValues={{ test: '' }} onSubmit={() => {}}>
       <Form>{selectElement}</Form>
@@ -21,7 +22,7 @@ const FormStateProbe = () => {
 }
 
 const renderMultipleWithForm = (
-  selectElement: JSX.Element,
+  selectElement: ReactElement,
   initialValue: string[] = []
 ) => {
   return render(
