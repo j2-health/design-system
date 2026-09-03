@@ -1,6 +1,10 @@
 import { useReducer } from 'react'
 import { FilterForm, FilterGroup, FormFilter } from './types'
-import { cloneDeep } from 'lodash'
+// Deep import, not `import { cloneDeep } from 'lodash'`: lodash is CommonJS
+// and Node cannot statically detect its named exports, so the bundled
+// package throws "Named export 'cloneDeep' not found" when a consumer
+// loads it through native Node ESM (SSR, or vitest without a bundler).
+import cloneDeep from 'lodash/cloneDeep.js'
 import { isEmptyFormFilter } from './filterHelpers'
 
 type UseFiltersFormInput = {

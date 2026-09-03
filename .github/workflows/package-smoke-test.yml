@@ -8,6 +8,9 @@ name: Package Smoke Test
 
 on:
   pull_request:
+  # Called by publish-workflow.yml so the release path validates the same
+  # packed tarball it is about to publish.
+  workflow_call:
 
 jobs:
   smoke-test:
@@ -137,6 +140,17 @@ jobs:
           for(const t of [p.types,...Object.values(p.exports).map(e=>e&&e.types)].filter(Boolean))
             if(!fs.existsSync(path.join(base,t))) throw new Error('declared types entry missing: '+t);
           console.log('type entry points resolved');"
+
+          # Loads the package through native Node ESM. The vite build below
+          # bundles, so it papers over specifiers Node itself cannot resolve:
+          # a named import from a CommonJS dependency (lodash) whose named
+          # exports Node cannot statically detect throws here and nowhere
+          # else. This is the path a consumer's SSR render or bundler-less
+          # vitest run takes.
+          node --input-type=module -e "
+          const m = await import('@j2-health/design-system')
+          if (!m.Button) throw new Error('root export loaded but Button is missing')
+          console.log('package loads under native Node ESM')"
 
           # Resolves the ./tailwind subpath export.
           cat > tailwind.check.mjs <<'EOF'
