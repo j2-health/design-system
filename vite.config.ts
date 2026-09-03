@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Storybook serves these via staticDirs; the library build must not copy
+  // public/ into dist/, which files: ["dist"] would then ship in the tarball.
+  publicDir: false,
   plugins: [
     react(),
     svgr({
