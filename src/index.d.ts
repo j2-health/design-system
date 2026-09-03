@@ -4,8 +4,10 @@ declare module '*.svg?react' {
   export const ReactComponent: React.FunctionComponent<
     React.SVGProps<SVGSVGElement>
   >
-  const src: string
 
+  // vite-plugin-svgr's ?react suffix returns the component as the default
+  // export. This was previously typed as `string`, which forced callers to
+  // suppress a type error at every use site.
   // eslint-disable-next-line import/no-default-export
-  export default src
+  export default ReactComponent
 }
