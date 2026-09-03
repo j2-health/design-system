@@ -1,0 +1,109 @@
+name: Package Smoke Test
+
+# The source-alias development workflow never exercises the published
+# artifact, so a broken exports map, a missing entry in `files`, or bad
+# .d.ts output would pass every other check and break on install.
+# This packs the tarball and installs it into a scratch app, which is the
+# only check here that consumes the package the way a consumer does.
+
+on:
+  pull_request:
+
+jobs:
+  smoke-test:
+    name: Package smoke test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up frontend dependencies
+        uses: ./.github/actions/setup-dependencies
+
+      - name: Pack the library
+        id: pack
+        run: |
+          npm run build
+          tarball="$(npm pack --silent)"
+          echo "tarball=$PWD/$tarball" >> "$GITHUB_OUTPUT"
+
+      - name: Build a scratch consumer against the tarball
+        run: |
+          set -euo pipefail
+          scratch="$(mktemp -d)"
+          cd "$scratch"
+
+          npm init -y >/dev/null
+          npm pkg set type=module >/dev/null
+
+          # Peer dependencies come from the consuming app, exactly as they
+          # would in a real one. Tailwind is pinned to v3: the preset is a
+          # v3 config, and npm installs a v4 mismatch with only a warning.
+          npm install --silent \
+            react@^18.3.1 react-dom@^18.3.1 antd@^5.21.2 \
+            @ant-design/icons@^5.6.1 @highcharts/react@^4.2.1 highcharts@^12.5.0 \
+            @phosphor-icons/react@^2.1.7 classnames@^2.5.1 formik@^2.4.6 \
+            formik-antd@^3.0.0-beta.9 lodash@^4.17.0 yup@^1.4.0
+          npm install --silent -D vite @vitejs/plugin-react typescript \
+            tailwindcss@^3.4.14 @types/react@^18.3.1 @types/react-dom@^18.3.1
+          npm install --silent "${{ steps.pack.outputs.tarball }}"
+
+          mkdir -p src
+
+          # Import from the package root and the ./tailwind subpath so a
+          # broken exports map fails here rather than in a consumer repo.
+          cat > src/main.tsx <<'EOF'
+          import { createElement } from 'react'
+          import { createRoot } from 'react-dom/client'
+          import { Button, AppConfigProvider } from '@j2-health/design-system'
+          import '@j2-health/design-system/style.css'
+
+          createRoot(document.getElementById('root')!).render(
+            createElement(AppConfigProvider, null, createElement(Button, null, 'ok'))
+          )
+          EOF
+
+          cat > index.html <<'EOF'
+          <!doctype html><html><body><div id="root"></div>
+          <script type="module" src="/src/main.tsx"></script></body></html>
+          EOF
+
+          cat > tsconfig.json <<'EOF'
+          {
+            "compilerOptions": {
+              "target": "ES2020",
+              "lib": ["ES2020", "DOM"],
+              "module": "ESNext",
+              "moduleResolution": "bundler",
+              "jsx": "react-jsx",
+              "types": ["vite/client"],
+              "strict": true,
+              "noEmit": true,
+              "skipLibCheck": true
+            },
+            "include": ["src"]
+          }
+          EOF
+
+          # Resolves the package's type declarations. Catches a missing
+          # dist/lib.d.ts or a broken ambient-types anchor.
+          npx tsc --noEmit
+
+          # Resolves the ./tailwind subpath export.
+          cat > tailwind.check.mjs <<'EOF'
+          import { tailwindPreset } from '@j2-health/design-system/tailwind'
+          if (!tailwindPreset) throw new Error('tailwind preset export is missing')
+          console.log('tailwind preset resolved')
+          EOF
+          node tailwind.check.mjs
+
+          # Resolves the raw base stylesheet subpath, which ships from
+          # src/stylesheets rather than dist.
+          node -e "import('node:module').then(({createRequire}) => {
+            createRequire(process.cwd() + '/package.json')
+              .resolve('@j2-health/design-system/stylesheets/index.css')
+            console.log('base stylesheet resolved')
+          })"
+
+          npx vite build
