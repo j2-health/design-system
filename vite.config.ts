@@ -130,7 +130,18 @@ export default defineConfig({
       // transitive packages (rc-*, @ant-design/*) resolve from the consumer.
       external: (id) => !id.startsWith('.') && !id.startsWith('/'),
       output: {
-        preserveModules: false,
+        // One output file per source module, mirroring src/. A single
+        // pre-bundled chunk cannot be tree-shaken by consumers: rollup
+        // collapses `export * from '@phosphor-icons/react'` (index.ts's
+        // `icons` re-export) into a materialised `_mergeNamespaces` object,
+        // and a bundler cannot prove which of its properties are used — so
+        // every consumer ships the entire icon set. Measured on a consuming
+        // application, this cost +70% bundle size versus building the same
+        // components from source. Preserving modules restores the
+        // tree-shaking the git-submodule path had, because the re-export
+        // survives as one.
+        preserveModules: true,
+        preserveModulesRoot: '.',
       },
     },
   },
