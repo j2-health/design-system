@@ -1,13 +1,13 @@
 {
   "name": "@j2-health/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "J2 Health shared React component library",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/j2-health/design-system.git"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/lib.d.ts",
