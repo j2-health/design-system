@@ -1,5 +1,10 @@
 import { Filter, FormFilter } from '../types'
-import { isEmptyFilter, isFilter, validateFilterField } from '../filterHelpers'
+import {
+  isEmptyFilter,
+  isFilter,
+  validateFilterField,
+  validateFormFilter,
+} from '../filterHelpers'
 
 describe('validateFilterField', () => {
   it('should return operator required error when operator is undefined', () => {
@@ -134,5 +139,43 @@ describe('isFilter', () => {
       errors: [],
     }
     expect(isFilter(filter)).toBe(false)
+  })
+})
+
+describe('multi-value text operators', () => {
+  it('treats an empty chip list as an empty filter', () => {
+    expect(
+      isEmptyFilter({
+        field: 'npi',
+        type: 'text',
+        operator: 'isAnyOf',
+        values: [],
+      })
+    ).toBe(true)
+    expect(
+      isEmptyFilter({
+        field: 'npi',
+        type: 'text',
+        operator: 'isNoneOf',
+        values: ['1', '2'],
+      })
+    ).toBe(false)
+  })
+
+  it('reports too many values only when a limit is given', () => {
+    const filter: Filter = {
+      field: 'npi',
+      type: 'text',
+      operator: 'isAnyOf',
+      values: ['1', '2', '3'],
+    }
+    expect(validateFilterField(filter)).toEqual([])
+    expect(validateFilterField(filter, { maxValues: 3 })).toEqual([])
+    expect(validateFilterField(filter, { maxValues: 2 })).toEqual([
+      { field: 'npi', message: 'Up to 2 values' },
+    ])
+    expect(validateFormFilter(filter as FormFilter, { maxValues: 2 })).toEqual([
+      'Up to 2 values',
+    ])
   })
 })
