@@ -105,6 +105,17 @@ jobs:
           # ambient-types anchor or declarations that do not compile.
           npx tsc --noEmit
 
+          # The bundler check above cannot see an extensionless relative
+          # specifier in the shipped .d.ts files. The package is
+          # "type": "module", so under node16/nodenext ESM those do not
+          # resolve — and because the types entry point re-exports one, the
+          # whole export surface vanishes and every named import fails with
+          # TS2305. Re-check the same installed tarball under both modes.
+          for mode in node16 nodenext; do
+            node -e "require('fs').writeFileSync('tsconfig.$mode.json', JSON.stringify({ extends: './tsconfig.json', compilerOptions: { module: '$mode', moduleResolution: '$mode' } }))"
+            npx tsc -p "tsconfig.$mode.json"
+          done
+
           # tsc alone does not catch a missing declaration file: with the
           # types condition's target gone, resolution falls through to the
           # import condition and picks up dist/index.d.ts next to

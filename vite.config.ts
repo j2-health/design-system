@@ -3,6 +3,53 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import dts from 'vite-plugin-dts'
 import { fileURLToPath } from 'node:url'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+
+// Matches the specifier of any `from '...'`, `import '...'` or `import('...')`
+// that is relative. Deliberately blind to `/// <reference path="..." />`,
+// which uses double quotes and is not a module specifier.
+const RELATIVE_SPECIFIER = /\b(?:from|import)\s*\(?\s*'(\.[^']*)'/g
+
+// The package is `"type": "module"`, so under moduleResolution node16/nodenext
+// an extensionless relative specifier is invalid. tsc emits specifiers
+// verbatim from source, and `dist/lib.d.ts` re-exported `./index`, which did
+// not resolve — leaving consumers on modern Node resolution with no exports at
+// all. Rewriting the 41+ source lines instead is not an option: index.ts is the
+// git-submodule entry point.
+//
+// Whether a specifier names a file or a directory is decided by looking at
+// what was actually emitted, never by guessing from the string:
+// `./src/components/alert` is a directory and must become
+// `./src/components/alert/index.js`, not `./src/components/alert.js`.
+const resolvableSpecifier = (declarationFile: string, specifier: string) => {
+  if (/\.(js|mjs|cjs|css|json)$/.test(specifier)) return specifier
+
+  // An existing .ts extension is replaced, not appended: ./tailwind.config.ts.
+  const bare = specifier.replace(/\.tsx?$/, '')
+  const target = resolve(dirname(declarationFile), bare)
+
+  if (existsSync(`${target}.d.ts`)) return `${bare}.js`
+  if (existsSync(join(target, 'index.d.ts'))) {
+    return `${bare.replace(/\/$/, '')}/index.js`
+  }
+  // Nothing was emitted under that path — leave it exactly as it is rather
+  // than inventing an extension for a specifier that is broken either way.
+  return specifier
+}
+
+const rewriteDeclarationSpecifiers = (emitted: Map<string, string>) => {
+  for (const declarationFile of emitted.keys()) {
+    const before = readFileSync(declarationFile, 'utf8')
+    const after = before.replace(RELATIVE_SPECIFIER, (match, specifier) =>
+      match.replace(
+        `'${specifier}'`,
+        `'${resolvableSpecifier(declarationFile, specifier)}'`
+      )
+    )
+    if (after !== before) writeFileSync(declarationFile, after)
+  }
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -38,6 +85,7 @@ export default defineConfig({
         }
         return { filePath, content }
       },
+      afterBuild: rewriteDeclarationSpecifiers,
     }),
   ],
   build: {
