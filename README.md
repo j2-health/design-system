@@ -135,9 +135,19 @@ local checkout has its own `node_modules`.
 
 The package is published publicly (the source is public anyway). Publishing is
 tag-driven via
-[.github/workflows/publish-workflow.yml](.github/workflows/publish-workflow.yml)
-and requires the `NPM_TOKEN` repository secret (an npm automation token with
-publish rights on the `@j2-health` org).
+[.github/workflows/publish-workflow.yml](.github/workflows/publish-workflow.yml).
+
+There is **no publish token**. npm authenticates the release through trusted
+publishing (OIDC): npm is configured to trust this repository and this workflow
+file by name, and GitHub mints a short-lived identity token for the job. Two
+consequences worth knowing before you change anything here:
+
+- **Renaming or moving `publish-workflow.yml` breaks publishing.** The trusted
+  publisher is matched on the exact filename, case-sensitive. Update it on
+  npmjs.com in the same change.
+- **Do not lower `.node-version` below 24.5.0.** Trusted publishing needs
+  npm >= 11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts
+  this rather than letting it surface later as an unexplained 401.
 
 To release a new version from `main`:
 
@@ -146,5 +156,7 @@ $ npm version minor        # or patch / major — bumps package.json and creates
 $ git push origin main --follow-tags
 ```
 
-The workflow verifies the tag matches `package.json`, runs lint and tests,
-builds the library, and publishes.
+The workflow packs the tarball and builds a scratch consumer against it, then
+verifies the tag matches `package.json`, runs lint, tests and type-check, builds
+the library, and publishes. Provenance is generated automatically by trusted
+publishing, so `--provenance` is not passed.

@@ -2,8 +2,16 @@ name: Publish to npm
 
 # Publishes @j2-health/design-system when a version tag (v1.2.3) is pushed.
 # Release procedure: see "Publishing to npm" in README.md.
-# Requires the NPM_TOKEN repository secret (an npm automation token with
-# publish rights on the @j2-health org).
+#
+# Authenticates with npm through trusted publishing (OIDC) — there is no
+# publish token anywhere. npm is configured to trust this repository and THIS
+# WORKFLOW FILE BY NAME, so renaming or moving this file breaks publishing
+# until the trusted publisher is updated on npmjs.com to match.
+#
+# Requires npm >= 11.5.1 and Node >= 22.14.0; .node-version pins 24.5.0, which
+# ships npm 11.5.1 exactly. A downgrade of .node-version below that silently
+# removes OIDC support, so the publish step asserts the version rather than
+# failing later with an auth error.
 
 on:
   push:
@@ -31,7 +39,7 @@ jobs:
     if: github.ref_type == 'tag' || github.ref_name == 'main'
     permissions:
       contents: read
-      # For npm provenance attestation (--provenance)
+      # Mints the OIDC token that authenticates to npm, and signs provenance.
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -65,13 +73,26 @@ jobs:
       - name: Type-check
         run: npm run type-check
 
-      # Built in its own step, with no npm token in the environment. The
-      # publish step then runs with --ignore-scripts so prepublishOnly (and
-      # every build plugin it loads) never sees NODE_AUTH_TOKEN.
+      # Built in its own step so publish can run with --ignore-scripts:
+      # prepublishOnly (and every build plugin it loads) then never executes
+      # in the step holding the OIDC credential.
       - name: Build
         run: npm run build
 
+      # Trusted publishing needs npm >= 11.5.1. Below that npm ignores OIDC and
+      # falls back to token auth, which would fail here with a confusing 401
+      # rather than naming the real cause.
+      - name: Verify npm supports trusted publishing
+        run: |
+          npm --version
+          node -e "
+            const [maj, min, pat] = require('child_process')
+              .execSync('npm --version').toString().trim().split('.').map(Number)
+            const ok = maj > 11 || (maj === 11 && (min > 5 || (min === 5 && pat >= 1)))
+            if (!ok) throw new Error('npm >= 11.5.1 required for trusted publishing')
+          "
+
+      # No NODE_AUTH_TOKEN: authentication is OIDC via trusted publishing, and
+      # provenance is generated automatically, so --provenance is not passed.
       - name: Publish
-        run: npm publish --provenance --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --ignore-scripts
