@@ -1,0 +1,98 @@
+name: Publish to npm
+
+# Publishes @j2-health/design-system when a version tag (v1.2.3) is pushed.
+# Release procedure: see "Publishing to npm" in README.md.
+#
+# Authenticates with npm through trusted publishing (OIDC) — there is no
+# publish token anywhere. npm is configured to trust this repository and THIS
+# WORKFLOW FILE BY NAME, so renaming or moving this file breaks publishing
+# until the trusted publisher is updated on npmjs.com to match.
+#
+# Requires npm >= 11.5.1 and Node >= 22.14.0; .node-version pins 24.5.0, which
+# ships npm 11.5.1 exactly. A downgrade of .node-version below that silently
+# removes OIDC support, so the publish step asserts the version rather than
+# failing later with an auth error.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # Manual fallback: publishes whatever version package.json declares on the
+  # chosen ref (npm rejects duplicate versions, so re-runs are safe).
+  workflow_dispatch:
+
+jobs:
+  # Runs the same packed-tarball check as pull requests, so the artifact that
+  # reaches npm is the one that was validated. Without this the release path
+  # skipped every check that consumes the package the way a consumer does.
+  smoke-test:
+    name: Package smoke test
+    uses: ./.github/workflows/package-smoke-test.yml
+
+  publish:
+    name: Publish package
+    runs-on: ubuntu-latest
+    needs: smoke-test
+    # A manual dispatch skips the tag/version check below, so restrict it to
+    # refs a release can legitimately come from. Without this, dispatching
+    # from a feature branch publishes that branch's version as `latest`.
+    if: github.ref_type == 'tag' || github.ref_name == 'main'
+    permissions:
+      contents: read
+      # Mints the OIDC token that authenticates to npm, and signs provenance.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: package-lock.json
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify tag matches package.json version
+        if: github.event_name == 'push'
+        run: |
+          pkg_version="v$(node -p "require('./package.json').version")"
+          if [ "$pkg_version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $pkg_version" >&2
+            exit 1
+          fi
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Type-check
+        run: npm run type-check
+
+      # Built in its own step so publish can run with --ignore-scripts:
+      # prepublishOnly (and every build plugin it loads) then never executes
+      # in the step holding the OIDC credential.
+      - name: Build
+        run: npm run build
+
+      # Trusted publishing needs npm >= 11.5.1. Below that npm ignores OIDC and
+      # falls back to token auth, which would fail here with a confusing 401
+      # rather than naming the real cause.
+      - name: Verify npm supports trusted publishing
+        run: |
+          npm --version
+          node -e "
+            const [maj, min, pat] = require('child_process')
+              .execSync('npm --version').toString().trim().split('.').map(Number)
+            const ok = maj > 11 || (maj === 11 && (min > 5 || (min === 5 && pat >= 1)))
+            if (!ok) throw new Error('npm >= 11.5.1 required for trusted publishing')
+          "
+
+      # No NODE_AUTH_TOKEN: authentication is OIDC via trusted publishing, and
+      # provenance is generated automatically, so --provenance is not passed.
+      - name: Publish
+        run: npm publish --ignore-scripts

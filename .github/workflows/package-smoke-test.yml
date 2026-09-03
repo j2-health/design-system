@@ -1,0 +1,171 @@
+name: Package Smoke Test
+
+# The source-alias development workflow never exercises the published
+# artifact, so a broken exports map, a missing entry in `files`, or bad
+# .d.ts output would pass every other check and break on install.
+# This packs the tarball and installs it into a scratch app, which is the
+# only check here that consumes the package the way a consumer does.
+
+on:
+  pull_request:
+  # Called by publish-workflow.yml so the release path validates the same
+  # packed tarball it is about to publish.
+  workflow_call:
+
+jobs:
+  smoke-test:
+    name: Package smoke test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up frontend dependencies
+        uses: ./.github/actions/setup-dependencies
+
+      - name: Pack the library
+        id: pack
+        run: |
+          npm run build
+
+          # A declaration that imports through node_modules points outside the
+          # tarball. It resolves for us and not for a consumer, and under
+          # skipLibCheck (which nearly everyone sets) the affected props
+          # silently degrade to any instead of erroring.
+          if grep -rn "node_modules" dist --include="*.d.ts"; then
+            echo "::error::declaration files must not reference node_modules"
+            exit 1
+          fi
+
+          tarball="$(npm pack --silent)"
+          echo "tarball=$PWD/$tarball" >> "$GITHUB_OUTPUT"
+
+          # Install exactly the peers the package claims to support, rather
+          # than duplicating those ranges in this file. Derived here because
+          # the next step runs from the scratch app, not the repo.
+          # Assigned separately: inside `echo "$(...)"` the command
+          # substitution's failure is masked by echo's own exit status, so
+          # set -e would not see it and PEERS would silently be empty.
+          peers="$(node -p "Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r).join(' ')")"
+          echo "peers=$peers" >> "$GITHUB_OUTPUT"
+
+      - name: Build a scratch consumer against the tarball
+        env:
+          PEERS: ${{ steps.pack.outputs.peers }}
+          # Via env, not inline ${{ }}: npm pack does not sanitise the
+          # version field, so a fork PR can put shell metacharacters in the
+          # tarball name and have them executed.
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: |
+          set -euo pipefail
+          scratch="$(mktemp -d)"
+          cd "$scratch"
+
+          npm init -y >/dev/null
+          npm pkg set type=module >/dev/null
+
+          # Peer dependencies come from the consuming app, exactly as they
+          # would in a real one. This includes the tailwindcss v3 pin: the
+          # preset is a v3 config, and npm installs a v4 mismatch with only
+          # a warning. Word-split the derived list, with globbing off so a
+          # range containing * stays literal.
+          set -f
+          npm install --silent $PEERS
+          set +f
+          npm install --silent -D vite@^6 typescript@^5 \
+            @types/react@^18.3.1 @types/react-dom@^18.3.1
+          npm install --silent "$TARBALL"
+
+          mkdir -p src
+
+          # Import from the package root and the ./tailwind subpath so a
+          # broken exports map fails here rather than in a consumer repo.
+          cat > src/main.tsx <<'EOF'
+          import { createElement } from 'react'
+          import { createRoot } from 'react-dom/client'
+          import { Button, AppConfigProvider } from '@j2-health/design-system'
+          import '@j2-health/design-system/style.css'
+
+          createRoot(document.getElementById('root')!).render(
+            createElement(AppConfigProvider, null, createElement(Button, null, 'ok'))
+          )
+          EOF
+
+          cat > index.html <<'EOF'
+          <!doctype html><html><body><div id="root"></div>
+          <script type="module" src="/src/main.tsx"></script></body></html>
+          EOF
+
+          cat > tsconfig.json <<'EOF'
+          {
+            "compilerOptions": {
+              "target": "ES2020",
+              "lib": ["ES2020", "DOM"],
+              "module": "ESNext",
+              "moduleResolution": "bundler",
+              "jsx": "react-jsx",
+              "types": ["vite/client"],
+              "strict": true,
+              "noEmit": true,
+              "skipLibCheck": true
+            },
+            "include": ["src"]
+          }
+          EOF
+
+          # Type-checks a real import of the package. Catches a broken
+          # ambient-types anchor or declarations that do not compile.
+          npx tsc --noEmit
+
+          # The bundler check above cannot see an extensionless relative
+          # specifier in the shipped .d.ts files. The package is
+          # "type": "module", so under node16/nodenext ESM those do not
+          # resolve — and because the types entry point re-exports one, the
+          # whole export surface vanishes and every named import fails with
+          # TS2305. Re-check the same installed tarball under both modes.
+          for mode in node16 nodenext; do
+            node -e "require('fs').writeFileSync('tsconfig.$mode.json', JSON.stringify({ extends: './tsconfig.json', compilerOptions: { module: '$mode', moduleResolution: '$mode' } }))"
+            npx tsc -p "tsconfig.$mode.json"
+          done
+
+          # tsc alone does not catch a missing declaration file: with the
+          # types condition's target gone, resolution falls through to the
+          # import condition and picks up dist/index.d.ts next to
+          # dist/index.js. A consumer on node16/nodenext would fail. Assert
+          # every declared types entry point exists on disk.
+          node -e "
+          const fs=require('fs'),path=require('path'),req=require('module').createRequire(process.cwd()+'/package.json');
+          const pj=req.resolve('@j2-health/design-system/package.json'),p=require(pj),base=path.dirname(pj);
+          for(const t of [p.types,...Object.values(p.exports).map(e=>e&&e.types)].filter(Boolean))
+            if(!fs.existsSync(path.join(base,t))) throw new Error('declared types entry missing: '+t);
+          console.log('type entry points resolved');"
+
+          # Loads the package through native Node ESM. The vite build below
+          # bundles, so it papers over specifiers Node itself cannot resolve:
+          # a named import from a CommonJS dependency (lodash) whose named
+          # exports Node cannot statically detect throws here and nowhere
+          # else. This is the path a consumer's SSR render or bundler-less
+          # vitest run takes.
+          node --input-type=module -e "
+          const m = await import('@j2-health/design-system')
+          if (!m.Button) throw new Error('root export loaded but Button is missing')
+          console.log('package loads under native Node ESM')"
+
+          # Resolves the ./tailwind subpath export.
+          cat > tailwind.check.mjs <<'EOF'
+          import { tailwindPreset } from '@j2-health/design-system/tailwind'
+          if (!tailwindPreset) throw new Error('tailwind preset export is missing')
+          console.log('tailwind preset resolved')
+          EOF
+          node tailwind.check.mjs
+
+          # Resolves the raw base stylesheet subpath, which ships from
+          # src/stylesheets rather than dist.
+          node -e "import('node:module').then(({createRequire}) => {
+            createRequire(process.cwd() + '/package.json')
+              .resolve('@j2-health/design-system/stylesheets/index.css')
+            console.log('base stylesheet resolved')
+          })"
+
+          npx vite build

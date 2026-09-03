@@ -1,14 +1,17 @@
 import type { Config } from 'tailwindcss'
-import colors from 'tailwindcss/colors.js'
 
 // Export as a preset for consuming apps
 export const tailwindPreset = {
   theme: {
     colors: {
-      transparent: colors.transparent,
-      current: colors.current,
-      white: colors.white,
-      black: colors.black,
+      // Inlined rather than read from `tailwindcss/colors`: the root export
+      // re-exports this preset, so a runtime import here lands in
+      // dist/index.js and makes tailwindcss — which consumers install as a
+      // devDependency — a runtime dependency of every component import.
+      transparent: 'transparent',
+      current: 'currentColor',
+      white: '#fff',
+      black: '#000',
       j2: {
         // Generic color definitions
         'blue-1': 'var(--j2-blue-1)',
