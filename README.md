@@ -100,6 +100,30 @@ the repo root; submodule consumers should alias `design-system` to that file
 explicitly, since the package.json `exports` map points at `dist/`, which only
 exists in the published package.
 
+### Local development against a consuming app
+
+To work on a component and see it live in an app that depends on this package, point the
+app's bundler at this checkout's source rather than linking the built package. Consuming
+apps support this through a `DESIGN_SYSTEM_LOCAL` environment variable:
+
+```bash
+DESIGN_SYSTEM_LOCAL=/path/to/design-system npm run dev
+```
+
+**Do not use `npm link` or `npm install ../design-system`.** This package declares 13 peer
+dependencies that are also devDependencies, because Storybook and the test suite need them
+to run. A linked install resolves those imports from this checkout's own `node_modules`
+rather than the app's, so the app ends up with two copies of React and two copies of antd.
+
+Two copies of React raise `Invalid hook call`, which is at least obvious. Two copies of antd
+fail silently: `AppConfigProvider` supplies the theme through antd's `ConfigProvider`, a
+React context singleton, so a component resolved from the second copy reads an empty context
+and renders unthemed with no error and no warning. Because it only reproduces under a linked
+install, it looks like a bug in this library that disappears the moment you publish.
+
+Consuming apps must also set `resolve.dedupe` for `react`, `react-dom`, and `antd`, since a
+local checkout has its own `node_modules`.
+
 ### Publishing to npm
 
 The package is published publicly (the source is public anyway). Publishing is
