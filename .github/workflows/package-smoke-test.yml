@@ -28,7 +28,14 @@ jobs:
           tarball="$(npm pack --silent)"
           echo "tarball=$PWD/$tarball" >> "$GITHUB_OUTPUT"
 
+          # Install exactly the peers the package claims to support, rather
+          # than duplicating those ranges in this file. Derived here because
+          # the next step runs from the scratch app, not the repo.
+          echo "peers=$(node -p "Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r).join(' ')")" >> "$GITHUB_OUTPUT"
+
       - name: Build a scratch consumer against the tarball
+        env:
+          PEERS: ${{ steps.pack.outputs.peers }}
         run: |
           set -euo pipefail
           scratch="$(mktemp -d)"
@@ -38,15 +45,15 @@ jobs:
           npm pkg set type=module >/dev/null
 
           # Peer dependencies come from the consuming app, exactly as they
-          # would in a real one. Tailwind is pinned to v3: the preset is a
-          # v3 config, and npm installs a v4 mismatch with only a warning.
-          npm install --silent \
-            react@^18.3.1 react-dom@^18.3.1 antd@^5.21.2 \
-            @ant-design/icons@^5.6.1 @highcharts/react@^4.2.1 highcharts@^12.5.0 \
-            @phosphor-icons/react@^2.1.7 classnames@^2.5.1 formik@^2.4.6 \
-            formik-antd@^3.0.0-beta.9 lodash@^4.17.0 yup@^1.4.0
-          npm install --silent -D vite @vitejs/plugin-react typescript \
-            tailwindcss@^3.4.14 @types/react@^18.3.1 @types/react-dom@^18.3.1
+          # would in a real one. This includes the tailwindcss v3 pin: the
+          # preset is a v3 config, and npm installs a v4 mismatch with only
+          # a warning. Word-split the derived list, with globbing off so a
+          # range containing * stays literal.
+          set -f
+          npm install --silent $PEERS
+          set +f
+          npm install --silent -D vite@^6 typescript@^5 \
+            @types/react@^18.3.1 @types/react-dom@^18.3.1
           npm install --silent "${{ steps.pack.outputs.tarball }}"
 
           mkdir -p src
@@ -86,9 +93,21 @@ jobs:
           }
           EOF
 
-          # Resolves the package's type declarations. Catches a missing
-          # dist/lib.d.ts or a broken ambient-types anchor.
+          # Type-checks a real import of the package. Catches a broken
+          # ambient-types anchor or declarations that do not compile.
           npx tsc --noEmit
+
+          # tsc alone does not catch a missing declaration file: with the
+          # types condition's target gone, resolution falls through to the
+          # import condition and picks up dist/index.d.ts next to
+          # dist/index.js. A consumer on node16/nodenext would fail. Assert
+          # every declared types entry point exists on disk.
+          node -e "
+          const fs=require('fs'),path=require('path'),req=require('module').createRequire(process.cwd()+'/package.json');
+          const pj=req.resolve('@j2-health/design-system/package.json'),p=require(pj),base=path.dirname(pj);
+          for(const t of [p.types,...Object.values(p.exports).map(e=>e&&e.types)].filter(Boolean))
+            if(!fs.existsSync(path.join(base,t))) throw new Error('declared types entry missing: '+t);
+          console.log('type entry points resolved');"
 
           # Resolves the ./tailwind subpath export.
           cat > tailwind.check.mjs <<'EOF'
