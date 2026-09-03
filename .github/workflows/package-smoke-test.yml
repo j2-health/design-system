@@ -31,11 +31,19 @@ jobs:
           # Install exactly the peers the package claims to support, rather
           # than duplicating those ranges in this file. Derived here because
           # the next step runs from the scratch app, not the repo.
-          echo "peers=$(node -p "Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r).join(' ')")" >> "$GITHUB_OUTPUT"
+          # Assigned separately: inside `echo "$(...)"` the command
+          # substitution's failure is masked by echo's own exit status, so
+          # set -e would not see it and PEERS would silently be empty.
+          peers="$(node -p "Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r).join(' ')")"
+          echo "peers=$peers" >> "$GITHUB_OUTPUT"
 
       - name: Build a scratch consumer against the tarball
         env:
           PEERS: ${{ steps.pack.outputs.peers }}
+          # Via env, not inline ${{ }}: npm pack does not sanitise the
+          # version field, so a fork PR can put shell metacharacters in the
+          # tarball name and have them executed.
+          TARBALL: ${{ steps.pack.outputs.tarball }}
         run: |
           set -euo pipefail
           scratch="$(mktemp -d)"
@@ -54,7 +62,7 @@ jobs:
           set +f
           npm install --silent -D vite@^6 typescript@^5 \
             @types/react@^18.3.1 @types/react-dom@^18.3.1
-          npm install --silent "${{ steps.pack.outputs.tarball }}"
+          npm install --silent "$TARBALL"
 
           mkdir -p src
 
