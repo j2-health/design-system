@@ -135,9 +135,11 @@ export default defineConfig({
         // collapses `export * from '@phosphor-icons/react'` (index.ts's
         // `icons` re-export) into a materialised `_mergeNamespaces` object,
         // and a bundler cannot prove which of its properties are used — so
-        // every consumer ships the entire icon set. Measured on j2: +731 KB
-        // brotli, +70%. Preserving modules restores the tree-shaking the
-        // git-submodule path had, because the re-export survives as one.
+        // every consumer ships the entire icon set. Measured on a consuming
+        // application, this cost +70% bundle size versus building the same
+        // components from source. Preserving modules restores the
+        // tree-shaking the git-submodule path had, because the re-export
+        // survives as one.
         preserveModules: true,
         preserveModulesRoot: '.',
       },
