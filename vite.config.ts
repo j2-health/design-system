@@ -23,6 +23,14 @@ const RELATIVE_SPECIFIER = /\b(?:from|import)\s*\(?\s*'(\.[^']*)'/g
 // `./src/components/alert` is a directory and must become
 // `./src/components/alert/index.js`, not `./src/components/alert.js`.
 const resolvableSpecifier = (declarationFile: string, specifier: string) => {
+  // The root tsconfig's `paths` maps a bare specifier onto a file inside
+  // node_modules, and tsc emits that mapping as a relative path — which points
+  // outside the tarball and leaves the affected props as `any` for consumers.
+  // Map it back to the package it names. The leading `.*` is greedy, so a
+  // nested node_modules yields the innermost package.
+  const inNodeModules = /.*\/node_modules\/((?:@[^/]+\/)?[^/]+)/.exec(specifier)
+  if (inNodeModules) return inNodeModules[1]
+
   if (/\.(js|mjs|cjs|css|json)$/.test(specifier)) return specifier
 
   // An existing .ts extension is replaced, not appended: ./tailwind.config.ts.

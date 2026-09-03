@@ -25,6 +25,16 @@ jobs:
         id: pack
         run: |
           npm run build
+
+          # A declaration that imports through node_modules points outside the
+          # tarball. It resolves for us and not for a consumer, and under
+          # skipLibCheck (which nearly everyone sets) the affected props
+          # silently degrade to any instead of erroring.
+          if grep -rn "node_modules" dist --include="*.d.ts"; then
+            echo "::error::declaration files must not reference node_modules"
+            exit 1
+          fi
+
           tarball="$(npm pack --silent)"
           echo "tarball=$PWD/$tarball" >> "$GITHUB_OUTPUT"
 
