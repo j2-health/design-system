@@ -28,6 +28,10 @@ const resolvableSpecifier = (declarationFile: string, specifier: string) => {
   // outside the tarball and leaves the affected props as `any` for consumers.
   // Map it back to the package it names. The leading `.*` is greedy, so a
   // nested node_modules yields the innermost package.
+  // Dropping the subpath is only correct while every `paths` key is a bare
+  // package name. A subpath key ("foo/bar": ["./node_modules/foo/lib/bar"])
+  // would emit 'foo' — a different module that still resolves, so it would
+  // not error. Widen this if such a key is ever added.
   const inNodeModules = /.*\/node_modules\/((?:@[^/]+\/)?[^/]+)/.exec(specifier)
   if (inNodeModules) return inNodeModules[1]
 
@@ -47,6 +51,15 @@ const resolvableSpecifier = (declarationFile: string, specifier: string) => {
 }
 
 const rewriteDeclarationSpecifiers = (emitted: Map<string, string>) => {
+  // Fail the build rather than publish silently-broken declarations if a
+  // vite-plugin-dts upgrade stops handing this hook the emitted files.
+  // prepublishOnly runs the build, so this covers the release path too.
+  if (emitted.size === 0) {
+    throw new Error(
+      'dts afterBuild emitted no files; the specifier rewrite did not run'
+    )
+  }
+
   for (const declarationFile of emitted.keys()) {
     const before = readFileSync(declarationFile, 'utf8')
     const after = before.replace(RELATIVE_SPECIFIER, (match, specifier) =>
