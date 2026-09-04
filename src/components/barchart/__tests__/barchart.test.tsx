@@ -1,78 +1,89 @@
 import { vi } from 'vitest'
-import { act, render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { BarChart } from '../BarChart'
-
-const stripDynamicIds = (html: string): string => {
-  return html
-    .replace(/id="highcharts-[a-z0-9-]+"/g, 'id="highcharts-unique-id"')
-    .replace(
-      /clip-path="url\(#highcharts-[a-z0-9-]+\)"/g,
-      'clip-path="url(#highcharts-unique-id)"'
-    )
-}
 
 vi.mock('react-dom/server', () => ({
   renderToString: vi.fn(() => 'mocked string'),
 }))
 
-describe('BarChart', () => {
-  let originalGetBoundingClientRect: typeof HTMLElement.prototype.getBoundingClientRect
-
-  beforeEach(() => {
-    // Store the original getBoundingClientRect function
-    originalGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRect
-
-    // Mock the chart container dimensions
-    Object.defineProperty(HTMLElement.prototype, 'getBoundingClientRect', {
-      value: () => ({
-        width: 600,
-        height: 400,
-        x: 0,
-        y: 0,
-        top: 0,
-        right: 600,
-        bottom: 400,
-        left: 0,
-      }),
-      configurable: true,
-    })
-  })
-
-  afterEach(() => {
-    // Restore the original getBoundingClientRect function
-    Object.defineProperty(HTMLElement.prototype, 'getBoundingClientRect', {
-      value: originalGetBoundingClientRect,
-      configurable: true,
-    })
-  })
-
-  it('should render correctly', async () => {
-    await act(async () => {
-      const { container } = render(
-        <div style={{ width: '600px', height: '400px' }}>
-          <BarChart
-            categories={['Category 1', 'Category 2']}
-            series={[
-              { name: 'Series 1', data: [1, 2] },
-              { name: 'Series 2', data: [3, 4] },
-            ]}
-            min={0}
-            max={5}
-            tickInterval={1}
-            xAxisTitle="X Axis"
-            yAxisTitle="Y Axis"
-            tooltip={(category, value, seriesName) => (
-              <div>
-                {category}: {value} ({seriesName})
-              </div>
-            )}
-          />
+const renderBarChart = () =>
+  render(
+    <BarChart
+      categories={['Category 1', 'Category 2']}
+      series={[
+        { name: 'Series 1', data: [1, 2] },
+        { name: 'Series 2', data: [3, 4] },
+      ]}
+      min={0}
+      max={5}
+      tickInterval={1}
+      xAxisTitle="X Axis"
+      yAxisTitle="Y Axis"
+      width={600}
+      height={400}
+      tooltip={(category, value, seriesName) => (
+        <div>
+          {category}: {value} ({seriesName})
         </div>
-      )
+      )}
+    />
+  )
 
-      // Allow Highcharts to complete initialization
-      await new Promise((resolve) => setTimeout(resolve, 0))
-      expect(stripDynamicIds(container.innerHTML)).toMatchSnapshot()
-    })
+const chartSvg = async (container: HTMLElement) => {
+  await waitFor(() =>
+    expect(container.querySelector('svg.highcharts-root')).toBeInTheDocument()
+  )
+  return container.querySelector('svg.highcharts-root') as SVGElement
+}
+
+describe('BarChart', () => {
+  it('draws one column series per series, each carrying its own points', async () => {
+    const { container } = renderBarChart()
+    await chartSvg(container)
+
+    // happy-dom reports a zero-width container, so Highcharts never gives the
+    // columns geometry. The per-series accessibility label is derived from the
+    // data it did parse, which is the part worth pinning here; the drawn bars
+    // are covered by the browser pass instead.
+    const seriesLabels = Array.from(
+      container.querySelectorAll('g.highcharts-column-series[aria-label]')
+    ).map((node) => node.getAttribute('aria-label'))
+
+    expect(seriesLabels).toEqual([
+      'Series 1, bar series 1 of 2 with 2 bars.',
+      'Series 2, bar series 2 of 2 with 2 bars.',
+    ])
+  })
+
+  it('renders the configured axes', async () => {
+    const { container } = renderBarChart()
+    await chartSvg(container)
+
+    const xAxisLabels = Array.from(
+      container.querySelectorAll('.highcharts-xaxis-labels text')
+    ).map((node) => node.textContent)
+    expect(xAxisLabels).toEqual(
+      expect.arrayContaining(['Category 1', 'Category 2'])
+    )
+
+    const axisTitles = Array.from(
+      container.querySelectorAll('.highcharts-axis-title')
+    ).map((node) => node.textContent)
+    expect(axisTitles).toEqual(expect.arrayContaining(['X Axis', 'Y Axis']))
+  })
+
+  it('pins the chart to the light colour scheme', async () => {
+    // Highcharts 13 sets `color-scheme: light dark` on .highcharts-container,
+    // which repaints the chart against a dark palette when the viewer's OS is
+    // in dark mode. j2 has no dark theme, so we opt back out via the
+    // `highcharts-light` ancestor class Highcharts ships for the purpose.
+    const { container } = renderBarChart()
+    await chartSvg(container)
+
+    expect(
+      container
+        .querySelector('.highcharts-container')
+        ?.closest('.highcharts-light')
+    ).not.toBeNull()
   })
 })

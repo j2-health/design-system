@@ -50,5 +50,10 @@ export const VennDiagram = ({ data, title, tooltip, onClick }: Props) => {
     ],
   }
 
-  return <HighchartsReact options={options} />
+  return (
+    <HighchartsReact
+      options={options}
+      containerProps={{ className: 'highcharts-light' }}
+    />
+  )
 }
