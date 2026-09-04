@@ -1,28 +1,11 @@
 import * as React from 'react'
 import { FilterConfig } from '.'
-import { useFilterField } from './useFilterField'
-import { Input, InputNumber, Select } from 'antd'
+import { useFilterField, ValueInputConfig } from './useFilterField'
+import { Input, InputNumber, Select, Typography } from 'antd'
 import { FormFilter } from './types'
+import { tooManyValuesMessage } from './filterHelpers'
 import cx from 'classnames'
 import { SizeType } from 'antd/es/config-provider/SizeContext'
-
-type SelectValueInputConfig = {
-  type: 'select'
-  valueOptions: { label: string; value: string }[]
-}
-
-type NumberValueInputConfig = {
-  type: 'number'
-  inputCount: number
-  numberOptions?: { max: number; min: number; step: number }
-}
-
-type TextValueInputConfig = {
-  type: 'text'
-}
-
-type ValueInputConfig =
-  SelectValueInputConfig | NumberValueInputConfig | TextValueInputConfig
 
 type FilterInputProps = {
   value?: FormFilter
@@ -185,6 +168,17 @@ const ValueInput = ({
         </div>
       )
     case 'text':
+      if (valueInputConfig.multiValue) {
+        return (
+          <MultiValueTextInput
+            values={values}
+            maxValues={valueInputConfig.maxValues}
+            onChange={onChange}
+            onBlur={onBlur}
+            size={size}
+          />
+        )
+      }
       return (
         <Input
           onBlur={onBlur}
@@ -197,4 +191,88 @@ const ValueInput = ({
     default:
       return null
   }
+}
+
+// Commas, newlines (both flavours) and tabs: a column pasted from Excel or a
+// comma-separated list from an email both land as one chip per value.
+export const MULTI_VALUE_TOKEN_SEPARATORS = [',', '\n', '\r', '\t']
+
+/**
+ * Normalize a chip list: trim, drop empties, dedupe case-insensitively (the
+ * match is case-insensitive, so `ABC` and `abc` are the same rule). Keeps
+ * first-seen casing and order so the chips read the way they were pasted.
+ */
+export const normalizeMultiValues = (
+  raw: (string | number | undefined | null)[] | undefined
+): string[] => {
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const value of raw ?? []) {
+    if (value === null || value === undefined) continue
+    const trimmed = String(value).trim()
+    if (trimmed === '') continue
+    const key = trimmed.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push(trimmed)
+  }
+  return out
+}
+
+/**
+ * Chips input for the multi-value text operators (`isAnyOf` / `isNoneOf`).
+ *
+ * A tags Select rather than a text box split at query time: every token is
+ * visible and individually removable before Apply, so a pasted value that
+ * itself contains a comma (street addresses do) can be seen and fixed
+ * instead of being silently shredded. The dropdown is kept closed — there
+ * are no options to pick from; Enter or a separator commits a chip.
+ */
+const MultiValueTextInput = ({
+  values,
+  maxValues,
+  onChange,
+  onBlur,
+  size,
+}: {
+  values?: (string | number | undefined | null)[]
+  maxValues?: number
+  onChange: (value: (string | number | undefined | null)[]) => void
+  onBlur: () => void
+  size: SizeType
+}) => {
+  const chips = normalizeMultiValues(values)
+  const over = maxValues !== undefined && chips.length > maxValues
+
+  return (
+    <div className="flex flex-col gap-1 w-full min-w-0">
+      <Select
+        mode="tags"
+        tokenSeparators={MULTI_VALUE_TOKEN_SEPARATORS}
+        value={chips}
+        onChange={(next: string[]) => onChange(normalizeMultiValues(next))}
+        onBlur={onBlur}
+        open={false}
+        suffixIcon={null}
+        placeholder="Type or paste values, separated by commas"
+        className="w-full"
+        size={size}
+        status={over ? 'error' : undefined}
+        aria-label="Values"
+      />
+      {maxValues !== undefined && (
+        <Typography.Text
+          type={over ? 'danger' : 'secondary'}
+          className="text-xs"
+          role={over ? 'alert' : undefined}
+        >
+          {over
+            ? `${tooManyValuesMessage(maxValues)} — remove ${
+                chips.length - maxValues
+              } to apply`
+            : `${chips.length} / ${maxValues} values`}
+        </Typography.Text>
+      )}
+    </div>
+  )
 }

@@ -1,5 +1,20 @@
 import { Filter } from './types'
 
+// The only `FilterConfig` fields validation consults. Passed separately from
+// the filter because a submitted `Filter` doesn't carry its config.
+export type FilterValueLimits = { maxValues?: number }
+
+export const tooManyValuesMessage = (maxValues: number) =>
+  `Up to ${maxValues} values`
+
+const exceedsMaxValues = (
+  values: unknown[] | undefined,
+  limits: FilterValueLimits | undefined
+): limits is { maxValues: number } =>
+  limits?.maxValues !== undefined &&
+  values !== undefined &&
+  values.length > limits.maxValues
+
 export const isEmptyFilter = (filter: Filter) => {
   if (filter.operator === 'blank' || filter.operator === 'notBlank') {
     return false
@@ -18,12 +33,13 @@ export const isEmptyFilter = (filter: Filter) => {
   return true
 }
 
-export const isValidFilter = (filter: Filter) => {
-  return validateFilterField(filter).length === 0
+export const isValidFilter = (filter: Filter, limits?: FilterValueLimits) => {
+  return validateFilterField(filter, limits).length === 0
 }
 
 export const validateFilterField = (
-  filter: Filter
+  filter: Filter,
+  limits?: FilterValueLimits
 ): { field: string; message: string }[] => {
   const errors = []
 
@@ -34,6 +50,13 @@ export const validateFilterField = (
 
   if (isEmptyFilter(filter)) {
     errors.push({ field: filter.field, message: 'Value is required' })
+  }
+
+  if (exceedsMaxValues(filter.values, limits)) {
+    errors.push({
+      field: filter.field,
+      message: tooManyValuesMessage(limits.maxValues),
+    })
   }
 
   if (filter.type === 'number' && filter.operator === 'inRange') {
@@ -65,11 +88,17 @@ export const isEmptyFormFilter = (filter: FormFilter) => {
   return true
 }
 
-export const isValidFormFilter = (filter: FormFilter) => {
-  return validateFormFilter(filter).length === 0
+export const isValidFormFilter = (
+  filter: FormFilter,
+  limits?: FilterValueLimits
+) => {
+  return validateFormFilter(filter, limits).length === 0
 }
 
-export const validateFormFilter = (filter: FormFilter): string[] => {
+export const validateFormFilter = (
+  filter: FormFilter,
+  limits?: FilterValueLimits
+): string[] => {
   const errors = []
 
   if (!filter.operator) {
@@ -79,6 +108,10 @@ export const validateFormFilter = (filter: FormFilter): string[] => {
 
   if (isEmptyFormFilter(filter)) {
     errors.push('Value is required')
+  }
+
+  if (exceedsMaxValues(filter.values, limits)) {
+    errors.push(tooManyValuesMessage(limits.maxValues))
   }
 
   if (filter.type === 'number' && filter.operator === 'inRange') {

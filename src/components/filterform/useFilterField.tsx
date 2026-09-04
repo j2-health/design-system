@@ -54,6 +54,43 @@ export const TypeToOperatorOptions: Record<
   ],
 }
 
+// Multi-value exact-match operators for text fields. Deliberately NOT part of
+// `TypeToOperatorOptions.text`: a field only offers them when its
+// `FilterConfig.operators` lists them, so every existing consumer keeps the
+// operator list it has today (see the `operators` doc in types.ts).
+export const MultiValueTextOperatorOptions: {
+  label: string
+  value: Operator
+}[] = [
+  { label: 'is any of', value: 'isAnyOf' },
+  { label: 'is not any of', value: 'isNoneOf' },
+]
+
+export const isMultiValueTextOperator = (
+  operator: string | undefined
+): boolean => operator === 'isAnyOf' || operator === 'isNoneOf'
+
+/**
+ * Operator options a field offers: its type's default list unless the config
+ * names its own (`operators`), in which case that list — in the given order,
+ * dropping anything the type can't express. `operators` may therefore both
+ * narrow the defaults and add the opt-in multi-value text operators.
+ */
+export const operatorOptionsFor = (
+  config: FilterConfig
+): { label: string; value: Operator }[] => {
+  const defaults = TypeToOperatorOptions[config.type]
+  if (!config.operators) return defaults
+  const known =
+    config.type === 'text'
+      ? [...defaults, ...MultiValueTextOperatorOptions]
+      : defaults
+  return config.operators.flatMap((operator) => {
+    const option = known.find((candidate) => candidate.value === operator)
+    return option ? [option] : []
+  })
+}
+
 type SelectValueInputConfig = {
   type: 'select'
   valueOptions: { label: string; value: string }[]
@@ -67,6 +104,10 @@ type NumberValueInputConfig = {
 
 type TextValueInputConfig = {
   type: 'text'
+  // True for `isAnyOf` / `isNoneOf`: the value input is a chips list rather
+  // than a single text box. `maxValues` is the config's cap, if any.
+  multiValue?: boolean
+  maxValues?: number
 }
 
 export type ValueInputConfig =
@@ -117,6 +158,8 @@ const buildValueInputConfig = (
 
     return {
       type: 'text',
+      multiValue: isMultiValueTextOperator(operator),
+      maxValues: config.maxValues,
     }
   }
 }
@@ -133,19 +176,19 @@ const filterFieldReducer = (
 
       if (!config) return state
 
-      const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
+      const operatorOptions = operatorOptionsFor(config)
 
       const newFilter = {
         ...state.filter,
         type: config.type,
         field: action.payload,
-        operator: operatorOptions[0].value,
+        operator: operatorOptions[0]?.value,
         values: [],
       } as FormFilter
 
       const pendingFilter = {
         ...newFilter,
-        errors: validateFormFilter(newFilter),
+        errors: validateFormFilter(newFilter, config),
       }
 
       return {
@@ -173,7 +216,7 @@ const filterFieldReducer = (
         ...state,
         filter: {
           ...pendingFilter,
-          errors: validateFormFilter(pendingFilter),
+          errors: validateFormFilter(pendingFilter, state.config),
         },
         valueInputConfig: buildValueInputConfig(state.config, action.payload),
       }
@@ -193,7 +236,7 @@ const filterFieldReducer = (
         values: values,
       }
 
-      pendingFilter.errors = validateFormFilter(pendingFilter)
+      pendingFilter.errors = validateFormFilter(pendingFilter, state.config)
 
       return {
         ...state,
@@ -210,9 +253,9 @@ const filterFieldReducer = (
 
       if (!config) return state
 
-      const operatorOptions = config ? TypeToOperatorOptions[config.type] : []
+      const operatorOptions = operatorOptionsFor(config)
 
-      const operator = state.filter?.operator || operatorOptions[0].value
+      const operator = state.filter?.operator || operatorOptions[0]?.value
 
       const filter =
         state.filter ??
@@ -223,7 +266,7 @@ const filterFieldReducer = (
           values: [],
         } as FormFilter)
 
-      const errors = validateFormFilter(filter)
+      const errors = validateFormFilter(filter, config)
       filter.errors = errors
 
       return {
