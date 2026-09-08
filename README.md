@@ -173,13 +173,15 @@ needs it, where publishing succeeds and tagging fails.
 bump as a local commit, and `main` requires a pull request, so that commit has
 nowhere to push to.
 
-Pushing a `v*` tag also triggers a release, for a version already on `main`.
-Annotated and lightweight tags both trigger it, but push the tag explicitly as
-below rather than with `git push --follow-tags`, which silently skips lightweight
-tags and would report success without publishing:
+Pushing a `v*` tag also triggers a release. Tag the remote `main` commit
+explicitly: a bare `git tag` tags your current `HEAD`, and the workflow accepts
+any tag ref, so a tag on an unmerged branch would publish that branch. Push the
+tag explicitly too — `git push --follow-tags` silently skips lightweight tags and
+would report success without publishing:
 
 ```bash
-$ git tag -a v0.3.0 -m v0.3.0
+$ git fetch origin main
+$ git tag -a v0.3.0 -m v0.3.0 origin/main
 $ git push origin v0.3.0
 ```
 
