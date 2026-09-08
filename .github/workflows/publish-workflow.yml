@@ -95,6 +95,27 @@ jobs:
             if (!ok) throw new Error('npm >= 11.5.1 required for trusted publishing')
           "
 
+      # Refuse before publishing, not after. A tag for this version already
+      # pointing at a different commit means the release is inconsistent, and
+      # npm publish cannot be undone -- so the only useful place to catch it is
+      # here. Reachable when a tag-push release pushed its tag but failed
+      # before publishing, `main` then advanced, and someone dispatches: npm
+      # would get the newer commit while the tag kept the older one.
+      #
+      # On a tag-push run this is trivially satisfied -- the tag that triggered
+      # the run points at GITHUB_SHA by definition.
+      - name: Refuse if this version is already tagged elsewhere
+        run: |
+          set -euo pipefail
+          version="v$(node -p "require('./package.json').version")"
+          existing="$(git ls-remote --tags origin "refs/tags/$version^{}" | cut -f1 || true)"
+          [ -n "$existing" ] || existing="$(git ls-remote --tags origin "refs/tags/$version" | cut -f1 || true)"
+          if [ -n "$existing" ] && [ "$existing" != "$GITHUB_SHA" ]; then
+            echo "::error::$version already tags $existing, but this run would publish $GITHUB_SHA."
+            echo "::error::Bump the version, or move the tag if it is the one that is wrong."
+            exit 1
+          fi
+
       # No NODE_AUTH_TOKEN: authentication is OIDC via trusted publishing, and
       # provenance is generated automatically, so --provenance is not passed.
       - name: Publish
@@ -145,10 +166,10 @@ jobs:
           [ -n "$existing" ] || existing="$(git ls-remote --tags origin "refs/tags/$version" | cut -f1 || true)"
 
           if [ -n "$existing" ]; then
-            # Name match is not enough. A tag already pointing somewhere other
-            # than the commit we just published is the exact state this job
-            # exists to prevent, so fail rather than skip -- the release needs
-            # a human to decide which of the two is right.
+            # Name match is not enough. The publish job already refuses this
+            # case before publishing, so reaching it here means the tag moved
+            # mid-run -- still worth failing rather than reporting success for
+            # a tag this run did not create.
             if [ "$existing" != "$GITHUB_SHA" ]; then
               echo "::error::$version already exists at $existing, but $GITHUB_SHA was published"
               exit 1
