@@ -18,7 +18,10 @@ on:
     tags:
       - 'v*'
   # Manual fallback: publishes whatever version package.json declares on the
-  # chosen ref (npm rejects duplicate versions, so re-runs are safe).
+  # chosen ref, then tags that version so every published release still has a
+  # matching tag. Re-running is safe for the publish step -- npm rejects a
+  # duplicate version -- but see the `tag` job for how to recover when publish
+  # succeeded and tagging did not.
   workflow_dispatch:
 
 jobs:
@@ -92,7 +95,109 @@ jobs:
             if (!ok) throw new Error('npm >= 11.5.1 required for trusted publishing')
           "
 
+      # Refuse before publishing, not after. A tag for this version already
+      # pointing at a different commit means the release is inconsistent, and
+      # npm publish cannot be undone -- so the only useful place to catch it is
+      # here. Reachable when a tag-push release pushed its tag but failed
+      # before publishing, `main` then advanced, and someone dispatches: npm
+      # would get the newer commit while the tag kept the older one.
+      #
+      # On a tag-push run this is trivially satisfied -- the tag that triggered
+      # the run points at GITHUB_SHA by definition.
+      - name: Refuse if this version is already tagged elsewhere
+        run: |
+          set -euo pipefail
+          version="v$(node -p "require('./package.json').version")"
+
+          # Fail closed. `ls-remote` exits 0 with no output when the tag simply
+          # does not exist, and non-zero when it could not reach origin at all.
+          # Swallowing the second into "untagged" would quietly disable this
+          # guard on a transient network error -- which is the one moment it
+          # most needs to hold, since the next step cannot be undone.
+          if ! refs="$(git ls-remote --tags origin "refs/tags/$version^{}" "refs/tags/$version")"; then
+            echo "::error::Could not read tags from origin; refusing to publish unchecked."
+            exit 1
+          fi
+
+          # Annotated tags list a peeled `^{}` line carrying the commit;
+          # lightweight ones carry it on the plain line. This repo has both
+          # (v0.2.1 annotated, v0.2.0 lightweight), so prefer peeled.
+          existing="$(printf '%s\n' "$refs" | awk '/\^\{\}$/{print $1; exit}')"
+          [ -n "$existing" ] || existing="$(printf '%s\n' "$refs" | awk 'NF{print $1; exit}')"
+
+          if [ -n "$existing" ] && [ "$existing" != "$GITHUB_SHA" ]; then
+            echo "::error::$version already tags $existing, but this run would publish $GITHUB_SHA."
+            echo "::error::Bump the version, or move the tag if it is the one that is wrong."
+            exit 1
+          fi
+
       # No NODE_AUTH_TOKEN: authentication is OIDC via trusted publishing, and
       # provenance is generated automatically, so --provenance is not passed.
       - name: Publish
         run: npm publish --ignore-scripts
+
+  # A tag-triggered release already has its tag — that tag is what started the
+  # run. A manual dispatch does not, so without this it would publish a version
+  # that git has no record of, and `git tag -l` would stop being an honest list
+  # of what is on npm.
+  #
+  # Separate job, deliberately: pushing a tag needs `contents: write`, and the
+  # publish job holds the npm OIDC credential. Keeping them apart means the job
+  # that can write to the repo never sees that credential, and the job that
+  # publishes stays `contents: read`.
+  #
+  # If publish succeeded but this job failed, recover with "Re-run failed jobs".
+  # NOT "Re-run all jobs" -- that restarts publish, which npm rejects as a
+  # duplicate version, and this job is skipped behind the failure. Tagging by
+  # hand also works: git tag -a vX.Y.Z -m vX.Y.Z && git push origin vX.Y.Z
+  tag:
+    name: Tag the published version
+    runs-on: ubuntu-latest
+    needs: publish
+    if: github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Annotated, not lightweight: `git push --follow-tags` skips lightweight
+      # tags silently, so a lightweight one here would leave anyone later
+      # pushing tags by hand with a release that never reaches the remote.
+      #
+      # Pushed with GITHUB_TOKEN, which by design does not start another
+      # workflow run -- so this cannot re-trigger the publish above.
+      - name: Tag the released version
+        run: |
+          set -euo pipefail
+
+          version="v$(node -p "require('./package.json').version")"
+
+          # Same fail-closed read as the publish job's guard: a non-zero exit
+          # means origin was unreachable, not that the tag is absent.
+          if ! refs="$(git ls-remote --tags origin "refs/tags/$version^{}" "refs/tags/$version")"; then
+            echo "::error::Could not read tags from origin; refusing to tag unchecked."
+            exit 1
+          fi
+
+          # Peeled `^{}` line for an annotated tag, plain line for a lightweight
+          # one -- this repo has both (v0.2.1 annotated, v0.2.0 lightweight).
+          existing="$(printf '%s\n' "$refs" | awk '/\^\{\}$/{print $1; exit}')"
+          [ -n "$existing" ] || existing="$(printf '%s\n' "$refs" | awk 'NF{print $1; exit}')"
+
+          if [ -n "$existing" ]; then
+            # Name match is not enough. The publish job already refuses this
+            # case before publishing, so reaching it here means the tag moved
+            # mid-run -- still worth failing rather than reporting success for
+            # a tag this run did not create.
+            if [ "$existing" != "$GITHUB_SHA" ]; then
+              echo "::error::$version already exists at $existing, but $GITHUB_SHA was published"
+              exit 1
+            fi
+            echo "$version is already tagged at the published commit; nothing to do"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$version" -m "$version"
+          git push origin "$version"
