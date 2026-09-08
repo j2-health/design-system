@@ -108,8 +108,23 @@ jobs:
         run: |
           set -euo pipefail
           version="v$(node -p "require('./package.json').version")"
-          existing="$(git ls-remote --tags origin "refs/tags/$version^{}" | cut -f1 || true)"
-          [ -n "$existing" ] || existing="$(git ls-remote --tags origin "refs/tags/$version" | cut -f1 || true)"
+
+          # Fail closed. `ls-remote` exits 0 with no output when the tag simply
+          # does not exist, and non-zero when it could not reach origin at all.
+          # Swallowing the second into "untagged" would quietly disable this
+          # guard on a transient network error -- which is the one moment it
+          # most needs to hold, since the next step cannot be undone.
+          if ! refs="$(git ls-remote --tags origin "refs/tags/$version^{}" "refs/tags/$version")"; then
+            echo "::error::Could not read tags from origin; refusing to publish unchecked."
+            exit 1
+          fi
+
+          # Annotated tags list a peeled `^{}` line carrying the commit;
+          # lightweight ones carry it on the plain line. This repo has both
+          # (v0.2.1 annotated, v0.2.0 lightweight), so prefer peeled.
+          existing="$(printf '%s\n' "$refs" | awk '/\^\{\}$/{print $1; exit}')"
+          [ -n "$existing" ] || existing="$(printf '%s\n' "$refs" | awk 'NF{print $1; exit}')"
+
           if [ -n "$existing" ] && [ "$existing" != "$GITHUB_SHA" ]; then
             echo "::error::$version already tags $existing, but this run would publish $GITHUB_SHA."
             echo "::error::Bump the version, or move the tag if it is the one that is wrong."
@@ -157,13 +172,17 @@ jobs:
 
           version="v$(node -p "require('./package.json').version")"
 
-          # An annotated tag lists a peeled `^{}` line carrying the commit; a
-          # lightweight one carries the commit directly. Try peeled first, then
-          # fall back -- this repo has both shapes (v0.2.1 annotated, v0.2.0
-          # lightweight). `|| true` because ls-remote exits non-zero when
-          # nothing matches, which is the ordinary case.
-          existing="$(git ls-remote --tags origin "refs/tags/$version^{}" | cut -f1 || true)"
-          [ -n "$existing" ] || existing="$(git ls-remote --tags origin "refs/tags/$version" | cut -f1 || true)"
+          # Same fail-closed read as the publish job's guard: a non-zero exit
+          # means origin was unreachable, not that the tag is absent.
+          if ! refs="$(git ls-remote --tags origin "refs/tags/$version^{}" "refs/tags/$version")"; then
+            echo "::error::Could not read tags from origin; refusing to tag unchecked."
+            exit 1
+          fi
+
+          # Peeled `^{}` line for an annotated tag, plain line for a lightweight
+          # one -- this repo has both (v0.2.1 annotated, v0.2.0 lightweight).
+          existing="$(printf '%s\n' "$refs" | awk '/\^\{\}$/{print $1; exit}')"
+          [ -n "$existing" ] || existing="$(printf '%s\n' "$refs" | awk 'NF{print $1; exit}')"
 
           if [ -n "$existing" ]; then
             # Name match is not enough. The publish job already refuses this
