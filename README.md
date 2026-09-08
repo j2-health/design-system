@@ -133,8 +133,7 @@ local checkout has its own `node_modules`.
 
 ### Publishing to npm
 
-The package is published publicly (the source is public anyway). Publishing is
-tag-driven via
+The package is published publicly (the source is public anyway) by
 [.github/workflows/publish-workflow.yml](.github/workflows/publish-workflow.yml).
 
 There is **no publish token**. npm authenticates the release through trusted
@@ -149,14 +148,44 @@ consequences worth knowing before you change anything here:
   npm >= 11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts
   this rather than letting it surface later as an unexplained 401.
 
-To release a new version from `main`:
+To release a new version — maintainers only, since step 2 needs write access to
+this repository:
+
+1. Bump `version` in `package.json` in a pull request — on its own, or in the PR
+   carrying the change you want to release — and merge it.
+2. Dispatch the publish workflow against `main`:
 
 ```bash
-$ npm version minor        # or patch / major — bumps package.json and creates the vX.Y.Z tag
-$ git push origin main --follow-tags
+$ gh workflow run publish-workflow.yml --ref main
 ```
 
-The workflow packs the tarball and builds a scratch consumer against it, then
-verifies the tag matches `package.json`, runs lint, tests and type-check, builds
-the library, and publishes. Provenance is generated automatically by trusted
-publishing, so `--provenance` is not passed.
+Or, in the UI, **Actions → Publish to npm → Run workflow** with `main` selected.
+Pick the ref carefully: the publish job is *skipped* rather than failed on any
+other ref, so a dispatch from a feature branch reports success without
+publishing.
+
+That is the whole procedure. The workflow publishes the version `package.json`
+declares and then creates the matching `vX.Y.Z` tag itself, so you do not
+normally tag by hand — the `tag` job's own comments cover the one case that
+needs it, where publishing succeeds and tagging fails.
+
+`npm version` is not the tool here, despite being the obvious one: it writes the
+bump as a local commit, and `main` requires a pull request, so that commit has
+nowhere to push to.
+
+Pushing a `v*` tag also triggers a release. Tag the remote `main` commit
+explicitly: a bare `git tag` tags your current `HEAD`, and the workflow accepts
+any tag ref, so a tag on an unmerged branch would publish that branch. Push the
+tag explicitly too — `git push --follow-tags` silently skips lightweight tags and
+would report success without publishing:
+
+```bash
+$ git fetch origin main
+$ git tag -a v0.3.0 -m v0.3.0 origin/main
+$ git push origin v0.3.0
+```
+
+The workflow packs the tarball and builds a scratch consumer against it, runs
+lint, tests and type-check, builds the library, and publishes; on a tag push it
+also verifies the tag matches `package.json`. Provenance is generated
+automatically by trusted publishing, so `--provenance` is not passed.

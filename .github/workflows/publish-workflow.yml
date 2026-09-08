@@ -1,6 +1,7 @@
 name: Publish to npm
 
-# Publishes @j2-health/design-system when a version tag (v1.2.3) is pushed.
+# Publishes @j2-health/design-system. The primary route is a manual run on
+# `main`; pushing a version tag (v1.2.3) publishes too.
 # Release procedure: see "Publishing to npm" in README.md.
 #
 # Authenticates with npm through trusted publishing (OIDC) — there is no
@@ -17,7 +18,7 @@ on:
   push:
     tags:
       - 'v*'
-  # Manual fallback: publishes whatever version package.json declares on the
+  # Primary route: publishes whatever version package.json declares on the
   # chosen ref, then tags that version so every published release still has a
   # matching tag. Re-running is safe for the publish step -- npm rejects a
   # duplicate version -- but see the `tag` job for how to recover when publish
