@@ -148,23 +148,35 @@ consequences worth knowing before you change anything here:
   npm >= 11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts
   this rather than letting it surface later as an unexplained 401.
 
-To release a new version:
+To release a new version — maintainers only, since step 2 needs write access to
+this repository:
 
 1. Bump `version` in `package.json` in a pull request — on its own, or in the PR
    carrying the change you want to release — and merge it.
-2. Run **Actions → Publish to npm → Run workflow**, on `main`.
+2. Dispatch the publish workflow against `main`:
+
+```bash
+$ gh workflow run publish-workflow.yml --ref main
+```
+
+Or, in the UI, **Actions → Publish to npm → Run workflow** with `main` selected.
+Pick the ref carefully: the publish job is *skipped* rather than failed on any
+other ref, so a dispatch from a feature branch reports success without
+publishing.
 
 That is the whole procedure. The workflow publishes the version `package.json`
-declares and then creates the matching `vX.Y.Z` tag itself, so there is nothing
-to tag by hand.
+declares and then creates the matching `vX.Y.Z` tag itself, so you do not
+normally tag by hand — the `tag` job's own comments cover the one case that
+needs it, where publishing succeeds and tagging fails.
 
 `npm version` is not the tool here, despite being the obvious one: it writes the
 bump as a local commit, and `main` requires a pull request, so that commit has
 nowhere to push to.
 
-Pushing a `v*` tag also triggers a release, for a version that is already on
-`main`. It has to be annotated — `git push --follow-tags` silently skips
-lightweight tags, so the push reports success and nothing publishes:
+Pushing a `v*` tag also triggers a release, for a version already on `main`.
+Annotated and lightweight tags both trigger it, but push the tag explicitly as
+below rather than with `git push --follow-tags`, which silently skips lightweight
+tags and would report success without publishing:
 
 ```bash
 $ git tag -a v0.3.0 -m v0.3.0
