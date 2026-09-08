@@ -18,8 +18,10 @@ on:
     tags:
       - 'v*'
   # Manual fallback: publishes whatever version package.json declares on the
-  # chosen ref (npm rejects duplicate versions, so re-runs are safe), then tags
-  # that version so every published release still has a matching tag.
+  # chosen ref, then tags that version so every published release still has a
+  # matching tag. Re-running is safe for the publish step -- npm rejects a
+  # duplicate version -- but see the `tag` job for how to recover when publish
+  # succeeded and tagging did not.
   workflow_dispatch:
 
 jobs:
@@ -107,6 +109,11 @@ jobs:
   # publish job holds the npm OIDC credential. Keeping them apart means the job
   # that can write to the repo never sees that credential, and the job that
   # publishes stays `contents: read`.
+  #
+  # If publish succeeded but this job failed, recover with "Re-run failed jobs".
+  # NOT "Re-run all jobs" -- that restarts publish, which npm rejects as a
+  # duplicate version, and this job is skipped behind the failure. Tagging by
+  # hand also works: git tag -a vX.Y.Z -m vX.Y.Z && git push origin vX.Y.Z
   tag:
     name: Tag the published version
     runs-on: ubuntu-latest
@@ -125,11 +132,31 @@ jobs:
       # workflow run -- so this cannot re-trigger the publish above.
       - name: Tag the released version
         run: |
+          set -euo pipefail
+
           version="v$(node -p "require('./package.json').version")"
-          if git ls-remote --exit-code --tags origin "refs/tags/$version" >/dev/null 2>&1; then
-            echo "$version is already tagged; nothing to do"
+
+          # An annotated tag lists a peeled `^{}` line carrying the commit; a
+          # lightweight one carries the commit directly. Try peeled first, then
+          # fall back -- this repo has both shapes (v0.2.1 annotated, v0.2.0
+          # lightweight). `|| true` because ls-remote exits non-zero when
+          # nothing matches, which is the ordinary case.
+          existing="$(git ls-remote --tags origin "refs/tags/$version^{}" | cut -f1 || true)"
+          [ -n "$existing" ] || existing="$(git ls-remote --tags origin "refs/tags/$version" | cut -f1 || true)"
+
+          if [ -n "$existing" ]; then
+            # Name match is not enough. A tag already pointing somewhere other
+            # than the commit we just published is the exact state this job
+            # exists to prevent, so fail rather than skip -- the release needs
+            # a human to decide which of the two is right.
+            if [ "$existing" != "$GITHUB_SHA" ]; then
+              echo "::error::$version already exists at $existing, but $GITHUB_SHA was published"
+              exit 1
+            fi
+            echo "$version is already tagged at the published commit; nothing to do"
             exit 0
           fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$version" -m "$version"
