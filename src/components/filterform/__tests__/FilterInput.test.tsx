@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { FilterInput } from '../FilterInput'
 import { normalizeMultiValues } from '../filterHelpers'
 import { FilterConfig, FormFilter } from '../types'
@@ -153,10 +153,92 @@ describe('FilterInput multi-value text operators', () => {
           type: 'text',
           operator: 'isAnyOf',
           values: ['alpha', 'beta'],
+          errors: [],
         }}
       />
     )
     expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('propagates validation on mount when only the errors changed', () => {
+    // Operator and values are unchanged, but `maxValues` was lowered since
+    // the rule was saved. The parent holds `errors: []`, and computes form
+    // validity from that — so it has to hear about the new error.
+    const onChange = vi.fn<(filter: FormFilter) => void>()
+    render(
+      <FilterInput
+        filterConfigs={[{ ...configs[0], maxValues: 1 }]}
+        onChange={onChange}
+        value={{
+          field: 'code',
+          type: 'text',
+          operator: 'isAnyOf',
+          values: ['alpha', 'beta'],
+          errors: [],
+        }}
+      />
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0]).toMatchObject({
+      operator: 'isAnyOf',
+      values: ['alpha', 'beta'],
+      errors: ['Up to 1 values'],
+    })
+  })
+
+  it('fills in errors for a restored filter that arrives without them', () => {
+    // A plain `FilterForm` from storage has no `errors`; the form treats a
+    // missing list as invalid, so a valid restored rule would disable Apply.
+    const onChange = vi.fn<(filter: FormFilter) => void>()
+    const persisted: FormFilter = {
+      field: 'code',
+      type: 'text',
+      operator: 'contains',
+      values: ['x'],
+    }
+    render(
+      <FilterInput
+        filterConfigs={configs}
+        onChange={onChange}
+        value={persisted}
+      />
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0]).toMatchObject({
+      operator: 'contains',
+      values: ['x'],
+      errors: [],
+    })
+    // The caller's object is left alone.
+    expect(persisted.errors).toBeUndefined()
+  })
+
+  it('keeps a value typed without a separator when the input blurs', async () => {
+    // The tags Select commits the pending text as a chip during its blur,
+    // calling onChange then onBlur in the same event. onBlur must report the
+    // filter *with* that chip, or a new rule finalizes without it.
+    const onBlur = vi.fn<(filter: FormFilter) => void>()
+    render(
+      <FilterInput
+        filterConfigs={configs}
+        onBlur={onBlur}
+        value={{
+          field: 'code',
+          type: 'text',
+          operator: 'isAnyOf',
+          values: ['alpha'],
+          errors: [],
+        }}
+      />
+    )
+    const input = screen.getByRole('combobox', { name: 'Values' })
+    fireEvent.change(input, { target: { value: 'beta' } })
+    fireEvent.blur(input)
+
+    await waitFor(() => expect(onBlur).toHaveBeenCalled())
+    const last = onBlur.mock.calls[onBlur.mock.calls.length - 1][0]
+    expect(last.values).toEqual(['alpha', 'beta'])
+    expect(last.errors).toEqual([])
   })
 
   it('keeps a single text box for the default text operators', () => {

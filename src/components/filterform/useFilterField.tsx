@@ -290,7 +290,10 @@ const filterFieldReducer = (
           values: normalizeMultiValues(state.filter.values),
         }
       } else {
-        filter = state.filter
+        // A copy: the incoming object is the caller's, and writing `errors`
+        // onto it would hide the correction from `FilterInput`'s comparison
+        // of what it was given against what it initialized to.
+        filter = { ...state.filter }
       }
 
       filter.errors = validateFormFilter(filter, config)

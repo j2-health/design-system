@@ -42,10 +42,22 @@ export const FilterInput = ({
     disabled: config.disabled,
   }))
 
+  // Mirror of the reducer's filter for callbacks that run after a render.
+  const latestFilterRef = React.useRef(filter)
+  latestFilterRef.current = filter
+
+  // Deferred a tick, and read from the ref rather than the closure. A tags
+  // `Select` commits unseparated search text as a chip inside its own blur
+  // handling, so `onChange` and `onBlur` arrive in the same browser event and
+  // React flushes the resulting reducer update only after both return. A
+  // synchronous `onBlur` would hand the parent the filter from *before* that
+  // last chip — and for a new rule the parent finalizes and unmounts this
+  // input, silently dropping the value. After the flush the ref holds it.
   const handleBlur = () => {
-    if (filter) {
-      onBlur?.(filter)
-    }
+    setTimeout(() => {
+      const latest = latestFilterRef.current
+      if (latest) onBlur?.(latest)
+    }, 0)
   }
 
   // Track if this is a user-driven change (not initialization)
@@ -107,10 +119,19 @@ export const FilterInput = ({
   )
 }
 
+const sameList = (a: readonly unknown[], b: readonly unknown[]) =>
+  a.length === b.length && a.every((item, i) => item === b[i])
+
+// Whether initializing from a persisted filter changed anything the parent
+// holds — operator, values, or the validation result. `errors` counts: a
+// persisted rule can be unchanged yet newly invalid (a lowered `maxValues`),
+// or arrive with no `errors` at all (a plain `FilterForm` from storage), and
+// the form's validity is computed from the errors it holds, not from ours.
 const wasCorrectedOnInit = (persisted: FormFilter, current: FormFilter) =>
   persisted.operator !== current.operator ||
-  persisted.values.length !== current.values.length ||
-  persisted.values.some((v, i) => v !== current.values[i])
+  !sameList(persisted.values, current.values) ||
+  persisted.errors === undefined ||
+  !sameList(persisted.errors, current.errors ?? [])
 
 type ValueInputProps = {
   valueInputConfig: ValueInputConfig

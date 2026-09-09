@@ -29,9 +29,8 @@ export type FilterConfig = {
   // standard operators (`TypeToOperatorOptions`). Set it to add the
   // multi-value text operators (`isAnyOf` / `isNoneOf`) or to narrow the
   // choices; operators the type doesn't support are ignored. The multi-value
-  // operators are opt-in because a consumer's backend must understand them —
-  // an unknown text operator is silently dropped by some Q-builders, which
-  // leaves a table looking filtered when it isn't.
+  // operators are opt-in because a consumer has to support them end to end
+  // (serialization and evaluation) before offering them to users.
   operators?: Operator[]
   // Upper bound on the number of values a multi-value text rule may hold. The
   // value input shows a counter and the form refuses to apply past it. Unset
