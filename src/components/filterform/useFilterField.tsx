@@ -7,7 +7,12 @@ import {
   Operator,
   SelectOptionsType,
 } from './types'
-import { validateFormFilter } from './filterHelpers'
+import {
+  isMultiValueTextOperator,
+  normalizeMultiValues,
+  validateFormFilter,
+} from './filterHelpers'
+export { isMultiValueTextOperator } from './filterHelpers'
 export type UseFilterFieldInputs = {
   filterConfigs: FilterConfig[]
   filter?: FormFilter
@@ -65,10 +70,6 @@ export const MultiValueTextOperatorOptions: {
   { label: 'is any of', value: 'isAnyOf' },
   { label: 'is not any of', value: 'isNoneOf' },
 ]
-
-export const isMultiValueTextOperator = (
-  operator: string | undefined
-): boolean => operator === 'isAnyOf' || operator === 'isNoneOf'
 
 /**
  * Operator options a field offers: its type's default list unless the config
@@ -227,9 +228,13 @@ const filterFieldReducer = (
       const values =
         state.filter.type === 'number'
           ? action.payload.map((value) => Number(value))
-          : (action.payload.filter(
-              (value) => value !== null && value !== undefined
-            ) as string[])
+          : isMultiValueTextOperator(state.filter.operator)
+            ? // Normalized on the way into state, not just for display —
+              // validation counts and `onSubmit` emit exactly these chips.
+              normalizeMultiValues(action.payload)
+            : (action.payload.filter(
+                (value) => value !== null && value !== undefined
+              ) as string[])
 
       const pendingFilter = {
         ...state.filter,
@@ -255,19 +260,40 @@ const filterFieldReducer = (
 
       const operatorOptions = operatorOptionsFor(config)
 
-      const operator = state.filter?.operator || operatorOptions[0]?.value
+      // A persisted filter's operator must still be one this field offers.
+      // Configs change between sessions (a field narrowed to `contains`, or
+      // one that never opted into the multi-value operators), and the
+      // backend may not understand a stale operator — so it falls back to
+      // the field's first operator with its values cleared, rather than
+      // re-submitting something the config no longer allows.
+      const persisted = state.filter?.operator
+      const persistedAllowed =
+        persisted !== undefined &&
+        operatorOptions.some((option) => option.value === persisted)
+      const operator = persistedAllowed ? persisted : operatorOptions[0]?.value
 
-      const filter =
-        state.filter ??
-        ({
+      let filter: FormFilter
+      if (!state.filter) {
+        filter = {
           field,
           type: config.type,
           operator,
           values: [],
-        } as FormFilter)
+        } as FormFilter
+      } else if (!persistedAllowed) {
+        filter = { ...state.filter, operator, values: [] } as FormFilter
+      } else if (isMultiValueTextOperator(operator)) {
+        // Same normalization as `setValues`, so a persisted chip list that
+        // predates it (or was hand-edited) can't show one chip and count two.
+        filter = {
+          ...state.filter,
+          values: normalizeMultiValues(state.filter.values),
+        }
+      } else {
+        filter = state.filter
+      }
 
-      const errors = validateFormFilter(filter, config)
-      filter.errors = errors
+      filter.errors = validateFormFilter(filter, config)
 
       return {
         ...state,

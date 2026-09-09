@@ -5,9 +5,9 @@ import {
   TypeToOperatorOptions,
   useFilterField,
 } from '../useFilterField'
-import { FilterConfig } from '../types'
+import { FilterConfig, FormFilter } from '../types'
 
-const text: FilterConfig = { field: 'npi', label: 'NPI', type: 'text' }
+const text: FilterConfig = { field: 'code', label: 'Code', type: 'text' }
 const multi: FilterConfig = {
   ...text,
   operators: ['contains', 'isAnyOf', 'isNoneOf'],
@@ -100,7 +100,12 @@ describe('useFilterField with multi-value text operators', () => {
     const { result } = renderHook(() =>
       useFilterField({
         filterConfigs: [multi],
-        filter: { field: 'npi', type: 'text', operator: 'isAnyOf', values: [] },
+        filter: {
+          field: 'code',
+          type: 'text',
+          operator: 'isAnyOf',
+          values: [],
+        },
       })
     )
 
@@ -124,12 +129,109 @@ describe('useFilterField with multi-value text operators', () => {
     })
   })
 
+  it('normalizes chips as they enter state, so display, validation and submit agree', () => {
+    // Review finding: normalizing only the rendered chips let `['ABC','abc']`
+    // show one chip and "1 / 1 values" while validation counted two.
+    const capped: FilterConfig = { ...multi, maxValues: 1 }
+    const { result } = renderHook(() =>
+      useFilterField({
+        filterConfigs: [capped],
+        filter: {
+          field: 'code',
+          type: 'text',
+          operator: 'isAnyOf',
+          values: [],
+        },
+      })
+    )
+
+    act(() => result.current.handleValuesChange(['ABC', ' abc ', '', null]))
+
+    expect(result.current.filter?.values).toEqual(['ABC'])
+    expect(result.current.filter?.errors).toEqual([])
+  })
+
+  it('normalizes a persisted chip list on initialize', () => {
+    const { result } = renderHook(() =>
+      useFilterField({
+        filterConfigs: [{ ...multi, maxValues: 1 }],
+        filter: {
+          field: 'code',
+          type: 'text',
+          operator: 'isNoneOf',
+          values: ['ABC', 'abc'],
+        },
+      })
+    )
+    expect(result.current.filter?.values).toEqual(['ABC'])
+    expect(result.current.filter?.errors).toEqual([])
+  })
+
+  it('falls back when a persisted operator is not one the field offers', () => {
+    // Review finding: the persisted operator always won, so a config narrowed
+    // to `contains` could reopen and re-submit `endsWith`, and a field that
+    // never opted in could reopen `isAnyOf`.
+    const narrowed: FilterConfig = { ...text, operators: ['contains'] }
+    const stale: FormFilter = {
+      field: 'code',
+      type: 'text',
+      operator: 'endsWith',
+      values: ['x'],
+    }
+    const { result } = renderHook(() =>
+      useFilterField({ filterConfigs: [narrowed], filter: stale })
+    )
+    expect(result.current.filter?.operator).toBe('contains')
+    expect(result.current.filter?.values).toEqual([])
+    expect(result.current.filter?.errors).toEqual(['Value is required'])
+    expect(result.current.valueInputConfig).toEqual({
+      type: 'text',
+      multiValue: false,
+      maxValues: undefined,
+    })
+  })
+
+  it('does not offer a persisted isAnyOf on a field that never opted in', () => {
+    const { result } = renderHook(() =>
+      useFilterField({
+        filterConfigs: [text],
+        filter: {
+          field: 'code',
+          type: 'text',
+          operator: 'isAnyOf',
+          values: ['a', 'b'],
+        },
+      })
+    )
+    expect(result.current.filter?.operator).toBe('contains')
+    expect(result.current.filter?.values).toEqual([])
+    expect(result.current.operatorOptions.map((o) => o.value)).not.toContain(
+      'isAnyOf'
+    )
+  })
+
+  it('keeps a persisted operator that the field still offers', () => {
+    const { result } = renderHook(() =>
+      useFilterField({
+        filterConfigs: [text],
+        filter: {
+          field: 'code',
+          type: 'text',
+          operator: 'endsWith',
+          values: ['x'],
+        },
+      })
+    )
+    expect(result.current.filter?.operator).toBe('endsWith')
+    expect(result.current.filter?.values).toEqual(['x'])
+  })
+
   it('re-opens a persisted isAnyOf filter with its chips intact', () => {
     const { result } = renderHook(() =>
       useFilterField({
         filterConfigs: [multi],
         filter: {
-          field: 'npi',
+          field: 'code',
           type: 'text',
           operator: 'isNoneOf',
           values: ['1', '2'],

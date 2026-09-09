@@ -9,7 +9,6 @@ export type {
 } from './types'
 export {
   MultiValueTextOperatorOptions,
-  isMultiValueTextOperator,
   operatorOptionsFor,
 } from './useFilterField'
-export { normalizeMultiValues } from './FilterInput'
+export { isMultiValueTextOperator, normalizeMultiValues } from './filterHelpers'

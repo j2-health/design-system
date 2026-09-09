@@ -3,7 +3,7 @@ import { FilterConfig } from '.'
 import { useFilterField, ValueInputConfig } from './useFilterField'
 import { Input, InputNumber, Select, Typography } from 'antd'
 import { FormFilter } from './types'
-import { tooManyValuesMessage } from './filterHelpers'
+import { normalizeMultiValues, tooManyValuesMessage } from './filterHelpers'
 import cx from 'classnames'
 import { SizeType } from 'antd/es/config-provider/SizeContext'
 
@@ -54,9 +54,16 @@ export const FilterInput = ({
 
   React.useEffect(() => {
     // Skip the initial mount to avoid calling onChange during initialization
+    // — unless initialization itself corrected the persisted filter (an
+    // operator the field no longer offers, or a chip list that needed
+    // normalizing). Then the parent must learn about it, or it would keep
+    // and submit the stale filter until the user happened to touch the rule.
     if (isInitialMount.current) {
       isInitialMount.current = false
       prevFilterRef.current = filter
+      if (value && filter && wasCorrectedOnInit(value, filter)) {
+        onChange?.(filter)
+      }
       return
     }
 
@@ -99,6 +106,11 @@ export const FilterInput = ({
     </div>
   )
 }
+
+const wasCorrectedOnInit = (persisted: FormFilter, current: FormFilter) =>
+  persisted.operator !== current.operator ||
+  persisted.values.length !== current.values.length ||
+  persisted.values.some((v, i) => v !== current.values[i])
 
 type ValueInputProps = {
   valueInputConfig: ValueInputConfig
@@ -198,28 +210,6 @@ const ValueInput = ({
 export const MULTI_VALUE_TOKEN_SEPARATORS = [',', '\n', '\r', '\t']
 
 /**
- * Normalize a chip list: trim, drop empties, dedupe case-insensitively (the
- * match is case-insensitive, so `ABC` and `abc` are the same rule). Keeps
- * first-seen casing and order so the chips read the way they were pasted.
- */
-export const normalizeMultiValues = (
-  raw: (string | number | undefined | null)[] | undefined
-): string[] => {
-  const seen = new Set<string>()
-  const out: string[] = []
-  for (const value of raw ?? []) {
-    if (value === null || value === undefined) continue
-    const trimmed = String(value).trim()
-    if (trimmed === '') continue
-    const key = trimmed.toLowerCase()
-    if (seen.has(key)) continue
-    seen.add(key)
-    out.push(trimmed)
-  }
-  return out
-}
-
-/**
  * Chips input for the multi-value text operators (`isAnyOf` / `isNoneOf`).
  *
  * A tags Select rather than a text box split at query time: every token is
@@ -241,7 +231,13 @@ const MultiValueTextInput = ({
   onBlur: () => void
   size: SizeType
 }) => {
-  const chips = normalizeMultiValues(values)
+  // Rendered as stored: `useFilterField` normalizes values on the way into
+  // state, so what the chips show is exactly what validation counts and
+  // what `onSubmit` emits. (Numbers/nulls can't occur for a text filter;
+  // the map is only for the shared `values` type.)
+  const chips = (values ?? []).flatMap((value) =>
+    value === null || value === undefined ? [] : [String(value)]
+  )
   const over = maxValues !== undefined && chips.length > maxValues
 
   return (

@@ -1,5 +1,35 @@
 import { Filter } from './types'
 
+// Multi-value text operators — the value is a chip list, not a single string.
+export const isMultiValueTextOperator = (
+  operator: string | undefined
+): boolean => operator === 'isAnyOf' || operator === 'isNoneOf'
+
+/**
+ * Normalize a chip list: trim, drop empties, dedupe case-insensitively (the
+ * match is case-insensitive, so `ABC` and `abc` are the same rule). Keeps
+ * first-seen casing and order so the chips read the way they were pasted.
+ *
+ * Applied when values enter reducer state (`useFilterField`), so the chips
+ * on screen, the validation count and the submitted `values` are one array.
+ */
+export const normalizeMultiValues = (
+  raw: (string | number | undefined | null)[] | undefined
+): string[] => {
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const value of raw ?? []) {
+    if (value === null || value === undefined) continue
+    const trimmed = String(value).trim()
+    if (trimmed === '') continue
+    const key = trimmed.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push(trimmed)
+  }
+  return out
+}
+
 // The only `FilterConfig` fields validation consults. Passed separately from
 // the filter because a submitted `Filter` doesn't carry its config.
 export type FilterValueLimits = { maxValues?: number }

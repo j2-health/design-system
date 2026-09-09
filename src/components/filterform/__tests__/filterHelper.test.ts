@@ -146,7 +146,7 @@ describe('multi-value text operators', () => {
   it('treats an empty chip list as an empty filter', () => {
     expect(
       isEmptyFilter({
-        field: 'npi',
+        field: 'code',
         type: 'text',
         operator: 'isAnyOf',
         values: [],
@@ -154,7 +154,7 @@ describe('multi-value text operators', () => {
     ).toBe(true)
     expect(
       isEmptyFilter({
-        field: 'npi',
+        field: 'code',
         type: 'text',
         operator: 'isNoneOf',
         values: ['1', '2'],
@@ -164,7 +164,7 @@ describe('multi-value text operators', () => {
 
   it('reports too many values only when a limit is given', () => {
     const filter: Filter = {
-      field: 'npi',
+      field: 'code',
       type: 'text',
       operator: 'isAnyOf',
       values: ['1', '2', '3'],
@@ -172,7 +172,7 @@ describe('multi-value text operators', () => {
     expect(validateFilterField(filter)).toEqual([])
     expect(validateFilterField(filter, { maxValues: 3 })).toEqual([])
     expect(validateFilterField(filter, { maxValues: 2 })).toEqual([
-      { field: 'npi', message: 'Up to 2 values' },
+      { field: 'code', message: 'Up to 2 values' },
     ])
     expect(validateFormFilter(filter as FormFilter, { maxValues: 2 })).toEqual([
       'Up to 2 values',
