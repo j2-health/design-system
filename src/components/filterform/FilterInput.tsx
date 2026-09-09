@@ -1,28 +1,11 @@
 import * as React from 'react'
 import { FilterConfig } from '.'
-import { useFilterField } from './useFilterField'
-import { Input, InputNumber, Select } from 'antd'
+import { useFilterField, ValueInputConfig } from './useFilterField'
+import { Input, InputNumber, Select, Typography } from 'antd'
 import { FormFilter } from './types'
+import { normalizeMultiValues, tooManyValuesMessage } from './filterHelpers'
 import cx from 'classnames'
 import { SizeType } from 'antd/es/config-provider/SizeContext'
-
-type SelectValueInputConfig = {
-  type: 'select'
-  valueOptions: { label: string; value: string }[]
-}
-
-type NumberValueInputConfig = {
-  type: 'number'
-  inputCount: number
-  numberOptions?: { max: number; min: number; step: number }
-}
-
-type TextValueInputConfig = {
-  type: 'text'
-}
-
-type ValueInputConfig =
-  SelectValueInputConfig | NumberValueInputConfig | TextValueInputConfig
 
 type FilterInputProps = {
   value?: FormFilter
@@ -59,10 +42,22 @@ export const FilterInput = ({
     disabled: config.disabled,
   }))
 
+  // Mirror of the reducer's filter for callbacks that run after a render.
+  const latestFilterRef = React.useRef(filter)
+  latestFilterRef.current = filter
+
+  // Deferred a tick, and read from the ref rather than the closure. A tags
+  // `Select` commits unseparated search text as a chip inside its own blur
+  // handling, so `onChange` and `onBlur` arrive in the same browser event and
+  // React flushes the resulting reducer update only after both return. A
+  // synchronous `onBlur` would hand the parent the filter from *before* that
+  // last chip — and for a new rule the parent finalizes and unmounts this
+  // input, silently dropping the value. After the flush the ref holds it.
   const handleBlur = () => {
-    if (filter) {
-      onBlur?.(filter)
-    }
+    setTimeout(() => {
+      const latest = latestFilterRef.current
+      if (latest) onBlur?.(latest)
+    }, 0)
   }
 
   // Track if this is a user-driven change (not initialization)
@@ -71,9 +66,16 @@ export const FilterInput = ({
 
   React.useEffect(() => {
     // Skip the initial mount to avoid calling onChange during initialization
+    // — unless initialization itself corrected the persisted filter (an
+    // operator the field no longer offers, or a chip list that needed
+    // normalizing). Then the parent must learn about it, or it would keep
+    // and submit the stale filter until the user happened to touch the rule.
     if (isInitialMount.current) {
       isInitialMount.current = false
       prevFilterRef.current = filter
+      if (value && filter && wasCorrectedOnInit(value, filter)) {
+        onChange?.(filter)
+      }
       return
     }
 
@@ -116,6 +118,20 @@ export const FilterInput = ({
     </div>
   )
 }
+
+const sameList = (a: readonly unknown[], b: readonly unknown[]) =>
+  a.length === b.length && a.every((item, i) => item === b[i])
+
+// Whether initializing from a persisted filter changed anything the parent
+// holds — operator, values, or the validation result. `errors` counts: a
+// persisted rule can be unchanged yet newly invalid (a lowered `maxValues`),
+// or arrive with no `errors` at all (a plain `FilterForm` from storage), and
+// the form's validity is computed from the errors it holds, not from ours.
+const wasCorrectedOnInit = (persisted: FormFilter, current: FormFilter) =>
+  persisted.operator !== current.operator ||
+  !sameList(persisted.values, current.values) ||
+  persisted.errors === undefined ||
+  !sameList(persisted.errors, current.errors ?? [])
 
 type ValueInputProps = {
   valueInputConfig: ValueInputConfig
@@ -185,6 +201,17 @@ const ValueInput = ({
         </div>
       )
     case 'text':
+      if (valueInputConfig.multiValue) {
+        return (
+          <MultiValueTextInput
+            values={values}
+            maxValues={valueInputConfig.maxValues}
+            onChange={onChange}
+            onBlur={onBlur}
+            size={size}
+          />
+        )
+      }
       return (
         <Input
           onBlur={onBlur}
@@ -197,4 +224,72 @@ const ValueInput = ({
     default:
       return null
   }
+}
+
+// Commas, newlines (both flavours) and tabs: a column pasted from Excel or a
+// comma-separated list from an email both land as one chip per value.
+export const MULTI_VALUE_TOKEN_SEPARATORS = [',', '\n', '\r', '\t']
+
+/**
+ * Chips input for the multi-value text operators (`isAnyOf` / `isNoneOf`).
+ *
+ * A tags Select rather than a text box split at query time: every token is
+ * visible and individually removable before Apply, so a pasted value that
+ * itself contains a comma (street addresses do) can be seen and fixed
+ * instead of being silently shredded. The dropdown is kept closed — there
+ * are no options to pick from; Enter or a separator commits a chip.
+ */
+const MultiValueTextInput = ({
+  values,
+  maxValues,
+  onChange,
+  onBlur,
+  size,
+}: {
+  values?: (string | number | undefined | null)[]
+  maxValues?: number
+  onChange: (value: (string | number | undefined | null)[]) => void
+  onBlur: () => void
+  size: SizeType
+}) => {
+  // Rendered as stored: `useFilterField` normalizes values on the way into
+  // state, so what the chips show is exactly what validation counts and
+  // what `onSubmit` emits. (Numbers/nulls can't occur for a text filter;
+  // the map is only for the shared `values` type.)
+  const chips = (values ?? []).flatMap((value) =>
+    value === null || value === undefined ? [] : [String(value)]
+  )
+  const over = maxValues !== undefined && chips.length > maxValues
+
+  return (
+    <div className="flex flex-col gap-1 w-full min-w-0">
+      <Select
+        mode="tags"
+        tokenSeparators={MULTI_VALUE_TOKEN_SEPARATORS}
+        value={chips}
+        onChange={(next: string[]) => onChange(normalizeMultiValues(next))}
+        onBlur={onBlur}
+        open={false}
+        suffixIcon={null}
+        placeholder="Type or paste values, separated by commas"
+        className="w-full"
+        size={size}
+        status={over ? 'error' : undefined}
+        aria-label="Values"
+      />
+      {maxValues !== undefined && (
+        <Typography.Text
+          type={over ? 'danger' : 'secondary'}
+          className="text-xs"
+          role={over ? 'alert' : undefined}
+        >
+          {over
+            ? `${tooManyValuesMessage(maxValues)} — remove ${
+                chips.length - maxValues
+              } to apply`
+            : `${chips.length} / ${maxValues} values`}
+        </Typography.Text>
+      )}
+    </div>
+  )
 }

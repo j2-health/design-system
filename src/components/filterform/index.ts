@@ -5,4 +5,10 @@ export type {
   FilterType,
   Filter,
   FilterGroup,
+  Operator,
 } from './types'
+export {
+  MultiValueTextOperatorOptions,
+  operatorOptionsFor,
+} from './useFilterField'
+export { isMultiValueTextOperator, normalizeMultiValues } from './filterHelpers'

@@ -25,6 +25,17 @@ export type FilterConfig = {
   type: FilterType
   disabled?: boolean
   options?: SelectOptionsType | NumberOptionsType
+  // Opt-in operator list for this field. Unset, the field offers its type's
+  // standard operators (`TypeToOperatorOptions`). Set it to add the
+  // multi-value text operators (`isAnyOf` / `isNoneOf`) or to narrow the
+  // choices; operators the type doesn't support are ignored. The multi-value
+  // operators are opt-in because a consumer has to support them end to end
+  // (serialization and evaluation) before offering them to users.
+  operators?: Operator[]
+  // Upper bound on the number of values a multi-value text rule may hold. The
+  // value input shows a counter and the form refuses to apply past it. Unset
+  // means unlimited.
+  maxValues?: number
 }
 
 export type Operator =
@@ -41,6 +52,10 @@ export type Operator =
   | 'notContains'
   | 'startsWith'
   | 'endsWith'
+  // Multi-value exact match (text fields only, opt-in via
+  // `FilterConfig.operators`): `values` holds every token, one chip each.
+  | 'isAnyOf'
+  | 'isNoneOf'
 
 type SelectFilter = {
   field: string
@@ -76,6 +91,8 @@ type TextFilter = {
         | 'endsWith'
         | 'blank'
         | 'notBlank'
+        | 'isAnyOf'
+        | 'isNoneOf'
       >
     | undefined
   values: string[]
