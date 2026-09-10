@@ -47,7 +47,10 @@ jobs:
           # Assigned separately: inside `echo "$(...)"` the command
           # substitution's failure is masked by echo's own exit status, so
           # set -e would not see it and PEERS would silently be empty.
-          peers="$(node -p "Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r).join(' ')")"
+          # Emitted as a JSON array, one spec per element, because a range
+          # can contain spaces ("^12.5.0 || ^13.0.1") and word-splitting a
+          # flat string would hand the shell a literal `||`.
+          peers="$(node -p "JSON.stringify(Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r))")"
           echo "peers=$peers" >> "$GITHUB_OUTPUT"
 
       - name: Build a scratch consumer against the tarball
@@ -68,11 +71,13 @@ jobs:
           # Peer dependencies come from the consuming app, exactly as they
           # would in a real one. This includes the tailwindcss v3 pin: the
           # preset is a v3 config, and npm installs a v4 mismatch with only
-          # a warning. Word-split the derived list, with globbing off so a
-          # range containing * stays literal.
-          set -f
-          npm install --silent $PEERS
-          set +f
+          # a warning. Each spec is passed as its own quoted argument, so a
+          # range with spaces or an OR (`^12.5.0 || ^13.0.1`) or a `*` stays
+          # one literal spec.
+          peers=()
+          while IFS= read -r spec; do peers+=("$spec"); done \
+            < <(node -e 'JSON.parse(process.env.PEERS).forEach((p) => console.log(p))')
+          npm install --silent "${peers[@]}"
           npm install --silent -D vite@^6 typescript@^5 \
             @types/react@^18.3.1 @types/react-dom@^18.3.1
           npm install --silent "$TARBALL"
