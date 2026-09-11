@@ -43,7 +43,7 @@ exports[`Table > should render correctly 1`] = `
                   >
                     <tr
                       class="ant-table-row ant-table-row-level-0"
-                      data-row-key="{"carrier":"aetna"}"
+                      data-row-key="aetna"
                     >
                       <td
                         class="ant-table-cell"

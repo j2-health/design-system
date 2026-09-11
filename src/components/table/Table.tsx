@@ -167,7 +167,7 @@ const Table = <T extends unknown = any>({
         loading={loading}
         columns={columns}
         pagination={paginationConfig}
-        rowKey={(record) => JSON.stringify(record)}
+        rowKey={props.rowKey ?? ((record) => JSON.stringify(record))}
         locale={{
           emptyText: (
             <div
