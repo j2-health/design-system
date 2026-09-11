@@ -24,17 +24,43 @@ export const FiltersForm = ({
   initialValues,
   maxFiltersPerField = 5,
 }: Props) => {
-  const { dispatch, filterGroups, isNewFilterInputOpen, isValid, isEmpty } =
-    useFiltersForm({
-      initialValues,
-    })
+  const {
+    dispatch,
+    filterGroups,
+    newFilter,
+    isNewFilterInputOpen,
+    isValid,
+    isEmpty,
+  } = useFiltersForm({
+    initialValues,
+  })
 
   const handleSubmit = () => {
+    // A rule still in the "new rule" input only joins `filterGroups` when
+    // that input blurs. Clicking Apply does blur it, but the commit is not
+    // guaranteed to have landed by the time this handler reads the groups
+    // (the inputs defer their blur so a chip committed during it isn't
+    // lost), so a user who types a value and clicks Apply straight away
+    // would submit without the rule they just wrote. `newFilter` tracks
+    // that input on every change, so include it here when it is complete;
+    // once the blur commit lands it is cleared, so it is never counted twice.
+    // `errors` lives on the form-side FormFilter, so it is read before
+    // `isFilter` narrows to the public Filter type.
+    const pending =
+      newFilter &&
+      (newFilter.errors?.length ?? 0) === 0 &&
+      isFilter(newFilter) &&
+      !isEmptyFilter(newFilter)
+        ? [newFilter]
+        : []
     onSubmit({
-      filters: filterGroups
-        .flatMap((group) => group.filters)
-        .filter((filter) => isFilter(filter))
-        .filter((filter) => !isEmptyFilter(filter)),
+      filters: [
+        ...filterGroups
+          .flatMap((group) => group.filters)
+          .filter((filter) => isFilter(filter))
+          .filter((filter) => !isEmptyFilter(filter)),
+        ...pending,
+      ],
     })
   }
 
