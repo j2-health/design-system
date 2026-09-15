@@ -469,4 +469,78 @@ describe('SummarizedSelect', () => {
       expect(screen.getByText('nonexistent')).toBeInTheDocument()
     })
   })
+
+  describe('Disabled options', () => {
+    const withDisabled = [
+      { label: 'Bronze Plan', value: 'bronze' },
+      {
+        label: 'Silver Plan',
+        value: 'silver',
+        disabled: true,
+        title: 'Not available on your plan',
+      },
+    ]
+
+    it('does not select a disabled option on the dropdown trigger', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+
+      const { container } = render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={withDisabled}
+          value=""
+          onChange={onChange}
+        />
+      )
+      // Typography.Link renders an href-less anchor, which carries no
+      // implicit role, so there is nothing to query it by.
+      await user.click(container.querySelector('a')!)
+      await user.click(screen.getByRole('option', { name: /Silver Plan/ }))
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('marks a disabled option on the dropdown trigger, with its title', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={withDisabled}
+          value=""
+          onChange={() => {}}
+        />
+      )
+      await user.click(container.querySelector('a')!)
+
+      const disabled = screen.getByRole('option', { name: /Silver Plan/ })
+      expect(disabled).toHaveAttribute('aria-disabled', 'true')
+      expect(disabled).toHaveAttribute('title', 'Not available on your plan')
+      expect(disabled).toHaveClass('cursor-not-allowed')
+
+      const enabled = screen.getByRole('option', { name: /Bronze Plan/ })
+      expect(enabled).not.toHaveAttribute('aria-disabled')
+      expect(enabled).toHaveClass('cursor-pointer')
+    })
+
+    it('does not select a disabled option when Enter picks the first match', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+
+      render(
+        <SummarizedSelect
+          options={withDisabled}
+          value=""
+          onChange={onChange}
+          searchPlaceholder="Search..."
+        />
+      )
+      await user.click(screen.getByRole('combobox'))
+      await user.type(screen.getByPlaceholderText('Search...'), 'Silver')
+      await user.keyboard('{Enter}')
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+  })
 })
