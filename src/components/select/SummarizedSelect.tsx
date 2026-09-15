@@ -201,7 +201,10 @@ export function SummarizedSelect({
   const handleSelectFirstOption = () => {
     if (flatFilteredOptions.length === 0) return
 
-    const firstOption = flatFilteredOptions[0]
+    // First SELECTABLE, not first: antd refuses a disabled option on click but
+    // this Enter handler is ours, so without the filter typing enough to leave
+    // one disabled option on screen and pressing Enter selected it.
+    const firstOption = flatFilteredOptions.find((opt) => !opt.disabled)
     if (!firstOption) return
 
     const optionValue = firstOption.value as string
@@ -377,17 +380,31 @@ export function SummarizedSelect({
       ? value.includes(optionValue)
       : value === optionValue
     const hasLogo = 'logo' in option && (option as OptionWithLogo).logo
+    // `disabled` is honoured here as it is on the `select` trigger. Without
+    // it this variant offered a disabled option as an ordinary row and called
+    // `onChange` for it, so a caller's own guard was the only thing refusing
+    // the selection -- which made the click look broken rather than declined.
+    // `title` carries the caller's explanation, since this variant renders its
+    // own rows and never reaches `optionRender`.
+    const isDisabled = Boolean(option.disabled)
     return (
       <div
         key={optionValue}
         role="option"
         aria-selected={isSelected}
-        onClick={() => handleOptionClick(optionValue)}
+        aria-disabled={isDisabled || undefined}
+        title={option.title as string | undefined}
+        onClick={isDisabled ? undefined : () => handleOptionClick(optionValue)}
         className={cx(
-          'px-3 py-1.5 rounded cursor-pointer text-sm',
-          isSelected
-            ? 'bg-[var(--j2-color-primary)] text-white hover:bg-[var(--j2-color-primary)]'
-            : 'hover:bg-[var(--j2-color-bg-hover)]'
+          'px-3 py-1.5 rounded text-sm',
+          isDisabled
+            ? 'cursor-not-allowed text-[var(--j2-color-text-disabled)]'
+            : cx(
+                'cursor-pointer',
+                isSelected
+                  ? 'bg-[var(--j2-color-primary)] text-white hover:bg-[var(--j2-color-primary)]'
+                  : 'hover:bg-[var(--j2-color-bg-hover)]'
+              )
         )}
       >
         {hasLogo ? (
