@@ -3,15 +3,25 @@
 exports[`InputNumber > should render correctly 1`] = `
 <div>
   <div
-    class="ant-input-number ant-input-number-lg css-dev-only-do-not-override-mncuj7 ant-input-number-outlined j2InputNumber"
+    class="ant-input-number ant-input-number-mode-input css-var-root ant-input-number-css-var css-dev-only-do-not-override-19u5a7b j2InputNumber ant-input-number-outlined ant-input-number-lg"
   >
+    <input
+      aria-valuenow="1"
+      autocomplete="off"
+      class="ant-input-number-input"
+      id="test"
+      name="test"
+      role="spinbutton"
+      step="1"
+      value="1"
+    />
     <div
-      class="ant-input-number-handler-wrap"
+      class="ant-input-number-actions"
     >
       <span
         aria-disabled="false"
         aria-label="Increase Value"
-        class="ant-input-number-handler ant-input-number-handler-up"
+        class="ant-input-number-action ant-input-number-action-up"
         role="button"
         unselectable="on"
       >
@@ -30,7 +40,7 @@ exports[`InputNumber > should render correctly 1`] = `
       <span
         aria-disabled="false"
         aria-label="Decrease Value"
-        class="ant-input-number-handler ant-input-number-handler-down"
+        class="ant-input-number-action ant-input-number-action-down"
         role="button"
         unselectable="on"
       >
@@ -46,20 +56,6 @@ exports[`InputNumber > should render correctly 1`] = `
           />
         </svg>
       </span>
-    </div>
-    <div
-      class="ant-input-number-input-wrap"
-    >
-      <input
-        aria-valuenow="1"
-        autocomplete="off"
-        class="ant-input-number-input"
-        id="test"
-        name="test"
-        role="spinbutton"
-        step="1"
-        value="1"
-      />
     </div>
   </div>
 </div>

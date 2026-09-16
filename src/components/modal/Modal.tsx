@@ -19,7 +19,6 @@ const Modal = ({
     <AntdModal
       title={title}
       className={cx('j2-modal')}
-      maskClosable={true}
       centered
       closeIcon={<XIcon size={22} weight="regular" />}
       onCancel={onCancel}

@@ -107,29 +107,62 @@ the repo root; submodule consumers should alias `design-system` to that file
 explicitly, since the package.json `exports` map points at `dist/`, which only
 exists in the published package.
 
+### Migrating to 0.4.0 (Ant Design 6)
+
+Version 0.4.0 requires **antd ^6.6.3** and **@ant-design/icons ^6.3.4**. Upgrade
+both with the design system; Ant Design 5 is no longer supported. React 18.3.1
+and React 19 remain supported, and Tailwind stays on v3. Ant Design 6 requires
+modern browsers with CSS-variable support.
+
+```bash
+npm install @j2-health/design-system@^0.4.0 antd@^6.6.3 @ant-design/icons@^6.3.4
+```
+
+`formik-antd` is no longer a dependency: its published peer range excludes Ant
+Design 6. The design system's `Form`, `Form.Item`, `Input`, `InputNumber`, and
+`Select` now bind directly to Formik. Keep these components inside a `<Formik>`
+provider. Nested field names, validation, touched state, submission, reset, and
+field callbacks continue to use Formik.
+
+If your application imports `formik-antd` directly, migrate those imports before
+uninstalling it. Use the design-system exports for the components above; other
+controls need an explicit Formik binding. `Form.Item` validation should use
+Formik's `validate` or `validationSchema`, rather than antd's separate form
+store and `rules` API.
+
+Review direct antd imports and custom `.ant-*` CSS using the
+[Ant Design 6 migration guide](https://ant.design/docs/react/migration-v6).
+Several internal DOM classes changed. For types, derive step items from
+`NonNullable<StepsProps['items']>[number]` instead of the removed `StepProps`
+export. The design-system `Tag` retains its outlined default and trailing
+spacing; raw antd tags follow the new v6 defaults.
+
 ### Local development against a consuming app
 
-To work on a component and see it live in an app that depends on this package, point the
-app's bundler at this checkout's source rather than linking the built package. Consuming
-apps support this through a `DESIGN_SYSTEM_LOCAL` environment variable:
+To work on a component and see it live in an app that depends on this package,
+point the app's bundler at this checkout's source rather than linking the built
+package. Consuming apps support this through a `DESIGN_SYSTEM_LOCAL` environment
+variable:
 
 ```bash
 DESIGN_SYSTEM_LOCAL=/path/to/design-system npm run dev
 ```
 
-**Do not use `npm link` or `npm install ../design-system`.** This package declares 12 peer
-dependencies that are also devDependencies, because Storybook and the test suite need them
-to run. A linked install resolves those imports from this checkout's own `node_modules`
-rather than the app's, so the app ends up with two copies of React and two copies of antd.
+**Do not use `npm link` or `npm install ../design-system`.** This package
+declares peer dependencies that are also devDependencies, because Storybook and
+the test suite need them to run. A linked install resolves those imports from
+this checkout's own `node_modules` rather than the app's, so the app ends up
+with two copies of React and two copies of antd.
 
-Two copies of React raise `Invalid hook call`, which is at least obvious. Two copies of antd
-fail silently: `AppConfigProvider` supplies the theme through antd's `ConfigProvider`, a
-React context singleton, so a component resolved from the second copy reads an empty context
-and renders unthemed with no error and no warning. Because it only reproduces under a linked
-install, it looks like a bug in this library that disappears the moment you publish.
+Two copies of React raise `Invalid hook call`, which is at least obvious. Two
+copies of antd fail silently: `AppConfigProvider` supplies the theme through
+antd's `ConfigProvider`, a React context singleton, so a component resolved from
+the second copy reads an empty context and renders unthemed with no error and no
+warning. Because it only reproduces under a linked install, it looks like a bug
+in this library that disappears the moment you publish.
 
-Consuming apps must also set `resolve.dedupe` for `react`, `react-dom`, and `antd`, since a
-local checkout has its own `node_modules`.
+Consuming apps must also set `resolve.dedupe` for `react`, `react-dom`, and
+`antd`, since a local checkout has its own `node_modules`.
 
 ### Publishing to npm
 
@@ -144,9 +177,9 @@ consequences worth knowing before you change anything here:
 - **Renaming or moving `publish-workflow.yml` breaks publishing.** The trusted
   publisher is matched on the exact filename, case-sensitive. Update it on
   npmjs.com in the same change.
-- **Do not lower `.node-version` below 24.5.0.** Trusted publishing needs
-  npm >= 11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts
-  this rather than letting it surface later as an unexplained 401.
+- **Do not lower `.node-version` below 24.5.0.** Trusted publishing needs npm >=
+  11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts this
+  rather than letting it surface later as an unexplained 401.
 
 To release a new version — maintainers only, since step 2 needs write access to
 this repository:
@@ -160,7 +193,7 @@ $ gh workflow run publish-workflow.yml --ref main
 ```
 
 Or, in the UI, **Actions → Publish to npm → Run workflow** with `main` selected.
-Pick the ref carefully: the publish job is *skipped* rather than failed on any
+Pick the ref carefully: the publish job is _skipped_ rather than failed on any
 other ref, so a dispatch from a feature branch reports success without
 publishing.
 
@@ -176,8 +209,8 @@ nowhere to push to.
 Pushing a `v*` tag also triggers a release. Tag the remote `main` commit
 explicitly: a bare `git tag` tags your current `HEAD`, and the workflow accepts
 any tag ref, so a tag on an unmerged branch would publish that branch. Push the
-tag explicitly too — `git push --follow-tags` silently skips lightweight tags and
-would report success without publishing:
+tag explicitly too — `git push --follow-tags` silently skips lightweight tags
+and would report success without publishing:
 
 ```bash
 $ git fetch origin main

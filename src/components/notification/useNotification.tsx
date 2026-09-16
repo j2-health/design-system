@@ -54,14 +54,17 @@ export const useNotification = () => {
     type: Expand<NotificationType>,
     config: Expand<NotificationArgsProps>
   ) => {
+    const { message, title, btn, actions, ...restConfig } = config
     api[type]({
       icon: getIcon(type),
-      ...config,
+      ...restConfig,
+      title: title ?? message,
+      actions: actions ?? btn,
       closeIcon: (
         <XIcon color="var(--j2-color-icon)" size={22} weight="regular" />
       ),
       className: cx({
-        [s.messageOnly]: config.message && !config.description,
+        [s.messageOnly]: (title ?? message) && !config.description,
       }),
     })
   }

@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Formik, useFormikContext } from 'formik'
-import { Form } from 'formik-antd'
+import { Form } from '../../form'
 import { Select } from '../Select'
 
 const renderWithForm = (selectElement: ReactElement) => {
@@ -43,6 +43,59 @@ const planOptions = [
 ]
 
 describe('Select', () => {
+  it('forwards tag search even when showSearch is false', async () => {
+    const user = userEvent.setup()
+    const onSearch = vi.fn()
+    renderMultipleWithForm(
+      <Select
+        name="test"
+        mode="tags"
+        showSearch={false}
+        options={planOptions}
+        onSearch={onSearch}
+      />
+    )
+    await user.type(screen.getByRole('combobox'), 'Bronze')
+    expect(onSearch).toHaveBeenLastCalledWith('Bronze')
+  })
+
+  it('tracks search supplied through the v6 showSearch config', async () => {
+    const user = userEvent.setup()
+    const onSearch = vi.fn()
+    renderMultipleWithForm(
+      <Select
+        name="test"
+        mode="multiple"
+        showSearch={{ onSearch }}
+        options={planOptions}
+      />
+    )
+    await user.click(screen.getByRole('combobox'))
+    await user.type(screen.getByRole('combobox'), 'Bronze')
+    expect(onSearch).toHaveBeenLastCalledWith('Bronze')
+    expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+  })
+
+  it.each(['multiple', 'tags'] as const)(
+    'forwards implicit search in %s mode and hides bulk selection while filtering',
+    async (mode) => {
+      const user = userEvent.setup()
+      const onSearch = vi.fn()
+      renderMultipleWithForm(
+        <Select
+          name="test"
+          mode={mode}
+          options={planOptions}
+          onSearch={onSearch}
+        />
+      )
+      await user.click(screen.getByRole('combobox'))
+      await user.type(screen.getByRole('combobox'), 'Bronze')
+      expect(onSearch).toHaveBeenLastCalledWith('Bronze')
+      expect(screen.queryByText('Select all')).not.toBeInTheDocument()
+    }
+  )
+
   it('should render correctly', () => {
     const { container } = renderWithForm(<Select name="test" />)
     expect(container).toMatchSnapshot()

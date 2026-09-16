@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Select as AntDSelect } from 'formik-antd'
-import { Spin } from 'antd'
+import { Select as AntDSelect, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import type {
   SelectProps as AntDSelectProps,
@@ -40,6 +39,7 @@ export const Select = (props: SelectProps) => {
   const [field, , helpers] = useField(props.name)
 
   const isMultiple = props.mode === 'multiple'
+  const isSearchable = props.mode === 'tags' || (props.showSearch ?? isMultiple)
   const hasOptions = (props.options?.length ?? 0) > 0
   const currentValue: unknown[] = Array.isArray(field.value) ? field.value : []
   const showSelectAllFooter =
@@ -51,9 +51,11 @@ export const Select = (props: SelectProps) => {
 
   const handleSearch = (value: string) => {
     setIsSearching(value.length > 0)
-    if (props.onSearch) {
-      props.onSearch(value)
-    }
+    const onSearch =
+      typeof props.showSearch === 'object'
+        ? (props.showSearch.onSearch ?? props.onSearch)
+        : props.onSearch
+    onSearch?.(value)
   }
 
   const handleToggleAll = () => {
@@ -126,26 +128,41 @@ export const Select = (props: SelectProps) => {
             size="small"
             data-testid="loading-spinner"
           />
-        ) : props.showSearch && isFocused ? (
+        ) : isSearchable && isFocused ? (
           <MagnifyingGlassIcon size={14} data-testid="magnifying-glass" />
         ) : (
           <CaretDownIcon size={14} data-testid="caret-down" />
         )
       }
       {...props}
+      id={props.id ?? props.name}
+      value={
+        field.value === '' || field.value === null ? undefined : field.value
+      }
+      onChange={(value, option) => {
+        void helpers.setValue(value)
+        props.onChange?.(value, option)
+      }}
       popupRender={dropdownRender}
       removeIcon={<XCircleIcon size={12} />}
       allowClear={
         props.allowClear ? { clearIcon: <XCircleIcon size={14} /> } : false
       }
-      showSearch={props.showSearch}
-      onSearch={handleSearch}
-      onFocus={() => {
+      showSearch={
+        typeof props.showSearch === 'object'
+          ? { ...props.showSearch, onSearch: handleSearch }
+          : props.showSearch
+      }
+      onSearch={isSearchable ? handleSearch : undefined}
+      onFocus={(event) => {
         setIsFocused(true)
+        props.onFocus?.(event)
       }}
-      onBlur={() => {
+      onBlur={(event) => {
+        void helpers.setTouched(true)
         setIsFocused(false)
         setIsSearching(false)
+        props.onBlur?.(event)
       }}
       size={props.size || 'large'}
     />

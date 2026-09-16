@@ -51,6 +51,8 @@ export const Tag = ({
   showIcon = false,
   icon,
   size = 'default',
+  bordered,
+  variant,
   ...props
 }: Props) => {
   const iconComponent = React.useMemo(() => {
@@ -78,9 +80,11 @@ export const Tag = ({
   return (
     <AntdTag
       {...props}
+      variant={variant ?? (bordered === false ? 'filled' : 'outlined')}
       color={status}
       icon={iconComponent}
       className={cx(
+        'j2-tag',
         props.className,
         statusToClassName[status],
         size === 'small' && '!px-1 !py-0 !h-auto !text-j2-xs !rounded-j2-sm'

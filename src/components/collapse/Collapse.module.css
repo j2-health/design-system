@@ -1,6 +1,6 @@
-.default :global(.ant-collapse-header-text),
-.warning :global(.ant-collapse-header-text),
-.error :global(.ant-collapse-header-text) {
+.default :global(.ant-collapse-title),
+.warning :global(.ant-collapse-title),
+.error :global(.ant-collapse-title) {
   display: flex;
   align-items: center;
   gap: var(--j2-size-xs);
@@ -16,7 +16,7 @@
   border-bottom-color: var(--j2-color-warning-border) !important;
 }
 
-.warning :global(.ant-collapse-content) {
+.warning :global(.ant-collapse-panel) {
   border-top-color: var(--j2-color-warning-border) !important;
 }
 
@@ -34,7 +34,7 @@
   border-bottom-color: var(--j2-color-error-border) !important;
 }
 
-.error :global(.ant-collapse-content) {
+.error :global(.ant-collapse-panel) {
   border-top-color: var(--j2-color-error-border) !important;
 }
 

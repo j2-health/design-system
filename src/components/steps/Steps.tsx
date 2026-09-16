@@ -1,11 +1,11 @@
-import { Steps as AntdSteps, StepsProps, StepProps } from 'antd'
+import { Steps as AntdSteps, StepsProps } from 'antd'
 import './Steps.css'
 import { CheckIcon } from '@phosphor-icons/react'
 import cx from 'classnames'
 import { useSteps } from './useSteps'
 
 type AllProps = StepsProps & {
-  items: StepProps[]
+  items: NonNullable<StepsProps['items']>
   dot?: boolean
   current?: number
   setCurrent?: (current: number) => void
@@ -18,9 +18,14 @@ export const Steps = ({
   current,
   setCurrent,
   dot = false,
+  direction,
+  orientation,
+  size,
+  labelPlacement,
+  titlePlacement,
   ...props
 }: Props) => {
-  const isVertical = props.direction === 'vertical'
+  const isVertical = (orientation ?? direction) === 'vertical'
   const totalSteps = items?.length || 0
 
   const { current: currentStep, setCurrent: setCurrentStep } = useSteps({
@@ -33,17 +38,22 @@ export const Steps = ({
     <AntdSteps
       className="j2Steps"
       {...props}
+      orientation={orientation ?? direction}
+      titlePlacement={titlePlacement ?? labelPlacement}
+      size={size === 'default' ? 'medium' : size}
       current={currentStep}
       onChange={(curr) => setCurrentStep(curr)}
-      {...(dot && { progressDot: true })}
+      {...(dot && { type: 'dot' })}
       items={items?.map((item, index) => {
+        const { description, ...restItem } = item
         return {
-          ...item,
+          ...restItem,
+          content: item.content ?? description,
           icon:
             !dot && currentStep > index ? (
               <div
                 className={cx(
-                  `check-${props.size}`,
+                  `check-${size === 'small' ? 'small' : 'medium'}`,
                   isVertical ? `vertical-check-icon` : `check-icon`
                 )}
               >

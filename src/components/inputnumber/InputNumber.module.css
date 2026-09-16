@@ -1,26 +1,26 @@
 .j2InputNumber:global(.ant-input-number) {
   &:hover {
-    :global(.ant-input-number-handler-wrap) {
+    :global(.ant-input-number-actions) {
       max-width: 100%;
       width: auto;
     }
   }
 
-  :global(.ant-input-number-handler-wrap) {
+  :global(.ant-input-number-actions) {
     max-width: 0;
     transition: max-width 0.2s;
 
-    :global(.ant-input-number-handler) {
+    :global(.ant-input-number-action) {
       height: 50%;
       padding: 0 12px;
       color: var(--j2-color-primary);
     }
 
-    :global(.ant-input-number-handler-up) {
+    :global(.ant-input-number-action-up) {
       align-items: flex-end;
     }
 
-    :global(.ant-input-number-handler-down) {
+    :global(.ant-input-number-action-down) {
       border-block-start: none;
       align-items: flex-start;
     }

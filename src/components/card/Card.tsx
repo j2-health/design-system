@@ -41,7 +41,7 @@ const Card = ({
         className
       )}
       {...props}
-      size={size === 'large' || size === 'compact' ? 'default' : size}
+      size={size === 'small' ? 'small' : 'medium'}
       title={title}
       loading={loading}
     >

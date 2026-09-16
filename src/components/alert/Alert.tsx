@@ -23,6 +23,11 @@ const Alert = ({
   closable = false,
   showIcon = true,
   banner = false,
+  message,
+  title,
+  closeIcon,
+  onClose,
+  afterClose,
   ...props
 }: Props) => {
   const { token } = theme.useToken()
@@ -86,12 +91,22 @@ const Alert = ({
     <AntdAlert
       className={styles.alert}
       icon={icon}
-      closable={closable}
+      closable={
+        closable
+          ? {
+              closeIcon: closeIcon ?? (
+                <XIcon size={token.size} weight="regular" />
+              ),
+              onClose,
+              afterClose,
+            }
+          : false
+      }
       showIcon={showIcon}
       type={antDType}
       banner={banner}
       description={description}
-      closeIcon={<XIcon size={token.size} weight="regular" />}
+      title={title ?? message}
       {...props}
     />
   )

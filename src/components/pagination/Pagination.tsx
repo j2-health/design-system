@@ -1,9 +1,9 @@
 import {
   Pagination as AntdPagination,
   PaginationProps,
+  Button,
   Select,
   SelectProps,
-  Button,
 } from 'antd'
 import cx from 'classnames'
 import {
@@ -117,6 +117,8 @@ export const withDesignSystemPaginationOverrides = (
   return {
     ...pagination,
     locale: { ...getPaginationLocale(small), ...pagination.locale },
+    // Keep antd in charge of visibility (including Table's filtered total).
+    // showSizeChanger's SelectProps alternative would force it visible.
     selectComponentClass: paginationSelectComponentClass,
     itemRender: buildItemRender({
       paginationTextLabels,
