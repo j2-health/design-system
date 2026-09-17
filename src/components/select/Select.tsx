@@ -11,7 +11,8 @@ import {
   XCircleIcon,
 } from '@phosphor-icons/react'
 import { useState } from 'react'
-import { useField } from 'formik'
+import type { FieldProps } from 'formik'
+import { FormikField } from '../form/FormikField'
 
 type SelectProps = Expand<AntDSelectProps> & {
   name: string
@@ -33,10 +34,22 @@ const flattenOptions = (
   )
 }
 
-export const Select = (props: SelectProps) => {
+export const Select = (props: SelectProps) => (
+  <FormikField name={props.name}>
+    {({ field, form }) => (
+      <SelectControl props={props} field={field} form={form} />
+    )}
+  </FormikField>
+)
+
+const SelectControl = ({
+  props,
+  field,
+  form,
+}: { props: SelectProps } & Pick<FieldProps, 'field' | 'form'>) => {
   const [isFocused, setIsFocused] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
-  const [field, , helpers] = useField(props.name)
+  const helpers = form.getFieldHelpers(props.name)
 
   const isMultiple = props.mode === 'multiple'
   const isSearchable = props.mode === 'tags' || (props.showSearch ?? isMultiple)

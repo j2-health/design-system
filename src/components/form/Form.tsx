@@ -6,10 +6,20 @@ import './Form.css'
 
 type Props = Expand<Omit<FormProps, 'children'> & { children?: ReactNode }>
 
-export const Form = ({ children, ...props }: Props) => {
+export const Form = ({ children, onFinish, onReset, ...props }: Props) => {
   const { handleSubmit, handleReset } = useFormikContext()
   return (
-    <AntdForm onFinish={() => handleSubmit()} onReset={handleReset} {...props}>
+    <AntdForm
+      {...props}
+      onFinish={(values) => {
+        handleSubmit()
+        onFinish?.(values)
+      }}
+      onReset={(event) => {
+        handleReset(event)
+        onReset?.(event)
+      }}
+    >
       {children}
     </AntdForm>
   )

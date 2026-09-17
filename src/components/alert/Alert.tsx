@@ -26,6 +26,7 @@ const Alert = ({
   message,
   title,
   closeIcon,
+  closeText,
   onClose,
   afterClose,
   ...props
@@ -92,11 +93,11 @@ const Alert = ({
       className={styles.alert}
       icon={icon}
       closable={
-        closable
+        closable || closeText
           ? {
-              closeIcon: closeIcon ?? (
-                <XIcon size={token.size} weight="regular" />
-              ),
+              closeIcon:
+                closeText ||
+                (closeIcon ?? <XIcon size={token.size} weight="regular" />),
               onClose,
               afterClose,
             }
