@@ -3,7 +3,7 @@
 exports[`Radio > should render correctly 1`] = `
 <div>
   <label
-    class="ant-radio-wrapper css-dev-only-do-not-override-mncuj7"
+    class="ant-radio-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
   >
     <span
       class="ant-radio ant-wave-target"
@@ -13,9 +13,6 @@ exports[`Radio > should render correctly 1`] = `
         type="radio"
         value="aetna"
       />
-      <span
-        class="ant-radio-inner"
-      />
     </span>
   </label>
 </div>
@@ -24,10 +21,11 @@ exports[`Radio > should render correctly 1`] = `
 exports[`RadioGroup > should render correctly 1`] = `
 <div>
   <div
-    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-mncuj7"
+    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
+    role="radiogroup"
   >
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-mncuj7"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
     >
       <span
         class="ant-radio-button"
@@ -38,9 +36,6 @@ exports[`RadioGroup > should render correctly 1`] = `
           type="radio"
           value="aetna"
         />
-        <span
-          class="ant-radio-button-inner"
-        />
       </span>
       <span
         class="ant-radio-button-label"
@@ -49,7 +44,7 @@ exports[`RadioGroup > should render correctly 1`] = `
       </span>
     </label>
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-mncuj7"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
     >
       <span
         class="ant-radio-button"
@@ -59,9 +54,6 @@ exports[`RadioGroup > should render correctly 1`] = `
           name="test-id"
           type="radio"
           value="cigna"
-        />
-        <span
-          class="ant-radio-button-inner"
         />
       </span>
       <span

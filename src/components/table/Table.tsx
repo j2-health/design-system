@@ -39,7 +39,7 @@ const Table = <T extends unknown = any>({
 }: Props<T>) => {
   const defaultLoadingProps: SpinProps = {
     indicator: <Spinner className="!w-fit !h-fit !mx-0 translate-x-[-50%]" />,
-    tip: (
+    description: (
       <div className="mt-20">
         <h4>Loading this chart</h4>
         <span className="text-lg">Please wait a moment</span>

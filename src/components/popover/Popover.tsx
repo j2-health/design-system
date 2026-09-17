@@ -22,11 +22,13 @@ const Popover = ({
   smallPadding = false,
   paddingSize,
   arrow = false,
+  rootClassName,
   ...props
 }: PopoverProps) => {
   return (
     <AntdPopover
-      overlayClassName={cx(
+      rootClassName={cx(
+        rootClassName,
         styles.j2Popover,
         scrollable && styles.scrollable,
         smallPadding && styles.smallPadding,

@@ -3,47 +3,33 @@
 exports[`Select > should not render clear icon when allowClear is disabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              readonly=""
-              role="combobox"
-              style="opacity: 0;"
-              type="search"
-              unselectable="on"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          readonly=""
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix"
       >
         <svg
           data-testid="caret-down"
@@ -57,7 +43,7 @@ exports[`Select > should not render clear icon when allowClear is disabled 1`] =
             d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
           />
         </svg>
-      </span>
+      </div>
     </div>
   </form>
 </div>
@@ -66,47 +52,33 @@ exports[`Select > should not render clear icon when allowClear is disabled 1`] =
 exports[`Select > should render correctly 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              readonly=""
-              role="combobox"
-              style="opacity: 0;"
-              type="search"
-              unselectable="on"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          readonly=""
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix"
       >
         <svg
           data-testid="caret-down"
@@ -120,7 +92,7 @@ exports[`Select > should render correctly 1`] = `
             d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
           />
         </svg>
-      </span>
+      </div>
     </div>
   </form>
 </div>
@@ -129,47 +101,33 @@ exports[`Select > should render correctly 1`] = `
 exports[`Select > should render with allowClear enabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-allow-clear ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              readonly=""
-              role="combobox"
-              style="opacity: 0;"
-              type="search"
-              unselectable="on"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          readonly=""
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix"
       >
         <svg
           data-testid="caret-down"
@@ -183,7 +141,7 @@ exports[`Select > should render with allowClear enabled 1`] = `
             d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
           />
         </svg>
-      </span>
+      </div>
     </div>
   </form>
 </div>
@@ -192,52 +150,38 @@ exports[`Select > should render with allowClear enabled 1`] = `
 exports[`Select > should render with loading indicator 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-loading"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow ant-select-loading"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              readonly=""
-              role="combobox"
-              style="opacity: 0;"
-              type="search"
-              unselectable="on"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          readonly=""
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow ant-select-arrow-loading"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix ant-select-suffix-loading"
       >
         <div
           aria-busy="true"
           aria-live="polite"
-          class="ant-spin ant-spin-sm ant-spin-spinning css-dev-only-do-not-override-mncuj7"
+          class="ant-spin ant-spin-sm ant-spin-spinning ant-spin-section css-dev-only-do-not-override-19u5a7b css-var-root"
           data-testid="loading-spinner"
         >
           <span
@@ -260,7 +204,7 @@ exports[`Select > should render with loading indicator 1`] = `
             </svg>
           </span>
         </div>
-      </span>
+      </div>
     </div>
   </form>
 </div>
@@ -269,47 +213,33 @@ exports[`Select > should render with loading indicator 1`] = `
 exports[`Select > should render with options 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              readonly=""
-              role="combobox"
-              style="opacity: 0;"
-              type="search"
-              unselectable="on"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          readonly=""
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix"
       >
         <svg
           data-testid="caret-down"
@@ -323,7 +253,7 @@ exports[`Select > should render with options 1`] = `
             d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
           />
         </svg>
-      </span>
+      </div>
     </div>
   </form>
 </div>
@@ -332,44 +262,32 @@ exports[`Select > should render with options 1`] = `
 exports[`Select > should render with search enabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-dev-only-do-not-override-mncuj7"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-dev-only-do-not-override-mncuj7 ant-select-single ant-select-show-arrow ant-select-show-search"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow ant-select-show-search"
+      name="test"
     >
       <div
-        class="ant-select-selector"
+        class="ant-select-content"
       >
-        <span
-          class="ant-select-selection-wrap"
-        >
-          <span
-            class="ant-select-selection-search"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="test_list"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="test_list"
-              autocomplete="off"
-              class="ant-select-selection-search-input"
-              id="test"
-              role="combobox"
-              type="search"
-              value=""
-            />
-          </span>
-          <span
-            class="ant-select-selection-placeholder"
-          />
-        </span>
+        <div
+          class="ant-select-placeholder"
+        />
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="new-password"
+          class="ant-select-input"
+          id="test"
+          role="combobox"
+          type="text"
+          value=""
+        />
       </div>
-      <span
-        aria-hidden="true"
-        class="ant-select-arrow"
-        style="user-select: none;"
-        unselectable="on"
+      <div
+        class="ant-select-suffix"
       >
         <svg
           data-testid="caret-down"
@@ -383,7 +301,7 @@ exports[`Select > should render with search enabled 1`] = `
             d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
           />
         </svg>
-      </span>
+      </div>
     </div>
   </form>
 </div>

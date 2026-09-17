@@ -3,31 +3,34 @@
 exports[`Alert > should render correctly 1`] = `
 <div>
   <div
-    class="ant-alert ant-alert-success alert css-dev-only-do-not-override-mncuj7"
+    class="ant-alert ant-alert-success ant-alert-outlined alert css-var-root css-dev-only-do-not-override-19u5a7b"
     data-show="true"
     role="alert"
   >
     <span
       class="ant-alert-icon"
-      style="display: flex; align-items: center;"
     >
-      <svg
-        fill="var(--j2-color-success-text)"
-        height="16"
-        viewBox="0 0 256 256"
-        width="16"
-        xmlns="http://www.w3.org/2000/svg"
+      <span
+        style="display: flex; align-items: center;"
       >
-        <path
-          d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
-        />
-      </svg>
+        <svg
+          fill="var(--j2-color-success-text)"
+          height="16"
+          viewBox="0 0 256 256"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
+          />
+        </svg>
+      </span>
     </span>
     <div
-      class="ant-alert-content"
+      class="ant-alert-section"
     >
       <div
-        class="ant-alert-message"
+        class="ant-alert-title"
       >
         Hello world
       </div>

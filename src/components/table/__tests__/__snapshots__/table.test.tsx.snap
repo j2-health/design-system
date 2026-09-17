@@ -6,16 +6,18 @@ exports[`Table > should render correctly 1`] = `
     class=""
   >
     <div
-      class="ant-table-wrapper css-dev-only-do-not-override-mncuj7"
+      class="css-var-root ant-table-css-var ant-table-wrapper css-dev-only-do-not-override-19u5a7b"
     >
       <div
-        class="ant-spin-nested-loading css-dev-only-do-not-override-mncuj7"
+        aria-busy="false"
+        aria-live="polite"
+        class="ant-spin css-dev-only-do-not-override-19u5a7b css-var-root"
       >
         <div
           class="ant-spin-container"
         >
           <div
-            class="ant-table css-dev-only-do-not-override-mncuj7"
+            class="ant-table css-var-root ant-table-css-var css-dev-only-do-not-override-19u5a7b"
           >
             <div
               class="ant-table-container"
@@ -48,9 +50,7 @@ exports[`Table > should render correctly 1`] = `
                       <td
                         class="ant-table-cell"
                       >
-                        <span
-                          aria-describedby="test-id"
-                        >
+                        <span>
                           aetna
                         </span>
                       </td>

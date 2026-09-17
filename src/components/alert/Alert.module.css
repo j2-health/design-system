@@ -20,7 +20,7 @@
   margin-top: 2px; /* Match icon alignment */
 }
 
-.alert:not(:global(.ant-alert-with-description)) :global(.ant-alert-message) {
+.alert:not(:global(.ant-alert-with-description)) :global(.ant-alert-title) {
   line-height: 1.5714285714285714; /* Theme line height token value */
 }
 

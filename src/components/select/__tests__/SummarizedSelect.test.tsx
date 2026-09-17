@@ -105,9 +105,9 @@ describe('SummarizedSelect', () => {
         />
       )
 
-      expect(
-        container.querySelector('.ant-select-selection-item')
-      ).toHaveTextContent('Silver Plan')
+      expect(container.querySelector('.ant-select-content')).toHaveTextContent(
+        'Silver Plan'
+      )
     })
   })
 
@@ -136,9 +136,9 @@ describe('SummarizedSelect', () => {
         />
       )
 
-      expect(
-        container.querySelector('.ant-select-selection-overflow')
-      ).toHaveTextContent('2 plans selected')
+      expect(container.querySelector('.ant-select-content')).toHaveTextContent(
+        '2 plans selected'
+      )
     })
 
     it('should display tags in popup when opened', async () => {

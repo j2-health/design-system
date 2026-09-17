@@ -3,10 +3,10 @@
 exports[`Skeleton > should render correctly 1`] = `
 <div>
   <div
-    class="ant-skeleton css-dev-only-do-not-override-mncuj7"
+    class="ant-skeleton css-dev-only-do-not-override-19u5a7b css-var-root"
   >
     <div
-      class="ant-skeleton-content"
+      class="ant-skeleton-section"
     >
       <h3
         class="ant-skeleton-title"

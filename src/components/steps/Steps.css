@@ -1,10 +1,10 @@
 .j2Steps {
-  .ant-steps-item-custom > .ant-steps-icon {
+  .ant-steps-item-icon {
     display: flex;
     align-items: center;
   }
 
-  .ant-steps-item-custom:has(.vertical-check-icon) > .ant-steps-item-container {
+  .ant-steps-item:has(.vertical-check-icon) > .ant-steps-item-wrapper {
     align-items: flex-start;
   }
 
@@ -24,7 +24,7 @@
   }
 
   .check-small,
-  .check-default {
+  .check-medium {
     border-radius: 50%;
   }
 
@@ -34,19 +34,19 @@
     background-color: var(--j2-blue-1);
   }
 
-  .check-default {
+  .check-medium {
     width: 32px;
     height: 32px;
     background-color: var(--j2-blue-1);
   }
 
-  .check-default svg,
+  .check-medium svg,
   .check-small svg {
     display: block;
     margin: auto;
   }
 
-  .ant-steps-item-title::after {
+  .ant-steps-item-rail {
     color: var(--j2-blue-9);
   }
 }

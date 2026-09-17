@@ -1,5 +1,5 @@
 /* Modal Component Styling */
-.j2-modal .ant-modal-content {
+.j2-modal .ant-modal-container {
   background: var(--j2-color-bg-elevated);
   border-radius: var(--j2-border-radius-lg);
   padding: 0;

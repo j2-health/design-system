@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Formik } from 'formik'
-import { Form } from 'formik-antd'
+import { Form } from '../form'
 import { Select } from './Select'
 
 const meta = {

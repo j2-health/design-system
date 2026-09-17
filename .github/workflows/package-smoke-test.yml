@@ -87,13 +87,28 @@ jobs:
           # Import from the package root and the ./tailwind subpath so a
           # broken exports map fails here rather than in a consumer repo.
           cat > src/main.tsx <<'EOF'
-          import { createElement } from 'react'
           import { createRoot } from 'react-dom/client'
-          import { Button, AppConfigProvider } from '@j2-health/design-system'
+          import { Formik } from 'formik'
+          import { Button, AppConfigProvider, Form, Input, InputNumber, Select } from '@j2-health/design-system'
           import '@j2-health/design-system/style.css'
 
           createRoot(document.getElementById('root')!).render(
-            createElement(AppConfigProvider, null, createElement(Button, null, 'ok'))
+            <AppConfigProvider>
+              <Formik initialValues={{ title: '', count: 1, choice: '' }} onSubmit={() => {}}>
+                <Form>
+                  <Form.Item name="title" label="Title" validate={(value: string) => value ? undefined : 'Required'}>
+                    <Input name="title" fast />
+                  </Form.Item>
+                  <Form.Item name="count" label="Count">
+                    <InputNumber name="count" />
+                  </Form.Item>
+                  <Form.Item name="choice" label="Choice">
+                    <Select name="choice" options={[{ value: 'a', label: 'Option A' }]} />
+                  </Form.Item>
+                  <Button htmlType="submit">Save</Button>
+                </Form>
+              </Formik>
+            </AppConfigProvider>
           )
           EOF
 

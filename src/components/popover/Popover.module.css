@@ -1,26 +1,26 @@
 .j2Popover {
-  :global(.ant-popover-inner) {
+  :global(.ant-popover-container) {
     padding: var(--j2-padding-lg);
   }
 
   &.smallPadding,
-  &.smPadding :global(.ant-popover-inner) {
+  &.smPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-sm);
   }
 
-  &.xxsPadding :global(.ant-popover-inner) {
+  &.xxsPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-xxs);
   }
 
-  &.xsPadding :global(.ant-popover-inner) {
+  &.xsPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-xs);
   }
 
-  &.mdPadding :global(.ant-popover-inner) {
+  &.mdPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-md);
   }
 
-  &.xlPadding :global(.ant-popover-inner) {
+  &.xlPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-xl);
   }
 
@@ -38,7 +38,7 @@
 }
 
 .scrollable {
-  :global(.ant-popover-inner) {
+  :global(.ant-popover-container) {
     padding: 0;
   }
 
@@ -54,7 +54,7 @@
     border-radius: var(--j2-border-radius) var(--j2-border-radius) 0 0;
   }
 
-  :global(.ant-popover-inner-content) {
+  :global(.ant-popover-content) {
     padding: var(--j2-padding-sm) var(--j2-padding-sm) var(--j2-padding-sm)
       var(--j2-padding-sm);
     overflow: auto;

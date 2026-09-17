@@ -1,4 +1,4 @@
-:global(.ant-notification-notice-message) {
+:global(.ant-notification-notice-title) {
   font-size: var(--j2-font-size-lg);
   font-weight: var(--j2-font-weight-strong);
   line-height: var(--j2-line-height-lg);
@@ -12,10 +12,10 @@
 }
 
 .messageOnly {
-  :global(.ant-notification-notice-message) {
+  :global(.ant-notification-notice-title) {
     font-weight: var(--j2-font-weight-normal);
   }
-  :global(.ant-notification-notice-message) {
+  :global(.ant-notification-notice-title) {
     margin-bottom: 0 !important;
   }
 }

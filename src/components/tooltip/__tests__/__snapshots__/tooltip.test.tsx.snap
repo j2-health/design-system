@@ -2,9 +2,7 @@
 
 exports[`Tooltip > should render correctly 1`] = `
 <div>
-  <div
-    aria-describedby="test-id"
-  >
+  <div>
     Aetna
   </div>
 </div>

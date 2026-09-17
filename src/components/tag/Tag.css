@@ -1,3 +1,7 @@
+.j2-tag {
+  margin-inline-end: var(--j2-margin-xs);
+}
+
 .ant-tag .anticon + span {
   margin-inline-start: var(--j2-margin-xxs);
 }

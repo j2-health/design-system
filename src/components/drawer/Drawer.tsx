@@ -21,7 +21,12 @@ export const Drawer = ({
     <AntdDrawer
       {...props}
       closable={false}
-      {...(fillPage && { height: '100vh', width: '100vw' })}
+      {...(fillPage && {
+        size:
+          props.placement === 'top' || props.placement === 'bottom'
+            ? '100vh'
+            : '100vw',
+      })}
       {...(footer && { footer })}
       extra={
         <Space>
