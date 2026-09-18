@@ -1,0 +1,337 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ManageColumnsPanel > should render correctly 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+  >
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2 opacity-50"
+    >
+      <label
+        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-disabled flex items-center flex-1 min-w-0 cursor-not-allowed css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b ant-checkbox-checked ant-checkbox-disabled"
+        >
+          <input
+            checked=""
+            class="ant-checkbox-input"
+            disabled=""
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Name"
+          >
+            Name
+          </span>
+        </span>
+      </label>
+    </div>
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2"
+    >
+      <label
+        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked flex items-center flex-1 min-w-0 cursor-pointer css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b ant-checkbox-checked"
+        >
+          <input
+            checked=""
+            class="ant-checkbox-input"
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Category"
+          >
+            Category
+          </span>
+        </span>
+      </label>
+      <button
+        aria-describedby="DndDescribedBy-18"
+        aria-disabled="false"
+        aria-label="Drag to reorder Category"
+        aria-roledescription="sortable"
+        class="p-1 text-j2-text cursor-grab active:cursor-grabbing"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          class="rotate-90"
+          fill="currentColor"
+          height="16"
+          viewBox="0 0 256 256"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M76,92A16,16,0,1,1,60,76,16,16,0,0,1,76,92Zm52-16a16,16,0,1,0,16,16A16,16,0,0,0,128,76Zm68,32a16,16,0,1,0-16-16A16,16,0,0,0,196,108ZM60,148a16,16,0,1,0,16,16A16,16,0,0,0,60,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,128,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,196,148Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2"
+    >
+      <label
+        class="ant-checkbox-wrapper flex items-center flex-1 min-w-0 cursor-pointer css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b"
+        >
+          <input
+            class="ant-checkbox-input"
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Status"
+          >
+            Status
+          </span>
+        </span>
+      </label>
+      <button
+        aria-describedby="DndDescribedBy-18"
+        aria-disabled="false"
+        aria-label="Drag to reorder Status"
+        aria-roledescription="sortable"
+        class="p-1 text-j2-text cursor-grab active:cursor-grabbing"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          class="rotate-90"
+          fill="currentColor"
+          height="16"
+          viewBox="0 0 256 256"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M76,92A16,16,0,1,1,60,76,16,16,0,0,1,76,92Zm52-16a16,16,0,1,0,16,16A16,16,0,0,0,128,76Zm68,32a16,16,0,1,0-16-16A16,16,0,0,0,196,108ZM60,148a16,16,0,1,0,16,16A16,16,0,0,0,60,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,128,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,196,148Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div
+    id="DndDescribedBy-18"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-18"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="mt-2 pt-1 border-t border-j2-border-secondary"
+  >
+    <button
+      aria-label="Select all"
+      class="w-full text-center font-semibold text-sm py-1.5 rounded cursor-pointer text-j2-primary hover:bg-j2-primary-bg-hover bg-transparent border-0"
+      title="Select all"
+      type="button"
+    >
+      Select all
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ManageColumnsPanel > should render with a description and every column visible 1`] = `
+<div>
+  <p
+    class="text-sm text-j2-text mb-4"
+  >
+    You can hide, show, or reorder columns.
+  </p>
+  <div
+    class="flex flex-col"
+  >
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2 opacity-50"
+    >
+      <label
+        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-disabled flex items-center flex-1 min-w-0 cursor-not-allowed css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b ant-checkbox-checked ant-checkbox-disabled"
+        >
+          <input
+            checked=""
+            class="ant-checkbox-input"
+            disabled=""
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Name"
+          >
+            Name
+          </span>
+        </span>
+      </label>
+    </div>
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2"
+    >
+      <label
+        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked flex items-center flex-1 min-w-0 cursor-pointer css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b ant-checkbox-checked"
+        >
+          <input
+            checked=""
+            class="ant-checkbox-input"
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Category"
+          >
+            Category
+          </span>
+        </span>
+      </label>
+      <button
+        aria-describedby="DndDescribedBy-19"
+        aria-disabled="false"
+        aria-label="Drag to reorder Category"
+        aria-roledescription="sortable"
+        class="p-1 text-j2-text cursor-grab active:cursor-grabbing"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          class="rotate-90"
+          fill="currentColor"
+          height="16"
+          viewBox="0 0 256 256"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M76,92A16,16,0,1,1,60,76,16,16,0,0,1,76,92Zm52-16a16,16,0,1,0,16,16A16,16,0,0,0,128,76Zm68,32a16,16,0,1,0-16-16A16,16,0,0,0,196,108ZM60,148a16,16,0,1,0,16,16A16,16,0,0,0,60,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,128,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,196,148Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="flex items-center justify-between gap-2 py-1.5 pl-2 -ml-2 bg-white rounded has-[button:hover]:bg-j2-gray-2"
+    >
+      <label
+        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked flex items-center flex-1 min-w-0 cursor-pointer css-var-root ant-checkbox-css-var css-dev-only-do-not-override-19u5a7b"
+      >
+        <span
+          class="ant-checkbox ant-wave-target css-dev-only-do-not-override-19u5a7b ant-checkbox-checked"
+        >
+          <input
+            checked=""
+            class="ant-checkbox-input"
+            type="checkbox"
+          />
+        </span>
+        <span
+          class="ant-checkbox-label"
+        >
+          <span
+            class="truncate text-j2-lg text-j2-text"
+            title="Status"
+          >
+            Status
+          </span>
+        </span>
+      </label>
+      <button
+        aria-describedby="DndDescribedBy-19"
+        aria-disabled="false"
+        aria-label="Drag to reorder Status"
+        aria-roledescription="sortable"
+        class="p-1 text-j2-text cursor-grab active:cursor-grabbing"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          class="rotate-90"
+          fill="currentColor"
+          height="16"
+          viewBox="0 0 256 256"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M76,92A16,16,0,1,1,60,76,16,16,0,0,1,76,92Zm52-16a16,16,0,1,0,16,16A16,16,0,0,0,128,76Zm68,32a16,16,0,1,0-16-16A16,16,0,0,0,196,108ZM60,148a16,16,0,1,0,16,16A16,16,0,0,0,60,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,128,148Zm68,0a16,16,0,1,0,16,16A16,16,0,0,0,196,148Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div
+    id="DndDescribedBy-19"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-19"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="mt-2 pt-1 border-t border-j2-border-secondary"
+  >
+    <button
+      aria-label="Clear all"
+      class="w-full text-center font-semibold text-sm py-1.5 rounded cursor-pointer text-j2-primary hover:bg-j2-primary-bg-hover bg-transparent border-0"
+      title="Clear all"
+      type="button"
+    >
+      Clear all
+    </button>
+  </div>
+</div>
+`;
