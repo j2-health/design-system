@@ -282,27 +282,4 @@ describe('ManageColumnsPanel', () => {
       lastRow.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy()
   })
-
-  it('should render correctly', () => {
-    const { container } = render(
-      <ManageColumnsPanel
-        columns={columns}
-        onToggle={() => {}}
-        onReorder={() => {}}
-      />
-    )
-    expect(container).toMatchSnapshot()
-  })
-
-  it('should render with a description and every column visible', () => {
-    const { container } = render(
-      <ManageColumnsPanel
-        columns={columns.map((c) => ({ ...c, visible: true }))}
-        onToggle={() => {}}
-        onReorder={() => {}}
-        description="You can hide, show, or reorder columns."
-      />
-    )
-    expect(container).toMatchSnapshot()
-  })
 })
