@@ -8,6 +8,6 @@ declare module '*.svg?react' {
   // vite-plugin-svgr's ?react suffix returns the component as the default
   // export. This was previously typed as `string`, which forced callers to
   // suppress a type error at every use site.
-  // eslint-disable-next-line import/no-default-export
+  // eslint-disable-next-line no-restricted-exports
   export default ReactComponent
 }
