@@ -61,7 +61,7 @@ const meta = {
   tags: ['autodocs'],
 }
 
-// eslint-disable-next-line import/no-default-export
+// eslint-disable-next-line no-restricted-exports
 export default meta
 type Story = StoryObj<typeof meta>
 
