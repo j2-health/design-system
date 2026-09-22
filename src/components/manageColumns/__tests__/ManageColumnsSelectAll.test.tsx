@@ -22,9 +22,7 @@ describe('ManageColumnsSelectAll', () => {
 
   it('shows "Clear all" once every toggleable column is visible', () => {
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
-    render(
-      <ManageColumnsSelectAll columns={allVisible} onToggle={() => {}} />
-    )
+    render(<ManageColumnsSelectAll columns={allVisible} onToggle={() => {}} />)
     expect(
       screen.getByRole('button', { name: 'Clear all' })
     ).toBeInTheDocument()
@@ -43,9 +41,7 @@ describe('ManageColumnsSelectAll', () => {
   it('clear-all toggles every currently-visible, non-pinned column', () => {
     const onToggle = vi.fn()
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
-    render(
-      <ManageColumnsSelectAll columns={allVisible} onToggle={onToggle} />
-    )
+    render(<ManageColumnsSelectAll columns={allVisible} onToggle={onToggle} />)
     fireEvent.click(screen.getByRole('button', { name: 'Clear all' }))
     // 'name' is pinned and excluded; 'category' and 'status' are both
     // toggleable and visible, so clear-all hides both.
@@ -134,7 +130,9 @@ describe('ManageColumnsSelectAll', () => {
         />
       </>
     )
-    expect(screen.getByRole('button', { name: 'Select all' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Select all' })
+    ).toBeInTheDocument()
     expect(screen.getByText('Category')).toBeInTheDocument()
   })
 })
