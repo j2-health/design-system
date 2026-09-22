@@ -31,8 +31,6 @@ export type ManageColumnsPanelProps = {
   /** Columns in display order. Put any `pinned` columns first. */
   columns: ManageColumnsColumn[]
   onToggle?: (id: string) => void
-  /** Batched select-all/clear-all handler — prefer this over the `onToggle` loop fallback, which can drop updates under a closure-captured state snapshot. */
-  onToggleAll?: (ids: string[], visible: boolean) => void
   onReorder?: (orderedIds: string[]) => void
   description?: ReactNode
 }
@@ -40,27 +38,10 @@ export type ManageColumnsPanelProps = {
 export function ManageColumnsPanel({
   columns,
   onToggle,
-  onToggleAll,
   onReorder,
   description,
 }: ManageColumnsPanelProps) {
   const toggleable = useMemo(() => columns.filter((c) => !c.pinned), [columns])
-  const allVisible = toggleable.length > 0 && toggleable.every((c) => c.visible)
-  const showSelectAllFooter = toggleable.length > 0
-
-  const handleSelectAllToggle = () => {
-    const affected = toggleable.filter((c) => c.visible === allVisible)
-    if (onToggleAll) {
-      onToggleAll(
-        affected.map((c) => c.id),
-        !allVisible
-      )
-      return
-    }
-    for (const column of affected) {
-      onToggle?.(column.id)
-    }
-  }
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -109,19 +90,6 @@ export function ManageColumnsPanel({
           </div>
         </SortableContext>
       </DndContext>
-      {showSelectAllFooter && (
-        <div className="mt-2 pt-1 border-t border-j2-border-secondary">
-          <button
-            type="button"
-            aria-label={allVisible ? 'Clear all' : 'Select all'}
-            title={allVisible ? 'Clear all' : 'Select all'}
-            onClick={handleSelectAllToggle}
-            className="w-full text-center font-semibold text-sm py-1.5 rounded cursor-pointer text-j2-primary hover:bg-j2-primary-bg-hover bg-transparent border-0"
-          >
-            {allVisible ? 'Clear all' : 'Select all'}
-          </button>
-        </div>
-      )}
     </>
   )
 }
