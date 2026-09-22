@@ -116,4 +116,51 @@ describe('ManageColumnsPanel', () => {
     )
     expect(container.querySelector('.overflow-y-auto')).toBeNull()
   })
+
+  it('shows a visible-count summary excluding pinned columns', () => {
+    render(
+      <ManageColumnsPanel
+        columns={columns}
+        onToggle={() => {}}
+        onReorder={() => {}}
+      />
+    )
+    // 'name' is pinned (excluded); 'category' is visible, 'status' is not.
+    expect(screen.getByText('1/2 Columns Shown')).toBeInTheDocument()
+  })
+
+  it('composes the select-all control above the description', () => {
+    const onToggle = vi.fn()
+    render(
+      <ManageColumnsPanel
+        columns={columns}
+        onToggle={onToggle}
+        onReorder={() => {}}
+        description="Custom copy"
+      />
+    )
+    const selectAll = screen.getByRole('button', { name: 'Select all' })
+    const description = screen.getByText('Custom copy')
+    expect(
+      selectAll.compareDocumentPosition(description) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+    fireEvent.click(selectAll)
+    expect(onToggle).toHaveBeenCalledWith('status')
+  })
+
+  it('hides the summary and select-all control when every column is pinned', () => {
+    const allPinned = columns.map((c) => ({ ...c, pinned: true }))
+    render(
+      <ManageColumnsPanel
+        columns={allPinned}
+        onToggle={() => {}}
+        onReorder={() => {}}
+      />
+    )
+    expect(screen.queryByText(/Columns Shown/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /select all|clear all/i })
+    ).not.toBeInTheDocument()
+  })
 })

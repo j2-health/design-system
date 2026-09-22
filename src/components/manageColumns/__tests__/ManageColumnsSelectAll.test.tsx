@@ -1,10 +1,7 @@
 import { vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { ManageColumnsSelectAll } from '../ManageColumnsSelectAll'
-import {
-  ManageColumnsPanel,
-  type ManageColumnsColumn,
-} from '../ManageColumnsPanel'
+import type { ManageColumnsColumn } from '../ManageColumnsPanel'
 
 const columns: ManageColumnsColumn[] = [
   { id: 'name', label: 'Name', visible: true, pinned: true },
@@ -114,25 +111,5 @@ describe('ManageColumnsSelectAll', () => {
       <ManageColumnsSelectAll columns={allPinned} onToggle={() => {}} />
     )
     expect(container).toBeEmptyDOMElement()
-  })
-
-  it('is meant to pair with ManageColumnsPanel, not replace it', () => {
-    // Sanity check that both components accept the same `columns` shape —
-    // a consumer renders them side by side (e.g. one in a header, one in
-    // the panel body), not one instead of the other.
-    render(
-      <>
-        <ManageColumnsSelectAll columns={columns} onToggle={() => {}} />
-        <ManageColumnsPanel
-          columns={columns}
-          onToggle={() => {}}
-          onReorder={() => {}}
-        />
-      </>
-    )
-    expect(
-      screen.getByRole('button', { name: 'Select all' })
-    ).toBeInTheDocument()
-    expect(screen.getByText('Category')).toBeInTheDocument()
   })
 })

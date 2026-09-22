@@ -12,10 +12,10 @@ export type ManageColumnsSelectAllProps = {
 }
 
 /**
- * Select-all/clear-all control for `ManageColumnsPanel`, rendered
- * separately so a consumer can place it in their own panel header
- * (permanently visible, never scrolled away) instead of inside the
- * panel's own scrolling content.
+ * Select-all/clear-all control, composed by `ManageColumnsPanel` itself
+ * above its description. Kept as its own component (not inlined) so it
+ * can also be reused standalone if a consumer ever needs it — matching
+ * how `BulkActionBar` is a standalone control too, not baked into a list.
  */
 export function ManageColumnsSelectAll({
   columns,

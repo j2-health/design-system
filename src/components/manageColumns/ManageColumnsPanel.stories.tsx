@@ -6,7 +6,6 @@ import {
   ManageColumnsPanel,
   type ManageColumnsColumn,
 } from './ManageColumnsPanel'
-import { ManageColumnsSelectAll } from './ManageColumnsSelectAll'
 
 const longColumns: ManageColumnsColumn[] = [
   { id: 'name', label: 'Name', visible: true, pinned: true },
@@ -19,15 +18,12 @@ const longColumns: ManageColumnsColumn[] = [
 
 // Generic reproduction of the real side-panel chrome (fixed width, header
 // bar, scrollable body) — not a design system component, just enough
-// structure to show where `ManageColumnsSelectAll` actually lives: in the
-// host's header, permanently visible, never scrolled away with the list.
+// structure to show scroll behavior in a realistic container.
 function PanelShell({
   title,
-  headerAction,
   children,
 }: {
   title: string
-  headerAction?: ReactNode
   children: ReactNode
 }) {
   return (
@@ -37,12 +33,9 @@ function PanelShell({
     >
       <div className="flex items-center justify-between gap-3 h-[50px] px-4 py-3 border-b border-j2-border shrink-0">
         <h2 className="text-base font-semibold text-j2-text m-0">{title}</h2>
-        <div className="flex items-center gap-3">
-          {headerAction}
-          <Button className="p-0" type="link" aria-label="Close">
-            <XIcon size={22} weight="regular" />
-          </Button>
-        </div>
+        <Button className="p-0" type="link" aria-label="Close">
+          <XIcon size={22} weight="regular" />
+        </Button>
       </div>
       <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>
     </div>
@@ -74,23 +67,17 @@ type Story = StoryObj<typeof meta>
 
 function renderDefault(args: Story['args']) {
   const [columns, setColumns] = useState(args!.columns!)
-  const handleToggle = (id: string) => {
-    args!.onToggle?.(id)
-    setColumns((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, visible: !c.visible } : c))
-    )
-  }
   return (
-    <PanelShell
-      title="Manage Columns"
-      headerAction={
-        <ManageColumnsSelectAll columns={columns} onToggle={handleToggle} />
-      }
-    >
+    <PanelShell title="Manage Columns">
       <ManageColumnsPanel
         {...args}
         columns={columns}
-        onToggle={handleToggle}
+        onToggle={(id) => {
+          args!.onToggle?.(id)
+          setColumns((prev) =>
+            prev.map((c) => (c.id === id ? { ...c, visible: !c.visible } : c))
+          )
+        }}
         onReorder={(orderedIds) => {
           args!.onReorder?.(orderedIds)
           setColumns((prev) => {

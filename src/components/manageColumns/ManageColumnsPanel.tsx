@@ -16,6 +16,7 @@ import {
 } from '@dnd-kit/sortable'
 
 import { ManageColumnsItem } from './ManageColumnsItem'
+import { ManageColumnsSelectAll } from './ManageColumnsSelectAll'
 
 const noop = () => {}
 
@@ -31,6 +32,8 @@ export type ManageColumnsPanelProps = {
   /** Columns in display order. Put any `pinned` columns first. */
   columns: ManageColumnsColumn[]
   onToggle?: (id: string) => void
+  /** Batched select-all/clear-all handler — prefer this over the `onToggle` loop fallback, which can drop updates under a closure-captured state snapshot. */
+  onToggleAll?: (ids: string[], visible: boolean) => void
   onReorder?: (orderedIds: string[]) => void
   description?: ReactNode
 }
@@ -38,10 +41,12 @@ export type ManageColumnsPanelProps = {
 export function ManageColumnsPanel({
   columns,
   onToggle,
+  onToggleAll,
   onReorder,
   description,
 }: ManageColumnsPanelProps) {
   const toggleable = useMemo(() => columns.filter((c) => !c.pinned), [columns])
+  const visibleCount = toggleable.filter((c) => c.visible).length
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -67,6 +72,18 @@ export function ManageColumnsPanel({
 
   return (
     <>
+      {toggleable.length > 0 && (
+        <div className="sticky -top-4 z-10 -mt-4 -mx-4 pt-3 px-4 pb-2 mb-3 bg-white border-b border-j2-border-secondary flex items-baseline justify-between">
+          <span className="font-semibold text-sm text-j2-text">
+            {visibleCount}/{toggleable.length} Columns Shown
+          </span>
+          <ManageColumnsSelectAll
+            columns={columns}
+            onToggle={onToggle}
+            onToggleAll={onToggleAll}
+          />
+        </div>
+      )}
       {description && (
         <p className="text-sm text-j2-text mb-4">{description}</p>
       )}
