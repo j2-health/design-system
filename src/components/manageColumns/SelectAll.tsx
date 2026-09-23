@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { Button } from '../button'
 import type { ManageColumnsColumn } from './ManageColumnsPanel'
 
-export type ManageColumnsSelectAllProps = {
+export type SelectAllProps = {
   /** Same `columns` passed to the paired `ManageColumnsPanel`. */
   columns: ManageColumnsColumn[]
   onToggle?: (id: string) => void
@@ -13,15 +13,11 @@ export type ManageColumnsSelectAllProps = {
 
 /**
  * Select-all/clear-all control, composed by `ManageColumnsPanel` itself
- * above its description. Kept as its own component (not inlined) so it
- * can also be reused standalone if a consumer ever needs it — matching
- * how `BulkActionBar` is a standalone control too, not baked into a list.
+ * above its description. Kept as its own component (not inlined) so its
+ * label/toggle logic is testable independent of the panel's drag-reorder
+ * machinery.
  */
-export function ManageColumnsSelectAll({
-  columns,
-  onToggle,
-  onToggleAll,
-}: ManageColumnsSelectAllProps) {
+export function SelectAll({ columns, onToggle, onToggleAll }: SelectAllProps) {
   const toggleable = useMemo(() => columns.filter((c) => !c.pinned), [columns])
   const allVisible = toggleable.length > 0 && toggleable.every((c) => c.visible)
   const label = allVisible ? 'Clear all' : 'Select all'
@@ -43,16 +39,8 @@ export function ManageColumnsSelectAll({
   }
 
   return (
-    <div className="text-j2-primary">
-      <Button
-        type="text"
-        size="small"
-        aria-label={label}
-        title={label}
-        onClick={handleSelectAllToggle}
-      >
-        {label}
-      </Button>
-    </div>
+    <Button type="text" size="small" onClick={handleSelectAllToggle}>
+      {label}
+    </Button>
   )
 }

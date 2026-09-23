@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { ManageColumnsSelectAll } from '../ManageColumnsSelectAll'
+import { SelectAll } from '../SelectAll'
 import type { ManageColumnsColumn } from '../ManageColumnsPanel'
 
 const columns: ManageColumnsColumn[] = [
@@ -9,9 +9,9 @@ const columns: ManageColumnsColumn[] = [
   { id: 'status', label: 'Status', visible: false },
 ]
 
-describe('ManageColumnsSelectAll', () => {
+describe('SelectAll', () => {
   it('shows "Select all" when some toggleable columns are hidden', () => {
-    render(<ManageColumnsSelectAll columns={columns} onToggle={() => {}} />)
+    render(<SelectAll columns={columns} onToggle={() => {}} />)
     expect(
       screen.getByRole('button', { name: 'Select all' })
     ).toBeInTheDocument()
@@ -19,7 +19,7 @@ describe('ManageColumnsSelectAll', () => {
 
   it('shows "Clear all" once every toggleable column is visible', () => {
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
-    render(<ManageColumnsSelectAll columns={allVisible} onToggle={() => {}} />)
+    render(<SelectAll columns={allVisible} onToggle={() => {}} />)
     expect(
       screen.getByRole('button', { name: 'Clear all' })
     ).toBeInTheDocument()
@@ -27,7 +27,7 @@ describe('ManageColumnsSelectAll', () => {
 
   it('select-all toggles only the currently-hidden, non-pinned columns', () => {
     const onToggle = vi.fn()
-    render(<ManageColumnsSelectAll columns={columns} onToggle={onToggle} />)
+    render(<SelectAll columns={columns} onToggle={onToggle} />)
     fireEvent.click(screen.getByRole('button', { name: 'Select all' }))
     // 'name' is pinned (excluded) and already visible; 'category' is already
     // visible; only 'status' is hidden.
@@ -38,7 +38,7 @@ describe('ManageColumnsSelectAll', () => {
   it('clear-all toggles every currently-visible, non-pinned column', () => {
     const onToggle = vi.fn()
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
-    render(<ManageColumnsSelectAll columns={allVisible} onToggle={onToggle} />)
+    render(<SelectAll columns={allVisible} onToggle={onToggle} />)
     fireEvent.click(screen.getByRole('button', { name: 'Clear all' }))
     // 'name' is pinned and excluded; 'category' and 'status' are both
     // toggleable and visible, so clear-all hides both.
@@ -52,7 +52,7 @@ describe('ManageColumnsSelectAll', () => {
     const onToggleAll = vi.fn()
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
     render(
-      <ManageColumnsSelectAll
+      <SelectAll
         columns={allVisible}
         onToggle={onToggle}
         onToggleAll={onToggleAll}
@@ -76,10 +76,7 @@ describe('ManageColumnsSelectAll', () => {
     const allVisible = columns.map((c) => ({ ...c, visible: true }))
 
     const { unmount } = render(
-      <ManageColumnsSelectAll
-        columns={allVisible}
-        onToggle={staleSnapshotToggle}
-      />
+      <SelectAll columns={allVisible} onToggle={staleSnapshotToggle} />
     )
     fireEvent.click(screen.getByRole('button', { name: 'Clear all' }))
     expect(visibility).toEqual({ category: true, status: false })
@@ -94,7 +91,7 @@ describe('ManageColumnsSelectAll', () => {
       visibility = next
     }
     render(
-      <ManageColumnsSelectAll
+      <SelectAll
         columns={allVisible}
         onToggle={staleSnapshotToggle}
         onToggleAll={onToggleAll}
@@ -108,7 +105,7 @@ describe('ManageColumnsSelectAll', () => {
   it('renders nothing when every column is pinned', () => {
     const allPinned = columns.map((c) => ({ ...c, pinned: true }))
     const { container } = render(
-      <ManageColumnsSelectAll columns={allPinned} onToggle={() => {}} />
+      <SelectAll columns={allPinned} onToggle={() => {}} />
     )
     expect(container).toBeEmptyDOMElement()
   })

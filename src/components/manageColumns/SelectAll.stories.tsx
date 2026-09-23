@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ManageColumnsSelectAll } from './ManageColumnsSelectAll'
+import { SelectAll } from './SelectAll'
 import type { ManageColumnsColumn } from './ManageColumnsPanel'
 
 const columns: ManageColumnsColumn[] = [
@@ -13,8 +13,8 @@ const columns: ManageColumnsColumn[] = [
 ]
 
 const meta = {
-  title: 'Components/ManageColumnsSelectAll',
-  component: ManageColumnsSelectAll,
+  title: 'Components/SelectAll',
+  component: SelectAll,
   parameters: {
     layout: 'centered',
   },
@@ -26,7 +26,7 @@ const meta = {
     columns: { table: { disable: true } },
     onToggle: { action: 'toggled' },
   },
-} satisfies Meta<typeof ManageColumnsSelectAll>
+} satisfies Meta<typeof SelectAll>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>
 function renderInteractive(args: Story['args']) {
   const [cols, setCols] = useState(args!.columns!)
   return (
-    <ManageColumnsSelectAll
+    <SelectAll
       {...args}
       columns={cols}
       onToggle={(id) => {
@@ -48,13 +48,5 @@ function renderInteractive(args: Story['args']) {
 }
 
 export const Default: Story = {
-  render: renderInteractive,
-}
-
-export const AllVisible: Story = {
-  name: 'All columns visible',
-  args: {
-    columns: columns.map((c) => ({ ...c, visible: true })),
-  },
   render: renderInteractive,
 }

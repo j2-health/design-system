@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/sortable'
 
 import { ManageColumnsItem } from './ManageColumnsItem'
-import { ManageColumnsSelectAll } from './ManageColumnsSelectAll'
+import { SelectAll } from './SelectAll'
 
 const noop = () => {}
 
@@ -77,7 +77,7 @@ export function ManageColumnsPanel({
           <span className="font-semibold text-sm text-j2-text">
             {visibleCount}/{toggleable.length} Columns Shown
           </span>
-          <ManageColumnsSelectAll
+          <SelectAll
             columns={columns}
             onToggle={onToggle}
             onToggleAll={onToggleAll}

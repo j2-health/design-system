@@ -3,5 +3,5 @@ export type {
   ManageColumnsColumn,
   ManageColumnsPanelProps,
 } from './ManageColumnsPanel'
-export { ManageColumnsSelectAll } from './ManageColumnsSelectAll'
-export type { ManageColumnsSelectAllProps } from './ManageColumnsSelectAll'
+export { SelectAll } from './SelectAll'
+export type { SelectAllProps } from './SelectAll'
