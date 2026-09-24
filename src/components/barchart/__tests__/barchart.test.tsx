@@ -45,6 +45,13 @@ describe('BarChart', () => {
     // columns geometry. The per-series accessibility label is derived from the
     // data it did parse, which is the part worth pinning here; the drawn bars
     // are covered by the browser pass instead.
+    //
+    // This assertion is also the guard on how BarChart loads the accessibility
+    // module. The label only exists if that module composed onto the same
+    // Highcharts instance the chart renders with. Importing it from the wrong
+    // subpath registers it against a second instance and silently drops these
+    // labels while everything else still renders — see the note on the
+    // `@highcharts/react/modules/Accessibility.js` import in BarChart.tsx.
     const seriesLabels = Array.from(
       container.querySelectorAll('g.highcharts-column-series[aria-label]')
     ).map((node) => node.getAttribute('aria-label'))
