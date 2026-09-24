@@ -1,0 +1,3 @@
+@import '../src/stylesheets/tailwind.css';
+@config '../tailwind.config.ts';
+@source '../src';

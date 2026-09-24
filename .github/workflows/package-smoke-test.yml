@@ -53,6 +53,9 @@ jobs:
           peers="$(node -p "JSON.stringify(Object.entries(require('./package.json').peerDependencies).map(([n, r]) => n + '@' + r))")"
           echo "peers=$peers" >> "$GITHUB_OUTPUT"
 
+      - name: Compile Tailwind 3 and 4 consumers
+        run: npm run test:tailwind
+
       - name: Build a scratch consumer against the tarball
         env:
           PEERS: ${{ steps.pack.outputs.peers }}
@@ -69,9 +72,9 @@ jobs:
           npm pkg set type=module >/dev/null
 
           # Peer dependencies come from the consuming app, exactly as they
-          # would in a real one. This includes the tailwindcss v3 pin: the
-          # preset is a v3 config, and npm installs a v4 mismatch with only
-          # a warning. Each spec is passed as its own quoted argument, so a
+          # would in a real one. The dedicated compatibility check above
+          # compiles the package with both supported Tailwind majors. Each
+          # spec is passed as its own quoted argument, so a
           # range with spaces or an OR (`^12.5.0 || ^13.0.1`) or a `*` stays
           # one literal spec.
           peers=()
