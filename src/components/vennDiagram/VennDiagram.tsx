@@ -1,7 +1,9 @@
 import type * as Highcharts from 'highcharts'
 import { Chart as HighchartsReact } from '@highcharts/react'
 import '@highcharts/react/series/Venn.js'
-import '@highcharts/react/options/Accessibility.js'
+// `modules/`, not `options/` — see the note in BarChart.tsx. `series/` was not
+// moved and already resolves to the instance the chart uses.
+import '@highcharts/react/modules/Accessibility.js'
 import { theme } from 'antd'
 
 type Props = {

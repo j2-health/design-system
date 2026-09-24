@@ -4,8 +4,14 @@ import {
   Chart as HighchartsReact,
   type HighchartsReactRefObject,
 } from '@highcharts/react'
-import '@highcharts/react/options/Accessibility.js'
-import '@highcharts/react/options/Exporting.js'
+// `modules/`, not `options/`. @highcharts/react 5 moved the module entry
+// points and left the old `options/` files in the package still importing
+// `highcharts/esm/…`, while the Chart component now loads
+// `highcharts/es-modules/masters/…`. Those are two different Highcharts
+// instances, so the old path composes the module onto one the chart never
+// uses: no error, no missing export, the module just stops taking effect.
+import '@highcharts/react/modules/Accessibility.js'
+import '@highcharts/react/modules/Exporting.js'
 import styles from './chart.module.css'
 import { renderToString } from 'react-dom/server'
 
