@@ -3,7 +3,7 @@
 exports[`Radio > should render correctly 1`] = `
 <div>
   <label
-    class="ant-radio-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
+    class="ant-radio-wrapper css-dev-only-do-not-override-oc1rc0 css-var-root ant-radio-css-var"
   >
     <span
       class="ant-radio ant-wave-target"
@@ -21,11 +21,11 @@ exports[`Radio > should render correctly 1`] = `
 exports[`RadioGroup > should render correctly 1`] = `
 <div>
   <div
-    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
+    class="ant-radio-group ant-radio-group-solid css-dev-only-do-not-override-oc1rc0 css-var-root ant-radio-css-var"
     role="radiogroup"
   >
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-oc1rc0 css-var-root ant-radio-css-var"
     >
       <span
         class="ant-radio-button"
@@ -44,7 +44,7 @@ exports[`RadioGroup > should render correctly 1`] = `
       </span>
     </label>
     <label
-      class="ant-radio-button-wrapper css-dev-only-do-not-override-19u5a7b css-var-root ant-radio-css-var"
+      class="ant-radio-button-wrapper css-dev-only-do-not-override-oc1rc0 css-var-root ant-radio-css-var"
     >
       <span
         class="ant-radio-button"
