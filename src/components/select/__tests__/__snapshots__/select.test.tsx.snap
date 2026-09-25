@@ -3,10 +3,10 @@
 exports[`Select > should not render clear icon when allowClear is disabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
       name="test"
     >
       <div
@@ -52,10 +52,10 @@ exports[`Select > should not render clear icon when allowClear is disabled 1`] =
 exports[`Select > should render correctly 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
       name="test"
     >
       <div
@@ -101,10 +101,10 @@ exports[`Select > should render correctly 1`] = `
 exports[`Select > should render with allowClear enabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
       name="test"
     >
       <div
@@ -150,10 +150,10 @@ exports[`Select > should render with allowClear enabled 1`] = `
 exports[`Select > should render with loading indicator 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow ant-select-loading"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow ant-select-loading"
       name="test"
     >
       <div
@@ -181,7 +181,7 @@ exports[`Select > should render with loading indicator 1`] = `
         <div
           aria-busy="true"
           aria-live="polite"
-          class="ant-spin ant-spin-sm ant-spin-spinning ant-spin-section css-dev-only-do-not-override-19u5a7b css-var-root"
+          class="ant-spin ant-spin-sm ant-spin-spinning ant-spin-section css-dev-only-do-not-override-oc1rc0 css-var-root"
           data-testid="loading-spinner"
         >
           <span
@@ -213,10 +213,10 @@ exports[`Select > should render with loading indicator 1`] = `
 exports[`Select > should render with options 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
       name="test"
     >
       <div
@@ -262,10 +262,10 @@ exports[`Select > should render with options 1`] = `
 exports[`Select > should render with search enabled 1`] = `
 <div>
   <form
-    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-19u5a7b"
+    class="ant-form ant-form-horizontal css-var-root ant-form-css-var css-dev-only-do-not-override-oc1rc0"
   >
     <div
-      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow ant-select-show-search"
+      class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow ant-select-show-search"
       name="test"
     >
       <div

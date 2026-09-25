@@ -3,7 +3,7 @@
 exports[`InputNumber > should render correctly 1`] = `
 <div>
   <div
-    class="ant-input-number ant-input-number-mode-input css-var-root ant-input-number-css-var css-dev-only-do-not-override-19u5a7b j2InputNumber ant-input-number-outlined ant-input-number-lg"
+    class="ant-input-number ant-input-number-mode-input css-var-root ant-input-number-css-var css-dev-only-do-not-override-oc1rc0 j2InputNumber ant-input-number-outlined ant-input-number-lg"
   >
     <input
       aria-valuenow="1"

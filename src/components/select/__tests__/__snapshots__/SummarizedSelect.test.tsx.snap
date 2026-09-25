@@ -7,7 +7,7 @@ exports[`SummarizedSelect > Basic Rendering > should render correctly with defau
     style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
   />
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -56,7 +56,7 @@ exports[`SummarizedSelect > Basic Rendering > should render with custom placehol
     Select a plan
   </span>
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -103,7 +103,7 @@ exports[`SummarizedSelect > Edge Cases > should handle empty options array 1`] =
     style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
   />
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -150,7 +150,7 @@ exports[`SummarizedSelect > Edge Cases > should handle options with undefined la
     style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
   />
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -197,7 +197,7 @@ exports[`SummarizedSelect > Grouped Options > should render grouped options corr
     style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
   />
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -244,7 +244,7 @@ exports[`SummarizedSelect > Loading State > should render with loading state 1`]
     style="position: absolute; visibility: hidden; white-space: nowrap; font-size: inherit;"
   />
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -270,7 +270,7 @@ exports[`SummarizedSelect > Loading State > should render with loading state 1`]
       <div
         aria-busy="true"
         aria-live="polite"
-        class="ant-spin ant-spin-sm ant-spin-spinning ant-spin-section css-dev-only-do-not-override-19u5a7b css-var-root"
+        class="ant-spin ant-spin-sm ant-spin-spinning ant-spin-section css-dev-only-do-not-override-oc1rc0 css-var-root"
         data-testid="loading-spinner"
       >
         <span
@@ -307,7 +307,7 @@ exports[`SummarizedSelect > Multiple Selection Mode > should render with multipl
     2 plans selected
   </span>
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect isActive css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-multiple ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect isActive css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-multiple ant-select-show-arrow"
     style="width: 46px;"
   >
     <div
@@ -376,7 +376,7 @@ exports[`SummarizedSelect > Single Selection Mode > should render with selected 
     Bronze Plan
   </span>
   <div
-    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-19u5a7b ant-select-single ant-select-show-arrow"
+    class="ant-select ant-select-outlined summarizedSelect hemisphericSelect css-var-root ant-select-css-var css-dev-only-do-not-override-oc1rc0 ant-select-single ant-select-show-arrow"
     style="width: 46px;"
   >
     <div

@@ -6,18 +6,18 @@ exports[`Table > should render correctly 1`] = `
     class=""
   >
     <div
-      class="css-var-root ant-table-css-var ant-table-wrapper css-dev-only-do-not-override-19u5a7b"
+      class="css-var-root ant-table-css-var ant-table-wrapper css-dev-only-do-not-override-oc1rc0"
     >
       <div
         aria-busy="false"
         aria-live="polite"
-        class="ant-spin css-dev-only-do-not-override-19u5a7b css-var-root"
+        class="ant-spin css-dev-only-do-not-override-oc1rc0 css-var-root"
       >
         <div
           class="ant-spin-container"
         >
           <div
-            class="ant-table css-var-root ant-table-css-var css-dev-only-do-not-override-19u5a7b"
+            class="ant-table css-var-root ant-table-css-var css-dev-only-do-not-override-oc1rc0"
           >
             <div
               class="ant-table-container"
