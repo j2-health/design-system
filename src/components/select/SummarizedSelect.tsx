@@ -8,7 +8,7 @@ import {
   Typography,
 } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { Fragment, useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import * as icons from '../icons'
 import { Tag } from '../tag'
@@ -213,7 +213,7 @@ export function SummarizedSelect({
       }
     } else {
       onChange(optionValue)
-      setIsOpen(false)
+      handleOpenChange(false)
     }
   }
 
@@ -226,7 +226,7 @@ export function SummarizedSelect({
       }
     } else {
       onChange(optionValue)
-      setIsOpen(false)
+      handleOpenChange(false)
     }
   }
 
@@ -246,7 +246,7 @@ export function SummarizedSelect({
     if (e.key === 'Escape') {
       e.preventDefault()
       e.stopPropagation()
-      setIsOpen(false)
+      handleOpenChange(false)
       return
     }
 
@@ -337,7 +337,12 @@ export function SummarizedSelect({
             [styles.menuContainerMultiple]: multiple,
           })}
         >
-          {menu}
+          {/* Keyed on the search so antd rebuilds its option list per
+              keystroke. Focusing the search input blurs the Select, antd
+              starts a close, cancels it because focus stayed in the popup,
+              and never clears its `lockOptions` flag -- a locked list keeps
+              showing the options it had when the popup opened. */}
+          <Fragment key={searchValue}>{menu}</Fragment>
         </div>
         <div className="flex justify-between items-center">
           {multiple && (

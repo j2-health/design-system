@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { SummarizedSelect } from '../SummarizedSelect'
 
@@ -283,6 +283,24 @@ describe('SummarizedSelect', () => {
       expect(screen.queryByText('Silver Plan')).not.toBeInTheDocument()
     })
 
+    it('should filter when typing into the auto-focused search without clicking it', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <SummarizedSelect options={mockOptions} value="" onChange={() => {}} />
+      )
+
+      await user.click(screen.getByRole('combobox'))
+      const searchInput = screen.getByPlaceholderText('Search...')
+      // `user.type` clicks the input first, and that mousedown keeps antd
+      // from locking the option list. A real user just starts typing.
+      await waitFor(() => expect(searchInput).toHaveFocus())
+      await user.keyboard('bronze')
+
+      expect(screen.getByText('Bronze Plan')).toBeInTheDocument()
+      expect(screen.queryByText('Silver Plan')).not.toBeInTheDocument()
+    })
+
     it('should filter grouped options based on search text', async () => {
       const user = userEvent.setup()
 
@@ -323,6 +341,29 @@ describe('SummarizedSelect', () => {
       const newSearchInput = screen.getByPlaceholderText('Search...')
       expect(newSearchInput).toHaveValue('')
     })
+
+    it.each(['{Enter}', '{Escape}'])(
+      'should clear search when %s closes the dropdown',
+      async (key) => {
+        const user = userEvent.setup()
+
+        render(
+          <SummarizedSelect
+            options={mockOptions}
+            value=""
+            onChange={() => {}}
+          />
+        )
+
+        const select = screen.getByRole('combobox')
+        await user.click(select)
+        await user.type(screen.getByPlaceholderText('Search...'), 'Bronze')
+        await user.keyboard(key)
+        await user.click(select)
+
+        expect(screen.getByPlaceholderText('Search...')).toHaveValue('')
+      }
+    )
 
     it('should prevent propagation on search input events', async () => {
       const user = userEvent.setup()
