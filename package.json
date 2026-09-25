@@ -101,7 +101,7 @@
     "eslint-plugin-storybook": "^10.6.0",
     "formik": "^2.4.6",
     "globals": "^17.12.0",
-    "happy-dom": "^20.9.0",
+    "happy-dom": "^20.14.5",
     "highcharts": "^13.0.1",
     "lodash": "^4.18.1",
     "postcss": "^8.5.28",
