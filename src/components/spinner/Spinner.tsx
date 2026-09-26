@@ -1,7 +1,7 @@
 import { Spin } from 'antd'
 import Icon from '@ant-design/icons'
 
-import ProgressCircle from '../../svgs/ProgressCircle.svg?react'
+import ProgressCircle from '../../svgs/ProgressCircle.svg'
 
 type SpinnerProps = {
   size?: number
