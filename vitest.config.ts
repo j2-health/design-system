@@ -7,6 +7,13 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
+      // Must match vite.config.ts. This config is what vitest builds with, so
+      // an `include` set only there leaves every `.svg` here falling through
+      // to vite's asset pipeline, which inlines it as a data URI — the default
+      // export becomes a string and `<Logo />` renders as `<data:image/...>`
+      // instead of the component. It fails as two snapshot mismatches in
+      // navMenu/legacyNavMenu, the only components that import an SVG.
+      include: '**/*.svg',
       svgrOptions: {
         exportType: 'default',
       },

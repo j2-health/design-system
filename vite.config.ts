@@ -80,6 +80,22 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
+      // Match plain `.svg` rather than the default `**/*.svg?react`. Under
+      // vite 8 the bundler is rolldown, which copies a module's raw id into
+      // the emitted filename when `preserveModules` is on — so a `?react`
+      // query suffix reached the published tarball as
+      // `ProgressCircle.svg?react.js`. rollup stripped it; rolldown does not.
+      // A `?` in a published path makes the package unimportable, is a query
+      // delimiter to every CDN serving npm content, and is an illegal
+      // filename character on Windows.
+      //
+      // Matching the extension instead keeps the query out of the module id
+      // altogether, so the emitted names are `ProgressCircle.svg.js` —
+      // byte-identical to what rollup produced before this change. Every
+      // `.svg` in this package is imported as a component (five files, seven
+      // import sites); none is imported for its URL, so widening the match
+      // costs nothing here.
+      include: '**/*.svg',
       svgrOptions: {
         exportType: 'default',
       },
