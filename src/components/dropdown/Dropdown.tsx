@@ -32,7 +32,10 @@ const LabelWithCaret = ({ label }: { label: string | undefined }) => (
 const Target = ({ label, type, disabled, icon, className }: TargetProps) => {
   if (type === 'basic-inline') {
     return (
-      <Link disabled={disabled} className={cx('flex gap-1', className)}>
+      <Link
+        disabled={disabled}
+        className={cx('flex items-center gap-1', className)}
+      >
         {icon ? (
           <>
             {icon}

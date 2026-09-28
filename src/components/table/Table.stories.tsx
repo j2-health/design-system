@@ -204,6 +204,44 @@ export const AlternatingRows: Story = {
   ),
 }
 
+const pinnedColumns = [
+  { ...columns[0], fixed: 'left' as const, width: 140 },
+  { ...columns[1], width: 220 },
+  { ...columns[2], width: 220 },
+  { ...columns[3], width: 220 },
+  { ...columns[4], fixed: 'right' as const, width: 180 },
+]
+
+// Pinned cells paint their own background, so striping has to reach them
+// explicitly; this story is where a class rename in antd shows up.
+export const AlternatingRowsPinnedColumns: Story = {
+  args: {
+    alternatingRows: true,
+    dataSource: AlternatingRows.args?.dataSource,
+    columns: pinnedColumns,
+    scroll: { x: 1000 },
+  },
+  render: (args) => (
+    <div className={s.table} style={{ width: 640 }}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
+// The header row is hidden while the table is loading.
+export const Loading: Story = {
+  args: {
+    loading: true,
+    dataSource: smallDataSource,
+    columns,
+  },
+  render: (args) => (
+    <div className={s.table}>
+      <Table {...args} />
+    </div>
+  ),
+}
+
 export const PaginationBasic: Story = {
   args: {
     dataSource: smallDataSource,
