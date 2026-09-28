@@ -41,8 +41,9 @@
 }
 
 /* antd 6 dropped the -blur class; a loading table is now a container
-   directly under a spinning Spin. */
-:global(.ant-spin-spinning > .ant-spin-container) th {
+   directly under a spinning Spin. Anchored to the table wrapper so a Spin
+   elsewhere on the page does not hide the headers of tables inside it. */
+:global(.ant-table-wrapper > .ant-spin-spinning > .ant-spin-container) th {
   visibility: hidden;
 }
 
