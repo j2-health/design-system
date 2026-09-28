@@ -1,0 +1,9 @@
+/* antd 6 hardcodes the multi-select tag border to transparent and no longer
+   reads the `multipleItemBorderColor` token set in appTheme, so selected tags
+   lost their outline. Restate the token's value; the filled variant and
+   disabled selects keep antd's own. */
+.ant-select.ant-select-multiple:not(.ant-select-filled):not(
+    .ant-select-disabled
+  ) {
+  --ant-select-multi-item-border-color: var(--j2-gray-4);
+}

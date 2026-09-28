@@ -95,6 +95,15 @@
   line-height: 1.3;
 }
 
+/* antd 6 outlines a focused borderless select through
+   `:has(input:focus-visible)`, which a text input matches on a mouse click
+   too, so every click boxed the headline. The underline below already marks
+   focus. `!important` because antd's status variants of that rule reach
+   (0,5,1) specificity. */
+.headlinedSelect:global(.ant-select) {
+  outline: none !important;
+}
+
 /* Hover state - show underline */
 .headlinedSelect:global(.ant-select):hover {
   border-bottom-color: var(--j2-color-primary);

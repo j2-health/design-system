@@ -13,6 +13,7 @@ import {
 import { useState } from 'react'
 import type { FieldProps } from 'formik'
 import { FormikField } from '../form/FormikField'
+import './Select.css'
 
 type SelectProps = Expand<AntDSelectProps> & {
   name: string
