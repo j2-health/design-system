@@ -192,3 +192,33 @@ jobs:
           })"
 
           npx vite build
+
+          # Phosphor icons must stay tree-shakeable: a consumer that uses one
+          # icon, or one component that renders icons, should not bundle the
+          # whole Phosphor catalogue. A namespace built at runtime (Rolldown's
+          # `__reExport` for `import * as` of a module that does `export *`)
+          # defeats every bundler; with one, this build is ~5.7 MB instead of
+          # under 50 KB. SummarizedSelect is here because it had exactly that
+          # namespace import.
+          cat > src/treeshake.tsx <<'EOF'
+          import { icons, SummarizedSelect } from '@j2-health/design-system'
+          export const Copy = icons.CopyIcon
+          export { SummarizedSelect }
+          EOF
+          cat > vite.treeshake.config.mjs <<'EOF'
+          export default {
+            logLevel: 'silent',
+            build: {
+              outDir: 'dist-treeshake',
+              lib: { entry: 'src/treeshake.tsx', formats: ['es'], fileName: 'treeshake' },
+              rollupOptions: {
+                external: [/^react(\/|$)/, /^react-dom(\/|$)/, /^antd(\/|$)/, /^@ant-design\//, /^@rc-component\//, /^rc-/],
+              },
+            },
+          }
+          EOF
+          npx vite build -c vite.treeshake.config.mjs
+          node -e "
+          const bytes = require('fs').statSync('dist-treeshake/treeshake.js').size
+          if (bytes > 200_000) throw new Error('icon consumer bundled ' + bytes + ' bytes: Phosphor icons are not tree-shaking')
+          console.log('Phosphor icons tree-shake (' + bytes + ' bytes)')"

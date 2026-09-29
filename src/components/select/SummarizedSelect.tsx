@@ -10,7 +10,7 @@ import {
 import { DefaultOptionType } from 'antd/es/select'
 import { Fragment, useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
-import * as icons from '../icons'
+import { CaretDownIcon, MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { Tag } from '../tag'
 import cx from 'classnames'
 
@@ -301,7 +301,7 @@ export function SummarizedSelect({
             onKeyDown={handleKeyDown}
             onClick={(e) => e.stopPropagation()}
             prefix={
-              <icons.MagnifyingGlassIcon
+              <MagnifyingGlassIcon
                 size={16}
                 className="text-j2-text-placeholder"
               />
@@ -434,7 +434,7 @@ export function SummarizedSelect({
             onKeyDown={handleKeyDown}
             onClick={(e) => e.stopPropagation()}
             prefix={
-              <icons.MagnifyingGlassIcon
+              <MagnifyingGlassIcon
                 size={16}
                 className="text-j2-text-placeholder"
               />
@@ -521,7 +521,7 @@ export function SummarizedSelect({
             data-testid="loading-spinner"
           />
         ) : (
-          <icons.CaretDownIcon weight="regular" data-testid="caret-down" />
+          <CaretDownIcon weight="regular" data-testid="caret-down" />
         )}
       </span>
     )
@@ -570,7 +570,7 @@ export function SummarizedSelect({
               data-testid="loading-spinner"
             />
           ) : (
-            <icons.CaretDownIcon size={14} data-testid="caret-down" />
+            <CaretDownIcon size={14} data-testid="caret-down" />
           )
         }
         placeholder={formControlPlaceholder}
