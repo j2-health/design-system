@@ -44,5 +44,10 @@ export * from './src/components/tooltip'
 export * from './src/components/vennDiagram'
 export * from './src/components/legacyNavMenu'
 
-import * as icons from './src/components/icons'
+// Namespace the icon library directly rather than through a local module that
+// does `export *` from it. Rolldown (Vite 8) compiles a namespace of such a
+// module into a runtime copy of every export (`__reExport`), which no consumer
+// can tree-shake, so `icons.X` pulled in the whole catalogue. A namespace of the
+// external package itself stays a static import.
+import * as icons from '@phosphor-icons/react'
 export { icons }
