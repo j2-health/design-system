@@ -30,6 +30,17 @@
     position: absolute;
     width: 1px;
   }
+
+  /* antd 6 sizes a multiple select from its in-flow items. With the suffix
+     (search input) and the placeholder both absolute, an empty select
+     collapses to the font size (18px tall). Hold the row at one item's
+     height, which the search input supplied before it was taken out of flow. */
+  &:global(.ant-select-multiple) :global(.ant-select-content) {
+    min-height: calc(
+      var(--ant-select-multi-item-height) +
+        var(--ant-select-internal_fixed_item_margin) * 2
+    );
+  }
 }
 
 .isActive {
