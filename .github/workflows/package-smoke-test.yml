@@ -137,6 +137,16 @@ jobs:
           }
           EOF
 
+          # A consumer on Vite's defaults imports a plain .svg as a URL string.
+          # The package's own svgr '*.svg' typing must not reach it: an
+          # ambient module is global, so shipping one retypes this import as
+          # a React component and fails here with TS2322.
+          printf '%s\n' '<svg xmlns="http://www.w3.org/2000/svg"/>' > src/logo.svg
+          cat > src/svgUrl.ts <<'EOF'
+          import logoUrl from './logo.svg'
+          export const logoSrc: string = logoUrl
+          EOF
+
           # Type-checks a real import of the package. Catches a broken
           # ambient-types anchor or declarations that do not compile.
           npx tsc --noEmit
