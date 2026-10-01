@@ -1,6 +1,6 @@
 {
   "name": "@j2-health/design-system",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "type": "module",
   "description": "J2 Health shared React component library",
   "repository": {
