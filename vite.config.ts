@@ -110,8 +110,13 @@ export default defineConfig({
       ],
       copyDtsFiles: true,
       beforeWriteFile: (filePath, content) => {
-        // The package's public types use the ambient declarations from
-        // src/index.d.ts (global Expand<T> helper, *.svg?react modules).
+        // The ambient '*.svg' typing for this package's own svgr build stays
+        // in the program (the sources need it) but is not published: an
+        // ambient module is global, so shipped it would retype every plain
+        // .svg import in a consuming app as a component.
+        if (filePath.endsWith('/src/svg.d.ts')) return false
+        // The package's public types use the global Expand<T> helper
+        // declared in src/index.d.ts.
         // Ambient files are only loaded if something references them, so
         // anchor them to the types entry point.
         if (filePath.endsWith('/lib.d.ts')) {
