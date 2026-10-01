@@ -37,8 +37,8 @@
      height, which the search input supplied before it was taken out of flow. */
   &:global(.ant-select-multiple) :global(.ant-select-content) {
     min-height: calc(
-      var(--ant-select-multi-item-height) +
-        var(--ant-select-internal_fixed_item_margin) * 2
+      var(--ant-select-multi-item-height, 24px) +
+        var(--ant-select-internal_fixed_item_margin, 2px) * 2
     );
   }
 }
