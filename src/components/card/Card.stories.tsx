@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import * as React from 'react'
 import {
   Controls,
   Description,
@@ -174,4 +175,30 @@ export const LargeWithTabs: Story = {
       },
     ],
   },
+}
+
+const SelectableCards = () => {
+  const [chosen, setChosen] = React.useState('a')
+  return (
+    <div className="flex gap-3">
+      {['a', 'b', 'c'].map((key) => (
+        <Card
+          key={key}
+          size="small"
+          hoverable
+          selected={chosen === key}
+          onClick={() => setChosen(key)}
+        >
+          <div className="w-32 text-sm font-semibold">Option {key}</div>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
+// With `selected` and `onClick`, a card is a toggle button: click, Enter or
+// Space chooses it.
+export const Selectable: Story = {
+  args: { children: null },
+  render: () => <SelectableCards />,
 }

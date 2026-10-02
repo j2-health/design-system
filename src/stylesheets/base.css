@@ -251,6 +251,87 @@
   --j2-box-shadow-secondary: var(--ant-box-shadow-secondary);
   --j2-box-shadow-tertiary: var(--ant-box-shadow-tertiary);
 
+  /*
+   * Data visualization
+   * Colors for charts, maps and legends. None of them carries meaning on its
+   * own; the consuming app decides what each one stands for.
+   *
+   * Sequential (orange): `interval-{n}-{k}` is step k of a ramp cut into n
+   * classes, light to dark. Pick the family that matches the number of classes
+   * rather than sampling a longer one, so every class count stays legible.
+   */
+  --j2-color-interval-1-1: #fba94b;
+
+  --j2-color-interval-2-1: #fdd1a3;
+  --j2-color-interval-2-2: #fba94b;
+
+  --j2-color-interval-3-1: #fee2c4;
+  --j2-color-interval-3-2: #fdd1a3;
+  --j2-color-interval-3-3: #f08e2e;
+
+  --j2-color-interval-4-1: #fff4e6;
+  --j2-color-interval-4-2: #fdd1a3;
+  --j2-color-interval-4-3: #f08e2e;
+  --j2-color-interval-4-4: #a65200;
+
+  --j2-color-interval-5-1: #fff4e6;
+  --j2-color-interval-5-2: #fee2c4;
+  --j2-color-interval-5-3: #ffc385;
+  --j2-color-interval-5-4: #f08e2e;
+  --j2-color-interval-5-5: #a65200;
+
+  --j2-color-interval-6-1: #fff4e6;
+  --j2-color-interval-6-2: #fee2c4;
+  --j2-color-interval-6-3: #fdd1a3;
+  --j2-color-interval-6-4: #fba94b;
+  --j2-color-interval-6-5: #d97312;
+  --j2-color-interval-6-6: #a65200;
+
+  --j2-color-interval-7-1: #fff4e6;
+  --j2-color-interval-7-2: #fee2c4;
+  --j2-color-interval-7-3: #fdd1a3;
+  --j2-color-interval-7-4: #fba94b;
+  --j2-color-interval-7-5: #f08e2e;
+  --j2-color-interval-7-6: #d97312;
+  --j2-color-interval-7-7: #a65200;
+
+  /* Sequential, five classes, light to dark. */
+  --j2-color-ramp-orange-1: var(--j2-color-interval-5-1);
+  --j2-color-ramp-orange-2: var(--j2-color-interval-5-2);
+  --j2-color-ramp-orange-3: var(--j2-color-interval-5-3);
+  --j2-color-ramp-orange-4: var(--j2-color-interval-5-4);
+  --j2-color-ramp-orange-5: var(--j2-color-interval-5-5);
+  --j2-color-ramp-blue-1: #eef2f9;
+  --j2-color-ramp-blue-2: #c6d3e8;
+  --j2-color-ramp-blue-3: #93aacd;
+  --j2-color-ramp-blue-4: var(--j2-blue-11);
+  --j2-color-ramp-blue-5: var(--j2-blue-9);
+  --j2-color-ramp-green-1: #eef6ee;
+  --j2-color-ramp-green-2: #c8e2c9;
+  --j2-color-ramp-green-3: #94c797;
+  --j2-color-ramp-green-4: #5da261;
+  --j2-color-ramp-green-5: #2f6b33;
+
+  /* Binary: a yes/no measure. Two pairs; `alt` is blue/orange. */
+  --j2-color-binary-positive: var(--j2-green-7);
+  --j2-color-binary-negative: var(--j2-red-7);
+  --j2-color-binary-alt-positive: var(--j2-blue-11);
+  --j2-color-binary-alt-negative: var(--j2-color-interval-5-5);
+
+  /*
+   * Categorical: distinct hues for unordered groups, in the order to assign
+   * them. `other` is the catch-all once a grouping runs past the palette.
+   */
+  --j2-color-categorical-1: #4f86a8;
+  --j2-color-categorical-2: #c58940;
+  --j2-color-categorical-3: #8c5383;
+  --j2-color-categorical-4: #5b8a72;
+  --j2-color-categorical-5: #a34a63;
+  --j2-color-categorical-6: #2f8a8a;
+  --j2-color-categorical-7: #997b52;
+  --j2-color-categorical-8: #6d6d64;
+  --j2-color-categorical-other: #9a9a90;
+
   font-family: var(--j2-font-family);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -309,6 +390,35 @@ body {
     line-height: var(--j2-line-height-heading-5);
     color: var(--j2-color-primary);
     margin: 0;
+  }
+}
+
+/*
+ * Caption text styles
+ * Small uppercase labels that name a group of content (a section, a column,
+ * a band of controls). Two sizes, each with one weight and one tracking:
+ *   - `j2-caption` (12px): captions in page and panel chrome.
+ *   - `j2-caption-xs` (10px): captions inside dense content, such as compact
+ *     cards, chart keys and inline popovers.
+ * In the components layer, so a utility (e.g. a text color) still wins.
+ */
+@layer components {
+  .j2-caption {
+    font-size: var(--j2-font-size-sm);
+    line-height: var(--j2-line-height-sm);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--j2-color-text-secondary);
+  }
+
+  .j2-caption-xs {
+    font-size: var(--j2-font-size-xs);
+    line-height: var(--j2-line-height-xs);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--j2-color-text-secondary);
   }
 }
 

@@ -89,3 +89,21 @@
     }
   }
 }
+
+/* Selected: the chosen card of a set. */
+.ant-card.j2-card-selected,
+.ant-card.j2-card-selected:hover {
+  border-color: var(--j2-color-primary);
+}
+
+.ant-card.j2-card-selectable {
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+  &:focus-visible {
+    outline: 2px solid var(--j2-color-primary);
+    outline-offset: 2px;
+  }
+}

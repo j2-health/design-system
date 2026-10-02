@@ -104,3 +104,30 @@ export const Danger: Story = {
     children: 'Danger Zone!',
   },
 }
+
+export const ExtraSmall: Story = {
+  name: 'Extra small (xs)',
+  render: () => (
+    <div className="flex items-center gap-2 bg-j2-gray-2 px-2 py-0.5">
+      <span className="j2-caption-xs">In view</span>
+      <Button size="xs">Default</Button>
+      <Button size="xs" type="primary">
+        Primary
+      </Button>
+      <Button size="xs" icon={<ChefHatIcon />} aria-label="Icon only" />
+    </div>
+  ),
+}
+
+export const InlineLink: Story = {
+  name: 'Inline link',
+  render: () => (
+    <p className="m-0 max-w-sm text-sm">
+      Three changes are waiting.{' '}
+      <Button type="link" inline>
+        Review them
+      </Button>{' '}
+      before you apply.
+    </p>
+  ),
+}

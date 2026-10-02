@@ -67,3 +67,31 @@
     }
   }
 }
+
+/* Extra small: 20px, for dense toolbars and bands. */
+.ant-btn.j2-btn-xs {
+  height: 20px;
+  padding-inline: 6px;
+  font-size: var(--j2-font-size-sm);
+  gap: 4px;
+
+  &.ant-btn-icon-only {
+    width: 20px;
+    padding-inline: 0;
+  }
+
+  .ant-btn-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Inline link: sits in a line of text. */
+.ant-btn.j2-btn-inline {
+  height: auto;
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: baseline;
+}

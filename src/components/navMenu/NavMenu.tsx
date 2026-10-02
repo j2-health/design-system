@@ -21,6 +21,8 @@ type Props = {
   footerItems: ItemType[]
   className?: string
   onCollapse?: (isCollapsed: boolean) => void
+  /** Start collapsed to the icon rail. The user can still expand it. */
+  defaultCollapsed?: boolean
 }
 
 export const NavMenu = ({
@@ -32,8 +34,9 @@ export const NavMenu = ({
   footerItems,
   className,
   onCollapse,
+  defaultCollapsed = false,
 }: Props) => {
-  const [isCollapsed, setIsCollapsed] = React.useState(false)
+  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
   const [isToggleTooltipOpen, setToggleTooltipOpen] = React.useState(false)
 
   const toggleCollapse = React.useCallback(() => {

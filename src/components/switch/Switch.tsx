@@ -1,4 +1,5 @@
 import { Switch as AntSwitch, SwitchProps } from 'antd'
+import cx from 'classnames'
 import './Switch.css'
 
 type AllProps = SwitchProps & {
@@ -11,8 +12,13 @@ type AllProps = SwitchProps & {
 
 export type Props = Expand<AllProps>
 
+const isText = (node: React.ReactNode) =>
+  typeof node === 'string' || typeof node === 'number'
+
 export const Switch = ({
   small,
+  size,
+  className,
   loading = false,
   disabled = false,
   checked,
@@ -22,12 +28,17 @@ export const Switch = ({
   return (
     <AntSwitch
       {...props}
-      size={small ? 'small' : 'default'}
+      size={small ? 'small' : (size ?? 'default')}
       loading={loading}
       disabled={disabled}
       checked={checked}
       onChange={onChange}
-      className="j2-switch"
+      className={cx(
+        'j2-switch',
+        (isText(props.checkedChildren) || isText(props.unCheckedChildren)) &&
+          'j2-switch-labelled',
+        className
+      )}
     />
   )
 }

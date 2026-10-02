@@ -41,3 +41,53 @@
 .error :global(.ant-collapse-header) {
   color: var(--j2-color-text) !important;
 }
+
+/*
+ * Section variant
+ * A 28px gray band with a rule above and below, a caption label, and the
+ * caret at the end. The body is flush and white so its content (a table, a
+ * list) draws its own edges.
+ */
+.section:global(.ant-collapse) > :global(.ant-collapse-item) {
+  border-bottom: 0;
+}
+
+.section :global(.ant-collapse-header) {
+  min-height: 28px;
+  padding: 0 12px !important;
+  align-items: center !important;
+  background: var(--j2-gray-2);
+  border-top: 1px solid var(--j2-color-border-secondary);
+  border-bottom: 1px solid var(--j2-color-border-secondary);
+  border-radius: 0 !important;
+}
+
+.section :global(.ant-collapse-item + .ant-collapse-item .ant-collapse-header) {
+  border-top: 0;
+}
+
+.section :global(.ant-collapse-title) {
+  display: flex;
+  align-items: center;
+  font-size: var(--j2-font-size-xs);
+  line-height: var(--j2-line-height-xs);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--j2-color-text-secondary);
+}
+
+.section :global(.ant-collapse-expand-icon) {
+  height: auto !important;
+  padding-inline-start: 8px !important;
+  color: var(--j2-color-text-secondary);
+}
+
+.section :global(.ant-collapse-body) {
+  padding: 0 !important;
+  background: white;
+}
+
+.section :global(.ant-collapse-panel) {
+  border-bottom: 1px solid var(--j2-color-border-secondary);
+}

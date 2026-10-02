@@ -11,8 +11,19 @@ import {
 import cx from 'classnames'
 import './Tag.css'
 
-type BaseProps = Expand<Omit<TagProps, 'icon'>> & {
+type BaseProps = Expand<Omit<TagProps, 'icon' | 'color'>> & {
   status: 'default' | 'error' | 'success' | 'warning' | 'processing'
+  /**
+   * A color outside the status set, e.g. a data-visualization token
+   * (`'var(--j2-color-interval-7-5)'`). Overrides the status color; use it
+   * with `variant="solid"` for a filled badge.
+   */
+  color?: string
+  /**
+   * The border's color, when it should differ from the fill: e.g. a solid
+   * badge with a darker edge (`'var(--j2-color-interval-7-7)'`).
+   */
+  borderColor?: string
 }
 
 type DefaultSizeProps = BaseProps & {
@@ -53,8 +64,15 @@ export const Tag = ({
   size = 'default',
   bordered,
   variant,
+  color,
+  borderColor,
   ...props
 }: Props) => {
+  const isSolid = variant === 'solid'
+  // antd's solid "default" is near-black; the DS neutral is gray-11.
+  const solidDefault =
+    isSolid && !color && status === 'default' ? 'var(--j2-gray-11)' : undefined
+
   const iconComponent = React.useMemo(() => {
     if (!showIcon || size === 'small') return null
 
@@ -63,14 +81,15 @@ export const Tag = ({
     }
 
     const iconName: Icon = icon ?? colorToIcon[status]
-    const color: string = statusToColor[status]
+    // White on a solid fill, where the status color would vanish.
+    const iconColor: string = isSolid ? 'white' : statusToColor[status]
 
     return (
       <span role="img" className="anticon" aria-label={`${status} icon`}>
-        {React.createElement(iconName, { color, ...baseProps })}
+        {React.createElement(iconName, { color: iconColor, ...baseProps })}
       </span>
     )
-  }, [status, showIcon, icon])
+  }, [status, showIcon, icon, isSolid])
 
   const statusToClassName: Partial<Record<keyof typeof statusToColor, string>> =
     {
@@ -81,12 +100,14 @@ export const Tag = ({
     <AntdTag
       {...props}
       variant={variant ?? (bordered === false ? 'filled' : 'outlined')}
-      color={status}
+      color={color ?? solidDefault ?? status}
       icon={iconComponent}
+      style={borderColor ? { borderColor, ...props.style } : props.style}
       className={cx(
         'j2-tag',
         props.className,
-        statusToClassName[status],
+        !isSolid && statusToClassName[status],
+        isSolid && 'j2-tag-solid',
         size === 'small' && '!px-1 !py-0 !h-auto !text-j2-xs !rounded-j2-sm'
       )}
     />

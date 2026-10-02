@@ -510,4 +510,96 @@ describe('SummarizedSelect', () => {
       expect(screen.getByText('nonexistent')).toBeInTheDocument()
     })
   })
+  describe('Dropdown Trigger', () => {
+    const renderDropdown = (
+      props: Partial<React.ComponentProps<typeof SummarizedSelect>> = {}
+    ) =>
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          {...(props as object)}
+        />
+      )
+
+    it('renders the selected label in a dropdown-trigger link', () => {
+      renderDropdown()
+      const trigger = screen.getByText('Silver Plan').closest('a')
+      expect(trigger?.className).toMatch(/dropdownTrigger/)
+    })
+
+    it('keeps a consumer class alongside its own', () => {
+      renderDropdown({ rootClassName: 'font-normal' })
+      const trigger = screen.getByText('Silver Plan').closest('a')
+      expect(trigger).toHaveClass('font-normal')
+      expect(trigger?.className).toMatch(/dropdownTrigger/)
+    })
+
+    it('marks the selected row with the light primary background', async () => {
+      const user = userEvent.setup()
+      renderDropdown()
+      await user.click(screen.getByText('Silver Plan'))
+
+      const selected = await screen.findByRole('option', { selected: true })
+      expect(selected).toHaveTextContent('Silver Plan')
+      expect(selected.className).toContain(
+        'bg-[var(--j2-color-primary-bg-hover)]'
+      )
+      expect(selected.className).not.toContain('text-white')
+
+      const other = screen.getByRole('option', { name: 'Gold Plan' })
+      expect(other.className).not.toContain(
+        'bg-[var(--j2-color-primary-bg-hover)]'
+      )
+    })
+  })
+
+  describe('Field Variant', () => {
+    it('fills its container instead of measuring its label', () => {
+      const { container } = render(
+        <SummarizedSelect
+          variant="field"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+        />
+      )
+      const root = container.querySelector('.ant-select') as HTMLElement
+      expect(root.style.width).toBe('100%')
+      expect(root.className).toMatch(/fieldSelect/)
+      expect(root).toHaveClass('ant-select-outlined')
+    })
+
+    it('does not turn into the filled pill when values are selected', () => {
+      const { container } = render(
+        <SummarizedSelect
+          variant="field"
+          multiple
+          options={mockOptions}
+          value={['silver', 'gold']}
+          onChange={() => {}}
+          renderLabel={(count) => `${count} selected`}
+        />
+      )
+      const root = container.querySelector('.ant-select') as HTMLElement
+      expect(root.className).not.toMatch(/isActive|hemisphericSelect/)
+    })
+
+    it('leaves the chip look on the default variant', () => {
+      const { container } = render(
+        <SummarizedSelect
+          multiple
+          options={mockOptions}
+          value={['silver']}
+          onChange={() => {}}
+          renderLabel={(count) => `${count} selected`}
+        />
+      )
+      const root = container.querySelector('.ant-select') as HTMLElement
+      expect(root.className).toMatch(/isActive/)
+      expect(root.className).toMatch(/hemisphericSelect/)
+    })
+  })
 })

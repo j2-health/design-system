@@ -129,3 +129,10 @@ export const WithHeaderSlot: Story = {
     ),
   },
 }
+
+export const DefaultCollapsed: Story = {
+  name: 'Starts collapsed',
+  args: {
+    defaultCollapsed: true,
+  },
+}

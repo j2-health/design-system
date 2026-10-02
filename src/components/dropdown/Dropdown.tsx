@@ -7,6 +7,13 @@ import './Dropdown.css'
 const { Link } = Typography
 
 export type Props = DropdownProps & {
+  /**
+   * A custom trigger. When given, it opens the menu in place of the built-in
+   * target, and `type`, `label`, `icon` and `targetClassName` are ignored.
+   * It must accept a ref and mouse handlers (a DOM element or a component
+   * that forwards them), as with antd's Dropdown.
+   */
+  children?: React.ReactNode
   type?: 'basic' | 'basic-inline' | 'twofold'
   label?: string
   icon?: React.ReactNode
@@ -62,6 +69,7 @@ const Dropdown = ({
   menu,
   menuType = 'default',
   targetClassName,
+  children,
   ...props
 }: Props) => {
   let menuProp = menu
@@ -71,6 +79,14 @@ const Dropdown = ({
       ...menu,
       className: cx(menu.className, 'j2-dropdown-slim-menu'),
     }
+  }
+
+  if (children) {
+    return (
+      <AntdDropdown {...props} menu={menuProp}>
+        {children}
+      </AntdDropdown>
+    )
   }
 
   if (type === 'twofold') {

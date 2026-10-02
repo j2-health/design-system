@@ -5,3 +5,9 @@
 .ant-tag .anticon + span {
   margin-inline-start: var(--j2-margin-xxs);
 }
+
+/* Solid: a filled badge. White, bold text on the status color (or `color`). */
+.ant-tag.j2-tag-solid {
+  color: white;
+  font-weight: 700;
+}

@@ -7,8 +7,8 @@ type _Props = AntdPopoverProps & {
   scrollable?: boolean
   /* @deprecated use paddingSize instead */
   smallPadding?: boolean
-  /* default padding is large */
-  paddingSize?: 'xxs' | 'xs' | 'sm' | 'md' | 'xl'
+  /* default padding is large; `'none'` lets the content run to the edges */
+  paddingSize?: 'none' | 'xxs' | 'xs' | 'sm' | 'md' | 'xl'
 }
 
 export type PopoverProps = Expand<_Props>

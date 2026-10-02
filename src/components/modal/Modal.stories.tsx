@@ -207,3 +207,15 @@ export const NotClosable: Story = {
     },
   },
 }
+
+export const WithSubtitle: Story = {
+  name: 'With a subtitle',
+  render: (args) => <ModalWithState {...args} />,
+  args: {
+    title: 'Export as image',
+    subtitle: 'Choose what the image includes.',
+    cancelText: 'Cancel',
+    okText: 'Export',
+    withContentPadding: true,
+  },
+}

@@ -112,3 +112,22 @@ export const XxsmallPadding: Story = {
     children: <span>Trigger to learn about CMS</span>,
   },
 }
+
+// No padding: the content runs to the popover's edges, e.g. a list or a
+// panel with its own header band.
+export const NoPadding: Story = {
+  args: {
+    open: true,
+    paddingSize: 'none',
+    placement: 'bottom',
+    content: (
+      <div className="w-56">
+        <div className="j2-caption border-b border-j2-border-secondary bg-j2-gray-2 px-3 py-1.5">
+          Filters
+        </div>
+        <div className="p-3 text-sm">Content draws its own spacing.</div>
+      </div>
+    ),
+    children: <span className="text-sm">Anchor</span>,
+  },
+}

@@ -8,9 +8,10 @@ import {
   XCircleIcon,
   CircleNotchIcon,
 } from '@phosphor-icons/react'
+import cx from 'classnames'
 import styles from './Alert.module.css'
 type Props = Expand<Omit<AlertProps, 'type'>> & {
-  description?: string
+  description?: React.ReactNode
   type: 'success' | 'info' | 'warning' | 'error' | 'loading'
   closable?: boolean
   showIcon?: boolean
@@ -29,6 +30,7 @@ const Alert = ({
   closeText,
   onClose,
   afterClose,
+  className,
   ...props
 }: Props) => {
   const { token } = theme.useToken()
@@ -90,7 +92,7 @@ const Alert = ({
 
   return (
     <AntdAlert
-      className={styles.alert}
+      className={cx(styles.alert, className)}
       icon={icon}
       closable={
         closable || closeText

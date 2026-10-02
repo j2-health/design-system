@@ -38,3 +38,25 @@
     flex-shrink: 0 !important;
   }
 }
+
+/*
+ * Labelled: text inside the track (`checkedChildren` / `unCheckedChildren`,
+ * e.g. "Off"). The track grows to fit the word instead of clipping it.
+ */
+.j2-switch.j2-switch-labelled {
+  &.ant-switch {
+    width: auto !important;
+    min-width: 52px !important;
+  }
+
+  &.ant-switch-small {
+    min-width: 42px !important;
+  }
+
+  &.ant-switch-small .ant-switch-inner-checked,
+  &.ant-switch-small .ant-switch-inner-unchecked {
+    font-size: var(--j2-font-size-xs) !important;
+    line-height: 16px !important;
+    font-weight: 500;
+  }
+}

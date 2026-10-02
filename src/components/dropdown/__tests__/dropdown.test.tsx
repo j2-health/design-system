@@ -1,9 +1,10 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Dropdown } from '../Dropdown'
 
 describe('Dropdown', () => {
   it('should render correctly', () => {
-    const { container } = render(<Dropdown label="Test">Test</Dropdown>)
+    const { container } = render(<Dropdown label="Test" />)
     expect(container).toMatchSnapshot()
   })
 
@@ -48,6 +49,41 @@ describe('Dropdown', () => {
       const menuElement = document.querySelector('.ant-dropdown-menu')
       expect(menuElement).toHaveClass('j2-dropdown-slim-menu')
       expect(menuElement).toHaveClass('custom-menu-class')
+    })
+  })
+  describe('custom trigger', () => {
+    const menu = { items: [{ key: 'png', label: 'Export as image' }] }
+
+    it('renders children in place of the built-in target', () => {
+      render(
+        <Dropdown label="Ignored" menu={menu}>
+          <button type="button">Share</button>
+        </Dropdown>
+      )
+      expect(screen.getByRole('button', { name: 'Share' })).toBeInTheDocument()
+      expect(screen.queryByText('Ignored')).not.toBeInTheDocument()
+    })
+
+    it('opens the menu from the custom trigger', async () => {
+      const user = userEvent.setup()
+      render(
+        <Dropdown menu={menu} trigger={['click']}>
+          <button type="button">Share</button>
+        </Dropdown>
+      )
+      await user.click(screen.getByRole('button', { name: 'Share' }))
+      expect(await screen.findByText('Export as image')).toBeInTheDocument()
+    })
+
+    it('still applies the slim menu with a custom trigger', () => {
+      render(
+        <Dropdown menu={menu} menuType="slim" open>
+          <button type="button">Share</button>
+        </Dropdown>
+      )
+      expect(document.querySelector('.ant-dropdown-menu')).toHaveClass(
+        'j2-dropdown-slim-menu'
+      )
     })
   })
 })

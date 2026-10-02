@@ -13,6 +13,12 @@ export type CollapseState = 'default' | 'warning' | 'error'
 export type Props = Expand<CollapseProps> & {
   state?: CollapseState
   showIcon?: boolean
+  /**
+   * `'section'`: stacked section headers for grouping content inside a
+   * panel. A compact gray header band with a caption label and the caret at
+   * the end, and a flush body so the content draws its own edges.
+   */
+  variant?: 'default' | 'section'
 }
 
 const stateConfig: Record<
@@ -39,10 +45,12 @@ const stateConfig: Record<
 const Collapse = ({
   state = 'default',
   showIcon = false,
+  variant = 'default',
   className,
   items,
   ...props
 }: Props) => {
+  const isSection = variant === 'section'
   const { className: stateClass, Icon, color } = stateConfig[state]
 
   const icon = React.useMemo(() => {
@@ -65,9 +73,13 @@ const Collapse = ({
 
   return (
     <AntdCollapse
+      ghost={isSection || undefined}
+      expandIconPlacement={isSection ? 'end' : undefined}
       {...props}
       items={itemsWithIcon}
-      className={[stateClass, className].filter(Boolean).join(' ')}
+      className={[stateClass, isSection && styles.section, className]
+        .filter(Boolean)
+        .join(' ')}
       expandIcon={({ isActive }) => (
         <CaretDownIcon
           size={14}

@@ -1,0 +1,40 @@
+/* Flush: content sits against the tab bar and fills the remaining height. */
+.flush {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  :global(.ant-tabs-nav) {
+    margin-bottom: 0;
+  }
+
+  :global(.ant-tabs-content-holder) {
+    flex: 1;
+    min-height: 0;
+  }
+
+  :global(.ant-tabs-content),
+  :global(.ant-tabs-tabpane) {
+    height: 100%;
+  }
+
+  :global(.ant-tabs-tabpane) {
+    padding: 0;
+  }
+}
+
+/* Justified: the tabs share the bar's width equally. */
+.justified {
+  :global(.ant-tabs-nav-list) {
+    flex: 1;
+  }
+
+  :global(.ant-tabs-tab) {
+    flex: 1;
+    justify-content: center;
+  }
+
+  :global(.ant-tabs-tab + .ant-tabs-tab) {
+    margin-inline-start: 0;
+  }
+}
