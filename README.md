@@ -201,12 +201,15 @@ consequences worth knowing before you change anything here:
   11.5.1, which is exactly what Node 24.5.0 ships. The workflow asserts this
   rather than letting it surface later as an unexplained 401.
 
-To release a new version — maintainers only, since step 2 needs write access to
-this repository:
+To release a new version, bump `version` in `package.json` in a pull request —
+on its own, or in the PR carrying the change you want to release — and merge it.
+That is the whole procedure: the merge to `main` triggers the publish workflow,
+which checks that `version` changed and is not already on npm, then publishes it
+and creates the matching `vX.Y.Z` tag. A merge that touches `package.json`
+without changing `version` (a dependency bump, say) publishes nothing.
 
-1. Bump `version` in `package.json` in a pull request — on its own, or in the PR
-   carrying the change you want to release — and merge it.
-2. Dispatch the publish workflow against `main`:
+If an automatic release needs re-running, dispatch the workflow against `main` —
+maintainers only, since it needs write access to this repository:
 
 ```bash
 $ gh workflow run publish-workflow.yml --ref main
@@ -217,10 +220,8 @@ Pick the ref carefully: the publish job is _skipped_ rather than failed on any
 other ref, so a dispatch from a feature branch reports success without
 publishing.
 
-That is the whole procedure. The workflow publishes the version `package.json`
-declares and then creates the matching `vX.Y.Z` tag itself, so you do not
-normally tag by hand — the `tag` job's own comments cover the one case that
-needs it, where publishing succeeds and tagging fails.
+You do not normally tag by hand — the `tag` job's own comments cover the one
+case that needs it, where publishing succeeds and tagging fails.
 
 `npm version` is not the tool here, despite being the obvious one: it writes the
 bump as a local commit, and `main` requires a pull request, so that commit has
