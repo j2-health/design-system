@@ -81,7 +81,7 @@
     "@phosphor-icons/react": "^2.1.7",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/addon-links": "^10.6.0",
-    "@storybook/react-vite": "^10.6.0",
+    "@storybook/react-vite": "^10.6.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
