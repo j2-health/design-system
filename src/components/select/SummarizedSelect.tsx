@@ -28,7 +28,8 @@ type GroupOption = {
 
 export type SelectOption = Option | GroupOption | OptionWithLogo
 
-export type SummarizedSelectVariant = SelectProps['variant'] | 'headlined'
+export type SummarizedSelectVariant =
+  SelectProps['variant'] | 'headlined' | 'field'
 
 export type SummarizedSelectTrigger = 'select' | 'dropdown'
 
@@ -40,12 +41,24 @@ type BaseProps = Omit<
   formControlPlaceholder?: string
   rootClassName?: string
   popupClassName?: string
+  /**
+   * Look of the `'select'` trigger.
+   * - antd's own variants (`'outlined'`, `'borderless'`, ...): the filter-chip
+   *   look. It sizes to its label and turns into a filled pill once a
+   *   multiple select has values.
+   * - `'headlined'`: a page-title select.
+   * - `'field'`: a plain form field. It fills its container and keeps the
+   *   same look whatever is selected, so it lines up with the inputs and
+   *   selects around it in a form row.
+   */
   variant?: SummarizedSelectVariant
   /**
    * Shape of the control that opens the popup.
    * - `'select'` (default): antd Select, styled by `variant`.
-   * - `'dropdown'`: antd Dropdown with a `Typography.Link` target (label + caret).
-   *   Ignores `variant` — the trigger is always a link.
+   * - `'dropdown'`: antd Dropdown with a text target (label + caret), for
+   *   breadcrumbs and inline switchers. Semibold primary text with a duotone
+   *   caret; a consumer class such as `font-normal` still wins on weight.
+   *   Ignores `variant`.
    */
   trigger?: SummarizedSelectTrigger
   defaultOpen?: boolean
@@ -129,7 +142,9 @@ export function SummarizedSelect({
   ...props
 }: Props) {
   const isHeadline = variant === 'headlined'
-  const antVariant = isHeadline ? 'borderless' : variant
+  const isField = variant === 'field'
+  const antVariant = isHeadline ? 'borderless' : isField ? 'outlined' : variant
+  const isChip = !isField && variant !== 'underlined' && !isHeadline
   const [searchValue, setSearchValue] = useState('')
   const [focusTrigger, setFocusTrigger] = useState(defaultOpen ? 1 : 0)
   const [isOpen, setIsOpen] = useState(defaultOpen)
@@ -159,7 +174,9 @@ export function SummarizedSelect({
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setTimeout(() => {
-            inputRef.current?.focus({ cursor: 'end' })
+            // `preventScroll`: on first open the popup is still at its initial
+            // spot when this runs, and a plain focus scrolls the page to it.
+            inputRef.current?.focus({ cursor: 'end', preventScroll: true })
           }, 100)
         })
       })
@@ -290,7 +307,6 @@ export function SummarizedSelect({
           <Input
             ref={inputRef}
             key={focusTrigger}
-            autoFocus
             placeholder={searchPlaceholder || 'Search...'}
             value={searchValue}
             onChange={(e) => {
@@ -392,7 +408,7 @@ export function SummarizedSelect({
         className={cx(
           'px-3 py-1.5 rounded cursor-pointer text-sm',
           isSelected
-            ? 'bg-[var(--j2-color-primary)] text-white hover:bg-[var(--j2-color-primary)]'
+            ? 'bg-[var(--j2-color-primary-bg-hover)] font-semibold text-[var(--j2-color-primary)] hover:bg-[var(--j2-color-primary-bg-hover)]'
             : 'hover:bg-[var(--j2-color-bg-hover)]'
         )}
       >
@@ -424,7 +440,6 @@ export function SummarizedSelect({
           <Input
             ref={inputRef}
             key={focusTrigger}
-            autoFocus
             placeholder={searchPlaceholder || 'Search...'}
             value={searchValue}
             onChange={(e) => {
@@ -512,7 +527,7 @@ export function SummarizedSelect({
   if (trigger === 'dropdown') {
     const hasSelection = multiple ? value.length > 0 : Boolean(value)
     const triggerContent = (
-      <span className="inline-flex items-center gap-1">
+      <span className="inline-flex items-center gap-1.5">
         {hasSelection ? displayText : (formControlPlaceholder ?? 'Select')}
         {loading ? (
           <Spin
@@ -521,7 +536,7 @@ export function SummarizedSelect({
             data-testid="loading-spinner"
           />
         ) : (
-          <CaretDownIcon weight="regular" data-testid="caret-down" />
+          <CaretDownIcon weight="duotone" data-testid="caret-down" />
         )}
       </span>
     )
@@ -536,7 +551,7 @@ export function SummarizedSelect({
       >
         <Typography.Link
           disabled={props.disabled}
-          className={cx('inline-flex', rootClassName)}
+          className={cx('inline-flex', styles.dropdownTrigger, rootClassName)}
         >
           {triggerContent}
         </Typography.Link>
@@ -561,7 +576,7 @@ export function SummarizedSelect({
       <Select<string | string[], SelectOption>
         open={isOpen}
         showSearch={false}
-        style={{ width: measuredWidth }}
+        style={{ width: isField ? '100%' : measuredWidth }}
         suffixIcon={
           loading ? (
             <Spin
@@ -601,14 +616,10 @@ export function SummarizedSelect({
         onOpenChange={handleOpenChange}
         classNames={{
           root: cx(rootClassName, styles.summarizedSelect, {
-            [styles.hemisphericSelect]:
-              variant !== 'underlined' && variant !== 'headlined',
-            [styles.isActive]:
-              multiple &&
-              value.length > 0 &&
-              variant !== 'underlined' &&
-              variant !== 'headlined',
+            [styles.hemisphericSelect]: isChip,
+            [styles.isActive]: isChip && multiple && value.length > 0,
             [styles.headlinedSelect]: isHeadline,
+            [styles.fieldSelect]: isField,
           }),
           popup: { root: popupClassName },
         }}

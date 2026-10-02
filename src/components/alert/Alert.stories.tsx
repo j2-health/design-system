@@ -94,3 +94,21 @@ export const MessageOnly: Story = {
     description: undefined,
   },
 }
+
+export const RichDescriptionWithAction: Story = {
+  name: 'Rich description with an action',
+  args: {
+    type: 'warning',
+    message: 'Sample data',
+    description: (
+      <span>
+        These figures are illustrative. <a href="#learn">Learn more</a>.
+      </span>
+    ),
+    action: (
+      <a href="#switch" className="whitespace-nowrap text-sm">
+        Switch source
+      </a>
+    ),
+  },
+}

@@ -150,3 +150,43 @@
 .clearAllButton:hover {
   background-color: var(--j2-color-primary-bg-hover);
 }
+
+/*
+ * Dropdown trigger (`trigger="dropdown"`)
+ * Reads as emphasized text with an affordance, not as a link: semibold
+ * primary text, no underline, and a fade on hover instead of a color shift.
+ * Weight sits in the `components` layer so a consumer utility such as
+ * `font-normal` on `rootClassName` still wins: Tailwind 4 emits utilities in
+ * a later native layer, and Tailwind 3's are unlayered, which beats any layer.
+ * Color stays unlayered, with `.ant-typography`, to beat antd's link color.
+ */
+@layer components {
+  .dropdownTrigger {
+    font-weight: 600;
+  }
+}
+
+.dropdownTrigger:global(.ant-typography),
+.dropdownTrigger:global(.ant-typography):hover,
+.dropdownTrigger:global(.ant-typography):focus {
+  color: var(--j2-color-primary);
+  text-decoration: none;
+}
+
+.dropdownTrigger:global(.ant-typography):hover {
+  opacity: 0.7;
+}
+
+.dropdownTrigger:global(.ant-typography-disabled),
+.dropdownTrigger:global(.ant-typography-disabled):hover {
+  color: var(--j2-color-text-disabled);
+  opacity: 1;
+}
+
+/*
+ * Field variant (`variant="field"`)
+ * A form field: full width, the field's own text color, a muted caret.
+ */
+.fieldSelect :global(.ant-select-suffix) {
+  color: var(--j2-color-text-secondary);
+}

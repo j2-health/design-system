@@ -1,0 +1,52 @@
+.move {
+  transition: all 0.5s ease-out;
+}
+
+/*
+ * The projected segment: diagonal stripes that drift and pulse, so it reads
+ * as "could be" next to the solid "is". No background-size: the gradient
+ * already repeats, and a tile size would show seams.
+ */
+.stripes {
+  background-color: var(--j2-stripes-fill);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--j2-stripes-stripe) 0,
+    var(--j2-stripes-stripe) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  animation:
+    stripeShimmer 3s linear infinite,
+    stripePulse 2.6s ease-in-out infinite;
+  will-change: background-position, opacity;
+}
+
+/* One stripe period along x (8px × √2), so the loop reset is invisible. */
+@keyframes stripeShimmer {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: calc(8px * 1.41421356);
+  }
+}
+
+@keyframes stripePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stripes,
+  .move {
+    animation: none;
+    transition: none;
+    will-change: auto;
+  }
+}

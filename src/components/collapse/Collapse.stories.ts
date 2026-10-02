@@ -77,3 +77,18 @@ export const Error: Story = {
     showIcon: true,
   },
 }
+
+// Section: stacked section headers inside a panel. A compact gray band with
+// a caption label, the caret at the end, and a flush body.
+export const Section: Story = {
+  parameters: { layout: 'padded' },
+  args: {
+    style: { width: 360 },
+    variant: 'section',
+    items: [
+      { key: 'details', label: 'Details', children: 'Section content' },
+      { key: 'history', label: 'History', children: 'Section content' },
+    ],
+    defaultActiveKey: ['details'],
+  },
+}

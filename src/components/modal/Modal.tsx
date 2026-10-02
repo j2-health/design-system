@@ -5,6 +5,8 @@ import cx from 'classnames'
 
 export type Props = {
   withContentPadding?: boolean
+  /** A line of supporting text under the title. */
+  subtitle?: React.ReactNode
 } & Expand<ModalProps>
 
 const Modal = ({
@@ -13,12 +15,25 @@ const Modal = ({
   children,
   onCancel,
   withContentPadding: withPadding = true,
+  subtitle,
+  className,
   ...props
 }: Props) => {
   return (
     <AntdModal
-      title={title}
-      className={cx('j2-modal')}
+      title={
+        subtitle ? (
+          <div className="flex flex-col gap-1">
+            <span>{title}</span>
+            <span className="text-sm font-normal text-j2-text-secondary">
+              {subtitle}
+            </span>
+          </div>
+        ) : (
+          title
+        )
+      }
+      className={cx('j2-modal', className)}
       centered
       closeIcon={<XIcon size={22} weight="regular" />}
       onCancel={onCancel}

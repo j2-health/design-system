@@ -8,6 +8,10 @@
     padding: var(--j2-padding-sm);
   }
 
+  &.nonePadding :global(.ant-popover-container) {
+    padding: 0;
+  }
+
   &.xxsPadding :global(.ant-popover-container) {
     padding: var(--j2-padding-xxs);
   }

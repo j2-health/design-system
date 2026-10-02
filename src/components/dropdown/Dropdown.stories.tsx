@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { Dropdown } from './Dropdown'
+import { Button } from '../button'
 import { ItemType } from 'antd/es/menu/interface'
-import { DownloadIcon, SortAscendingIcon } from '@phosphor-icons/react'
+import {
+  ArrowSquareOutIcon,
+  DownloadIcon,
+  SortAscendingIcon,
+} from '@phosphor-icons/react'
 
 const meta = {
   title: 'Components/Dropdown',
@@ -14,7 +19,7 @@ const meta = {
     arrow: false,
     disabled: false,
     trigger: ['click'],
-    placement: 'bottom',
+    placement: 'bottomLeft',
   },
   argTypes: {
     type: {
@@ -159,4 +164,63 @@ export const SlimMenu: Story = {
   render: (args) => {
     return <Dropdown {...args} />
   },
+}
+
+// Custom trigger — pass any element as children and it opens the menu. Use it
+// when the built-in targets don't fit, e.g. a primary button or a text toggle.
+export const CustomTrigger: Story = {
+  render: (args) => (
+    <div className="flex items-center gap-6">
+      <Dropdown
+        {...args}
+        menu={{ items: [{ key: 'png', label: 'Export as image' }] }}
+      >
+        <Button size="small" type="primary" icon={<ArrowSquareOutIcon />}>
+          Share
+        </Button>
+      </Dropdown>
+      <Dropdown {...args} menu={{ items }}>
+        <button
+          type="button"
+          className="cursor-pointer border-0 bg-transparent p-0 text-sm font-semibold text-j2-primary hover:opacity-70"
+        >
+          More actions
+        </button>
+      </Dropdown>
+    </div>
+  ),
+}
+
+// Placement only shows when the menu is wider than its trigger: antd never
+// makes a menu narrower than the trigger. Left/right align the menu's edge
+// with the trigger's; the plain value centers it.
+export const Placement: Story = {
+  render: (args) => (
+    <div className="flex" style={{ gap: 240 }}>
+      {(['bottomLeft', 'bottom', 'bottomRight'] as const).map((placement) => (
+        <Dropdown
+          {...args}
+          key={placement}
+          placement={placement}
+          open
+          menu={{
+            items: [
+              { key: 'a', label: 'A longer menu item label' },
+              { key: 'b', label: 'Another item' },
+            ],
+          }}
+        >
+          <Button size="small">{placement}</Button>
+        </Dropdown>
+      ))}
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+  decorators: [
+    (Story) => (
+      <div className="flex justify-center pb-40 pt-6">
+        <Story />
+      </div>
+    ),
+  ],
 }

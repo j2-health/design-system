@@ -75,3 +75,15 @@ export const Number: Story = {
     return <Switch {...args} checkedChildren="1" unCheckedChildren="2" />
   },
 }
+
+// Text in the track: the switch widens to fit the word. Useful for naming
+// the exceptional state only (here "Off").
+export const Labelled: Story = {
+  render: () => (
+    <div className="flex items-center gap-6">
+      <Switch small defaultChecked unCheckedChildren="Off" />
+      <Switch small unCheckedChildren="Off" />
+      <Switch checkedChildren="On" unCheckedChildren="Off" defaultChecked />
+    </div>
+  ),
+}

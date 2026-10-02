@@ -83,7 +83,8 @@ type MultiSelectArgs = {
   options?: SelectOption[]
   renderLabel?: (count: number) => string
   value?: string[]
-  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined'
+  variant?:
+    'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined' | 'field'
   loading?: boolean
   disabled?: boolean
 }
@@ -93,7 +94,8 @@ type SingleSelectArgs = {
   formControlPlaceholder?: string
   options?: SelectOption[]
   value?: string
-  variant?: 'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined'
+  variant?:
+    'outlined' | 'filled' | 'borderless' | 'underlined' | 'headlined' | 'field'
   loading?: boolean
   disabled?: boolean
   popupMatchSelectWidth?: boolean
@@ -240,9 +242,10 @@ export const Headlined: Story = {
   ),
 }
 
-// Dropdown-trigger variant — the trigger is an antd Dropdown with a
-// Typography.Link target (label + caret). Useful when the control sits
-// inline in flowing text (e.g. a drawer title) rather than as a form field.
+// Dropdown-trigger variant — the trigger is an antd Dropdown with a text
+// target: semibold primary label and a duotone caret. Useful when the control
+// sits inline (a breadcrumb, a drawer title, a toolbar switcher) rather than
+// as a form field.
 
 const networkOptions = [
   { label: 'Aetna California Commercial', value: '1' },
@@ -317,4 +320,86 @@ export const DropdownTriggerMulti: Story = {
     multiple: true,
   },
   render: (args) => <DropdownMultiWrapper {...(args as DropdownMultiArgs)} />,
+}
+
+// The trigger inside a page header: two switchers side by side, the second
+// opting out of the semibold weight with `rootClassName="font-normal"`.
+const DropdownTriggerInHeaderWrapper = () => {
+  const [network, setNetwork] = useState('1')
+  const [specialty, setSpecialty] = useState('Family Medicine')
+
+  return (
+    <div className="flex items-center gap-3 text-base">
+      <SummarizedSelect
+        trigger="dropdown"
+        searchPlaceholder="Search networks..."
+        options={networkOptions}
+        value={network}
+        onChange={setNetwork}
+      />
+      <span className="text-j2-text-tertiary">/</span>
+      <SummarizedSelect
+        trigger="dropdown"
+        searchPlaceholder="Search specialties..."
+        options={defaultOptions}
+        value={specialty}
+        onChange={setSpecialty}
+      />
+      <span className="text-j2-text-tertiary">·</span>
+      <SummarizedSelect
+        trigger="dropdown"
+        rootClassName="font-normal"
+        searchPlaceholder="Search specialties..."
+        options={defaultOptions}
+        value={specialty}
+        onChange={setSpecialty}
+      />
+    </div>
+  )
+}
+
+export const DropdownTriggerInHeader: Story = {
+  render: () => <DropdownTriggerInHeaderWrapper />,
+}
+
+// Field variant — a plain form field that fills its column and keeps the same
+// look whether or not anything is selected, so it lines up with the controls
+// around it.
+const FieldWrapper = () => {
+  const [single, setSingle] = useState<string | undefined>()
+  const [multiple, setMultiple] = useState<string[]>([
+    'Family Medicine',
+    'Pediatrics',
+  ])
+
+  return (
+    <div className="grid w-80 grid-cols-[6rem_1fr] items-center gap-x-3 gap-y-2 text-sm">
+      <span className="text-j2-text-secondary">Single</span>
+      <SummarizedSelect
+        variant="field"
+        size="small"
+        searchPlaceholder="Search specialties..."
+        formControlPlaceholder="Any specialty"
+        options={defaultOptions}
+        value={single}
+        onChange={setSingle}
+      />
+      <span className="text-j2-text-secondary">Multiple</span>
+      <SummarizedSelect
+        variant="field"
+        size="small"
+        multiple
+        renderLabel={(count) => `${count} specialties`}
+        searchPlaceholder="Search specialties..."
+        formControlPlaceholder="Any specialty"
+        options={defaultOptions}
+        value={multiple}
+        onChange={setMultiple}
+      />
+    </div>
+  )
+}
+
+export const Field: Story = {
+  render: () => <FieldWrapper />,
 }
