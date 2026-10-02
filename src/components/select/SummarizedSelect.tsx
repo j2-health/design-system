@@ -57,10 +57,17 @@ type BaseProps = Omit<
    * - `'select'` (default): antd Select, styled by `variant`.
    * - `'dropdown'`: antd Dropdown with a text target (label + caret), for
    *   breadcrumbs and inline switchers. Semibold primary text with a duotone
-   *   caret; a consumer class such as `font-normal` still wins on weight.
-   *   Ignores `variant`.
+   *   caret. A Tailwind weight utility on `rootClassName` (`font-normal`,
+   *   `font-[450]`) replaces the default; for any other weight, use
+   *   `triggerWeight`. Ignores `variant`.
    */
   trigger?: SummarizedSelectTrigger
+  /**
+   * The `'dropdown'` trigger's font weight, e.g. `400` or `'normal'`.
+   * Replaces the semibold default and wins over any class. Use it for a
+   * weight `rootClassName` can't express as a Tailwind weight utility.
+   */
+  triggerWeight?: React.CSSProperties['fontWeight']
   defaultOpen?: boolean
 
   loading?: boolean
@@ -125,9 +132,14 @@ const filterOptions = (
     .filter((option): option is SelectOption => option !== null)
 }
 
-/** A Tailwind font-weight utility, e.g. `font-normal` or `font-bold`. */
+/**
+ * An unprefixed Tailwind font-weight utility: a named weight (`font-normal`,
+ * `font-bold`) or an arbitrary numeric one (`font-[450]`). Arbitrary values
+ * must be numeric, since `font-['Inter']` sets the family. Custom weight names
+ * can't be told apart from family names, so they need `triggerWeight`.
+ */
 const WEIGHT_CLASS =
-  /(^|\s)font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)(\s|$)/
+  /(^|\s)font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black|\[\d+\])(\s|$)/
 
 const hasWeightClass = (className?: string) =>
   Boolean(className && WEIGHT_CLASS.test(className))
@@ -145,6 +157,7 @@ export function SummarizedSelect({
   popupClassName,
   variant,
   trigger = 'select',
+  triggerWeight,
   defaultOpen = false,
   ...props
 }: Props) {
@@ -561,9 +574,16 @@ export function SummarizedSelect({
           className={cx(
             'inline-flex',
             styles.dropdownTrigger,
-            !hasWeightClass(rootClassName) && 'font-semibold',
+            triggerWeight === undefined &&
+              !hasWeightClass(rootClassName) &&
+              'font-semibold',
             rootClassName
           )}
+          style={
+            triggerWeight === undefined
+              ? undefined
+              : { fontWeight: triggerWeight }
+          }
         >
           {triggerContent}
         </Typography.Link>
