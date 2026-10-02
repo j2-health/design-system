@@ -35,7 +35,14 @@ on:
   # succeeded and tagging did not.
   workflow_dispatch:
 
-# Two merges landing close together must not publish concurrently; queue them.
+# Serializes releases so two can never publish at once or land out of order.
+# This is not an unbounded queue: GitHub keeps one running and one pending run
+# per group, and a newer run replaces the pending one. So with three
+# version-bump merges inside one release window, the middle version is
+# superseded and never published. That is acceptable -- main is linear, so the
+# newer release contains every change the skipped one had, and `latest` always
+# ends on the newest version. It is not silent: `detect` warns when the version
+# it is replacing never reached npm.
 concurrency:
   group: publish-npm
   cancel-in-progress: false
@@ -94,6 +101,13 @@ jobs:
             echo "$name@$after is already on npm; nothing to release"
             echo "release=false" >> "$GITHUB_OUTPUT"
             exit 0
+          fi
+
+          # The version this merge replaces should already be on npm. If it is
+          # not, its release was superseded by this run (see `concurrency`) or
+          # failed; say so instead of letting it vanish.
+          if ! npm view --prefer-online "$name@$before" version >/dev/null 2>&1; then
+            echo "::warning::$name@$before was never published to npm; releasing $after supersedes it."
           fi
 
           echo "version $before -> $after; releasing"
