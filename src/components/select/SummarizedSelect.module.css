@@ -155,16 +155,12 @@
  * Dropdown trigger (`trigger="dropdown"`)
  * Reads as emphasized text with an affordance, not as a link: semibold
  * primary text, no underline, and a fade on hover instead of a color shift.
- * Weight sits in the `components` layer so a consumer utility such as
- * `font-normal` on `rootClassName` still wins: Tailwind 4 emits utilities in
- * a later native layer, and Tailwind 3's are unlayered, which beats any layer.
- * Color stays unlayered, with `.ant-typography`, to beat antd's link color.
+ * The semibold weight is a utility class added in the component, skipped when
+ * the consumer passes its own `font-*` weight. No cascade layers here: this
+ * file is compiled into dist/style.css, and Tailwind 3 refuses a stylesheet
+ * that declares a components layer without its own Tailwind directives.
+ * Color needs `.ant-typography` to beat antd's link color.
  */
-@layer components {
-  .dropdownTrigger {
-    font-weight: 600;
-  }
-}
 
 .dropdownTrigger:global(.ant-typography),
 .dropdownTrigger:global(.ant-typography):hover,

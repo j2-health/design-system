@@ -530,11 +530,46 @@ describe('SummarizedSelect', () => {
       expect(trigger?.className).toMatch(/dropdownTrigger/)
     })
 
-    it('keeps a consumer class alongside its own', () => {
+    it('is semibold by default', () => {
+      renderDropdown()
+      const trigger = screen.getByText('Silver Plan').closest('a')
+      expect(trigger).toHaveClass('font-semibold')
+    })
+
+    it('lets a consumer weight class replace the default', () => {
       renderDropdown({ rootClassName: 'font-normal' })
       const trigger = screen.getByText('Silver Plan').closest('a')
       expect(trigger).toHaveClass('font-normal')
+      expect(trigger).not.toHaveClass('font-semibold')
       expect(trigger?.className).toMatch(/dropdownTrigger/)
+    })
+
+    it('treats an arbitrary numeric weight as a weight class', () => {
+      renderDropdown({ rootClassName: 'font-[450]' })
+      const trigger = screen.getByText('Silver Plan').closest('a')
+      expect(trigger).toHaveClass('font-[450]')
+      expect(trigger).not.toHaveClass('font-semibold')
+    })
+
+    it('keeps the default beside an arbitrary font family', () => {
+      renderDropdown({ rootClassName: "font-['Inter']" })
+      expect(screen.getByText('Silver Plan').closest('a')).toHaveClass(
+        'font-semibold'
+      )
+    })
+
+    it('applies triggerWeight inline in place of the default', () => {
+      renderDropdown({ triggerWeight: 450, rootClassName: 'font-book' })
+      const trigger = screen.getByText('Silver Plan').closest('a')
+      expect(trigger).not.toHaveClass('font-semibold')
+      expect(trigger).toHaveStyle({ fontWeight: '450' })
+    })
+
+    it('keeps the default weight beside a non-weight consumer class', () => {
+      renderDropdown({ rootClassName: 'font-mono' })
+      expect(screen.getByText('Silver Plan').closest('a')).toHaveClass(
+        'font-semibold'
+      )
     })
 
     it('marks the selected row with the light primary background', async () => {

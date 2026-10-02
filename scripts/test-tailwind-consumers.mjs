@@ -106,7 +106,16 @@ export default {
 
       writeFileSync(
         join(consumer, 'index.html'),
-        '<link rel="stylesheet" href="/input.css"><main>consumer</main>\n'
+        '<link rel="stylesheet" href="/input.css"><main>consumer</main>\n' +
+          '<script type="module" src="/main.js"></script>\n'
+      )
+
+      // The compiled component styles, imported from the app entry as the
+      // README says. This file goes through the consumer's PostCSS too, so a
+      // cascade layer in component CSS would fail a Tailwind 3 build here.
+      writeFileSync(
+        join(consumer, 'main.js'),
+        `import '@j2-health/design-system/style.css'\n`
       )
 
       writeFileSync(
