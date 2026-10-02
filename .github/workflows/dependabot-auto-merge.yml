@@ -19,8 +19,13 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     timeout-minutes: 70
+    # Author AND actor: a human pushing onto a Dependabot PR fires this as
+    # `synchronize` with themselves as actor, and that head must not merge
+    # unreviewed. An older Dependabot-triggered run is stopped by
+    # --match-head-commit.
     if: >
       github.event.pull_request.user.login == 'dependabot[bot]'
+      && github.actor == 'dependabot[bot]'
       && !github.event.pull_request.draft
     steps:
       - name: Fetch Dependabot metadata
