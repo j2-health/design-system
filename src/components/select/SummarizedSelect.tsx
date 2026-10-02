@@ -125,6 +125,13 @@ const filterOptions = (
     .filter((option): option is SelectOption => option !== null)
 }
 
+/** A Tailwind font-weight utility, e.g. `font-normal` or `font-bold`. */
+const WEIGHT_CLASS =
+  /(^|\s)font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)(\s|$)/
+
+const hasWeightClass = (className?: string) =>
+  Boolean(className && WEIGHT_CLASS.test(className))
+
 export function SummarizedSelect({
   searchPlaceholder,
   formControlPlaceholder,
@@ -551,7 +558,12 @@ export function SummarizedSelect({
       >
         <Typography.Link
           disabled={props.disabled}
-          className={cx('inline-flex', styles.dropdownTrigger, rootClassName)}
+          className={cx(
+            'inline-flex',
+            styles.dropdownTrigger,
+            !hasWeightClass(rootClassName) && 'font-semibold',
+            rootClassName
+          )}
         >
           {triggerContent}
         </Typography.Link>
