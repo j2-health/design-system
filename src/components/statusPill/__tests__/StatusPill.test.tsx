@@ -50,4 +50,25 @@ describe('StatusPill', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
     expect(screen.getByText('Nothing yet')).toBeInTheDocument()
   })
+
+  it('makes the trailing control inert only while disabled', () => {
+    const { rerender } = render(
+      <StatusPill
+        label="Preview"
+        disabled
+        trailing={<button type="button">Toggle</button>}
+      />
+    )
+    const wrapper = () =>
+      screen.getByRole('button', { name: 'Toggle', hidden: true })
+        .parentElement as HTMLElement
+    expect(wrapper()).toHaveAttribute('inert')
+    rerender(
+      <StatusPill
+        label="Preview"
+        trailing={<button type="button">Toggle</button>}
+      />
+    )
+    expect(wrapper()).not.toHaveAttribute('inert')
+  })
 })

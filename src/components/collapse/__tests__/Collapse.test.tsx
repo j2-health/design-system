@@ -20,4 +20,14 @@ describe('Collapse', () => {
     expect(root.className).not.toMatch(/section/)
     expect(root).not.toHaveClass('ant-collapse-ghost')
   })
+
+  it('renders the panel body class the section styles target', () => {
+    // antd 6 names the body `.ant-collapse-body` (antd 5's was
+    // `.ant-collapse-content-box`). Fails if antd renames it again.
+    const { container } = render(
+      <Collapse variant="section" items={items} defaultActiveKey={['1']} />
+    )
+    expect(container.querySelector('.ant-collapse-body')).not.toBeNull()
+    expect(container.querySelector('.ant-collapse-panel')).not.toBeNull()
+  })
 })

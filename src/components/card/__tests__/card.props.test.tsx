@@ -38,4 +38,26 @@ describe('Card selected', () => {
     render(<Card onClick={() => {}}>Plain</Card>)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
+
+  it('ignores keys from a focusable child and passes a real click', async () => {
+    const user = userEvent.setup()
+    const onClick = vi.fn()
+    render(
+      <Card selected={false} onClick={onClick}>
+        {/* A child action stops its own click, as child actions in a
+            clickable card should; the key handler must not re-fire it. */}
+        <button type="button" onClick={(event) => event.stopPropagation()}>
+          Child action
+        </button>
+      </Card>
+    )
+    screen.getByText('Child action').focus()
+    await user.keyboard('{Enter}')
+    expect(onClick).not.toHaveBeenCalled()
+
+    screen.getByRole('button', { pressed: false }).focus()
+    await user.keyboard('{Enter}')
+    expect(onClick).toHaveBeenCalledOnce()
+    expect(onClick.mock.calls[0][0].type).toBe('click')
+  })
 })

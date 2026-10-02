@@ -87,7 +87,11 @@ describe('ListRow', () => {
       const user = userEvent.setup()
       const onClick = vi.fn()
       render(
-        <ListRow selection="checkbox" onClick={onClick}>
+        <ListRow
+          selection="checkbox"
+          selectionLabel="Record A"
+          onClick={onClick}
+        >
           Record A
         </ListRow>
       )
@@ -121,7 +125,12 @@ describe('ListRow', () => {
 
     it('drops aria-pressed when the row has its own control', () => {
       render(
-        <ListRow selection="checkbox" selected onClick={() => {}}>
+        <ListRow
+          selection="checkbox"
+          selectionLabel="Record A"
+          selected
+          onClick={() => {}}
+        >
           Record A
         </ListRow>
       )
@@ -129,5 +138,11 @@ describe('ListRow', () => {
         screen.getByRole('button', { name: /Record A/ })
       ).not.toHaveAttribute('aria-pressed')
     })
+  })
+
+  it('requires a label whenever a selection control is shown', () => {
+    // @ts-expect-error selectionLabel is required with selection
+    const row = <ListRow selection="checkbox">Record A</ListRow>
+    expect(row).toBeTruthy()
   })
 })

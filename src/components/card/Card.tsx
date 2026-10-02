@@ -57,12 +57,13 @@ const Card = ({
         'aria-pressed': selected,
         onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
           props.onKeyDown?.(event)
-          if (event.defaultPrevented) return
+          // Keys from a focusable child (a link, a button) belong to it.
+          if (event.defaultPrevented || event.target !== event.currentTarget)
+            return
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
-            props.onClick?.(
-              event as unknown as React.MouseEvent<HTMLDivElement>
-            )
+            // A real click, so `onClick` gets the MouseEvent it is typed for.
+            event.currentTarget.click()
           }
         },
       })}

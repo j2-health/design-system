@@ -84,7 +84,19 @@ export const StatusPill = ({
       ) : (
         <span className={styles.static}>{text}</span>
       )}
-      {trailing && <span className="inline-flex items-center">{trailing}</span>}
+      {trailing && (
+        <span
+          className="inline-flex items-center"
+          // `pointer-events: none` stops the mouse but not the keyboard; inert
+          // takes a disabled pill's control out of focus and the a11y tree.
+          // Set as an attribute so it works on React 18 and 19 alike.
+          ref={(el) => {
+            el?.toggleAttribute('inert', disabled)
+          }}
+        >
+          {trailing}
+        </span>
+      )}
     </span>
   )
 }
