@@ -1,0 +1,124 @@
+# Auto-merge Dependabot patch PRs. Majors always wait for a human.
+#
+# Patch only: these components render in customer-facing applications, and
+# the unit tests do not catch visual regressions that a minor can introduce.
+
+name: Dependabot Auto-Merge
+
+on:
+  pull_request_target:
+    branches:
+      - main
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    # Author AND actor: a human pushing onto a Dependabot PR fires this as
+    # `synchronize` with themselves as actor, and that head must not merge
+    # unreviewed. An older Dependabot-triggered run is stopped by
+    # --match-head-commit.
+    if: >
+      github.event.pull_request.user.login == 'dependabot[bot]'
+      && github.actor == 'dependabot[bot]'
+      && !github.event.pull_request.draft
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Name the update types that MAY merge rather than excluding major.
+      # fetch-metadata emits an empty update-type for a PR covering several
+      # packages, and an exclusion check lets that empty value through -- a
+      # grouped double major has been approved and armed exactly that way.
+      # Naming the allowed values fails closed: a grouped bump needs a human.
+      - name: Check update type is eligible
+        id: policy
+        env:
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+        run: |
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch)
+              echo "eligible=true" >> "$GITHUB_OUTPUT" ;;
+            *)
+              echo "Not auto-merging update-type '${UPDATE_TYPE}'; a human reviews it."
+              echo "eligible=false" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      # There are no required status checks this auto-merge can lean on, so
+      # wait for the CI jobs explicitly. Not `gh pr checks --watch`: that waits
+      # for ALL checks, including this job.
+      - name: Wait for CI on PR head
+        if: steps.policy.outputs.eligible == 'true'
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Check-run names from the required status checks on `main`.
+          want='["Lint code", "Run unit tests", "Build and type-check", "Analyze"]'
+          deadline=$((SECONDS + 3600))
+
+          while (( SECONDS < deadline )); do
+            state=$(gh api \
+              "repos/${GITHUB_REPOSITORY}/commits/${PR_HEAD_SHA}/check-runs?per_page=100" \
+              --jq '[.check_runs[] | {name, status, conclusion}]' \
+              | jq -r --argjson want "$want" '
+                  . as $runs
+                  | [ $want[] as $n
+                      | [$runs[] | select(.name == $n)]
+                      | if length == 0 then "absent"
+                        elif any(.[]; .status != "completed") then "pending"
+                        elif all(.[]; .conclusion == "success" or .conclusion == "skipped") then "success"
+                        else "failed"
+                        end ]
+                  | if any(.[]; . == "failed") then "failed"
+                    elif all(.[]; . == "success") then "success"
+                    else "pending"
+                    end')
+
+            case "$state" in
+              success) echo "All required CI checks succeeded."; exit 0 ;;
+              failed)  echo "::error::Required CI checks did not succeed."; exit 1 ;;
+              *)       sleep 15 ;;
+            esac
+          done
+
+          echo "::error::Timed out waiting for CI."
+          exit 1
+
+      - name: Approve PR
+        if: steps.policy.outputs.eligible == 'true'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Merge directly rather than `--auto`:
+      # repository auto-merge is disabled, so `--auto` would
+      # fail; the wait above covers the required checks.
+      # --match-head-commit refuses if Dependabot pushed while we waited; the
+      # new head gets its own run of this workflow.
+      - name: Merge PR
+        if: steps.policy.outputs.eligible == 'true'
+        run: gh pr merge --squash --match-head-commit "$PR_HEAD_SHA" "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # A merge made with GITHUB_TOKEN does not emit the push event that
+      # normally deploys Storybook, so start that workflow explicitly.
+      - name: Deploy Storybook after merge
+        if: steps.policy.outputs.eligible == 'true'
+        run: gh workflow run deploy-github-pages.yaml --ref main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
