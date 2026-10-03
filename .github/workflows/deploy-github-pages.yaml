@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - 'main'
+  # Dependabot auto-merges use GITHUB_TOKEN, which suppresses push-triggered
+  # workflow runs. The auto-merge workflow dispatches this after merging.
+  workflow_dispatch:
 
 permissions:
   contents: read

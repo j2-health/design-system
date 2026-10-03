@@ -11,6 +11,7 @@ on:
       - main
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
   checks: read
@@ -112,4 +113,12 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # A merge made with GITHUB_TOKEN does not emit the push event that
+      # normally deploys Storybook, so start that workflow explicitly.
+      - name: Deploy Storybook after merge
+        if: steps.policy.outputs.eligible == 'true'
+        run: gh workflow run deploy-github-pages.yaml --ref main
+        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
