@@ -56,6 +56,17 @@ export const WithIllustration: Story = {
   },
 }
 
+// No title: the description carries the whole message, so no heading renders.
+export const MessageOnly: Story = {
+  name: 'Message only',
+  args: {
+    title: undefined,
+    description:
+      'This view is not available for the current selection. Please choose another.',
+    icon: <EmptyIllustration width={120} height={120} />,
+  },
+}
+
 export const WithAction: Story = {
   name: 'With an action',
   args: {

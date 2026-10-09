@@ -1,8 +1,11 @@
 import cx from 'classnames'
 
 export type EmptyStateProps = {
-  /** What is empty, in a few words: "No results", "No changes yet". */
-  title: React.ReactNode
+  /**
+   * What is empty, in a few words: "No results", "No changes yet". Leave it
+   * out for a message-only state, where `description` carries the whole message.
+   */
+  title?: React.ReactNode
   /** Why it is empty, or what to do next. */
   description?: React.ReactNode
   /** An illustration or icon above the title. */
@@ -43,25 +46,28 @@ export const EmptyState = ({
           {icon}
         </div>
       )}
-      <div className="flex flex-col items-center gap-1">
-        {compact ? (
-          <p className="m-0 text-sm font-semibold text-j2-text">{title}</p>
-        ) : (
-          <h4 className="m-0">{title}</h4>
-        )}
-        {description && (
-          <p
-            className={cx(
-              'm-0',
-              compact
-                ? 'max-w-[34ch] text-sm text-j2-text-secondary'
-                : 'max-w-md text-j2-primary'
-            )}
-          >
-            {description}
-          </p>
-        )}
-      </div>
+      {(title || description) && (
+        <div className="flex flex-col items-center gap-1">
+          {title &&
+            (compact ? (
+              <p className="m-0 text-sm font-semibold text-j2-text">{title}</p>
+            ) : (
+              <h4 className="m-0">{title}</h4>
+            ))}
+          {description && (
+            <p
+              className={cx(
+                'm-0',
+                compact
+                  ? 'max-w-[34ch] text-sm text-j2-text-secondary'
+                  : 'max-w-md text-j2-primary'
+              )}
+            >
+              {description}
+            </p>
+          )}
+        </div>
+      )}
       {action}
     </div>
   )

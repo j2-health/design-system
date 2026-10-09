@@ -33,6 +33,20 @@ describe('EmptyState', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders only the description when there is no title', () => {
+    render(<EmptyState description="Nothing to show here." />)
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+    expect(screen.getByText('Nothing to show here.')).toBeInTheDocument()
+  })
+
+  it('renders no title element for an empty title', () => {
+    const { container } = render(
+      <EmptyState title="" description="Nothing to show here." />
+    )
+    expect(container.querySelector('h4')).toBeNull()
+    expect(container.querySelectorAll('p')).toHaveLength(1)
+  })
+
   it('omits the optional parts when not given', () => {
     const { container } = render(<EmptyState title="Empty" />)
     expect(container.querySelector('[aria-hidden]')).toBeNull()
