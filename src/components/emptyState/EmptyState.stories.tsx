@@ -56,6 +56,18 @@ export const WithIllustration: Story = {
   },
 }
 
+// The default size does not cap the description's width, so a long line of
+// guidance is not forced onto extra lines.
+export const LongDescription: Story = {
+  name: 'Long description',
+  args: {
+    title: 'No items yet',
+    description:
+      'Items you create will be listed here, newest first. Anything you archive moves out of this list.',
+    icon: <EmptyIllustration width={120} height={120} />,
+  },
+}
+
 // No title: the description carries the whole message, so no heading renders.
 export const MessageOnly: Story = {
   name: 'Message only',

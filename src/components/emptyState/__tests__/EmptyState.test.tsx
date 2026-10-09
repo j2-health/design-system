@@ -47,6 +47,26 @@ describe('EmptyState', () => {
     expect(container.querySelectorAll('p')).toHaveLength(1)
   })
 
+  it('does not cap the description width in the default size', () => {
+    render(<EmptyState title="Empty" description="A long line of guidance." />)
+    expect(screen.getByText('A long line of guidance.').className).not.toMatch(
+      /\bmax-w-/
+    )
+  })
+
+  it('still caps the description width when compact', () => {
+    render(
+      <EmptyState
+        size="compact"
+        title="Empty"
+        description="A long line of guidance."
+      />
+    )
+    expect(screen.getByText('A long line of guidance.')).toHaveClass(
+      'max-w-[34ch]'
+    )
+  })
+
   it('omits the optional parts when not given', () => {
     const { container } = render(<EmptyState title="Empty" />)
     expect(container.querySelector('[aria-hidden]')).toBeNull()

@@ -6,7 +6,10 @@ export type EmptyStateProps = {
    * out for a message-only state, where `description` carries the whole message.
    */
   title?: React.ReactNode
-  /** Why it is empty, or what to do next. */
+  /**
+   * Why it is empty, or what to do next. The default size does not cap its
+   * width; the compact size wraps at 34 characters.
+   */
   description?: React.ReactNode
   /** An illustration or icon above the title. */
   icon?: React.ReactNode
@@ -60,7 +63,7 @@ export const EmptyState = ({
                 'm-0',
                 compact
                   ? 'max-w-[34ch] text-sm text-j2-text-secondary'
-                  : 'max-w-md text-j2-primary'
+                  : 'text-j2-primary'
               )}
             >
               {description}
