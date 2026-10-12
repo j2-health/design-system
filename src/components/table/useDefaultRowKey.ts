@@ -55,19 +55,48 @@ export const useDefaultRowKey = <T>(
   dataSource: readonly T[] | undefined,
   childrenColumnName: string
 ): ((record: T) => RowKey) => {
-  const positions = useMemo(() => {
-    const map = new WeakMap<object, string>()
+  const { positions, explicitKeys } = useMemo(() => {
+    const isRecord = (row: unknown): row is Record<string, unknown> =>
+      !!row && typeof row === 'object'
+    const explicitKeyOf = (row: Record<string, unknown>) =>
+      isRowKey(row.key) ? row.key : isRowKey(row.id) ? row.id : undefined
+
+    // Every `key`/`id` already in use. React compares keys as strings, so
+    // `1` and `'1'` are the same key.
+    const explicitKeys = new Set<string>()
+    const collect = (rows: readonly unknown[]) => {
+      rows.forEach((row) => {
+        if (!isRecord(row)) return
+        const key = explicitKeyOf(row)
+        if (key !== undefined) explicitKeys.add(String(key))
+        const children = row[childrenColumnName]
+        if (Array.isArray(children)) collect(children)
+      })
+    }
+    collect(dataSource ?? [])
+
+    // A generated key must not equal a record's own key, or two rows would
+    // share one: `[{ name: 'A' }, { key: 'row-0' }]` would give both `row-0`.
+    const unused = (candidate: string) => {
+      let key = candidate
+      for (let n = 1; explicitKeys.has(key); n++) key = `${candidate}~${n}`
+      return key
+    }
+
+    const positions = new WeakMap<object, string>()
     const walk = (rows: readonly unknown[], prefix: string) => {
       rows.forEach((row, index) => {
-        if (!row || typeof row !== 'object') return
+        if (!isRecord(row)) return
         const position = prefix ? `${prefix}-${index}` : `row-${index}`
-        if (!map.has(row)) map.set(row, position)
-        const children = (row as Record<string, unknown>)[childrenColumnName]
+        if (!positions.has(row) && explicitKeyOf(row) === undefined) {
+          positions.set(row, unused(position))
+        }
+        const children = row[childrenColumnName]
         if (Array.isArray(children)) walk(children, position)
       })
     }
     walk(dataSource ?? [], '')
-    return map
+    return { positions, explicitKeys }
   }, [dataSource, childrenColumnName])
 
   const warned = useRef(false)
@@ -90,10 +119,14 @@ export const useDefaultRowKey = <T>(
       }
 
       if (record && typeof record === 'object') {
-        return positions.get(record) ?? identityKey(record)
+        const position = positions.get(record)
+        if (position !== undefined) return position
+        let key = identityKey(record)
+        while (explicitKeys.has(key)) key = identityKey({})
+        return key
       }
       return 'row-unknown'
     },
-    [positions]
+    [positions, explicitKeys]
   )
 }

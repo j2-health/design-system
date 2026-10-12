@@ -214,6 +214,23 @@ describe('Table', () => {
       )
     })
 
+    it('never gives a fallback key that another record already uses', () => {
+      const { container } = render(
+        <Table
+          columns={nameColumn}
+          dataSource={[
+            { name: 'Ada' },
+            { key: 'row-0', name: 'Grace' },
+            { id: 'row-0~1', name: 'Edsger' },
+            { name: 'Barbara' },
+          ]}
+        />
+      )
+      const keys = rowKeys(container)
+      expect(keys).toEqual(['row-0~2', 'row-0', 'row-0~1', 'row-3'])
+      expect(new Set(keys).size).toBe(keys.length)
+    })
+
     it('keys nested rows by their path', () => {
       const { container } = render(
         <Table
