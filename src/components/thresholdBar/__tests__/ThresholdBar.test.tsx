@@ -36,6 +36,26 @@ describe('ThresholdBar', () => {
     expect(label.style.transform).toBe('translateX(-100%)')
   })
 
+  it.each([
+    [2, 'translateX(0%)'],
+    [98, 'translateX(-100%)'],
+  ])(
+    'keeps the caret centred on %s%% while its label snaps to the edge',
+    (value, labelTransform) => {
+      render(
+        <ThresholdBar
+          value={10}
+          marker={{ value, label: 'Marker' }}
+          ariaLabel="Bar"
+        />
+      )
+      const label = screen.getByText('Marker').parentElement as HTMLElement
+      const caret = label.previousElementSibling as HTMLElement
+      expect(label.style.transform).toBe(labelTransform)
+      expect(caret.style.transform).toBe('translateX(-50%)')
+    }
+  )
+
   it('omits the optional parts', () => {
     render(<ThresholdBar value={40} ariaLabel="Bar" />)
     expect(screen.getByRole('img', { name: 'Bar' }).children).toHaveLength(1)

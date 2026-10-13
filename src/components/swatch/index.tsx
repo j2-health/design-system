@@ -1,1 +1,1 @@
-export { Swatch, type SwatchProps } from './Swatch'
+export { Swatch, type SwatchProps, type SwatchVisualProps } from './Swatch'

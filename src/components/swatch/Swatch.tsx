@@ -1,6 +1,10 @@
 import cx from 'classnames'
 
-export type SwatchProps = {
+/**
+ * How a swatch looks. Other components take this for a nested `swatch` prop,
+ * where span attributes would land on the wrong element.
+ */
+export type SwatchVisualProps = {
   /** Any CSS color, e.g. `'var(--j2-color-interval-7-7)'`. */
   color?: string
   /**
@@ -21,8 +25,13 @@ export type SwatchProps = {
   className?: string
 }
 
+export type SwatchProps = SwatchVisualProps &
+  Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>
+
 /**
- * A small color square for keys, legends and inline indicators.
+ * A small color square for keys, legends and inline indicators. Other span
+ * attributes land on the square, e.g. `role="img"` and an `aria-label` for
+ * one shown on its own.
  */
 export const Swatch = ({
   color = 'var(--j2-color-primary)',
@@ -32,8 +41,11 @@ export const Swatch = ({
   size = 16,
   radius = 4,
   className,
+  style,
+  ...props
 }: SwatchProps) => {
-  const style: React.CSSProperties = {
+  const box: React.CSSProperties = {
+    ...style,
     width: size,
     height: size,
     borderRadius: radius,
@@ -42,8 +54,9 @@ export const Swatch = ({
   if (variant === 'solid') {
     return (
       <span
+        {...props}
         className={cx('block shrink-0', className)}
-        style={{ ...style, background: color }}
+        style={{ ...box, background: color }}
       />
     )
   }
@@ -51,9 +64,10 @@ export const Swatch = ({
   if (variant === 'hatched') {
     return (
       <span
+        {...props}
         className={cx('block shrink-0 overflow-hidden border', className)}
         style={{
-          ...style,
+          ...box,
           borderColor: color,
           background: tint ?? `color-mix(in srgb, ${color} 10%, white)`,
         }}
@@ -74,11 +88,12 @@ export const Swatch = ({
 
   return (
     <span
+      {...props}
       className={cx(
         'block shrink-0 border border-j2-border bg-white',
         className
       )}
-      style={style}
+      style={box}
     />
   )
 }

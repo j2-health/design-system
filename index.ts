@@ -5,6 +5,7 @@ export * from './tailwind.config.ts'
 export * from './src/AppConfigProvider'
 export * from './src/appTheme'
 export * from './src/components/alert'
+export * from './src/components/bareButton'
 export * from './src/components/barchart'
 export * from './src/components/breadcrumb'
 export * from './src/components/bulkActionBar'
@@ -50,6 +51,13 @@ export * from './src/components/thresholdBar'
 export * from './src/components/tooltip'
 export * from './src/components/vennDiagram'
 export * from './src/components/legacyNavMenu'
+
+// For writing `render` functions that keep a component's own handlers.
+export {
+  mergeProps,
+  type RenderProp,
+  type RenderProps,
+} from './src/utils/useRender'
 
 // Namespace the icon library directly rather than through a local module that
 // does `export *` from it. Rolldown (Vite 8) compiles a namespace of such a

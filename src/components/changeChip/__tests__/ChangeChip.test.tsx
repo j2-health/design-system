@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -38,5 +39,54 @@ describe('ChangeChip', () => {
       />
     )
     expect(screen.queryByText('—')).not.toBeInTheDocument()
+  })
+
+  it('renders as another element when asked, without button semantics', () => {
+    render(
+      <ChangeChip render={<span />} label="Area C" srLabel="Area C: none" />
+    )
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    const chip = screen.getByText('Area C').parentElement as HTMLElement
+    expect(chip.tagName).toBe('SPAN')
+    expect(chip).not.toHaveAttribute('type')
+    expect(chip).toHaveTextContent('Area C: none')
+  })
+
+  it('keeps a replacement button out of form submission', () => {
+    render(<ChangeChip render={<button className="x" />} label="Area A" />)
+    expect(screen.getByRole('button', { name: 'Area A' })).toHaveAttribute(
+      'type',
+      'button'
+    )
+  })
+
+  it('keeps a function-rendered button out of form submission too', () => {
+    render(
+      <ChangeChip render={(props) => <button {...props} />} label="Area A" />
+    )
+    expect(screen.getByRole('button', { name: 'Area A' })).toHaveAttribute(
+      'type',
+      'button'
+    )
+  })
+
+  it("leaves a function-rendered span without a type, and a button's own type", () => {
+    render(
+      <>
+        <ChangeChip render={(props) => <span {...props} />} label="Area B" />
+        <ChangeChip render={<button type="submit" />} label="Area C" />
+      </>
+    )
+    expect(screen.getByText('Area B').parentElement).not.toHaveAttribute('type')
+    expect(screen.getByRole('button', { name: 'Area C' })).toHaveAttribute(
+      'type',
+      'submit'
+    )
+  })
+
+  it('points its ref at whichever element it renders', () => {
+    const ref = createRef<HTMLElement>()
+    render(<ChangeChip ref={ref} render={<span />} label="Area D" />)
+    expect(ref.current?.tagName).toBe('SPAN')
   })
 })

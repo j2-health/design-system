@@ -56,3 +56,23 @@ export const WithPopover: Story = {
     </Popover>
   ),
 }
+
+/** A chip that opens nothing renders as a span: no pointer, no hover. */
+export const DisplayOnly: Story = {
+  name: 'Display only',
+  render: () => (
+    <div className="flex items-center gap-2">
+      <ChangeChip
+        render={<span />}
+        swatch={{ variant: 'outline' }}
+        label="0 items"
+      />
+      <ChangeChip
+        render={<span />}
+        swatch={{ color: 'var(--j2-color-primary)' }}
+        label="Area A"
+        delta={{ direction: 'up', value: '4.2 pts' }}
+      />
+    </div>
+  ),
+}
