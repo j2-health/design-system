@@ -1,5 +1,5 @@
 import { Tooltip } from '../tooltip'
-import { Swatch, type SwatchProps } from '../swatch'
+import { Swatch, type SwatchVisualProps } from '../swatch'
 import { mergeProps, useRender, type RenderProp } from '../../utils/useRender'
 
 /**
@@ -8,7 +8,7 @@ import { mergeProps, useRender, type RenderProp } from '../../utils/useRender'
  */
 export type SwatchStripItem = {
   key: string
-  swatch: Omit<SwatchProps, 'size'>
+  swatch: Omit<SwatchVisualProps, 'size'>
 } & (
   | {
       /** Read by assistive tech, and shown on hover unless `tooltip` is set. */

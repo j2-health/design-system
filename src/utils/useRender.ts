@@ -60,10 +60,37 @@ export type RenderProp<State> =
       state: State
     ) => ReactElement)
 
+/** Sets one ref. Returns a callback ref's cleanup, if it gave one. */
+const setRef = <T>(ref: Ref<T> | undefined, value: T | null) => {
+  if (typeof ref === 'function') return ref(value)
+  if (ref) (ref as { current: T | null }).current = value
+}
+
+/**
+ * One callback ref that feeds every ref given to it. When a callback ref
+ * returns a cleanup (React 19), detaching runs it instead of passing null.
+ */
+const composeRefs =
+  <T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> =>
+  (value: T | null) => {
+    const cleanups = refs.map((ref) => setRef(ref, value))
+    if (!cleanups.some((cleanup) => typeof cleanup === 'function')) return
+    return () =>
+      cleanups.forEach((cleanup, index) =>
+        typeof cleanup === 'function' ? cleanup() : setRef(refs[index], null)
+      )
+  }
+
+/** `composeRefs`, kept stable while the refs are. */
+const useMergedRefs = <T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> =>
+  useCallback((value: T | null) => composeRefs(...refs)(value), refs)
+
 /**
  * Merges prop objects left to right. Later props win, except that event
- * handlers all run (last first), classNames join and styles combine. An
- * `undefined` handler leaves an earlier one in place.
+ * handlers all run (last first), classNames join, styles combine and refs
+ * all receive the element. An `undefined` handler or ref leaves an earlier
+ * one in place. The merged ref is a new function on every call, so React
+ * reattaches it on each render, as with any inline callback ref.
  */
 export const mergeProps = (
   ...sources: (RenderProps | undefined)[]
@@ -73,8 +100,13 @@ export const mergeProps = (
     if (!source) continue
     for (const [key, value] of Object.entries(source)) {
       const existing = merged[key]
-      if (/^on[A-Z]/.test(key) && value === undefined) {
+      if ((key === 'ref' || /^on[A-Z]/.test(key)) && value === undefined) {
         continue
+      } else if (key === 'ref' && existing) {
+        merged.ref = composeRefs(
+          existing as Ref<unknown>,
+          value as Ref<unknown>
+        )
       } else if (
         /^on[A-Z]/.test(key) &&
         typeof existing === 'function' &&
@@ -95,26 +127,6 @@ export const mergeProps = (
   }
   return merged
 }
-
-/** Sets one ref. Returns a callback ref's cleanup, if it gave one. */
-const setRef = <T>(ref: Ref<T> | undefined, value: T | null) => {
-  if (typeof ref === 'function') return ref(value)
-  if (ref) (ref as { current: T | null }).current = value
-}
-
-/**
- * One callback ref that feeds every ref given to it. When a callback ref
- * returns a cleanup (React 19), detaching runs it instead of passing null.
- */
-const useMergedRefs = <T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> =>
-  useCallback((value: T | null) => {
-    const cleanups = refs.map((ref) => setRef(ref, value))
-    if (!cleanups.some((cleanup) => typeof cleanup === 'function')) return
-    return () =>
-      cleanups.forEach((cleanup, index) =>
-        typeof cleanup === 'function' ? cleanup() : setRef(refs[index], null)
-      )
-  }, refs)
 
 const isReact19 = Number(version.split('.')[0]) >= 19
 

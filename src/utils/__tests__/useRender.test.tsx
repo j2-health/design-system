@@ -125,4 +125,35 @@ describe('mergeProps', () => {
     ;(merged.onClick as () => void)()
     expect(onClick).toHaveBeenCalledOnce()
   })
+
+  it('composes refs, so a render function can add its own', () => {
+    const outer = createRef<HTMLElement>()
+    const own = createRef<HTMLButtonElement>()
+    render(
+      <Part
+        ref={outer}
+        render={(props) => <button {...mergeProps(props, { ref: own })} />}
+      />
+    )
+    const button = screen.getByRole('button')
+    expect(outer.current).toBe(button)
+    expect(own.current).toBe(button)
+  })
+
+  it("runs a composed callback ref's cleanup and clears the others", () => {
+    const object = createRef<HTMLElement>()
+    const cleanup = vi.fn()
+    const merged = mergeProps({ ref: object }, { ref: () => cleanup })
+    const node = document.createElement('span')
+    const detach = (merged.ref as (node: HTMLElement) => () => void)(node)
+    expect(object.current).toBe(node)
+    detach()
+    expect(cleanup).toHaveBeenCalledOnce()
+    expect(object.current).toBeNull()
+  })
+
+  it('keeps an earlier ref when a later one is undefined', () => {
+    const ref = createRef<HTMLElement>()
+    expect(mergeProps({ ref }, { ref: undefined }).ref).toBe(ref)
+  })
 })

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { Swatch } from '../Swatch'
+import { Swatch, type SwatchProps } from '../Swatch'
 
 describe('Swatch', () => {
   it('fills a solid swatch with its color at its size', () => {
@@ -62,3 +62,9 @@ describe.each(['solid', 'hatched', 'outline'] as const)(
     })
   }
 )
+
+it('accepts span attributes through the exported props type', () => {
+  const props: SwatchProps = { role: 'img', 'aria-label': 'Area A' }
+  const { getByRole } = render(<Swatch {...props} />)
+  expect(getByRole('img', { name: 'Area A' })).toBeInTheDocument()
+})

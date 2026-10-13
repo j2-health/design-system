@@ -26,7 +26,10 @@ describe('Alert', () => {
     )
     fireEvent.transitionEnd(screen.getByRole('alert'))
     await waitFor(() => expect(afterClose).toHaveBeenCalledOnce())
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    // antd calls afterClose before React removes the node.
+    await waitFor(() =>
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    )
   })
 
   it('should render correctly', () => {

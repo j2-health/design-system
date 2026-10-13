@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import cx from 'classnames'
 import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react'
 
-import { Swatch, type SwatchProps } from '../swatch'
+import { Swatch, type SwatchVisualProps } from '../swatch'
 import { mergeProps, useRender, type RenderProp } from '../../utils/useRender'
 
 export type ChangeChipProps = Omit<
@@ -10,7 +10,7 @@ export type ChangeChipProps = Omit<
   'type'
 > & {
   /** A leading swatch, e.g. the kind of change. */
-  swatch?: Omit<SwatchProps, 'size'>
+  swatch?: Omit<SwatchVisualProps, 'size'>
   /** What changed, e.g. an area's name. */
   label?: React.ReactNode
   /** How much it changed. */

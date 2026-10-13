@@ -1,6 +1,10 @@
 import cx from 'classnames'
 
-export type SwatchProps = {
+/**
+ * How a swatch looks. Other components take this for a nested `swatch` prop,
+ * where span attributes would land on the wrong element.
+ */
+export type SwatchVisualProps = {
   /** Any CSS color, e.g. `'var(--j2-color-interval-7-7)'`. */
   color?: string
   /**
@@ -21,6 +25,9 @@ export type SwatchProps = {
   className?: string
 }
 
+export type SwatchProps = SwatchVisualProps &
+  Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>
+
 /**
  * A small color square for keys, legends and inline indicators. Other span
  * attributes land on the square, e.g. `role="img"` and an `aria-label` for
@@ -36,7 +43,7 @@ export const Swatch = ({
   className,
   style,
   ...props
-}: SwatchProps & Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>) => {
+}: SwatchProps) => {
   const box: React.CSSProperties = {
     ...style,
     width: size,
