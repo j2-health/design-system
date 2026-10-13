@@ -39,4 +39,23 @@ describe('ChangeChip', () => {
     )
     expect(screen.queryByText('—')).not.toBeInTheDocument()
   })
+
+  it('renders as another element when asked, without button semantics', () => {
+    render(
+      <ChangeChip render={<span />} label="Area C" srLabel="Area C: none" />
+    )
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    const chip = screen.getByText('Area C').parentElement as HTMLElement
+    expect(chip.tagName).toBe('SPAN')
+    expect(chip).not.toHaveAttribute('type')
+    expect(chip).toHaveTextContent('Area C: none')
+  })
+
+  it('keeps a replacement button out of form submission', () => {
+    render(<ChangeChip render={<button className="x" />} label="Area A" />)
+    expect(screen.getByRole('button', { name: 'Area A' })).toHaveAttribute(
+      'type',
+      'button'
+    )
+  })
 })

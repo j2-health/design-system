@@ -1,8 +1,9 @@
-import { forwardRef } from 'react'
+import { forwardRef, isValidElement } from 'react'
 import cx from 'classnames'
 import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react'
 
 import { Swatch, type SwatchProps } from '../swatch'
+import { mergeProps, useRender, type RenderProp } from '../../utils/useRender'
 
 export type ChangeChipProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -23,46 +24,61 @@ export type ChangeChipProps = Omit<
   placeholder?: React.ReactNode
   /** A full description for assistive tech, when the visible text is terse. */
   srLabel?: string
+  /**
+   * Replaces the button, e.g. `<span />` for a chip that opens nothing. The
+   * hover and pointer apply only while the element is an enabled button. A
+   * render function should spread its props: a wrapping `Popover` passes its
+   * handlers through them.
+   */
+  render?: RenderProp<Record<string, never>>
 }
 
 /**
  * A compact chip for one change: an optional swatch, a label and a delta.
  * It is a button, so it can open a popover with the details; wrap it in a
- * `Popover` (it forwards its ref and handlers).
+ * `Popover` (it forwards its ref and handlers). Pass `render={<span />}` for
+ * a chip that only displays.
  */
 export const ChangeChip = forwardRef<HTMLButtonElement, ChangeChipProps>(
   (
-    { swatch, label, delta, placeholder, srLabel, className, ...props },
+    { swatch, label, delta, placeholder, srLabel, className, render, ...props },
     ref
   ) => {
     const Arrow = delta?.direction === 'down' ? ArrowDownIcon : ArrowUpIcon
-    return (
-      <button
-        {...props}
-        ref={ref}
-        type="button"
-        className={cx(
-          'inline-flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-j2-sm border border-j2-border bg-[var(--j2-color-fill-quaternary)] px-2 py-px text-xs text-j2-text transition-colors hover:bg-j2-gray-2',
+    // Keep a button out of form submission, but don't put `type` on a span.
+    const isButton =
+      !render || (isValidElement(render) && render.type === 'button')
+    return useRender({
+      render,
+      ref,
+      state: {},
+      defaultTagName: 'button',
+      props: mergeProps(isButton ? { type: 'button' } : undefined, props, {
+        className: cx(
+          'inline-flex items-center gap-1 whitespace-nowrap rounded-j2-sm border border-j2-border bg-[var(--j2-color-fill-quaternary)] px-2 py-px text-xs text-j2-text transition-colors enabled:cursor-pointer enabled:hover:bg-j2-gray-2',
           className
-        )}
-      >
-        {swatch && <Swatch {...swatch} size={12} />}
-        {label && <span>{label}</span>}
-        {delta && (
-          <span
-            className="inline-flex items-center gap-0.5 font-medium"
-            style={{ color: delta.color ?? 'var(--j2-color-primary)' }}
-          >
-            <Arrow size={11} weight="bold" aria-hidden />
-            {delta.value}
-          </span>
-        )}
-        {!delta && placeholder && (
-          <span className="text-j2-text-secondary">{placeholder}</span>
-        )}
-        {srLabel && <span className="sr-only">{srLabel}</span>}
-      </button>
-    )
+        ),
+        children: (
+          <>
+            {swatch && <Swatch {...swatch} size={12} />}
+            {label && <span>{label}</span>}
+            {delta && (
+              <span
+                className="inline-flex items-center gap-0.5 font-medium"
+                style={{ color: delta.color ?? 'var(--j2-color-primary)' }}
+              >
+                <Arrow size={11} weight="bold" aria-hidden />
+                {delta.value}
+              </span>
+            )}
+            {!delta && placeholder && (
+              <span className="text-j2-text-secondary">{placeholder}</span>
+            )}
+            {srLabel && <span className="sr-only">{srLabel}</span>}
+          </>
+        ),
+      }),
+    })
   }
 )
 ChangeChip.displayName = 'ChangeChip'

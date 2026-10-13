@@ -37,3 +37,16 @@ export const Variants: Story = {
     </div>
   ),
 }
+
+/**
+ * A swatch with no text next to it carries meaning on its own, so give it
+ * `role="img"` and an `aria-label` to name it for assistive tech. Next to a
+ * visible label, leave it decorative.
+ */
+export const Standalone: Story = {
+  args: {
+    role: 'img',
+    'aria-label': 'Area A',
+    color: 'var(--j2-color-interval-7-7)',
+  },
+}

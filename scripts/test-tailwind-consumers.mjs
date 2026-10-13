@@ -148,6 +148,10 @@ export default {
         '.probe',
         'color:var(--j2-color-text-secondary)',
         '.min-h-6',
+        // Arbitrary values in component classes, which a consumer can only
+        // get by scanning the package.
+        'outline-offset:var(--j2-focus-ring-offset,0px)',
+        'overflow:clip',
       ]) {
         if (!output.includes(expected)) {
           throw new Error(

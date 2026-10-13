@@ -32,3 +32,33 @@ describe('Swatch', () => {
     expect(el).toHaveClass('border-j2-border')
   })
 })
+
+describe.each(['solid', 'hatched', 'outline'] as const)(
+  'a %s swatch',
+  (variant) => {
+    it('passes span attributes to its root and keeps its own size', () => {
+      const { container } = render(
+        <Swatch
+          variant={variant}
+          color="rgb(1, 2, 3)"
+          size={10}
+          role="img"
+          aria-label="Key"
+          data-testid="swatch"
+          className="extra"
+          style={{ width: 99, marginLeft: 3 }}
+        />
+      )
+      const el = container.firstElementChild as HTMLElement
+      expect(el).toHaveAttribute('role', 'img')
+      expect(el).toHaveAttribute('aria-label', 'Key')
+      expect(el).toHaveAttribute('data-testid', 'swatch')
+      expect(el).toHaveClass('block', 'extra')
+      expect(el.style.width).toBe('10px')
+      expect(el.style.marginLeft).toBe('3px')
+      if (variant === 'solid') expect(el.style.background).toBe('rgb(1, 2, 3)')
+      if (variant === 'hatched')
+        expect(el.style.borderColor).toBe('rgb(1, 2, 3)')
+    })
+  }
+)

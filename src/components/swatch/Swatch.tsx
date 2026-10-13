@@ -22,7 +22,9 @@ export type SwatchProps = {
 }
 
 /**
- * A small color square for keys, legends and inline indicators.
+ * A small color square for keys, legends and inline indicators. Other span
+ * attributes land on the square, e.g. `role="img"` and an `aria-label` for
+ * one shown on its own.
  */
 export const Swatch = ({
   color = 'var(--j2-color-primary)',
@@ -32,8 +34,11 @@ export const Swatch = ({
   size = 16,
   radius = 4,
   className,
-}: SwatchProps) => {
-  const style: React.CSSProperties = {
+  style,
+  ...props
+}: SwatchProps & Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>) => {
+  const box: React.CSSProperties = {
+    ...style,
     width: size,
     height: size,
     borderRadius: radius,
@@ -42,8 +47,9 @@ export const Swatch = ({
   if (variant === 'solid') {
     return (
       <span
+        {...props}
         className={cx('block shrink-0', className)}
-        style={{ ...style, background: color }}
+        style={{ ...box, background: color }}
       />
     )
   }
@@ -51,9 +57,10 @@ export const Swatch = ({
   if (variant === 'hatched') {
     return (
       <span
+        {...props}
         className={cx('block shrink-0 overflow-hidden border', className)}
         style={{
-          ...style,
+          ...box,
           borderColor: color,
           background: tint ?? `color-mix(in srgb, ${color} 10%, white)`,
         }}
@@ -74,11 +81,12 @@ export const Swatch = ({
 
   return (
     <span
+      {...props}
       className={cx(
         'block shrink-0 border border-j2-border bg-white',
         className
       )}
-      style={style}
+      style={box}
     />
   )
 }
