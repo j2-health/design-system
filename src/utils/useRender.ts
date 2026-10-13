@@ -5,7 +5,9 @@
 //
 // A component keeps its own element and props, and lets the app swap the
 // element: pass an element to merge onto, or a function that receives the
-// props (and the component's state) and returns the element.
+// props (and the component's state) and returns the element. Unlike Base UI,
+// a <button> that ends up with no `type` gets `type="button"`, so swapping
+// an element in never makes a form submit button by accident.
 //
 // Base UI is distributed under the MIT License:
 //
@@ -143,14 +145,17 @@ export const useRender = <State>({
   const element = isValidElement(render) ? render : undefined
   const mergedRef = useMergedRefs(ref, element && elementRef(element))
 
-  if (typeof render === 'function') {
-    return render({ ...props, ref: mergedRef }, state)
-  }
-  if (element) {
-    return cloneElement(element, {
-      ...mergeProps(props, element.props as RenderProps),
-      ref: mergedRef,
-    } as RenderProps)
-  }
-  return createElement(defaultTagName, { ...props, ref: mergedRef })
+  const rendered =
+    typeof render === 'function'
+      ? render({ ...props, ref: mergedRef }, state)
+      : element
+        ? cloneElement(element, {
+            ...mergeProps(props, element.props as RenderProps),
+            ref: mergedRef,
+          } as RenderProps)
+        : createElement(defaultTagName, { ...props, ref: mergedRef })
+  return rendered.type === 'button' &&
+    (rendered.props as RenderProps).type === undefined
+    ? cloneElement(rendered, { type: 'button' } as RenderProps)
+    : rendered
 }

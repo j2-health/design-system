@@ -1,4 +1,4 @@
-import { forwardRef, isValidElement } from 'react'
+import { forwardRef } from 'react'
 import cx from 'classnames'
 import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react'
 
@@ -37,23 +37,21 @@ export type ChangeChipProps = Omit<
  * A compact chip for one change: an optional swatch, a label and a delta.
  * It is a button, so it can open a popover with the details; wrap it in a
  * `Popover` (it forwards its ref and handlers). Pass `render={<span />}` for
- * a chip that only displays.
+ * a chip that only displays. The ref is an `HTMLElement`, since `render` can
+ * swap the button for another element.
  */
-export const ChangeChip = forwardRef<HTMLButtonElement, ChangeChipProps>(
+export const ChangeChip = forwardRef<HTMLElement, ChangeChipProps>(
   (
     { swatch, label, delta, placeholder, srLabel, className, render, ...props },
     ref
   ) => {
     const Arrow = delta?.direction === 'down' ? ArrowDownIcon : ArrowUpIcon
-    // Keep a button out of form submission, but don't put `type` on a span.
-    const isButton =
-      !render || (isValidElement(render) && render.type === 'button')
     return useRender({
       render,
       ref,
       state: {},
       defaultTagName: 'button',
-      props: mergeProps(isButton ? { type: 'button' } : undefined, props, {
+      props: mergeProps(props, {
         className: cx(
           'inline-flex items-center gap-1 whitespace-nowrap rounded-j2-sm border border-j2-border bg-[var(--j2-color-fill-quaternary)] px-2 py-px text-xs text-j2-text transition-colors enabled:cursor-pointer enabled:hover:bg-j2-gray-2',
           className

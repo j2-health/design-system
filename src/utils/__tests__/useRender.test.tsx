@@ -73,6 +73,28 @@ describe('useRender', () => {
   })
 })
 
+describe('useRender with a button', () => {
+  it('gives one passed as an element type="button"', () => {
+    render(<Part render={<button />} />)
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button')
+  })
+
+  it('gives one returned by a function type="button"', () => {
+    render(<Part render={(props) => <button {...props} />} />)
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button')
+  })
+
+  it('keeps a type the app set', () => {
+    render(<Part render={<button type="submit" />} />)
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit')
+  })
+
+  it('gives other elements no type', () => {
+    render(<Part render={<a />} />)
+    expect(screen.getByLabelText('part')).not.toHaveAttribute('type')
+  })
+})
+
 describe('mergeProps', () => {
   it('lets later props win, runs every handler and joins classes and styles', () => {
     const calls: string[] = []
