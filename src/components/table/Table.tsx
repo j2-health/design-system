@@ -38,8 +38,9 @@ const Table = <T extends unknown = any>({
   paginationTextLabels = false,
   ...props
 }: Props<T>) => {
+  // Only hash the rows when the caller has not chosen a key.
   const defaultRowKey = useDefaultRowKey(
-    props.dataSource,
+    props.rowKey === undefined ? props.dataSource : undefined,
     props.expandable?.childrenColumnName ?? 'children'
   )
 

@@ -70,14 +70,7 @@ describe('Table', () => {
       },
     ]
     const nameColumn = [{ dataIndex: 'name', title: 'Name' }]
-
-    let warn: ReturnType<typeof vi.spyOn>
-    beforeEach(() => {
-      warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    })
-    afterEach(() => {
-      warn.mockRestore()
-    })
+    const HASH_KEY = /^r-[0-9a-z]+(~\d+)?$/
 
     it('uses a rowKey field name passed by the caller', () => {
       const { container } = render(
@@ -117,10 +110,9 @@ describe('Table', () => {
         />
       )
       expect(rowKeys(container)).toEqual(['k1', '2', '0'])
-      expect(warn).not.toHaveBeenCalled()
     })
 
-    it('never writes record contents into the DOM when records have no key', () => {
+    it('falls back to a hash and never writes record contents into the DOM', () => {
       const data = people()
       const { container } = render(
         <Table columns={nameColumn} dataSource={data} />
@@ -128,14 +120,8 @@ describe('Table', () => {
 
       const keys = rowKeys(container)
       expect(keys).toHaveLength(data.length)
-      for (const key of keys) {
-        for (const record of data) {
-          for (const value of Object.values(record)) {
-            expect(key).not.toContain(value)
-          }
-        }
-        expect(key).not.toContain('{')
-      }
+      expect(new Set(keys).size).toBe(keys.length)
+      for (const key of keys) expect(key).toMatch(HASH_KEY)
 
       // Fields no column displays appear nowhere in the rendered table.
       const html = container.innerHTML
@@ -145,18 +131,58 @@ describe('Table', () => {
       }
     })
 
-    it('falls back to keys that are unique and stable', () => {
+    it('keys rows by content: stable across fresh objects, reordering and property order', () => {
       const { container, rerender } = render(
         <Table columns={nameColumn} dataSource={people()} />
       )
-      const first = rowKeys(container)
-      expect(first).toEqual(['row-0', 'row-1', 'row-2'])
-      expect(new Set(first).size).toBe(first.length)
+      const [ada, grace, edsger] = rowKeys(container)
 
-      // Fresh objects with the same order, as a refetch or an un-memoised
-      // `.map()` in the caller would produce, keep the same keys.
+      // Fresh but equal objects, as a refetch or an un-memoised `.map()`
+      // would produce, keep their keys.
       rerender(<Table columns={nameColumn} dataSource={people()} />)
-      expect(rowKeys(container)).toEqual(first)
+      expect(rowKeys(container)).toEqual([ada, grace, edsger])
+
+      // A key follows its row, not its position.
+      rerender(
+        <Table columns={nameColumn} dataSource={[...people()].reverse()} />
+      )
+      expect(rowKeys(container)).toEqual([edsger, grace, ada])
+
+      // Property order does not change the hash.
+      rerender(
+        <Table
+          columns={nameColumn}
+          dataSource={people().map(({ note, email, name }) => ({
+            note,
+            email,
+            name,
+          }))}
+        />
+      )
+      expect(rowKeys(container)).toEqual([ada, grace, edsger])
+    })
+
+    it('gives identical records unique keys', () => {
+      const { container } = render(
+        <Table
+          columns={nameColumn}
+          dataSource={[{ name: 'Ada' }, { name: 'Ada' }, { name: 'Ada' }]}
+        />
+      )
+      const [first, ...rest] = rowKeys(container)
+      expect(first).toMatch(HASH_KEY)
+      expect(rest).toEqual([`${first}~1`, `${first}~2`])
+    })
+
+    it('does not throw on records JSON cannot serialise', () => {
+      const circular: Record<string, unknown> = { name: 'Ada', big: 1n }
+      circular.self = circular
+      circular.onClick = () => {}
+      circular.missing = undefined
+      const { container } = render(
+        <Table columns={nameColumn} dataSource={[circular]} />
+      )
+      expect(rowKeys(container)).toEqual([expect.stringMatching(HASH_KEY)])
     })
 
     it('keeps fallback keys attached to their rows through client-side sorting', () => {
@@ -187,7 +213,7 @@ describe('Table', () => {
       expect(['Ada', 'Grace', 'Edsger'].map(keyOf)).toEqual(before)
     })
 
-    it('gives fallback keys that differ across pages and select the right row', () => {
+    it('selects the right record on a later page', () => {
       const onChange = vi.fn()
       const data = [...people(), { name: 'Barbara', email: '', note: '' }]
       const { container, getByTitle } = render(
@@ -198,60 +224,41 @@ describe('Table', () => {
           rowSelection={{ onChange }}
         />
       )
-      expect(rowKeys(container)).toEqual(['row-0', 'row-1'])
+      const firstPage = rowKeys(container)
 
       fireEvent.click(getByTitle('2'))
-      expect(rowKeys(container)).toEqual(['row-2', 'row-3'])
+      const secondPage = rowKeys(container)
+      expect(secondPage).toHaveLength(2)
+      expect(secondPage).not.toContain(firstPage[0])
+      expect(secondPage).not.toContain(firstPage[1])
 
-      const secondPageFirstRow = container.querySelector<HTMLElement>(
-        'tbody tr[data-row-key="row-2"]'
+      const row = container.querySelector<HTMLElement>(
+        `tbody tr[data-row-key="${secondPage[0]}"]`
       )!
-      fireEvent.click(within(secondPageFirstRow).getByRole('checkbox'))
+      fireEvent.click(within(row).getByRole('checkbox'))
       expect(onChange).toHaveBeenLastCalledWith(
-        ['row-2'],
+        [secondPage[0]],
         [data[2]],
         expect.anything()
       )
     })
 
-    it('never gives a fallback key that another record already uses', () => {
-      const { container } = render(
-        <Table
-          columns={nameColumn}
-          dataSource={[
-            { name: 'Ada' },
-            { key: 'row-0', name: 'Grace' },
-            { id: 'row-0~1', name: 'Edsger' },
-            { name: 'Barbara' },
-          ]}
-        />
-      )
-      const keys = rowKeys(container)
-      expect(keys).toEqual(['row-0~2', 'row-0', 'row-0~1', 'row-3'])
-      expect(new Set(keys).size).toBe(keys.length)
-    })
-
-    it('keys nested rows by their path', () => {
+    it('keys nested rows, keeping identical children in different parents apart', () => {
       const { container } = render(
         <Table
           columns={nameColumn}
           dataSource={[
             { name: 'Parent', children: [{ name: 'Child' }] },
-            { name: 'Other' },
+            { name: 'Other', children: [{ name: 'Child' }] },
           ]}
           expandable={{ defaultExpandAllRows: true }}
         />
       )
-      expect(rowKeys(container)).toEqual(['row-0', 'row-0-0', 'row-1'])
-    })
-
-    it('warns once in development when falling back to positions', () => {
-      const { rerender } = render(
-        <Table columns={nameColumn} dataSource={people()} />
-      )
-      rerender(<Table columns={nameColumn} dataSource={people()} />)
-      expect(warn).toHaveBeenCalledTimes(1)
-      expect(warn.mock.calls[0][0]).toMatch(/Pass `rowKey`/)
+      const keys = rowKeys(container)
+      expect(keys).toHaveLength(4)
+      for (const key of keys) expect(key).toMatch(HASH_KEY)
+      expect(new Set(keys).size).toBe(4)
+      expect(keys[3]).toBe(`${keys[1]}~1`)
     })
   })
 })

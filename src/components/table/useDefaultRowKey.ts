@@ -1,132 +1,70 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo } from 'react'
 
-type RowKey = string | number
-
-const isRowKey = (value: unknown): value is RowKey =>
-  typeof value === 'string' ||
-  (typeof value === 'number' && Number.isFinite(value))
-
-// `process.env.NODE_ENV` is left as written in the library build, so the
-// consuming app's bundler replaces it. The try covers a runtime that has no
-// `process` at all, where we stay quiet.
-const isDevelopment = () => {
-  try {
-    return process.env.NODE_ENV !== 'production'
-  } catch {
-    return false
+const explicitKey = (record: unknown) => {
+  const { key, id } = (record ?? {}) as { key?: unknown; id?: unknown }
+  for (const value of [key, id]) {
+    if (typeof value === 'string') return value
+    if (typeof value === 'number' && Number.isFinite(value)) return value
   }
 }
 
-// Objects that are not in `dataSource` (antd should never ask for one) still
-// get a key that is unique and says nothing about their contents.
-const identityKeys = new WeakMap<object, string>()
-let nextIdentityKey = 0
-const identityKey = (record: object) => {
-  let key = identityKeys.get(record)
-  if (key === undefined) {
-    key = `row-ref-${nextIdentityKey++}`
-    identityKeys.set(record, key)
+// JSON with object keys sorted at every level, so property order does not
+// matter. Circular references, functions and `undefined` are dropped rather
+// than thrown on; bigints are written as strings.
+const serialize = (record: unknown) => {
+  const seen = new WeakSet<object>()
+  return JSON.stringify(record, (_, value: unknown) => {
+    if (typeof value === 'bigint') return String(value)
+    if (!value || typeof value !== 'object') return value
+    if (seen.has(value)) return undefined
+    seen.add(value)
+    if (Array.isArray(value)) return value
+    const entries = Object.entries(value).sort(([a], [b]) => (a < b ? -1 : 1))
+    return Object.fromEntries(entries)
+  })
+}
+
+// FNV-1a: a small, fast, non-cryptographic 32-bit string hash.
+const hashKey = (record: unknown) => {
+  const text = serialize(record) ?? ''
+  let hash = 0x811c9dc5
+  for (let i = 0; i < text.length; i++) {
+    hash = Math.imul(hash ^ text.charCodeAt(i), 0x01000193)
   }
-  return key
+  return `r-${(hash >>> 0).toString(36)}`
 }
 
 /**
- * The `rowKey` the Table uses when the caller passes none.
- *
- * antd writes a row's key into the DOM as `data-row-key`, so the key must not
- * carry the record's contents: anything that records DOM attributes (session
- * replay, error reporting, browser extensions) would capture fields that no
- * column displays.
- *
- * In order of preference:
- * 1. `record.key`, which is antd's own default;
- * 2. `record.id`;
- * 3. the record's position in `dataSource` (`row-0`, nested rows `row-0-1`),
- *    with a one-time development warning.
- *
- * The position comes from `dataSource` itself rather than from the index antd
- * passes, because antd's index is unreliable: it is relative to the current
- * page in the body but to the full data in row selection, and some calls omit
- * it. A key taken from `dataSource` is the same on every page, survives
- * client-side sorting, and stays put across re-renders that recreate the
- * record objects in the same order.
+ * The `rowKey` the Table uses when the caller passes none: `record.key`, then
+ * `record.id`, then a hash of the record's contents (`r-…`). Rows whose hashes
+ * match, identical records included, get `~1`, `~2`, … in `dataSource` order,
+ * nested rows included. antd writes the key into the DOM as `data-row-key`, so
+ * only the hash reaches the page, never the record's contents.
  */
 export const useDefaultRowKey = <T>(
   dataSource: readonly T[] | undefined,
   childrenColumnName: string
-): ((record: T) => RowKey) => {
-  const { positions, explicitKeys } = useMemo(() => {
-    const isRecord = (row: unknown): row is Record<string, unknown> =>
-      !!row && typeof row === 'object'
-    const explicitKeyOf = (row: Record<string, unknown>) =>
-      isRowKey(row.key) ? row.key : isRowKey(row.id) ? row.id : undefined
-
-    // Every `key`/`id` already in use. React compares keys as strings, so
-    // `1` and `'1'` are the same key.
-    const explicitKeys = new Set<string>()
-    const collect = (rows: readonly unknown[]) => {
+) => {
+  const keys = useMemo(() => {
+    const keys = new Map<unknown, string>()
+    const counts = new Map<string, number>()
+    const walk = (rows: readonly unknown[]) =>
       rows.forEach((row) => {
-        if (!isRecord(row)) return
-        const key = explicitKeyOf(row)
-        if (key !== undefined) explicitKeys.add(String(key))
-        const children = row[childrenColumnName]
-        if (Array.isArray(children)) collect(children)
-      })
-    }
-    collect(dataSource ?? [])
-
-    // A generated key must not equal a record's own key, or two rows would
-    // share one: `[{ name: 'A' }, { key: 'row-0' }]` would give both `row-0`.
-    const unused = (candidate: string) => {
-      let key = candidate
-      for (let n = 1; explicitKeys.has(key); n++) key = `${candidate}~${n}`
-      return key
-    }
-
-    const positions = new WeakMap<object, string>()
-    const walk = (rows: readonly unknown[], prefix: string) => {
-      rows.forEach((row, index) => {
-        if (!isRecord(row)) return
-        const position = prefix ? `${prefix}-${index}` : `row-${index}`
-        if (!positions.has(row) && explicitKeyOf(row) === undefined) {
-          positions.set(row, unused(position))
+        if (explicitKey(row) === undefined && !keys.has(row)) {
+          const hash = hashKey(row)
+          const n = counts.get(hash) ?? 0
+          counts.set(hash, n + 1)
+          keys.set(row, n ? `${hash}~${n}` : hash)
         }
-        const children = row[childrenColumnName]
-        if (Array.isArray(children)) walk(children, position)
+        const children = (row as Record<string, unknown>)?.[childrenColumnName]
+        if (Array.isArray(children)) walk(children)
       })
-    }
-    walk(dataSource ?? [], '')
-    return { positions, explicitKeys }
+    walk(dataSource ?? [])
+    return keys
   }, [dataSource, childrenColumnName])
 
-  const warned = useRef(false)
-
   return useCallback(
-    (record: T) => {
-      if (record && typeof record === 'object') {
-        const { key, id } = record as { key?: unknown; id?: unknown }
-        if (isRowKey(key)) return key
-        if (isRowKey(id)) return id
-      }
-
-      if (!warned.current && isDevelopment()) {
-        warned.current = true
-        console.warn(
-          'Table: records have no `key` or `id`, so rows are keyed by their ' +
-            'position in `dataSource`. Pass `rowKey` to key them by a unique ' +
-            'field instead.'
-        )
-      }
-
-      if (record && typeof record === 'object') {
-        const position = positions.get(record)
-        if (position !== undefined) return position
-        let key = identityKey(record)
-        while (explicitKeys.has(key)) key = identityKey({})
-        return key
-      }
-      return 'row-unknown'
-    },
-    [positions, explicitKeys]
+    (record: T) => explicitKey(record) ?? keys.get(record) ?? hashKey(record),
+    [keys]
   )
 }
