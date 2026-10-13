@@ -10,6 +10,7 @@ import {
 } from '@phosphor-icons/react'
 import { ComponentProps, ReactNode } from 'react'
 import { AnyObject } from 'antd/es/_util/type'
+import { useDefaultRowKey } from './useDefaultRowKey'
 
 type MergedProps<T> = TableProps<T> & {
   verticalBorders?: boolean
@@ -37,6 +38,12 @@ const Table = <T extends unknown = any>({
   paginationTextLabels = false,
   ...props
 }: Props<T>) => {
+  // Only hash the rows when the caller has not chosen a key.
+  const defaultRowKey = useDefaultRowKey(
+    props.rowKey === undefined ? props.dataSource : undefined,
+    props.expandable?.childrenColumnName ?? 'children'
+  )
+
   const defaultLoadingProps: SpinProps = {
     indicator: <Spinner className="!w-fit !h-fit !mx-0 translate-x-[-50%]" />,
     description: (
@@ -167,7 +174,7 @@ const Table = <T extends unknown = any>({
         loading={loading}
         columns={columns}
         pagination={paginationConfig}
-        rowKey={(record) => JSON.stringify(record)}
+        rowKey={props.rowKey ?? defaultRowKey}
         locale={{
           emptyText: (
             <div
