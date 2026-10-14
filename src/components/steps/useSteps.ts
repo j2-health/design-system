@@ -15,13 +15,15 @@ export const useSteps = ({
 }: UseStepsOptions) => {
   const [internalCurrent, setInternalCurrent] = useState(initialStep)
 
-  const isControlled = current !== undefined && setCurrent !== undefined
+  // `current` alone makes the steps controlled. Without `setCurrent` they are
+  // read-only: navigation is a no-op and the parent moves `current` itself.
+  const isControlled = current !== undefined
   const currentStep = isControlled ? current : internalCurrent
 
   const handleSetCurrent = useCallback(
     (newCurrent: number) => {
       if (isControlled) {
-        setCurrent!(newCurrent)
+        setCurrent?.(newCurrent)
       } else {
         setInternalCurrent(newCurrent)
       }
