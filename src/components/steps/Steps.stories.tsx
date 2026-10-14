@@ -182,6 +182,7 @@ export const WithCustomItems: Story = {
 }
 
 export const StepsDrawer: Story = {
+  name: 'Steps in Drawer',
   args: {
     direction: 'horizontal',
     size: 'default',

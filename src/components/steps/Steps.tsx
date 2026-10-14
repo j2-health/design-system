@@ -23,10 +23,14 @@ export const Steps = ({
   size,
   labelPlacement,
   titlePlacement,
+  className,
   ...props
 }: Props) => {
   const isVertical = (orientation ?? direction) === 'vertical'
   const totalSteps = items?.length || 0
+  // antd only makes a step clickable when `onChange` is set, so a controlled
+  // bar with no setter renders read-only rather than inert-but-clickable.
+  const isReadOnly = current !== undefined && setCurrent === undefined
 
   const { current: currentStep, setCurrent: setCurrentStep } = useSteps({
     current,
@@ -36,13 +40,13 @@ export const Steps = ({
 
   return (
     <AntdSteps
-      className="j2Steps"
       {...props}
+      className={cx('j2Steps', className)}
       orientation={orientation ?? direction}
       titlePlacement={titlePlacement ?? labelPlacement}
       size={size === 'default' ? 'medium' : size}
       current={currentStep}
-      onChange={(curr) => setCurrentStep(curr)}
+      onChange={isReadOnly ? undefined : (curr) => setCurrentStep(curr)}
       {...(dot && { type: 'dot' })}
       items={items?.map((item, index) => {
         const { description, ...restItem } = item
