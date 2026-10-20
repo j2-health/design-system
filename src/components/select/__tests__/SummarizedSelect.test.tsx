@@ -336,6 +336,13 @@ describe('SummarizedSelect', () => {
       await user.type(searchInput, 'Bronze')
 
       await user.click(document.body)
+      // antd delivers the outside click's close on its own frame, and closing
+      // is what clears the search. Clicking straight back in can land before
+      // that frame and reopen without a close in between, so wait for the
+      // closed state rather than assuming the click closed it.
+      await waitFor(() =>
+        expect(select).toHaveAttribute('aria-expanded', 'false')
+      )
       await user.click(select)
 
       const newSearchInput = screen.getByPlaceholderText('Search...')
@@ -359,6 +366,11 @@ describe('SummarizedSelect', () => {
         await user.click(select)
         await user.type(screen.getByPlaceholderText('Search...'), 'Bronze')
         await user.keyboard(key)
+        // Same as the outside-click case: wait for the close to land, since
+        // the close is what clears the search.
+        await waitFor(() =>
+          expect(select).toHaveAttribute('aria-expanded', 'false')
+        )
         await user.click(select)
 
         expect(screen.getByPlaceholderText('Search...')).toHaveValue('')
