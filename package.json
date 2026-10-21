@@ -103,7 +103,7 @@
     "happy-dom": "^21.0.3",
     "highcharts": "^13.1.1",
     "lodash": "^4.18.1",
-    "postcss": "^8.5.30",
+    "postcss": "^8.5.31",
     "prettier": "^3.9.10",
     "react": "^19.2.8",
     "react-dom": "^19.3.1",
