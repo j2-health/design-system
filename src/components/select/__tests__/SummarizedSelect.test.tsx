@@ -247,6 +247,116 @@ describe('SummarizedSelect', () => {
     })
   })
 
+  describe('Shortcut group above the full list', () => {
+    // A Recent group repeats two options that also appear in All, so the full
+    // list stays complete.
+    const recentAndAll = [
+      {
+        label: 'Recent',
+        options: [
+          { label: 'Plan 10', value: 'p10', key: 'recent-p10' },
+          { label: 'plan 2', value: 'p2', key: 'recent-p2' },
+        ],
+      },
+      {
+        label: 'All',
+        options: [
+          { label: 'Plan 1', value: 'p1', key: 'all-p1' },
+          { label: 'plan 2', value: 'p2', key: 'all-p2' },
+          { label: 'Plan 10', value: 'p10', key: 'all-p10' },
+          { label: 'Other', value: 'other', key: 'all-other' },
+        ],
+      },
+    ]
+
+    // The select trigger also renders a hidden accessibility listbox of
+    // values, so its rows are read off the visible option content.
+    const optionTexts = (trigger: 'select' | 'dropdown') =>
+      [
+        ...document.querySelectorAll(
+          trigger === 'select'
+            ? '.ant-select-item-option-content'
+            : '[role="option"]'
+        ),
+      ].map((o) => o.textContent)
+
+    const openAndSearch = async (
+      props: Partial<React.ComponentProps<typeof SummarizedSelect>>,
+      query: string
+    ) => {
+      const user = userEvent.setup()
+      render(
+        <SummarizedSelect
+          options={recentAndAll}
+          value=""
+          onChange={() => {}}
+          {...(props as object)}
+        />
+      )
+      if (props.trigger === 'dropdown') {
+        await user.click(screen.getByText('Select'))
+      } else {
+        await user.click(screen.getByRole('combobox'))
+      }
+      const searchInput = screen.getByPlaceholderText('Search...')
+      await waitFor(() => expect(searchInput).toHaveFocus())
+      if (query) await user.keyboard(query)
+    }
+
+    it.each(['select', 'dropdown'] as const)(
+      'flattenOnSearch lists each match once, sorted by label (%s trigger)',
+      async (trigger) => {
+        await openAndSearch({ flattenOnSearch: true, trigger }, 'plan')
+
+        expect(screen.queryByText('Recent')).not.toBeInTheDocument()
+        expect(screen.queryByText('All')).not.toBeInTheDocument()
+        await waitFor(() =>
+          expect(optionTexts(trigger)).toEqual(['Plan 1', 'plan 2', 'Plan 10'])
+        )
+      }
+    )
+
+    it('keeps the groups while searching without flattenOnSearch', async () => {
+      await openAndSearch({}, 'plan 2')
+
+      expect(screen.getByText('Recent')).toBeInTheDocument()
+      expect(screen.getByText('All')).toBeInTheDocument()
+    })
+
+    it('flattenOnSearch keeps the groups before anything is typed', async () => {
+      await openAndSearch({ flattenOnSearch: true }, '')
+
+      expect(screen.getByText('Recent')).toBeInTheDocument()
+      expect(screen.getByText('All')).toBeInTheDocument()
+    })
+
+    it('Enter picks the first match of the flattened list', async () => {
+      const onChange = vi.fn()
+      await openAndSearch({ flattenOnSearch: true, onChange }, 'plan{Enter}')
+
+      expect(onChange).toHaveBeenCalledWith('p1')
+    })
+
+    it.each(['select', 'dropdown'] as const)(
+      'groupDividers marks every group after the first (%s trigger)',
+      async (trigger) => {
+        await openAndSearch({ groupDividers: true, trigger }, '')
+
+        const divided = (title: string) =>
+          (screen.getByText(title).closest('[class*="groupDivider"]') ??
+            null) !== null
+        expect(divided('Recent')).toBe(false)
+        expect(divided('All')).toBe(true)
+      }
+    )
+
+    it('draws no group divider by default', async () => {
+      await openAndSearch({}, '')
+
+      expect(document.querySelector('[class*="groupDivider"]')).toBeNull()
+    })
+  })
+
   describe('Search Functionality', () => {
     it('should show search input when dropdown opens', async () => {
       const user = userEvent.setup()

@@ -403,3 +403,60 @@ const FieldWrapper = () => {
 export const Field: Story = {
   render: () => <FieldWrapper />,
 }
+
+// A shortcut group (Recent) repeats options that stay in the full list below
+// it. `flattenOnSearch` turns a search into one sorted list with each match
+// once, `groupDividers` draws a line between the groups, and
+// `scrollToSelectedOnOpen={false}` opens the list at the top so the shortcut
+// group is what shows first. Rows that appear twice need their own `key`.
+
+const manyNetworks = Array.from({ length: 30 }, (_, i) => ({
+  label: `Network Q${i + 1}`,
+  value: String(i + 1),
+}))
+
+const RecentAboveAllWrapper = ({
+  trigger,
+}: {
+  trigger: 'select' | 'dropdown'
+}) => {
+  const [value, setValue] = useState('25')
+  const [recentIds, setRecentIds] = useState(['3', '12', '7'])
+  const byValue = new Map(manyNetworks.map((n) => [n.value, n]))
+  const recents = recentIds
+    .filter((id) => id !== value)
+    .map((id) => byValue.get(id)!)
+  const keyed = (rows: typeof manyNetworks, group: string) =>
+    rows.map((row) => ({ ...row, key: `${group}-${row.value}` }))
+
+  return (
+    <SummarizedSelect
+      trigger={trigger}
+      variant="headlined"
+      popupMatchSelectWidth={false}
+      searchPlaceholder="Search networks..."
+      options={[
+        { label: 'Recent', options: keyed(recents, 'recent') },
+        { label: 'All networks', options: keyed(manyNetworks, 'all') },
+      ]}
+      value={value}
+      onChange={(next) => {
+        setRecentIds((ids) => [value, ...ids.filter((id) => id !== value)])
+        setValue(next)
+      }}
+      flattenOnSearch
+      groupDividers
+      scrollToSelectedOnOpen={false}
+    />
+  )
+}
+
+export const RecentAboveAll: Story = {
+  args: { value: '25' },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <RecentAboveAllWrapper trigger="select" />
+      <RecentAboveAllWrapper trigger="dropdown" />
+    </div>
+  ),
+}
