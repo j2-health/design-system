@@ -7,7 +7,7 @@ import {
   InputRef,
   Typography,
 } from 'antd'
-import { DefaultOptionType } from 'antd/es/select'
+import { DefaultOptionType, type RefSelectProps } from 'antd/es/select'
 import { Fragment, useState, useMemo, useRef, useEffect } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import { CaretDownIcon, MagnifyingGlassIcon } from '@phosphor-icons/react'
@@ -24,6 +24,7 @@ type OptionWithLogo = Option & {
 type GroupOption = {
   label: string
   options: Option[]
+  className?: string
 }
 
 export type SelectOption = Option | GroupOption | OptionWithLogo
@@ -69,6 +70,23 @@ type BaseProps = Omit<
    */
   triggerWeight?: React.CSSProperties['fontWeight']
   defaultOpen?: boolean
+  /**
+   * While searching, list the matches as one list sorted by label: groups are
+   * dropped, and a value that appears in more than one group shows once. Lets
+   * a list that repeats options in a shortcut group (Recent, say) above the
+   * full list search as a single list. Groups come back when the search is
+   * cleared.
+   */
+  flattenOnSearch?: boolean
+  /**
+   * `false` opens the `'select'` trigger's list at the top every time instead
+   * of scrolled to the selected option, for a list whose first rows matter
+   * more than where the selection is. The `'dropdown'` trigger always opens
+   * at the top.
+   */
+  scrollToSelectedOnOpen?: boolean
+  /** A line between option groups, above the title of every group after the first. */
+  groupDividers?: boolean
 
   loading?: boolean
 }
@@ -99,6 +117,38 @@ const getAllOptions = (options: SelectOption[] | undefined): Option[] => {
   return options.flatMap((option) =>
     isGroupOption(option) ? option.options : [option]
   )
+}
+
+const byLabel = (a: Option, b: Option) =>
+  String(a.label ?? '').localeCompare(String(b.label ?? ''), undefined, {
+    numeric: true,
+    sensitivity: 'base',
+  })
+
+/** One entry per value, the first one seen, sorted by label. */
+const flattenAndSort = (options: SelectOption[]): Option[] => {
+  const seen = new Set<unknown>()
+  return getAllOptions(options)
+    .filter((option) => {
+      if (seen.has(option.value)) return false
+      seen.add(option.value)
+      return true
+    })
+    .sort(byLabel)
+}
+
+const withGroupDividers = (options: SelectOption[]): SelectOption[] => {
+  let groupsSeen = 0
+  return options.map((option) => {
+    if (!isGroupOption(option)) return option
+    groupsSeen += 1
+    return groupsSeen === 1
+      ? option
+      : {
+          ...option,
+          className: cx(option.className, styles.groupDivider),
+        }
+  })
 }
 
 const filterOptions = (
@@ -144,6 +194,32 @@ const WEIGHT_CLASS =
 const hasWeightClass = (className?: string) =>
   Boolean(className && WEIGHT_CLASS.test(className))
 
+/**
+ * Puts the option list back at the top each time it opens and each time it is
+ * rebuilt for a search. antd scrolls to the selected option from a timeout
+ * started in the list's own effect. This wraps the list, so its effect runs
+ * after that one and its timeout lands last. It keys off a count of opens, not
+ * the open flag: antd does not re-render a closed popup, so the flag it sees
+ * can stay `true` from one open to the next.
+ */
+const OpenAtTop = ({
+  openCount,
+  selectRef,
+  children,
+}: {
+  openCount: number
+  selectRef: React.RefObject<RefSelectProps | null>
+  children: React.ReactElement
+}) => {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      selectRef.current?.scrollTo({ index: 0, align: 'top' })
+    })
+    return () => clearTimeout(timeoutId)
+  }, [openCount, selectRef])
+  return children
+}
+
 export function SummarizedSelect({
   searchPlaceholder,
   formControlPlaceholder,
@@ -159,6 +235,9 @@ export function SummarizedSelect({
   trigger = 'select',
   triggerWeight,
   defaultOpen = false,
+  flattenOnSearch = false,
+  scrollToSelectedOnOpen = true,
+  groupDividers = false,
   ...props
 }: Props) {
   const isHeadline = variant === 'headlined'
@@ -169,6 +248,7 @@ export function SummarizedSelect({
   const [focusTrigger, setFocusTrigger] = useState(defaultOpen ? 1 : 0)
   const [isOpen, setIsOpen] = useState(defaultOpen)
   const inputRef = useRef<InputRef>(null)
+  const selectRef = useRef<RefSelectProps>(null)
   const measureSpanRef = useRef<HTMLSpanElement>(null)
   const [measuredWidth, setMeasuredWidth] = useState<number>()
 
@@ -204,8 +284,10 @@ export function SummarizedSelect({
   }, [focusTrigger])
 
   const filteredOptions = useMemo(() => {
-    return filterOptions(options, searchValue)
-  }, [searchValue, options])
+    const filtered = filterOptions(options, searchValue)
+    if (flattenOnSearch && searchValue) return flattenAndSort(filtered)
+    return groupDividers ? withGroupDividers(filtered) : filtered
+  }, [searchValue, options, flattenOnSearch, groupDividers])
 
   const flatFilteredOptions = useMemo(() => {
     return getAllOptions(filteredOptions)
@@ -378,7 +460,15 @@ export function SummarizedSelect({
               starts a close, cancels it because focus stayed in the popup,
               and never clears its `lockOptions` flag -- a locked list keeps
               showing the options it had when the popup opened. */}
-          <Fragment key={searchValue}>{menu}</Fragment>
+          <Fragment key={searchValue}>
+            {scrollToSelectedOnOpen ? (
+              menu
+            ) : (
+              <OpenAtTop openCount={focusTrigger} selectRef={selectRef}>
+                {menu}
+              </OpenAtTop>
+            )}
+          </Fragment>
         </div>
         <div className="flex justify-between items-center">
           {multiple && (
@@ -512,7 +602,7 @@ export function SummarizedSelect({
             filteredOptions.map((opt) => {
               if (isGroupOption(opt)) {
                 return (
-                  <div key={`group-${opt.label}`}>
+                  <div key={`group-${opt.label}`} className={opt.className}>
                     <div className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-[var(--j2-color-text-tertiary)]">
                       {opt.label}
                     </div>
@@ -606,6 +696,7 @@ export function SummarizedSelect({
         {displayText}
       </span>
       <Select<string | string[], SelectOption>
+        ref={selectRef}
         open={isOpen}
         showSearch={false}
         style={{ width: isField ? '100%' : measuredWidth }}

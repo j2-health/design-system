@@ -186,3 +186,9 @@
 .fieldSelect :global(.ant-select-suffix) {
   color: var(--j2-color-text-secondary);
 }
+
+/* A line between option groups, drawn on every group after the first. */
+.groupDivider {
+  border-top: 1px solid var(--j2-color-border-secondary);
+  border-radius: 0 !important;
+}
