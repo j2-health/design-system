@@ -244,6 +244,15 @@ export const appTheme: ThemeConfig = {
       multipleItemBorderColor: 'var(--j2-gray-4)',
       colorText: 'var(--j2-color-primary-text)',
     },
+    Slider: {
+      // A solid primary track and handle, as Switch and Checkbox read when on,
+      // instead of antd's pale primary-border track.
+      trackBg: 'var(--j2-color-primary)',
+      trackHoverBg: 'var(--j2-color-primary-hover)',
+      handleColor: 'var(--j2-color-primary)',
+      handleActiveColor: 'var(--j2-color-primary-active)',
+      dotActiveBorderColor: 'var(--j2-color-primary)',
+    },
     Tooltip: {
       colorBgSpotlight: 'var(--j2-color-primary-active)',
     },
