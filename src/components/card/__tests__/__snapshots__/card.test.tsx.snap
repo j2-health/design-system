@@ -3,7 +3,7 @@
 exports[`Card > should render correctly 1`] = `
 <div>
   <div
-    class="ant-card ant-card-bordered j2-card j2-card-default css-dev-only-do-not-override-jdb7z4 css-var-root"
+    class="ant-card ant-card-bordered j2-card j2-card-default css-dev-only-do-not-override-eofgey css-var-root"
   >
     <div
       class="ant-card-head"
