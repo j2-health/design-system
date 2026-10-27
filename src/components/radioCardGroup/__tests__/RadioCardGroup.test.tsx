@@ -75,4 +75,21 @@ describe('RadioCardGroup', () => {
     await userEvent.click(screen.getByRole('radio', { name: /Second/ }))
     expect(onChange).not.toHaveBeenCalled()
   })
+  it('does not select a focused card that becomes disabled', async () => {
+    const onChange = vi.fn()
+    const { rerender } = render(
+      <RadioCardGroup options={options} value="a" onChange={onChange} />
+    )
+    screen.getByRole('radio', { name: /Second/ }).focus()
+    rerender(
+      <RadioCardGroup
+        options={[options[0], { ...options[1], disabled: true }, options[2]]}
+        value="a"
+        onChange={onChange}
+      />
+    )
+    await userEvent.keyboard(' ')
+    await userEvent.keyboard('{Enter}')
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })

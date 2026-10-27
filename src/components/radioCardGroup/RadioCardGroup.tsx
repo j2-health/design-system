@@ -62,7 +62,8 @@ export function RadioCardGroup<T extends string>({
       move(index, -1)
     } else if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault()
-      onChange(options[index].value)
+      // A card can turn disabled while it has focus; it must not select.
+      if (!options[index].disabled) onChange(options[index].value)
     }
   }
 
