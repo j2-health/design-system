@@ -148,4 +148,59 @@ describe('FileDropzone', () => {
       screen.getByRole('button', { name: /Download Template/ })
     ).toBeDisabled()
   })
+  it('cancels a drop while disabled, so the browser does not open the file', () => {
+    const onFileSelected = vi.fn()
+    render(
+      <FileDropzone
+        status="idle"
+        uploadDisabled
+        onFileSelected={onFileSelected}
+      />
+    )
+    const notCancelled = fireEvent.drop(
+      screen.getByRole('button', { name: 'Upload CSV file' }),
+      { dataTransfer: { files: [csv()] } }
+    )
+    expect(notCancelled).toBe(false)
+    expect(onFileSelected).not.toHaveBeenCalled()
+  })
+
+  it('cancels a drop while a file is being checked', () => {
+    const onFileSelected = vi.fn()
+    render(<FileDropzone status="validating" onFileSelected={onFileSelected} />)
+    const notCancelled = fireEvent.drop(
+      screen.getByRole('button', { name: 'Upload CSV file' }),
+      { dataTransfer: { files: [csv()] } }
+    )
+    expect(notCancelled).toBe(false)
+    expect(onFileSelected).not.toHaveBeenCalled()
+  })
+
+  it('does not offer the template link while disabled', () => {
+    render(
+      <FileDropzone
+        status="idle"
+        uploadDisabled
+        templateUrl="/template.csv"
+        onFileSelected={vi.fn()}
+      />
+    )
+    expect(screen.queryByRole('link', { name: /Download Template/ })).toBeNull()
+    expect(
+      screen.getByRole('button', { name: /Download Template/ })
+    ).toBeDisabled()
+  })
+
+  it('offers the template link when enabled', () => {
+    render(
+      <FileDropzone
+        status="idle"
+        templateUrl="/template.csv"
+        onFileSelected={vi.fn()}
+      />
+    )
+    expect(
+      screen.getByRole('link', { name: /Download Template/ })
+    ).toHaveAttribute('href', '/template.csv')
+  })
 })

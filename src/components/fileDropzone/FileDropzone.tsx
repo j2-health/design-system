@@ -185,10 +185,12 @@ export function FileDropzone({
     setConfirmOpen(false)
   }
 
+  // Drag events are always cancelled, even while disabled: otherwise the
+  // browser's own drop opens the file in place of the page.
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault()
     event.stopPropagation()
-    setIsDragOver(true)
+    if (!disabled) setIsDragOver(true)
   }
 
   const handleDragLeave = (event: React.DragEvent) => {
@@ -201,6 +203,7 @@ export function FileDropzone({
     event.preventDefault()
     event.stopPropagation()
     setIsDragOver(false)
+    if (disabled) return
     const file = event.dataTransfer.files?.[0] ?? null
     if (!file) return
     if (!file.name.toLowerCase().endsWith(accept.toLowerCase())) {
@@ -224,8 +227,10 @@ export function FileDropzone({
       : 'cursor-pointer hover:bg-j2-gray-4'
   )
 
+  // While disabled, the URL form renders as the disabled button too, so the
+  // template can't be downloaded before the upload is available.
   const templateBar =
-    onDownloadTemplate || !templateUrl ? (
+    onDownloadTemplate || !templateUrl || uploadDisabled ? (
       <button
         type="button"
         disabled={uploadDisabled || !onDownloadTemplate}
@@ -346,16 +351,18 @@ export function FileDropzone({
             if (!disabled) requestUpload()
           }
         }}
-        onDragOver={disabled ? undefined : handleDragOver}
-        onDragLeave={disabled ? undefined : handleDragLeave}
-        onDrop={disabled ? undefined : handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
         className={cx(
           'mt-2 rounded-j2-lg border-2 border-dashed transition-colors',
           isDragOver
             ? 'border-j2-blue-7 bg-j2-blue-2'
-            : 'border-j2-gray-6 bg-j2-gray-1 hover:border-j2-gray-8',
-          disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
-          isUploading && 'pointer-events-none'
+            : cx(
+                'border-j2-gray-6 bg-j2-gray-1',
+                !disabled && 'hover:border-j2-gray-8'
+              ),
+          disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
         )}
       >
         {renderContent()}
