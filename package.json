@@ -79,7 +79,7 @@
     "@highcharts/react": "^5.4.0",
     "@phosphor-icons/react": "^2.1.7",
     "@storybook/addon-docs": "^10.6.4",
-    "@storybook/addon-links": "^10.6.3",
+    "@storybook/addon-links": "^10.6.4",
     "@storybook/react-vite": "^10.6.4",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
