@@ -90,7 +90,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/coverage-v8": "^5.0.5",
     "antd": "^6.6.7",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "classnames": "^2.5.1",
     "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
