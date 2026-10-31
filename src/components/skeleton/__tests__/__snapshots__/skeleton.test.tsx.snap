@@ -3,7 +3,7 @@
 exports[`Skeleton > should render correctly 1`] = `
 <div>
   <div
-    class="ant-skeleton css-dev-only-do-not-override-eofgey css-var-root"
+    class="ant-skeleton css-dev-only-do-not-override-1y106cm css-var-root"
   >
     <div
       class="ant-skeleton-section"
