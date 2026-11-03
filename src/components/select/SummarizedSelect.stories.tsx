@@ -1,6 +1,7 @@
 import type { StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
+import { Tag } from '../tag'
 import { SummarizedSelect } from './SummarizedSelect'
 
 const defaultOptions = [
@@ -289,6 +290,36 @@ export const DropdownTrigger: Story = {
   render: (args) => (
     <DropdownTriggerWrapper {...(args as DropdownTriggerArgs)} />
   ),
+}
+
+// The dropdown trigger draws its rows with `optionRender`, as the select
+// trigger does: here each option as a Tag.
+export const DropdownTriggerOptionRender: Story = {
+  render: () => <DropdownTriggerTagsWrapper />,
+}
+
+const tagStatus: Record<string, 'processing' | 'success' | 'warning'> = {
+  'Family Medicine': 'processing',
+  'Nurse Practitioner': 'success',
+  'Internal Medicine': 'warning',
+}
+
+const DropdownTriggerTagsWrapper = () => {
+  const [value, setValue] = useState('Family Medicine')
+  return (
+    <SummarizedSelect
+      trigger="dropdown"
+      searchPlaceholder="Search specialties..."
+      options={Object.keys(tagStatus).map((s) => ({ label: s, value: s }))}
+      value={value}
+      onChange={setValue}
+      optionRender={(option) => (
+        <Tag size="small" status={tagStatus[option.value as string]}>
+          {option.label}
+        </Tag>
+      )}
+    />
+  )
 }
 
 type DropdownMultiArgs = MultiSelectArgs
