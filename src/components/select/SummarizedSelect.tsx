@@ -1,4 +1,5 @@
 import {
+  ConfigProvider,
   Dropdown as AntdDropdown,
   Select,
   Spin,
@@ -87,6 +88,14 @@ type BaseProps = Omit<
   scrollToSelectedOnOpen?: boolean
   /** A line between option groups, above the title of every group after the first. */
   groupDividers?: boolean
+  /**
+   * A control at the right end of the popup's search box, after a short
+   * divider, in both triggers. For a control that sets the scope of the search,
+   * such as a second select that filters the options. Its own popups open
+   * inside this popup, and picking from them or pressing Escape there leaves
+   * this popup open with focus back in the search box.
+   */
+  searchSuffix?: React.ReactNode
 
   loading?: boolean
 }
@@ -238,6 +247,7 @@ export function SummarizedSelect({
   flattenOnSearch = false,
   scrollToSelectedOnOpen = true,
   groupDividers = false,
+  searchSuffix,
   ...props
 }: Props) {
   const isHeadline = variant === 'headlined'
@@ -248,6 +258,7 @@ export function SummarizedSelect({
   const [focusTrigger, setFocusTrigger] = useState(defaultOpen ? 1 : 0)
   const [isOpen, setIsOpen] = useState(defaultOpen)
   const inputRef = useRef<InputRef>(null)
+  const popupRef = useRef<HTMLDivElement>(null)
   const selectRef = useRef<RefSelectProps>(null)
   const measureSpanRef = useRef<HTMLSpanElement>(null)
   const [measuredWidth, setMeasuredWidth] = useState<number>()
@@ -397,6 +408,43 @@ export function SummarizedSelect({
     return <div>{option.label}</div>
   }
 
+  const focusSearch = () =>
+    setTimeout(() => inputRef.current?.focus({ preventScroll: true }))
+
+  // Events from the suffix's own popups reach this span through React's tree,
+  // although those popups render elsewhere in the DOM.
+  const renderSearchSuffix = () =>
+    searchSuffix ? (
+      <span
+        className="flex items-center gap-2"
+        // The search box focuses itself on any click inside it, which would
+        // pull focus out of the suffix and close its popup as it opens.
+        onClick={(e) => {
+          e.stopPropagation()
+          const target = e.target as HTMLElement
+          // A pick closes the suffix's list and focus goes nowhere, which
+          // would close this popup too.
+          if (target.closest('.ant-select-item-option, [role="option"]')) {
+            focusSearch()
+          }
+        }}
+        // Escape closes only the suffix's list. It is caught on the way down,
+        // since a select in the suffix stops it before it would bubble here.
+        onKeyDownCapture={(e) => {
+          if (e.key === 'Escape') focusSearch()
+        }}
+        // Enter and typing never reach this select.
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <span aria-hidden className="h-4 w-px bg-j2-border-secondary" />
+        <ConfigProvider
+          getPopupContainer={() => popupRef.current ?? document.body}
+        >
+          {searchSuffix}
+        </ConfigProvider>
+      </span>
+    ) : undefined
+
   const popupRender = (menu: React.ReactElement) => {
     const valueToLabel = (val: string) => {
       const option = allFlatOptions.find((opt) => opt.value === val)
@@ -404,7 +452,7 @@ export function SummarizedSelect({
     }
 
     return (
-      <div>
+      <div ref={popupRef} className={cx({ relative: searchSuffix != null })}>
         <div className="mb-2 px-2 pb-2 border-b -mx-1 mt-1">
           <Input
             ref={inputRef}
@@ -424,6 +472,7 @@ export function SummarizedSelect({
                 className="text-j2-text-placeholder"
               />
             }
+            suffix={renderSearchSuffix()}
             allowClear
           />
         </div>
@@ -545,7 +594,10 @@ export function SummarizedSelect({
     }
 
     return (
-      <div className="bg-white rounded-lg shadow-md p-2 min-w-[240px]">
+      <div
+        ref={popupRef}
+        className="relative bg-white rounded-lg shadow-md p-2 min-w-[240px]"
+      >
         <div className="pb-2 border-b border-j2-border-secondary">
           <Input
             ref={inputRef}
@@ -564,6 +616,7 @@ export function SummarizedSelect({
                 className="text-j2-text-placeholder"
               />
             }
+            suffix={renderSearchSuffix()}
             allowClear
           />
         </div>
@@ -744,7 +797,11 @@ export function SummarizedSelect({
             [styles.headlinedSelect]: isHeadline,
             [styles.fieldSelect]: isField,
           }),
-          popup: { root: popupClassName },
+          popup: {
+            root: cx(popupClassName, {
+              [styles.hasSearchSuffix]: searchSuffix != null,
+            }),
+          },
         }}
         variant={antVariant}
         {...props}

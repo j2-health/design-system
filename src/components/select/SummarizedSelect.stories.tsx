@@ -460,3 +460,59 @@ export const RecentAboveAll: Story = {
     </div>
   ),
 }
+
+// `searchSuffix`: a label filter in the search box. Its list opens inside the
+// popup; picking a label narrows the networks and the popup stays open.
+const networkLabels: Record<string, string[]> = {
+  'Filed with CMS': ['1', '3', '7', '12', '25'],
+  'Q2 refresh': ['2', '3', '9', '18'],
+  'Board review': ['5', '7', '12', '21', '28'],
+}
+const ALL_LABELS = 'all'
+
+const SearchSuffixWrapper = ({
+  trigger,
+}: {
+  trigger: 'select' | 'dropdown'
+}) => {
+  const [value, setValue] = useState('25')
+  const [label, setLabel] = useState(ALL_LABELS)
+  const shown =
+    label === ALL_LABELS
+      ? manyNetworks
+      : manyNetworks.filter((n) => networkLabels[label].includes(n.value))
+
+  return (
+    <SummarizedSelect
+      trigger={trigger}
+      variant="headlined"
+      popupMatchSelectWidth={false}
+      searchPlaceholder="Search networks..."
+      options={shown}
+      value={value}
+      onChange={setValue}
+      searchSuffix={
+        <SummarizedSelect
+          variant="borderless"
+          style={{ width: 140 }}
+          searchPlaceholder="Search labels..."
+          options={[
+            { label: 'All labels', value: ALL_LABELS },
+            ...Object.keys(networkLabels).map((l) => ({ label: l, value: l })),
+          ]}
+          value={label}
+          onChange={setLabel}
+        />
+      }
+    />
+  )
+}
+
+export const SearchSuffix: Story = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <SearchSuffixWrapper trigger="select" />
+      <SearchSuffixWrapper trigger="dropdown" />
+    </div>
+  ),
+}
