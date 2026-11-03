@@ -120,7 +120,7 @@
     "yup": "^1.4.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.67.2"
+    "@rollup/rollup-linux-x64-gnu": "^4.67.3"
   },
   "eslintConfig": {
     "extends": [
