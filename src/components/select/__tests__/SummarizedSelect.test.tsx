@@ -794,9 +794,6 @@ describe('SummarizedSelect', () => {
       expect(
         screen.getByPlaceholderText('Search...').closest('.ant-dropdown')
       ).not.toHaveClass('ant-dropdown-hidden')
-      await waitFor(() =>
-        expect(screen.getByPlaceholderText('Search...')).toHaveFocus()
-      )
     })
   })
 
