@@ -304,6 +304,14 @@ export function SummarizedSelect({
     return getAllOptions(filteredOptions)
   }, [filteredOptions])
 
+  // The values on show, so the list can be rebuilt when they change while
+  // the popup is open (a filter in `searchSuffix`, say). Keyed on content, not
+  // on the array, since callers often build `options` afresh each render.
+  const shownValues = useMemo(
+    () => flatFilteredOptions.map((o) => String(o.value)).join('\u0000'),
+    [flatFilteredOptions]
+  )
+
   const allFlatOptions = useMemo(() => {
     return getAllOptions(options)
   }, [options])
@@ -408,6 +416,8 @@ export function SummarizedSelect({
     return <div>{option.label}</div>
   }
 
+  // A pick or a key in the suffix leaves focus nowhere, which would close this
+  // popup, so focus goes back to the search box.
   const focusSearch = () =>
     setTimeout(() => inputRef.current?.focus({ preventScroll: true }))
 
@@ -428,10 +438,11 @@ export function SummarizedSelect({
             focusSearch()
           }
         }}
-        // Escape closes only the suffix's list. It is caught on the way down,
-        // since a select in the suffix stops it before it would bubble here.
+        // Escape closes only the suffix's list, and Enter picks in it. Both
+        // are caught on the way down, since a select in the suffix stops them
+        // before they would bubble here.
         onKeyDownCapture={(e) => {
-          if (e.key === 'Escape') focusSearch()
+          if (e.key === 'Escape' || e.key === 'Enter') focusSearch()
         }}
         // Enter and typing never reach this select.
         onKeyDown={(e) => e.stopPropagation()}
@@ -504,12 +515,13 @@ export function SummarizedSelect({
             [styles.menuContainerMultiple]: multiple,
           })}
         >
-          {/* Keyed on the search so antd rebuilds its option list per
-              keystroke. Focusing the search input blurs the Select, antd
-              starts a close, cancels it because focus stayed in the popup,
-              and never clears its `lockOptions` flag -- a locked list keeps
-              showing the options it had when the popup opened. */}
-          <Fragment key={searchValue}>
+          {/* Keyed on the search and the values on show so antd rebuilds its
+              option list per keystroke and when the options change. Focusing
+              the search input blurs the Select, antd starts a close, cancels
+              it because focus stayed in the popup, and never clears its
+              `lockOptions` flag -- a locked list keeps showing the options it
+              had when the popup opened. */}
+          <Fragment key={`${searchValue}\u0000${shownValues}`}>
             {scrollToSelectedOnOpen ? (
               menu
             ) : (

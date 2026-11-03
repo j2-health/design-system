@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event'
 import { SummarizedSelect } from '../SummarizedSelect'
 
 const mockOptions = [
@@ -772,7 +772,10 @@ describe('SummarizedSelect', () => {
     })
 
     it('passes a pick in a suffix select to its caller', async () => {
-      const user = userEvent.setup()
+      // The suffix's list is still animating in when it's clicked.
+      const user = userEvent.setup({
+        pointerEventsCheck: PointerEventsCheckLevel.Never,
+      })
       const onLabelChange = vi.fn()
       render(
         <SummarizedSelect

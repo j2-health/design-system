@@ -1,6 +1,7 @@
 import type { StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
+import { Tag } from '../tag'
 import { SummarizedSelect } from './SummarizedSelect'
 
 const defaultOptions = [
@@ -461,14 +462,18 @@ export const RecentAboveAll: Story = {
   ),
 }
 
-// `searchSuffix`: a label filter in the search box. Its list opens inside the
-// popup; picking a label narrows the networks and the popup stays open.
-const networkLabels: Record<string, string[]> = {
-  'Filed with CMS': ['1', '3', '7', '12', '25'],
-  'Q2 refresh': ['2', '3', '9', '18'],
-  'Board review': ['5', '7', '12', '21', '28'],
+// `searchSuffix`: a group filter in the search box, its options drawn as tags.
+// Its list opens inside the popup; picking a group narrows the list and the
+// popup stays open.
+const groups: Record<
+  string,
+  { status: 'processing' | 'success' | 'warning'; ids: string[] }
+> = {
+  'Group A': { status: 'processing', ids: ['1', '3', '7', '12', '25'] },
+  'Group B': { status: 'success', ids: ['2', '3', '9', '18'] },
+  'Group C': { status: 'warning', ids: ['5', '7', '12', '21', '28'] },
 }
-const ALL_LABELS = 'all'
+const ALL_GROUPS = 'all'
 
 const SearchSuffixWrapper = ({
   trigger,
@@ -476,11 +481,11 @@ const SearchSuffixWrapper = ({
   trigger: 'select' | 'dropdown'
 }) => {
   const [value, setValue] = useState('25')
-  const [label, setLabel] = useState(ALL_LABELS)
+  const [group, setGroup] = useState(ALL_GROUPS)
   const shown =
-    label === ALL_LABELS
+    group === ALL_GROUPS
       ? manyNetworks
-      : manyNetworks.filter((n) => networkLabels[label].includes(n.value))
+      : manyNetworks.filter((n) => groups[group].ids.includes(n.value))
 
   return (
     <SummarizedSelect
@@ -495,13 +500,23 @@ const SearchSuffixWrapper = ({
         <SummarizedSelect
           variant="borderless"
           style={{ width: 140 }}
-          searchPlaceholder="Search labels..."
+          popupMatchSelectWidth={200}
+          searchPlaceholder="Search groups..."
           options={[
-            { label: 'All labels', value: ALL_LABELS },
-            ...Object.keys(networkLabels).map((l) => ({ label: l, value: l })),
+            { label: 'All groups', value: ALL_GROUPS },
+            ...Object.keys(groups).map((g) => ({ label: g, value: g })),
           ]}
-          value={label}
-          onChange={setLabel}
+          optionRender={(option) =>
+            option.value === ALL_GROUPS ? (
+              option.label
+            ) : (
+              <Tag size="small" status={groups[option.value as string].status}>
+                {option.label}
+              </Tag>
+            )
+          }
+          value={group}
+          onChange={setGroup}
         />
       }
     />
