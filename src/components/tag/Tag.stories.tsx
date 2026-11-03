@@ -13,6 +13,20 @@ import { ChefHatIcon, TagIcon } from '@phosphor-icons/react'
 const changelog = `
 ## Changelog
 
+### Add \`variant="tinted"\` — 2026-11-03
+
+**What:** \`variant="tinted"\` draws a pale tag from one color: the fill at
+14% over white, the border at 45%, the text at 65% over black. It takes
+\`color\` (any CSS color, e.g. \`var(--j2-color-categorical-3)\`) or falls back
+to the status color.
+
+**Why:** Network labels (DES-119) colors each user-defined label from the
+categorical palette. \`color\` alone goes through antd, which parses it to
+derive a fill and can't with a CSS variable, so the prototype set the three
+colors by hand.
+
+**Breaking:** No. It's a new variant value.
+
 ### Add \`variant="solid"\` styling and a \`color\` override — 2026-10-02
 
 **What:** \`variant="solid"\` (antd 6's filled tag) now renders white, bold
@@ -83,9 +97,9 @@ const meta = {
     },
     variant: {
       control: 'radio',
-      options: ['outlined', 'filled', 'solid'],
+      options: ['outlined', 'filled', 'solid', 'tinted'],
       description:
-        '`solid` is a filled badge: white bold text on the status color, or on `color`.',
+        '`solid` is a filled badge: white bold text on the status color, or on `color`. `tinted` is a pale tag: fill, border and text all from `color` or the status color.',
     },
     color: {
       control: 'text',
@@ -227,6 +241,28 @@ export const SolidBadges: Story = {
       <Tag status="error" variant="solid">
         Solid
       </Tag>
+    </div>
+  ),
+}
+
+// Tinted tags on the eight categorical colors, as user-defined labels use them.
+export const Tinted: Story = {
+  argTypes: {
+    showIcon: { table: { disable: true } },
+    icon: { table: { disable: true } },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, maxWidth: 420 }}>
+      {[1, 2, 3, 4, 5, 6, 7, 8].map((k) => (
+        <Tag
+          key={k}
+          status="default"
+          variant="tinted"
+          color={`var(--j2-color-categorical-${k})`}
+        >
+          Color {k}
+        </Tag>
+      ))}
     </div>
   ),
 }
