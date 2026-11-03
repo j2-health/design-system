@@ -263,9 +263,6 @@ export const Tinted: Story = {
           Color {k}
         </Tag>
       ))}
-      <Tag status="processing" variant="tinted" size="small">
-        Status color
-      </Tag>
     </div>
   ),
 }
