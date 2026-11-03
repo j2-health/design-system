@@ -1,6 +1,7 @@
 import type { StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
+import { Tag } from '../tag'
 import { SummarizedSelect } from './SummarizedSelect'
 
 const defaultOptions = [
@@ -457,6 +458,76 @@ export const RecentAboveAll: Story = {
     <div className="flex flex-col gap-8">
       <RecentAboveAllWrapper trigger="select" />
       <RecentAboveAllWrapper trigger="dropdown" />
+    </div>
+  ),
+}
+
+// `searchSuffix`: a group filter in the search box, as a text link (the
+// dropdown trigger sizes to its label), its options drawn as tags.
+// Its list opens inside the popup; picking a group narrows the list and the
+// popup stays open.
+const groups: Record<
+  string,
+  { status: 'processing' | 'success' | 'warning'; ids: string[] }
+> = {
+  'Group A': { status: 'processing', ids: ['1', '3', '7', '12', '25'] },
+  'Group B': { status: 'success', ids: ['2', '3', '9', '18'] },
+  'Group C': { status: 'warning', ids: ['5', '7', '12', '21', '28'] },
+}
+const ALL_GROUPS = 'all'
+
+const SearchSuffixWrapper = ({
+  trigger,
+}: {
+  trigger: 'select' | 'dropdown'
+}) => {
+  const [value, setValue] = useState('25')
+  const [group, setGroup] = useState(ALL_GROUPS)
+  const shown =
+    group === ALL_GROUPS
+      ? manyNetworks
+      : manyNetworks.filter((n) => groups[group].ids.includes(n.value))
+
+  return (
+    <SummarizedSelect
+      trigger={trigger}
+      variant="headlined"
+      popupMatchSelectWidth={false}
+      searchPlaceholder="Search networks..."
+      options={shown}
+      value={value}
+      onChange={setValue}
+      searchSuffix={
+        <SummarizedSelect
+          trigger="dropdown"
+          rootClassName="font-normal"
+          searchPlaceholder="Search groups..."
+          options={[
+            { label: 'All groups', value: ALL_GROUPS },
+            ...Object.keys(groups).map((g) => ({ label: g, value: g })),
+          ]}
+          optionRender={(option) =>
+            option.value === ALL_GROUPS ? (
+              option.label
+            ) : (
+              <Tag size="small" status={groups[option.value as string].status}>
+                {option.label}
+              </Tag>
+            )
+          }
+          value={group}
+          onChange={setGroup}
+        />
+      }
+    />
+  )
+}
+
+export const SearchSuffix: Story = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <SearchSuffixWrapper trigger="select" />
+      <SearchSuffixWrapper trigger="dropdown" />
     </div>
   ),
 }

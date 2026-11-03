@@ -192,3 +192,9 @@
   border-top: 1px solid var(--j2-color-border-secondary);
   border-radius: 0 !important;
 }
+
+/* A search-box suffix opens its own list inside this popup, and that list can
+   hang past the bottom of a short one. */
+.hasSearchSuffix {
+  overflow: visible !important;
+}

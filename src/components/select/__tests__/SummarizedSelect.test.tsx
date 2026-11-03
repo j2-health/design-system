@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event'
 import { SummarizedSelect } from '../SummarizedSelect'
 
 const mockOptions = [
@@ -713,6 +713,90 @@ describe('SummarizedSelect', () => {
     })
   })
 
+  describe('Search Suffix', () => {
+    const labelFilter = (onChange: (value: string) => void = () => {}) => (
+      <SummarizedSelect
+        searchPlaceholder="Search labels..."
+        options={[
+          { label: 'All labels', value: 'all' },
+          { label: 'Q2 refresh', value: 'q2' },
+        ]}
+        value="all"
+        onChange={onChange}
+      />
+    )
+
+    const open = async (
+      user: ReturnType<typeof userEvent.setup>,
+      trigger: 'select' | 'dropdown'
+    ) => {
+      if (trigger === 'dropdown') {
+        await user.click(screen.getByText('Silver Plan'))
+      } else {
+        await user.click(screen.getAllByRole('combobox')[0])
+      }
+    }
+
+    it.each(['select', 'dropdown'] as const)(
+      'renders in the search box with the %s trigger',
+      async (trigger) => {
+        const user = userEvent.setup()
+        render(
+          <SummarizedSelect
+            trigger={trigger}
+            options={mockOptions}
+            value="silver"
+            onChange={() => {}}
+            searchSuffix={<button type="button">Scope</button>}
+          />
+        )
+        await open(user, trigger)
+        const search = screen.getByPlaceholderText('Search...')
+        const suffix = screen.getByRole('button', { name: 'Scope' })
+        expect(search.closest('.ant-input-affix-wrapper')).toContainElement(
+          suffix
+        )
+      }
+    )
+
+    it('leaves the search box as it was without one', async () => {
+      const user = userEvent.setup()
+      render(
+        <SummarizedSelect options={mockOptions} value="" onChange={() => {}} />
+      )
+      await open(user, 'select')
+      const wrapper = screen
+        .getByPlaceholderText('Search...')
+        .closest('.ant-input-affix-wrapper')
+      expect(wrapper?.querySelector('.bg-j2-border-secondary')).toBeNull()
+    })
+
+    it('passes a pick in a suffix select to its caller', async () => {
+      // The suffix's list is still animating in when it's clicked.
+      const user = userEvent.setup({
+        pointerEventsCheck: PointerEventsCheckLevel.Never,
+      })
+      const onLabelChange = vi.fn()
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          searchSuffix={labelFilter(onLabelChange)}
+        />
+      )
+      await open(user, 'dropdown')
+      await user.click(screen.getByRole('combobox'))
+      await user.click(await screen.findByTitle('Q2 refresh'))
+      expect(onLabelChange).toHaveBeenCalledWith('q2')
+      // jsdom never finishes antd's open animation, so read the hidden class.
+      expect(
+        screen.getByPlaceholderText('Search...').closest('.ant-dropdown')
+      ).not.toHaveClass('ant-dropdown-hidden')
+    })
+  })
+
   describe('Field Variant', () => {
     it('fills its container instead of measuring its label', () => {
       const { container } = render(
@@ -757,6 +841,51 @@ describe('SummarizedSelect', () => {
       const root = container.querySelector('.ant-select') as HTMLElement
       expect(root.className).toMatch(/isActive/)
       expect(root.className).toMatch(/hemisphericSelect/)
+    })
+  })
+
+  describe('Dropdown Trigger props', () => {
+    it('draws its rows with optionRender', async () => {
+      const user = userEvent.setup()
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          optionRender={(option) => (
+            <span data-testid="chip">{option.label}</span>
+          )}
+        />
+      )
+      await user.click(screen.getByText('Silver Plan'))
+      const chips = await screen.findAllByTestId('chip')
+      expect(chips.map((c) => c.textContent)).toEqual([
+        'Bronze Plan',
+        'Silver Plan',
+        'Gold Plan',
+        'Platinum Plan',
+      ])
+    })
+
+    it('opens its popup in getPopupContainer', async () => {
+      const user = userEvent.setup()
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          getPopupContainer={() => container}
+        />
+      )
+      await user.click(screen.getByText('Silver Plan'))
+      expect(
+        container.querySelector('input[placeholder="Search..."]')
+      ).toBeInTheDocument()
+      container.remove()
     })
   })
 })
