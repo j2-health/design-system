@@ -771,7 +771,7 @@ describe('SummarizedSelect', () => {
       expect(wrapper?.querySelector('.bg-j2-border-secondary')).toBeNull()
     })
 
-    it('keeps the popup open after a pick in a select in the suffix', async () => {
+    it('passes a pick in a suffix select to its caller', async () => {
       const user = userEvent.setup()
       const onLabelChange = vi.fn()
       render(
