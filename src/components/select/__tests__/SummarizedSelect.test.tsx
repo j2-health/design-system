@@ -843,4 +843,49 @@ describe('SummarizedSelect', () => {
       expect(root.className).toMatch(/hemisphericSelect/)
     })
   })
+
+  describe('Dropdown Trigger props', () => {
+    it('draws its rows with optionRender', async () => {
+      const user = userEvent.setup()
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          optionRender={(option) => (
+            <span data-testid="chip">{option.label}</span>
+          )}
+        />
+      )
+      await user.click(screen.getByText('Silver Plan'))
+      const chips = await screen.findAllByTestId('chip')
+      expect(chips.map((c) => c.textContent)).toEqual([
+        'Bronze Plan',
+        'Silver Plan',
+        'Gold Plan',
+        'Platinum Plan',
+      ])
+    })
+
+    it('opens its popup in getPopupContainer', async () => {
+      const user = userEvent.setup()
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+      render(
+        <SummarizedSelect
+          trigger="dropdown"
+          options={mockOptions}
+          value="silver"
+          onChange={() => {}}
+          getPopupContainer={() => container}
+        />
+      )
+      await user.click(screen.getByText('Silver Plan'))
+      expect(
+        container.querySelector('input[placeholder="Search..."]')
+      ).toBeInTheDocument()
+      container.remove()
+    })
+  })
 })

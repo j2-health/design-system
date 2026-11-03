@@ -61,7 +61,8 @@ type BaseProps = Omit<
    *   breadcrumbs and inline switchers. Semibold primary text with a duotone
    *   caret. A Tailwind weight utility on `rootClassName` (`font-normal`,
    *   `font-[450]`) replaces the default; for any other weight, use
-   *   `triggerWeight`. Ignores `variant`.
+   *   `triggerWeight`. Ignores `variant`. Of antd's Select props it takes
+   *   `optionRender` (for its rows) and `getPopupContainer`.
    */
   trigger?: SummarizedSelectTrigger
   /**
@@ -583,7 +584,16 @@ export function SummarizedSelect({
             : 'hover:bg-[var(--j2-color-bg-hover)]'
         )}
       >
-        {hasLogo ? (
+        {props.optionRender ? (
+          // The same shape antd hands the select trigger's optionRender.
+          props.optionRender(
+            { ...option, key: optionValue, data: option } as Parameters<
+              NonNullable<typeof props.optionRender>
+            >[0],
+            // Its place in the whole list, as antd counts it.
+            { index: flatFilteredOptions.indexOf(option) }
+          )
+        ) : hasLogo ? (
           <div className="flex items-center gap-2">
             <div className="h-4 shrink-0">
               {(option as OptionWithLogo).logo}
@@ -722,6 +732,7 @@ export function SummarizedSelect({
         onOpenChange={handleOpenChange}
         trigger={['click']}
         disabled={props.disabled}
+        getPopupContainer={props.getPopupContainer}
         popupRender={dropdownPopupRender}
       >
         <Typography.Link

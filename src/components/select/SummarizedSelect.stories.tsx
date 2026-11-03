@@ -462,7 +462,8 @@ export const RecentAboveAll: Story = {
   ),
 }
 
-// `searchSuffix`: a group filter in the search box, its options drawn as tags.
+// `searchSuffix`: a group filter in the search box, as a text link (the
+// dropdown trigger sizes to its label), its options drawn as tags.
 // Its list opens inside the popup; picking a group narrows the list and the
 // popup stays open.
 const groups: Record<
@@ -498,9 +499,8 @@ const SearchSuffixWrapper = ({
       onChange={setValue}
       searchSuffix={
         <SummarizedSelect
-          variant="borderless"
-          style={{ width: 140 }}
-          popupMatchSelectWidth={200}
+          trigger="dropdown"
+          rootClassName="font-normal"
           searchPlaceholder="Search groups..."
           options={[
             { label: 'All groups', value: ALL_GROUPS },
