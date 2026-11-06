@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+import { ConfigProvider } from 'antd'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event'
 import { SummarizedSelect } from '../SummarizedSelect'
@@ -435,8 +436,16 @@ describe('SummarizedSelect', () => {
     it('should clear search when dropdown closes', async () => {
       const user = userEvent.setup()
 
+      // Motion off for this case only: the assertion is about the search being
+      // cleared by the close, and the close animation is what defers it.
       render(
-        <SummarizedSelect options={mockOptions} value="" onChange={() => {}} />
+        <ConfigProvider theme={{ token: { motion: false } }}>
+          <SummarizedSelect
+            options={mockOptions}
+            value=""
+            onChange={() => {}}
+          />
+        </ConfigProvider>
       )
 
       const select = screen.getByRole('combobox')
