@@ -22,7 +22,6 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
-      id-token: write
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout repository
@@ -30,10 +29,21 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Assert the agent cannot mint OIDC tokens
+        # ws-bqphi-ci: an OIDC token in a Claude job lets the agent exchange it for GCP credentials
+        # (github-pool trusts any j2-health workflow). Keep id-token off every Claude job.
+        run: |
+          if [ -n "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ]; then
+            echo "::error::id-token is granted to this Claude job. Remove id-token: write (ws-bqphi-ci)."
+            exit 1
+          fi
+
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
         with:
+          # ws-bqphi-ci: use the workflow token instead of the OIDC-minted Claude app token.
+          github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: 'claude[bot]'
 
