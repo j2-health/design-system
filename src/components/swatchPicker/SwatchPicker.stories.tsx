@@ -30,7 +30,7 @@ const Trigger = ({ value }: { value: string }) => (
     aria-label="Color"
     className="flex h-6 cursor-pointer items-center gap-1.5 rounded-j2-sm border border-solid border-j2-border bg-white px-2 transition-colors hover:border-j2-gray-8"
   >
-    <Swatch color={colorOf(value)} size={12} />
+    <Swatch color={colorOf(value)} size={12} radius={2} />
     <CaretDownIcon
       size={10}
       weight="bold"

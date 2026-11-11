@@ -167,6 +167,57 @@ describe('SwatchPicker', () => {
     expect(onChange).toHaveBeenCalledExactlyOnceWith('#364975')
   })
 
+  it('draws each color with 2px corners', async () => {
+    renderPicker()
+    await open()
+
+    const swatch = screen.getByRole('radio', { name: BASE[0] })
+      .firstElementChild as HTMLElement
+    expect(swatch.style.background).toBe(BASE[0])
+    expect(swatch.style.borderRadius).toBe('2px')
+  })
+
+  describe('onOpenChange', () => {
+    const renderReporting = () => {
+      const onOpenChange = vi.fn()
+      render(
+        <SwatchPicker
+          colors={COLORS}
+          value={BASE[0]}
+          label="Area A"
+          onChange={vi.fn()}
+          onOpenChange={onOpenChange}
+        >
+          <button type="button">Open</button>
+        </SwatchPicker>
+      )
+      return onOpenChange
+    }
+
+    it('reports the open, then the close on a pick', async () => {
+      const onOpenChange = renderReporting()
+
+      await open()
+      expect(onOpenChange.mock.calls).toEqual([[true]])
+
+      await userEvent.click(screen.getByRole('radio', { name: BASE[2] }))
+      expect(onOpenChange.mock.calls).toEqual([[true], [false]])
+    })
+
+    it('reports the close on Escape', async () => {
+      const onOpenChange = renderReporting()
+      await open()
+      await vi.waitFor(() =>
+        expect(screen.getByRole('radio', { name: BASE[0] })).toHaveFocus()
+      )
+
+      await userEvent.keyboard('{Escape}')
+
+      expectClosed()
+      expect(onOpenChange.mock.calls).toEqual([[true], [false]])
+    })
+  })
+
   it('offers no Reset without a default', async () => {
     renderPicker({ value: BASE[2] })
     await open()
@@ -193,17 +244,16 @@ describe('SwatchPicker', () => {
     }
 
     it('draws 20px swatches, against 24px in the popover', async () => {
+      const swatch = () =>
+        screen.getByRole('radio', { name: BASE[0] })
+          .firstElementChild as HTMLElement
       const { unmount } = render(<Inline onChange={vi.fn()} />)
-      expect(screen.getByRole('radio', { name: BASE[0] }).style.width).toBe(
-        '20px'
-      )
+      expect(swatch().style.width).toBe('20px')
       unmount()
 
       renderPicker()
       await open()
-      expect(screen.getByRole('radio', { name: BASE[0] }).style.width).toBe(
-        '24px'
-      )
+      expect(swatch().style.width).toBe('24px')
     })
 
     it('shows the grid in place, without taking focus', () => {

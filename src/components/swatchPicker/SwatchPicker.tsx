@@ -11,6 +11,7 @@ import { CheckIcon } from '@phosphor-icons/react'
 import cx from 'classnames'
 import { Button } from '../button'
 import { Popover, type PopoverProps } from '../popover'
+import { Swatch } from '../swatch'
 
 export type SwatchPickerColor = {
   /** What `onChange` reports: a token name, a hex, any id. */
@@ -43,9 +44,24 @@ export type SwatchPickerProps = {
   placement?: PopoverProps['placement']
   /** Where the popover renders. Defaults to the enclosing modal, or the page when there is none. */
   getPopupContainer?: PopoverProps['getPopupContainer']
+  /**
+   * Called when the popover opens or closes, e.g. to keep a panel around it
+   * open meanwhile. Not used inline.
+   */
+  onOpenChange?: (open: boolean) => void
 }
 
 const COLUMNS = 8
+
+// The maps picker's corners (2px); Swatch's default is 4px.
+const RADIUS = 2
+
+// Centers the check on its swatch.
+const CENTERED = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+} as const
 
 // Arrow keys move through the grid; each is the step in swatches.
 const STEPS: Record<string, number> = {
@@ -164,14 +180,16 @@ const SwatchGrid = ({
                 setFocusIndex(index)
                 onPick(c.value)
               }}
-              className="flex cursor-pointer items-center justify-center rounded-j2-xs border-0 p-0"
-              style={{
-                width: size,
-                height: size,
-                backgroundColor: c.color ?? c.value,
-              }}
+              className="flex cursor-pointer rounded-j2-xs border-0 bg-transparent p-0"
             >
-              {selected && <Check />}
+              <Swatch
+                color={c.color ?? c.value}
+                size={size}
+                radius={RADIUS}
+                style={CENTERED}
+              >
+                {selected && <Check />}
+              </Swatch>
             </button>
           )
         })}
@@ -206,8 +224,13 @@ export const SwatchPicker = ({
   children,
   placement = 'rightTop',
   getPopupContainer = modalOrPage,
+  onOpenChange,
 }: SwatchPickerProps) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpenState] = useState(false)
+  const setOpen = (next: boolean) => {
+    setOpenState(next)
+    onOpenChange?.(next)
+  }
   const gridRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLSpanElement>(null)
 
