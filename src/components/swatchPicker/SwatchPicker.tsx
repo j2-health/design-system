@@ -159,7 +159,9 @@ const SwatchGrid = ({
         ref={gridRef}
         role="radiogroup"
         aria-label={`Color for ${label}`}
-        className="grid grid-cols-8 gap-1"
+        // Sized to its swatches: in a wider box the columns would stretch,
+        // spreading the swatches and each button past its square.
+        className="grid w-fit grid-cols-8 gap-1"
         onKeyDown={onKeyDown}
       >
         {colors.map((c, index) => {
