@@ -3,18 +3,19 @@
 exports[`Pagination > should render correctly 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-1y106cm css-var-root"
+    class="ant-pagination css-dev-only-do-not-override-i19pbt css-var-root"
   >
     <li
-      aria-disabled="true"
       class="ant-pagination-prev ant-pagination-disabled"
-      title="Previous Page"
     >
       <a
-        disabled=""
+        aria-disabled="true"
+        aria-label="Previous Page"
+        role="button"
+        tabindex="-1"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -33,66 +34,78 @@ exports[`Pagination > should render correctly 1`] = `
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-      tabindex="0"
       title="1"
     >
       <a
+        aria-current="page"
+        aria-label="page 1"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         1
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-2"
-      tabindex="0"
       title="2"
     >
       <a
+        aria-label="page 2"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         2
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-3"
-      tabindex="0"
       title="3"
     >
       <a
+        aria-label="page 3"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         3
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-4"
-      tabindex="0"
       title="4"
     >
       <a
+        aria-label="page 4"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         4
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
-      tabindex="0"
       title="5"
     >
       <a
+        aria-label="page 5"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         5
       </a>
     </li>
     <li
       class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
-      tabindex="0"
-      title="Next 5 Pages"
     >
       <a
+        aria-label="Next 5 Pages"
         class="ant-pagination-item-link"
+        role="button"
+        tabindex="0"
       >
         <div
           class="ant-pagination-item-container"
@@ -101,7 +114,7 @@ exports[`Pagination > should render correctly 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -121,7 +134,7 @@ exports[`Pagination > should render correctly 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -142,24 +155,27 @@ exports[`Pagination > should render correctly 1`] = `
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-10"
-      tabindex="0"
       title="10"
     >
       <a
+        aria-label="page 10"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         10
       </a>
     </li>
     <li
-      aria-disabled="false"
       class="ant-pagination-next"
-      tabindex="0"
-      title="Next Page"
     >
-      <a>
+      <a
+        aria-label="Next Page"
+        role="button"
+        tabindex="0"
+      >
         <button
-          class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -180,7 +196,7 @@ exports[`Pagination > should render correctly 1`] = `
       class="ant-pagination-options"
     >
       <div
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-1y106cm ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-i19pbt ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-content ant-select-content-has-value"
@@ -224,7 +240,7 @@ exports[`Pagination > should render correctly 1`] = `
 exports[`Pagination > should render size changer and total 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-1y106cm css-var-root"
+    class="ant-pagination css-dev-only-do-not-override-i19pbt css-var-root"
   >
     <li
       class="ant-pagination-total-text"
@@ -232,15 +248,16 @@ exports[`Pagination > should render size changer and total 1`] = `
       Total 100 items
     </li>
     <li
-      aria-disabled="true"
       class="ant-pagination-prev ant-pagination-disabled"
-      title="Previous Page"
     >
       <a
-        disabled=""
+        aria-disabled="true"
+        aria-label="Previous Page"
+        role="button"
+        tabindex="-1"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -259,66 +276,78 @@ exports[`Pagination > should render size changer and total 1`] = `
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-      tabindex="0"
       title="1"
     >
       <a
+        aria-current="page"
+        aria-label="page 1"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         1
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-2"
-      tabindex="0"
       title="2"
     >
       <a
+        aria-label="page 2"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         2
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-3"
-      tabindex="0"
       title="3"
     >
       <a
+        aria-label="page 3"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         3
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-4"
-      tabindex="0"
       title="4"
     >
       <a
+        aria-label="page 4"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         4
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
-      tabindex="0"
       title="5"
     >
       <a
+        aria-label="page 5"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         5
       </a>
     </li>
     <li
       class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
-      tabindex="0"
-      title="Next 5 Pages"
     >
       <a
+        aria-label="Next 5 Pages"
         class="ant-pagination-item-link"
+        role="button"
+        tabindex="0"
       >
         <div
           class="ant-pagination-item-container"
@@ -327,7 +356,7 @@ exports[`Pagination > should render size changer and total 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -347,7 +376,7 @@ exports[`Pagination > should render size changer and total 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -368,24 +397,27 @@ exports[`Pagination > should render size changer and total 1`] = `
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-10"
-      tabindex="0"
       title="10"
     >
       <a
+        aria-label="page 10"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         10
       </a>
     </li>
     <li
-      aria-disabled="false"
       class="ant-pagination-next"
-      tabindex="0"
-      title="Next Page"
     >
-      <a>
+      <a
+        aria-label="Next Page"
+        role="button"
+        tabindex="0"
+      >
         <button
-          class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
+          class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link !w-8"
           type="button"
         >
           <svg
@@ -406,7 +438,7 @@ exports[`Pagination > should render size changer and total 1`] = `
       class="ant-pagination-options"
     >
       <div
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-1y106cm ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-i19pbt ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-content ant-select-content-has-value"
@@ -450,81 +482,94 @@ exports[`Pagination > should render size changer and total 1`] = `
 exports[`Pagination > should render with text labels for prev/next 1`] = `
 <div>
   <ul
-    class="ant-pagination css-dev-only-do-not-override-1y106cm css-var-root"
+    class="ant-pagination css-dev-only-do-not-override-i19pbt css-var-root"
   >
     <li
-      aria-disabled="true"
       class="ant-pagination-prev ant-pagination-disabled"
-      title="Previous Page"
     >
       <a
-        disabled=""
+        aria-disabled="true"
+        aria-label="Previous Page"
+        role="button"
+        tabindex="-1"
       >
         Previous
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-      tabindex="0"
       title="1"
     >
       <a
+        aria-current="page"
+        aria-label="page 1"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         1
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-2"
-      tabindex="0"
       title="2"
     >
       <a
+        aria-label="page 2"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         2
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-3"
-      tabindex="0"
       title="3"
     >
       <a
+        aria-label="page 3"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         3
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-4"
-      tabindex="0"
       title="4"
     >
       <a
+        aria-label="page 4"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         4
       </a>
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
-      tabindex="0"
       title="5"
     >
       <a
+        aria-label="page 5"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         5
       </a>
     </li>
     <li
       class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
-      tabindex="0"
-      title="Next 5 Pages"
     >
       <a
+        aria-label="Next 5 Pages"
         class="ant-pagination-item-link"
+        role="button"
+        tabindex="0"
       >
         <div
           class="ant-pagination-item-container"
@@ -533,7 +578,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
             class="ant-pagination-item-ellipsis"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -553,7 +598,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
             class="ant-pagination-item-link-icon"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1y106cm css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
+              class="ant-btn css-dev-only-do-not-override-i19pbt css-var-root ant-btn-link ant-btn-color-link ant-btn-variant-link jump-button !w-8"
               type="button"
             >
               <svg
@@ -574,22 +619,25 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
     </li>
     <li
       class="ant-pagination-item ant-pagination-item-10"
-      tabindex="0"
       title="10"
     >
       <a
+        aria-label="page 10"
         rel="nofollow"
+        role="button"
+        tabindex="0"
       >
         10
       </a>
     </li>
     <li
-      aria-disabled="false"
       class="ant-pagination-next"
-      tabindex="0"
-      title="Next Page"
     >
-      <a>
+      <a
+        aria-label="Next Page"
+        role="button"
+        tabindex="0"
+      >
         Next
       </a>
     </li>
@@ -597,7 +645,7 @@ exports[`Pagination > should render with text labels for prev/next 1`] = `
       class="ant-pagination-options"
     >
       <div
-        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-1y106cm ant-select-single ant-select-show-arrow ant-select-show-search"
+        class="ant-select ant-select-outlined ant-pagination-options-size-changer-select ant-pagination-options-size-changer css-var-root ant-select-css-var css-dev-only-do-not-override-i19pbt ant-select-single ant-select-show-arrow ant-select-show-search"
       >
         <div
           class="ant-select-content ant-select-content-has-value"
