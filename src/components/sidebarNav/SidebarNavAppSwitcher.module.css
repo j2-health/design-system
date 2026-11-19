@@ -1,0 +1,109 @@
+/* ---------- trigger (expanded) ---------------------------------------- */
+
+/* A constantly filled bar, not a bare row: floating, the name looked
+   misaligned with the logo and the rows below. A gray fill and no border, so
+   it doesn't stack another outline over a scope block and its field. The
+   name starts at x = 20 with the section labels; the grid glyph's center
+   sits on the right-hand column (width - 28), under the collapse toggle. */
+.trigger {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 0 7px 0 12px;
+  border-radius: 6px;
+  background: var(--j2-color-fill-tertiary);
+  color: var(--j2-blue-12);
+  transition: background-color 120ms ease-out;
+}
+
+button.trigger:hover,
+.triggerOpen {
+  background: var(--j2-color-fill-secondary);
+}
+
+.triggerStatic {
+  cursor: default;
+}
+
+.triggerLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  color: var(--j2-color-primary);
+}
+
+/* ---------- app-grid button (collapsed) ------------------------------- */
+
+/* 32px, as the expanded trigger, so nothing below moves on collapse.
+   Borderless like the rail's rows; a fill on hover. */
+.railMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin-inline: auto;
+  border-radius: 6px;
+  color: var(--j2-blue-12);
+  transition: background-color 120ms ease-out;
+}
+
+button.railMark:hover,
+.railMarkOpen {
+  background: var(--j2-color-fill-tertiary);
+}
+
+/* ---------- launcher panel -------------------------------------------- */
+
+.launcher {
+  display: grid;
+  grid-template-columns: repeat(3, 96px);
+  gap: 4px;
+}
+
+/* Name over mark. */
+.launcherItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 4px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--j2-border-radius);
+  /* Primary navy: blue-11 was low contrast on the gray current tile. */
+  color: var(--j2-color-primary);
+  transition: background-color 120ms ease-out;
+}
+
+.launcherItem:hover {
+  background: var(--j2-color-fill-tertiary);
+}
+
+/* Same warm-gray fill as a selected nav row. */
+.launcherItemCurrent,
+.launcherItemCurrent:hover {
+  background: var(--j2-gray-4);
+}
+
+.launcherLabel {
+  font-size: var(--j2-font-size-sm);
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--j2-blue-12);
+}

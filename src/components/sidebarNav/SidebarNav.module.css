@@ -1,0 +1,515 @@
+/* A 240px sidebar with 32px rows and 16px icons.
+
+   One icon column, centered at x = 28 (the collapsed rail's center), so
+   nothing moves sideways when the nav collapses. Row and footer icons start
+   at x = 20; the logo's 20px mark at 18, the same mark and place as
+   collapsed; the avatar's 24px circle at 16. Section labels and the app
+   switcher's name start at 20. */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  box-sizing: border-box;
+  width: 240px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid var(--j2-color-border-secondary);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 80px;
+  padding: 0 8px 4px;
+}
+
+/* Logo on the left, the collapse toggle at the far right. A 40px bar closed
+   by a full-width hairline, the height and bottom edge of a page header
+   beside the nav, so the line runs straight across the window. */
+.brandRow {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 40px;
+  margin-inline: -8px;
+  padding-inline: 8px;
+  border-bottom: 1px solid var(--j2-gray-4);
+}
+
+/* The DS Tooltip wraps its child in a block div, which put the button on
+   the text baseline, 2px above the logo's center line. */
+.brandRow > div {
+  display: flex;
+}
+
+/* The mark at x = 18, centered on the icon column, as collapsed. */
+.logo {
+  display: flex;
+  padding-left: 10px;
+}
+
+/* Primary navy. The 7px margin puts its center on the right-hand column it
+   shares with the app-grid glyph and a scope select's caret below. */
+.sidebar .collapseToggle {
+  margin-right: 7px;
+  color: var(--j2-color-primary);
+}
+
+.sidebar .collapseToggle:hover {
+  color: var(--j2-blue-12);
+}
+
+/* Collapsed: the J2 mark, which turns into the expand toggle on hover. The
+   two sit on top of each other and cross-fade. */
+.brandToggle {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: background-color 120ms ease-out;
+}
+
+.brandToggle:hover,
+.brandToggle:focus-visible {
+  background: var(--j2-color-fill-tertiary);
+}
+
+.brandMark,
+.brandExpand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 120ms ease-out;
+}
+
+.brandExpand {
+  opacity: 0;
+  color: var(--j2-blue-12);
+}
+
+.brandToggle:hover .brandMark,
+.brandToggle:focus-visible .brandMark {
+  opacity: 0;
+}
+
+.brandToggle:hover .brandExpand,
+.brandToggle:focus-visible .brandExpand {
+  opacity: 1;
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0 8px;
+  animation: bodyIn 160ms ease-out;
+}
+
+/* Plays when the app changes (the body is keyed by app). */
+@keyframes bodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body {
+    animation: none;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--j2-color-border-secondary);
+  padding: 8px 0 12px;
+}
+
+/* ---------- menus ----------------------------------------------------- */
+
+/*
+ * The DS Menu retuned through antd's own CSS variables, so the Menu itself
+ * is untouched. Hover keeps the text color (no navy-to-black shift), there's
+ * no near-white flash on press, and fills don't cross-fade on selection.
+ */
+.menu:global(.ant-menu) {
+  --ant-menu-item-height: 32px;
+  --ant-menu-item-margin-block: 1px;
+  --ant-menu-item-margin-inline: 8px;
+  --ant-menu-item-border-radius: 6px;
+  /* antd computes the row width from its default margin, not ours, so rows
+     stopped short of the right edge. Derive it from our margin. */
+  --ant-menu-item-width: calc(100% - var(--ant-menu-item-margin-inline) * 2);
+  --ant-menu-item-padding-inline: 12px;
+  --ant-menu-icon-margin-inline-end: 8px;
+  --ant-menu-item-hover-color: var(--ant-menu-item-color);
+  --ant-menu-item-hover-bg: var(--j2-color-fill-tertiary);
+  --ant-menu-item-active-bg: var(--j2-color-fill-secondary);
+  /* A warm-gray fill rather than a solid navy pill, which is too heavy at
+     this density. Navy text and weight 500 carry the selection. */
+  --ant-menu-item-selected-bg: var(--j2-gray-4);
+  --ant-menu-item-selected-color: var(--j2-blue-12);
+  background: transparent;
+}
+
+/* antd's inline menu draws a 1px right border, which nudged every row 1px
+   off center. Weighted to beat antd's three-class rule. */
+.sidebar .menu:global(.ant-menu.ant-menu-root) {
+  border-inline-end: none;
+}
+
+/* `.sidebar` for weight: antd's rule has the same specificity and is
+   injected later, so it would win a tie. */
+.sidebar .menu :global(.ant-menu-item) {
+  transition: background-color 120ms ease-out;
+}
+
+/* Collapsing is instant: antd animates labels, icons and menu width, which
+   drew section labels shrinking into lines. */
+.sidebar .menu:global(.ant-menu),
+.sidebar .menu :global(.ant-menu-item-group-title),
+.sidebar .menu :global(.ant-menu-title-content),
+.sidebar .menu :global(.ant-menu-item-icon) {
+  transition: none;
+}
+
+/* Selection moves at once; only hover eases. */
+.sidebar .menu :global(.ant-menu-item-selected) {
+  font-weight: 500;
+  transition: none;
+}
+
+.menu :global(.ant-menu-item-icon) {
+  color: var(--j2-blue-11);
+}
+
+.menu :global(.ant-menu-item-selected .ant-menu-item-icon) {
+  color: inherit;
+}
+
+/* Section and sub-group labels: small, quiet, sentence case. */
+.menu :global(.ant-menu-item-group-title) {
+  padding: 12px 20px 4px;
+  font-size: var(--j2-font-size-sm);
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--j2-color-text-secondary);
+}
+
+/* ---------- scope block ----------------------------------------------- */
+
+/* The scoped pages and the controls that scope them, in one tinted panel. */
+.scopeBlock {
+  margin: 4px 8px;
+  padding: 4px 0;
+  background: var(--j2-color-bg-layout);
+  border: 1px solid var(--j2-gray-4);
+  border-radius: var(--j2-border-radius);
+}
+
+/* Same inset as the rows below, so a select and a selected row share
+   edges. */
+.scopeControls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+/* A select fills the block. */
+.scopeControls > :global(.ant-select),
+.scopeControls > div > :global(.ant-select) {
+  width: 100%;
+}
+
+/* Its caret on the right-hand column, with the collapse toggle and the
+   app-grid glyph (x = width - 28). */
+.scopeControls :global(.ant-select-suffix),
+.scopeControls :global(.ant-select-arrow) {
+  margin-inline-end: -5px;
+}
+
+.scopeBlock .menu:global(.ant-menu) {
+  --ant-menu-item-margin-inline: 4px;
+  --ant-menu-item-padding-inline: 7px;
+}
+
+/* Sub-groups inside the block rank below the app's sections: regular
+   weight, lighter. */
+.scopeBlock .menu :global(.ant-menu-item-group-title) {
+  padding-inline: 11px;
+  padding-top: 8px;
+  font-weight: 400;
+  color: var(--j2-color-text-tertiary);
+}
+
+/* ---------- footer ---------------------------------------------------- */
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.accountRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.accountContext {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--j2-font-size-sm);
+  line-height: 16px;
+  color: var(--j2-color-text-secondary);
+}
+
+/* Neutral, not navy: the avatar shouldn't be the loudest thing in the
+   footer. */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--j2-gray-4);
+  color: var(--j2-gray-12);
+  font-size: var(--j2-font-size-xs);
+  font-weight: 600;
+}
+
+.accountText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.accountPrimary,
+.accountSecondary {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountPrimary {
+  font-size: var(--j2-font-size);
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--j2-color-text);
+}
+
+.accountSecondary {
+  font-size: var(--j2-font-size-sm);
+  line-height: 16px;
+  color: var(--j2-color-text-secondary);
+}
+
+/* ---------- collapsed rail -------------------------------------------- */
+
+/*
+ * A 56px rail. Every row is a 32px square centered on the rail's 28px
+ * column: the rows, the scope controls and the avatar. Section and
+ * sub-group labels become hairline dividers, so the grouping survives
+ * without text.
+ *
+ * The DS Menu's `compact` is antd's `inlineCollapsed`, which sizes itself to
+ * an 80px rail; the rules below re-center it on 56px.
+ */
+/* The 1px right border comes out of the 56px; a 1px left pad puts the
+   content's center back on x = 28, the expanded icon column's center. */
+.sidebar.collapsed {
+  width: 56px;
+  padding-left: 1px;
+}
+
+.collapsed .brandRow {
+  justify-content: center;
+}
+
+.collapsed .body {
+  overflow-x: hidden;
+}
+
+.collapsed .menu:global(.ant-menu.ant-menu-inline-collapsed) {
+  width: 100%;
+  border-inline-end: none;
+}
+
+.collapsed .menu:global(.ant-menu-inline-collapsed) :global(.ant-menu-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.collapsed .menu :global(.ant-menu-item .ant-menu-item-icon) {
+  margin: 0;
+}
+
+.collapsed .menu :global(.ant-menu-title-content) {
+  display: none;
+}
+
+/* Labels become short hairline dividers: a 1px line with 6px either
+   side, so the rail doesn't read as over-divided. */
+.collapsed .menu :global(.ant-menu-item-group-title) {
+  position: relative;
+  height: 13px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: transparent;
+}
+
+.collapsed .menu :global(.ant-menu-item-group-title)::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: var(--j2-color-border-secondary);
+}
+
+.collapsed .scopeBlock .menu :global(.ant-menu-item-group-title)::after {
+  left: 6px;
+  right: 6px;
+  background: var(--j2-gray-4);
+}
+
+.collapsed .scopeControls {
+  align-items: center;
+  padding: 0;
+}
+
+/* A scope control on the rail (`SidebarNavCompactControl`): the select field
+   in miniature — white, the field's hairline border, a navy icon. */
+.compactControl {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--j2-color-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--j2-color-primary);
+  transition: background-color 120ms ease-out;
+}
+
+.compactControl:hover,
+.compactControl:has(:global(.ant-select-open)),
+.compactControl:has(:global(.ant-select-focused)) {
+  background: var(--j2-color-fill-tertiary);
+}
+
+.compactIcon,
+.compactButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compactButton {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* The real control, invisible and covering the button, so a click on the
+   button is a click on it. */
+.compactOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.compactOverlay > *,
+.compactOverlay :global(.ant-select),
+.compactOverlay :global(.ant-select-selector),
+.compactOverlay :global(.ant-select-content) {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* The account keeps its expanded height, invisible, so the footer rows
+   above it don't move. */
+.collapsed .account {
+  align-items: center;
+  padding: 0;
+}
+
+.collapsed .accountRow {
+  gap: 0;
+}
+
+.collapsed .accountContext,
+.collapsed .accountText {
+  width: 0;
+  visibility: hidden;
+}
+
+/* ---------- resize handle --------------------------------------------- */
+
+/* An 8px grab strip centered on the right border; a line shows on hover
+   (after a beat, so passing over it doesn't flash) and while dragging. */
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -4px;
+  z-index: 5;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  background: transparent;
+  transition: background-color 120ms ease-out;
+}
+
+.resizeHandle:hover::after {
+  transition-delay: 150ms;
+}
+
+.resizeHandle:hover::after,
+.resizeHandle:focus-visible::after,
+.resizing::after {
+  background: color-mix(in srgb, var(--j2-color-primary) 35%, transparent);
+}
+
+.resizeHandle:focus-visible {
+  outline: none;
+}
