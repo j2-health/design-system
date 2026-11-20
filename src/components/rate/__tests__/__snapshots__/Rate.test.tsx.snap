@@ -3,7 +3,7 @@
 exports[`Rate > should render correctly 1`] = `
 <div>
   <ul
-    class="ant-rate j2-rate css-dev-only-do-not-override-i19pbt css-var-root ant-rate-disabled"
+    class="ant-rate j2-rate css-dev-only-do-not-override-pbsm9t css-var-root ant-rate-disabled"
     tabindex="-1"
   >
     <li
