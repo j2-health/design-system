@@ -63,6 +63,48 @@ describe('ListRow', () => {
     expect(onHoverChange.mock.calls).toEqual([[true], [false]])
   })
 
+  describe('keys from nested controls', () => {
+    it('leave Space on a nested checkbox to the checkbox', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      const onToggle = vi.fn()
+      render(
+        <ListRow onClick={onClick}>
+          {/* A nested control stops its own click, as it should in a
+              clickable row; the row's key handler must not re-fire it. */}
+          <span onClick={(event) => event.stopPropagation()}>
+            <input type="checkbox" aria-label="Pick" onChange={onToggle} />
+          </span>
+          Record A
+        </ListRow>
+      )
+      screen.getByRole('checkbox', { name: 'Pick' }).focus()
+      await user.keyboard(' ')
+      expect(onToggle).toHaveBeenCalledOnce()
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('leave Space on the selection control to the control', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      const onSelectedChange = vi.fn()
+      render(
+        <ListRow
+          selection="checkbox"
+          selectionLabel="Record A"
+          onClick={onClick}
+          onSelectedChange={onSelectedChange}
+        >
+          Record A
+        </ListRow>
+      )
+      screen.getByRole('checkbox', { name: 'Record A' }).focus()
+      await user.keyboard(' ')
+      expect(onSelectedChange).toHaveBeenCalledWith(true)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+  })
+
   describe('selection control', () => {
     it('toggles a checkbox without running onClick', async () => {
       const user = userEvent.setup()
