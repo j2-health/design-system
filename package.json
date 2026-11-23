@@ -88,7 +88,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.3.0",
-    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/coverage-v8": "^5.1.1",
     "antd": "^6.7.0",
     "autoprefixer": "^10.6.2",
     "classnames": "^2.5.1",
