@@ -53,6 +53,11 @@ jobs:
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          allowed_bots: 'claude[bot],j2-eng[bot]'
+          # dependabot[bot] is listed for the PR-author check, not to let
+          # Dependabot start a run (the job-level `if` above still skips its
+          # events). When an allowed bot such as j2-eng[bot] acts on a
+          # Dependabot PR, the action also requires the PR's author to be
+          # allowed, and fails the check otherwise.
+          allowed_bots: 'claude[bot],j2-eng[bot],dependabot[bot]'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
